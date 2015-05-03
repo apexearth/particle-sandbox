@@ -198,4 +198,3 @@ Menu.alertError = function (message) {
     $(newAlert).addClass("alert alert-danger");
     $(newAlert).fadeTo(3000, 0.5, function () { $(newAlert).remove(); });
 };
-

@@ -5,7 +5,7 @@ app.controller("gravity", ['$scope', function Gravity($scope) {
     $scope.view = "play";
 
     $scope.$watch('paused', function (newValue, oldValue) {
-        if(!Gravity.instance) return;
+        if (!Gravity.instance) return;
         Gravity.instance.Settings.paused = newValue;
     });
     $scope.$watch('view', function (newValue, oldValue) {

@@ -1,10 +1,17 @@
 var app = require('./ui/Application');
-require('./ui/DesktopControllers');
-require('./ui/DesktopEvents');
-require('./ui/DesktopMenu');
+
+if (!('ontouchstart' in document)) {
+    require('./ui/DesktopControllers');
+    require('./ui/DesktopEvents');
+    require('./ui/DesktopMenu');
+}
+
+if ('ontouchstart' in document) {
+    require('./ui/MobileControllers');
+    require('./ui/MobileEvents');
+}
+
 require('./ui/GenerateParticlesMenu');
-require('./ui/MobileControllers');
-require('./ui/MobileEvents');
 
 require('./Atan2');
 require('./General');

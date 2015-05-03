@@ -3,8 +3,8 @@ var app = require('./Application');
 app.controller("gravity", ['$scope', '$http', function ($scope, $http) {
     $scope.paused = false;
     $scope.showTrail = true;
-    $scope.trailType = 1;
-    $scope.trailLifetime = 8;
+    $scope.trailType = 2;
+    $scope.trailLifetime = 4;
 
     $scope.showTutorial = localStorage.getItem("showTutorial") || true;
     $scope.tutorialIndex = 0;
@@ -20,19 +20,20 @@ app.controller("gravity", ['$scope', '$http', function ($scope, $http) {
         $scope.showTutorial = false;
     };
 
+
     $scope.$watch('paused', function (newValue, oldValue) {
-        if(!Gravity.instance) return;
         Gravity.instance.Settings.paused = newValue;
     });
     $scope.$watch('showTrail', function (newValue, oldValue) {
         Gravity.setShowTrail(newValue);
     });
     $scope.$watch('trailType', function (newValue, oldValue) {
-        Gravity.instance.Settings.trailType = newValue;
+        Gravity.instance.Settings.trailType = Number(newValue);
     });
     $scope.$watch('trailLifetime', function (newValue, oldValue) {
-        Gravity.instance.Settings.trailLifetime = newValue;
+        Gravity.instance.Settings.trailLifetime = Number(newValue);
     });
+
 
     $scope.togglePause = function () {
         $scope.paused = !$scope.paused;

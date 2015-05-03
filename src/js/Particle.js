@@ -139,9 +139,9 @@ Particle.drawWithTrail = function (me, Gravity) {
             var trail1 = me.trail[i];
             var trail2 = me.trail[i + 1];
             var trail3 = me.trail[i + 2];
-            var position1 = Particle.getDrawVector(trail1.x, trail1.y);
-            var position2 = Particle.getDrawVector(trail2.x, trail2.y);
-            position3 = Particle.getDrawVector(trail3.x, trail3.y);
+            var position1 = Particle.getDrawVector(trail1.x, trail1.y, Gravity);
+            var position2 = Particle.getDrawVector(trail2.x, trail2.y, Gravity);
+            position3 = Particle.getDrawVector(trail3.x, trail3.y, Gravity);
             Gravity.context.beginPath();
             Gravity.context.lineWidth = Math.max(0.5, trail1.diameter * Gravity.instance.drawScale);
             Gravity.context.moveTo(position1.x, position1.y);
@@ -151,12 +151,13 @@ Particle.drawWithTrail = function (me, Gravity) {
             Gravity.context.closePath();
         }
     }
-    var position = Particle.getDrawVector(me.x, me.y);
-    var pposition = position3 || Particle.getDrawVector(me.px, me.py);
+    var position = Particle.getDrawVector(me.x, me.y, Gravity);
+    var pposition = position3 || Particle.getDrawVector(me.px, me.py, Gravity);
     Gravity.context.beginPath();
     Gravity.context.moveTo(pposition.x, pposition.y);
     Gravity.context.lineTo(position.x, position.y);
     Gravity.context.lineWidth = Math.max(0.5, me.diameter * Gravity.instance.drawScale);
+    Gravity.context.lineCap = "round";
     Gravity.context.strokeStyle = 'rgb(' + me.colorR + ',' + me.colorG + ',' + me.colorB + ')';
     Gravity.context.stroke();
     Gravity.context.closePath();
