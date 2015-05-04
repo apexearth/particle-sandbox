@@ -7,6 +7,10 @@ var del = require('del');
 var transform = require('vinyl-transform');
 var browserify = require('browserify');
 
+gulp.task('watch:default', function () {
+    gulp.watch(config.sourceAll, ['default']);
+});
+
 gulp.task('default', [
     'clean:build',
     'check',
@@ -19,7 +23,7 @@ gulp.task('default', [
 
 gulp.task('clean:build', function (done) {
     del([
-        config.build
+        config.buildPath
     ], done);
 });
 
@@ -45,31 +49,31 @@ gulp.task('build:js', ['check'], function () {
         .pipe(browserified)
         .pipe($.uglify())
         .pipe($.concat(config.outputjs))
-        .pipe(gulp.dest(config.build));
+        .pipe(gulp.dest(config.buildPath));
 });
 
 gulp.task('build:css', ['check'], function () {
     return gulp.src(config.sourcecss, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe($.uglifycss())
-        .pipe(gulp.dest(config.build));
+        .pipe(gulp.dest(config.buildPath));
 });
 
 gulp.task('build:html', ['check'], function () {
     return gulp.src(config.sourcehtml, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe($.minifyHtml())
-        .pipe(gulp.dest(config.build));
+        .pipe(gulp.dest(config.buildPath));
 });
 
 gulp.task('build:lib', ['check'], function () {
     return gulp.src(config.lib, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
-        .pipe(gulp.dest(config.build));
+        .pipe(gulp.dest(config.buildPath));
 });
 
 gulp.task('build:other', ['check'], function () {
     return gulp.src(config.other, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
-        .pipe(gulp.dest(config.build));
+        .pipe(gulp.dest(config.buildPath));
 });

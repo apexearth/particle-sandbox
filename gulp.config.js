@@ -1,20 +1,21 @@
 module.exports = function () {
 
     var config = {
-        build: './build/',
-        outputjs: 'particle-sandbox.js',
-        sourcePath: './src/',
+        buildPath: './build/',
         other: [
             './src/fonts/**',
             './src/img/**',
             './src/json/**'
         ],
-        outputcss: 'particle-sandbox.css',
+        sourcePath: './src/',
+        sourceAll: './src/**',
         sourcehtml: './src/*.html',
         sourcecss: './src/css/**/*.css',
         sourcejs: './src/js/**/*.js',
         lib: './src/lib/**/*',
-        rootjs: './*.js'
+        rootjs: './*.js',
+        outputjs: 'particle-sandbox.js',
+        outputcss: 'particle-sandbox.css'
     };
 
     return config;
