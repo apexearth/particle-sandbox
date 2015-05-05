@@ -59,7 +59,6 @@ gulp.task('build:css', ['clean:build', 'check'], function () {
 gulp.task('build:html', ['clean:build', 'check'], function () {
     return gulp.src(config.sourceHtml, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
-        .pipe($.minifyHtml())
         .pipe(gulp.dest(config.buildPath));
 });
 gulp.task('build:lib', ['clean:build', 'check'], function () {
@@ -88,6 +87,7 @@ gulp.task('inject', ['check', 'build'], function () {
             ignorePath: config.buildPath.substring(2),
             addRootSlash: false
         }))
+        .pipe($.minifyHtml())
         .pipe(gulp.dest(config.buildPath));
 });
 
