@@ -1,6 +1,7 @@
 ﻿var Gravity = require('./../Gravity');
+var Events = require('../Events');
 
-$(document).on('Gravity.initialize', function () {
+Events.addListener('Gravity.initialize', function () {
     var $menu = $(".menu");
 
     Gravity.canvasdisplay.onclick = function (event) {
@@ -8,10 +9,6 @@ $(document).on('Gravity.initialize', function () {
             $menu.filter(":visible").slideToggle(150);
             return false;
         }
-        $(Gravity).trigger('AddParticle', {
-            x: event.clientX,
-            y: event.clientY
-        });
         return false;
     };
 
@@ -21,35 +18,23 @@ $(document).on('Gravity.initialize', function () {
             Gravity.instance.panning = true;
             Gravity.instance.px = event.clientX;
             Gravity.instance.py = event.clientY;
-        } else {
+        } else if (event.button === 0) {
             Gravity.UI.unitPlacementStartX = event.clientX;
             Gravity.UI.unitPlacementStartY = event.clientY;
         }
         return false;
     };
 
-    var scroll = function (event) {
-        if (event.wheelDelta > 0 || event.detail < 0) {
-            Gravity.instance.drawOffsetXT += (Gravity.instance.centerX - event.clientX) * 0.1 / Gravity.instance.drawScale;
-            Gravity.instance.drawOffsetYT += (Gravity.instance.centerY - event.clientY) * 0.1 / Gravity.instance.drawScale;
-            Gravity.zoomIn();
-        } else {
-            Gravity.instance.drawOffsetXT += (Gravity.instance.centerX - event.clientX) * 0.1 / Gravity.instance.drawScale;
-            Gravity.instance.drawOffsetYT += (Gravity.instance.centerY - event.clientY) * 0.1 / Gravity.instance.drawScale;
-            Gravity.zoomOut();
-        }
-    };
-    if (window.chrome) {
-        document.onmousewheel = scroll;
-    }
-    if (document.attachEvent)
-        document.attachEvent("onmousewheel", scroll);
-    else
-        window.addEventListener("DOMMouseScroll", scroll, false);
-
     Gravity.canvasdisplay.onmouseup = function (event) {
         if (event.button !== 0)
             Gravity.instance.panning = false;
+
+        else if (event.button === 0) {
+            Events.emit('AddParticle', {
+                x: event.clientX,
+                y: event.clientY
+            });
+        }
     };
 
     Gravity.canvasdisplay.onmousemove = function (event) {
@@ -70,6 +55,25 @@ $(document).on('Gravity.initialize', function () {
 
     document.onmousedown = function () {
         window.focus();
-        //return false;
     };
+
+    function scroll(event) {
+        if (event.wheelDelta > 0 || event.detail < 0) {
+            Gravity.instance.drawOffsetXT += (Gravity.instance.centerX - event.clientX) * 0.1 / Gravity.instance.drawScale;
+            Gravity.instance.drawOffsetYT += (Gravity.instance.centerY - event.clientY) * 0.1 / Gravity.instance.drawScale;
+            Gravity.zoomIn();
+        } else {
+            Gravity.instance.drawOffsetXT += (Gravity.instance.centerX - event.clientX) * 0.1 / Gravity.instance.drawScale;
+            Gravity.instance.drawOffsetYT += (Gravity.instance.centerY - event.clientY) * 0.1 / Gravity.instance.drawScale;
+            Gravity.zoomOut();
+        }
+    }
+    if (window.chrome) {
+        document.onmousewheel = scroll;
+    }
+    if (document.attachEvent)
+        document.attachEvent("onmousewheel", scroll);
+    else
+        window.addEventListener("DOMMouseScroll", scroll, false);
+
 });

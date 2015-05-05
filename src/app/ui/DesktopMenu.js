@@ -2,11 +2,12 @@
 var General = require('./../General');
 var Gravity = require('./../Gravity');
 var GenerateParticlesMenu = require('./GenerateParticlesMenu');
+var Events = require('../Events');
 
 var Menu = {};
 module.exports = Menu;
 
-$(document).on('Gravity.initialize', function () {
+Events.addListener('Gravity.initialize', function () {
     Menu.initialize();
     $('#generate-particle-rate').slider().on('slide', function () { GenerateParticlesMenu.setGenerateParticleRate(); });
     $('#generate-particle-area').slider().on('slide', function () { GenerateParticlesMenu.setGenerateParticleArea(); });
@@ -15,7 +16,7 @@ $(document).on('Gravity.initialize', function () {
     $('#generate-particle-size').slider().on('slide', function () { GenerateParticlesMenu.setGenerateParticleSize(); });
     GenerateParticlesMenu.initializeView();
 });
-$(document).on('Gravity.create', function () {
+Events.addListener('Gravity.create', function () {
     Menu.initializeView();
     GenerateParticlesMenu.initializeView();
 });

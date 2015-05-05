@@ -8,72 +8,86 @@ var transform = require('vinyl-transform');
 var browserify = require('browserify');
 
 gulp.task('watch:default', function () {
-    gulp.watch(config.sourceAll, ['default']);
+    gulp.watch([
+        config.sourceAll,
+        config.rootJs
+    ], ['default']);
 });
 
 gulp.task('default', [
-    'clean:build',
     'check',
-    'build:js',
-    'build:css',
-    'build:html',
-    'build:lib',
-    'build:other'
+    'build',
+    'inject'
 ]);
 
-gulp.task('clean:build', function (done) {
-    del([
-        config.buildPath
-    ], done);
-});
-
-gulp.task('check', ['clean:build'], function () {
+gulp.task('check', function () {
     return gulp.src([
-        config.sourcejs,
-        config.rootjs
+        config.sourceApp,
+        config.rootJs
     ])
         .pipe($.if(args.verbose, $.print()))
         .pipe($.jshint())
         .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
         .pipe($.jshint.reporter('fail'));
 });
+gulp.task('clean:build', function (done) {
+    del([
+        config.buildPath
+    ], done);
+});
 
-gulp.task('build:js', ['check'], function () {
+gulp.task('build', ['build:html', 'build:css', 'build:app', 'build:other', 'build:bower']);
+gulp.task('build:app', ['clean:build', 'check'], function () {
     var browserified = transform(function (filename) {
         var b = browserify(filename);
         return b.bundle();
     });
 
-    return gulp.src('./src/js/index.js', {base: config.sourcePath})
+    return gulp.src('./src/app/index.js', {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe(browserified)
         .pipe($.uglify())
-        .pipe($.concat(config.outputjs))
-        .pipe(gulp.dest(config.buildPath));
+        .pipe($.concat(config.buildAppJsFile))
+        .pipe(gulp.dest(config.buildAppPath));
 });
-
-gulp.task('build:css', ['check'], function () {
-    return gulp.src(config.sourcecss, {base: config.sourcePath})
+gulp.task('build:css', ['clean:build', 'check'], function () {
+    return gulp.src(config.sourceCss, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe($.uglifycss())
         .pipe(gulp.dest(config.buildPath));
 });
-
-gulp.task('build:html', ['check'], function () {
-    return gulp.src(config.sourcehtml, {base: config.sourcePath})
+gulp.task('build:html', ['clean:build', 'check'], function () {
+    return gulp.src(config.sourceHtml, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe($.minifyHtml())
         .pipe(gulp.dest(config.buildPath));
 });
-
-gulp.task('build:lib', ['check'], function () {
+gulp.task('build:lib', ['clean:build', 'check'], function () {
     return gulp.src(config.lib, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe(gulp.dest(config.buildPath));
 });
-
-gulp.task('build:other', ['check'], function () {
-    return gulp.src(config.other, {base: config.sourcePath})
+gulp.task('build:other', ['clean:build', 'check'], function () {
+    return gulp.src(config.sourceOther, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe(gulp.dest(config.buildPath));
 });
+gulp.task('build:bower', ['clean:build', 'check'], function () {
+    return gulp.src(config.bowerAll, {base: './'})
+        .pipe($.if(args.verbose, $.print()))
+        .pipe(gulp.dest(config.buildPath));
+});
+
+gulp.task('inject', ['check', 'build'], function () {
+    var options = config.getWiredepOptions();
+    var wiredep = require('wiredep').stream;
+
+    return gulp.src(config.buildPath + 'desktop.html')
+        .pipe(wiredep(options))
+        .pipe($.inject(gulp.src(config.buildApp), {
+            ignorePath: config.buildPath.substring(2),
+            addRootSlash: false
+        }))
+        .pipe(gulp.dest(config.buildPath));
+});
+

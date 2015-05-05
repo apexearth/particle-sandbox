@@ -8,11 +8,7 @@
             }, !1)
         }
     })(document, window.navigator, "standalone")</script><script type=text/javascript src=lib/jquery-1.7.1.js></script><script type=text/javascript src=lib/jquery.color-2.1.2.min.js></script><script type=text/javascript src=lib/angular.min.js></script><script type=text/javascript src=lib/json2.js></script><script type=text/javascript src=lib/Modernizr.js></script><link rel=stylesheet type=text/css href=lib/slider/css/slider.css><link rel=stylesheet type=text/css href=css/mobile.css></head><body data-ng-controller=gravity><div id=log style="z-index: 100; position: fixed; left: 50px; top: 100px; color: white;"></div><div style="display: none;"><div ng-show="view!='play'" class=backpanel data-ng-click=toggleMenu()></div><div class=bottom-menu><div ng-click="setView('file')">File</div><div ng-click="setView('physics')">Physics</div><div ng-click="setView('play')">Play</div><div ng-click="setView('visuals')">Visuals</div><div ng-click="setView('tools')">Tools</div></div></div><canvas style="position: absolute; top: 0; left: 0; z-index: -1" id=canvas width=800 height=600></canvas><script type=text/javascript src=particle-sandbox.js></script><script>
-    // Mobile specific settings.
-    $(document).on('Gravity.initialize', function () {
-        Gravity.instance.Settings.momentumAdd = true;
-        document.ontouchmove = function (e) {
-            e.preventDefault();
-        };
-    });
+    document.ontouchmove = function (e) {
+        e.preventDefault();
+    };
 </script><script src=lib/ga.js></script></body></html>

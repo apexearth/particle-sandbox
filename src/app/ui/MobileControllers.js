@@ -1,5 +1,6 @@
 ﻿var Gravity = require('./../Gravity');
 var app = require('./Application');
+/*@ngInject*/
 app.controller("gravity", ['$scope', function Gravity($scope) {
     $scope.paused = false;
     $scope.view = "play";

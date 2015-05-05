@@ -67,13 +67,9 @@
 <script type="text/javascript" src="particle-sandbox.js"></script>
 
 <script>
-    // Mobile specific settings.
-    $(document).on('Gravity.initialize', function () {
-        Gravity.instance.Settings.momentumAdd = true;
-        document.ontouchmove = function (e) {
-            e.preventDefault();
-        };
-    });
+    document.ontouchmove = function (e) {
+        e.preventDefault();
+    };
 </script>
 <script src="lib/ga.js"></script>
 </body>

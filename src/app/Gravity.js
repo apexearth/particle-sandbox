@@ -1,4 +1,5 @@
-﻿var Quadtree = require('./Quadtree');
+﻿var Events = require('./Events');
+var Quadtree = require('./Quadtree');
 var Particle = require('./Particle');
 var Keyboard = require('./Keyboard');
 var settings = require("./Settings");
@@ -7,7 +8,7 @@ module.exports = Gravity;
 Gravity.instance = {};
 Gravity.setInstance = function (gravity) {
     Gravity.instance = gravity;
-    $(document).trigger('Gravity.create');
+    Events.emit('Gravity.create');
 };
 Gravity.initialize = function (canvasdisplay) {
     Gravity.canvasdisplay = canvasdisplay;
@@ -32,9 +33,9 @@ Gravity.initialize = function (canvasdisplay) {
             0,
             10);
     }
-    $(document).trigger('Gravity.initialize');
+    Events.emit('Gravity.initialize');
 };
-$(Gravity).on('AddParticle', function (event, coords) {
+Events.addListener('AddParticle', function (coords) {
     if (Gravity.UI.unitPlacementStartX == null) return;
     var momentumX = 0;
     var momentumY = 0;

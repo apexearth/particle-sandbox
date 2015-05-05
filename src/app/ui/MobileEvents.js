@@ -1,8 +1,10 @@
 ﻿var Gravity = require('./../Gravity');
 var General = require('./../General');
-var Events = {};
+var Events = require('../Events');
 
-Events.Touch = {
+var events = {};
+
+events.Touch = {
     lastTouches: [],
     touches: [],
     lastChangedTouches: [],
@@ -44,13 +46,13 @@ Events.Touch = {
     }
 };
 
-$(document).on('Gravity.initialize', function () {
+Events.addListener('Gravity.initialize', function () {
     Gravity.canvasdisplay.addEventListener('touchend', function (event) {
-        Events.Touch.process(event);
+        events.Touch.process(event);
         if (event.changedTouches.length === 1
             && event.touches.length === 0) {
             var touch = event.changedTouches[0];
-            $(Gravity).trigger('AddParticle', {
+            Events.emit('AddParticle', {
                 x: touch.pageX,
                 y: touch.pageY
             });
@@ -58,7 +60,7 @@ $(document).on('Gravity.initialize', function () {
         return false;
     });
     Gravity.canvasdisplay.addEventListener('touchstart', function (event) {
-        Events.Touch.process(event);
+        events.Touch.process(event);
         if (event.touches.length === 1) {
             var touch = event.touches[0];
             Gravity.UI.unitPlacementStartX = touch.pageX;
@@ -72,13 +74,13 @@ $(document).on('Gravity.initialize', function () {
     });
 
     Gravity.canvasdisplay.addEventListener('touchmove', function (event) {
-        Events.Touch.process(event);
+        events.Touch.process(event);
         if (event.touches.length === 2) {
-            if (Events.Touch.spacing !== Events.Touch.lastSpacing) {
-                var zoomSpeed = (Events.Touch.spacing - Events.Touch.lastSpacing) / 30;
+            if (events.Touch.spacing !== events.Touch.lastSpacing) {
+                var zoomSpeed = (events.Touch.spacing - events.Touch.lastSpacing) / 30;
                 Gravity.zoom(zoomSpeed);
-                var changeAverageX = Events.Touch.pageAverageX - Events.Touch.lastPageAverageX;
-                var changeAverageY = Events.Touch.pageAverageY - Events.Touch.lastPageAverageY;
+                var changeAverageX = events.Touch.pageAverageX - events.Touch.lastPageAverageX;
+                var changeAverageY = events.Touch.pageAverageY - events.Touch.lastPageAverageY;
                 Gravity.pan(changeAverageX, changeAverageY);
             }
         }

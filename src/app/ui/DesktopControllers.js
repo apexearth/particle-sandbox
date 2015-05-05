@@ -1,6 +1,7 @@
 ﻿var Gravity = require('./../Gravity');
 var app = require('./Application');
-app.controller("gravity", ['$scope', '$http', function ($scope, $http) {
+/*@ngInject*/
+app.controller("Main", ['$scope', '$http', function Main($scope, $http) {
     $scope.paused = false;
     $scope.showTrail = true;
     $scope.trailType = 2;

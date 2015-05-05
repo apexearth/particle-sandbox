@@ -7,6 +7,7 @@
     "gulp": "^3.8.11",
     "gulp-concat": "^2.5.2",
     "gulp-if": "^1.2.5",
+    "gulp-inject": "^1.2.0",
     "gulp-jshint": "^1.10.0",
     "gulp-load-plugins": "^0.10.0",
     "gulp-minify-html": "^1.0.2",
@@ -17,6 +18,10 @@
     "jscs": "^1.13.1",
     "jshint-stylish": "^1.0.1",
     "vinyl-transform": "^1.0.0",
+    "wiredep": "^2.2.2",
     "yargs": "^3.8.0"
+  },
+  "dependencies": {
+    "gulp": "^3.8.11"
   }
 }

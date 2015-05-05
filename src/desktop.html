@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html ng-app="particleSandbox">
 <head>
     <!-- Created by Christopher Jacobs - http://apexearth.info -->
@@ -9,7 +9,6 @@
     <script type="text/javascript" src="lib/jquery-1.7.1.js"></script>
     <!--<script type="text/javascript" src="js/jquery-1.7.1-vsdoc.js"></script>-->
     <script type="text/javascript" src="lib/jquery.color-2.1.2.min.js"></script>
-    <script type="text/javascript" src="lib/angular.min.js"></script>
     <script type="text/javascript" src="lib/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/slider/js/bootstrap-slider.js"></script>
     <script type="text/javascript" src="lib/json2.js"></script>
@@ -18,10 +17,16 @@
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="lib/slider/css/slider.css" />
 
+    <!-- bower:css -->
+    <!-- endbower -->
+
+    <!-- inject:css -->
+    <!-- endinject -->
+
     <link rel="stylesheet" type="text/css" href="css/desktop.css" />
 </head>
 
-<body data-ng-controller="gravity">
+<body data-ng-controller="Main">
     <!-- Top Navbar -->
     <nav class="navbar navbar-default navbar-inverse" role="navigation">
         <div class="navbar-header">
@@ -222,14 +227,13 @@
         </div>
     </div>
     <canvas style="position: absolute; top: 0; left: 0; z-index: -1" id="canvas" width="800" height="600"></canvas>
-    <script type="text/javascript" src="particle-sandbox.js"></script>
 
-    <script>
-        // Desktop specific settings.
-        $(document).on('Gravity.initialize', function () {
-            // ---
-        });
-    </script>
+    <!-- bower:js -->
+    <!-- endbower -->
+
+    <!-- inject:js -->
+    <!-- endinject -->
+
     <script src="lib/ga.js"></script>
 </body>
 </html>
