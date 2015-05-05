@@ -1,18 +1,6 @@
 var app = require('./ui/Application');
 
-if (!('ontouchstart' in document)) {
-    require('./ui/DesktopControllers');
-    require('./ui/DesktopEvents');
-    require('./ui/DesktopMenu');
-}
-
-if ('ontouchstart' in document) {
-    require('./ui/MobileControllers');
-    require('./ui/MobileEvents');
-}
-
-require('./ui/GenerateParticlesMenu');
-
+require('./ui');
 require('./Atan2');
 require('./General');
 var Gravity = require('./Gravity');
