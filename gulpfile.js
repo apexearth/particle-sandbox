@@ -46,23 +46,18 @@ gulp.task('build:app', ['clean:build', 'check'], function () {
     return gulp.src('./src/app/index.js', {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe(browserified)
-        .pipe($.uglify())
-        .pipe($.concat(config.buildAppJsFile))
+        .pipe($.if(args.minify, $.uglify()))
+        .pipe($.concat(args.minify ? config.buildAppMinJsFile : config.buildAppJsFile))
         .pipe(gulp.dest(config.buildAppPath));
 });
 gulp.task('build:css', ['clean:build', 'check'], function () {
     return gulp.src(config.sourceCss, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
-        .pipe($.uglifycss())
+        .pipe($.if(args.minify, $.uglifycss()))
         .pipe(gulp.dest(config.buildPath));
 });
 gulp.task('build:html', ['clean:build', 'check'], function () {
     return gulp.src(config.sourceHtml, {base: config.sourcePath})
-        .pipe($.if(args.verbose, $.print()))
-        .pipe(gulp.dest(config.buildPath));
-});
-gulp.task('build:lib', ['clean:build', 'check'], function () {
-    return gulp.src(config.lib, {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe(gulp.dest(config.buildPath));
 });
@@ -87,7 +82,6 @@ gulp.task('inject', ['check', 'build'], function () {
             ignorePath: config.buildPath.substring(2),
             addRootSlash: false
         }))
-        .pipe($.minifyHtml())
+        .pipe($.if(args.minify, $.minifyHtml()))
         .pipe(gulp.dest(config.buildPath));
 });
-

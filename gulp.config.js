@@ -17,7 +17,7 @@ module.exports = function () {
         sourceApp: sourcePath + 'app/**/*.js',
         rootJs: './*.js',
         buildAppJsFile: 'particle-sandbox.js',
-        buildAppCssFile: 'particle-sandbox.css',
+        buildAppMinJsFile: 'particle-sandbox.min.js',
 
         bower: {
             json: require('./bower.json'),
