@@ -1,4 +1,4 @@
-﻿var Gravity = require('./../Gravity');
+﻿var PS = require('./../ParticleSandbox');
 var app = require('./');
 /*@ngInject*/
 app.controller("Main", ['$scope', '$http', function Main($scope, $http) {
@@ -23,16 +23,16 @@ app.controller("Main", ['$scope', '$http', function Main($scope, $http) {
 
 
     $scope.$watch('paused', function (newValue, oldValue) {
-        Gravity.instance.Settings.paused = newValue;
+        PS.instance.Settings.paused = newValue;
     });
     $scope.$watch('showTrail', function (newValue, oldValue) {
-        Gravity.setShowTrail(newValue);
+        PS.setShowTrail(newValue);
     });
     $scope.$watch('trailType', function (newValue, oldValue) {
-        Gravity.instance.Settings.trailType = Number(newValue);
+        PS.instance.Settings.trailType = Number(newValue);
     });
     $scope.$watch('trailLifetime', function (newValue, oldValue) {
-        Gravity.instance.Settings.trailLifetime = Number(newValue);
+        PS.instance.Settings.trailLifetime = Number(newValue);
     });
 
 
@@ -41,11 +41,11 @@ app.controller("Main", ['$scope', '$http', function Main($scope, $http) {
     };
 
     $scope.initialize = function () {
-        $scope.paused = Gravity.instance ? Gravity.instance.Settings.paused : true;
+        $scope.paused = PS.instance ? PS.instance.Settings.paused : true;
     };
     $scope.newInstance = function () {
-        Gravity.newInstance();
-        Gravity.clear();
+        PS.newInstance();
+        PS.clear();
         $scope.initialize();
     };
 

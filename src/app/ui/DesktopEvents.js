@@ -1,10 +1,10 @@
-﻿var Gravity = require('./../Gravity');
+﻿var PS = require('./../ParticleSandbox');
 var Events = require('../Events');
 
 Events.addListener('Gravity.initialize', function () {
     var $menu = $(".menu");
 
-    Gravity.canvasdisplay.onclick = function (event) {
+    PS.canvasdisplay.onclick = function (event) {
         if ($menu.is(":visible")) {
             $menu.filter(":visible").slideToggle(150);
             return false;
@@ -12,22 +12,22 @@ Events.addListener('Gravity.initialize', function () {
         return false;
     };
 
-    Gravity.canvasdisplay.onmousedown = function (event) {
+    PS.canvasdisplay.onmousedown = function (event) {
         if ($(".menu").is(":visible")) return false;
         if (event.button !== 0) {
-            Gravity.instance.panning = true;
-            Gravity.instance.px = event.clientX;
-            Gravity.instance.py = event.clientY;
+            PS.instance.panning = true;
+            PS.instance.px = event.clientX;
+            PS.instance.py = event.clientY;
         } else if (event.button === 0) {
-            Gravity.UI.unitPlacementStartX = event.clientX;
-            Gravity.UI.unitPlacementStartY = event.clientY;
+            PS.UI.unitPlacementStartX = event.clientX;
+            PS.UI.unitPlacementStartY = event.clientY;
         }
         return false;
     };
 
-    Gravity.canvasdisplay.onmouseup = function (event) {
+    PS.canvasdisplay.onmouseup = function (event) {
         if (event.button !== 0)
-            Gravity.instance.panning = false;
+            PS.instance.panning = false;
 
         else if (event.button === 0) {
             Events.emit('AddParticle', {
@@ -37,18 +37,18 @@ Events.addListener('Gravity.initialize', function () {
         }
     };
 
-    Gravity.canvasdisplay.onmousemove = function (event) {
-        if (Gravity.instance.panning === true) {
-            Gravity.instance.drawOffsetXT -= (Gravity.instance.px - event.clientX) / Gravity.instance.drawScale;
-            Gravity.instance.drawOffsetYT -= (Gravity.instance.py - event.clientY) / Gravity.instance.drawScale;
-            Gravity.instance.px = event.clientX;
-            Gravity.instance.py = event.clientY;
+    PS.canvasdisplay.onmousemove = function (event) {
+        if (PS.instance.panning === true) {
+            PS.instance.drawOffsetXT -= (PS.instance.px - event.clientX) / PS.instance.drawScale;
+            PS.instance.drawOffsetYT -= (PS.instance.py - event.clientY) / PS.instance.drawScale;
+            PS.instance.px = event.clientX;
+            PS.instance.py = event.clientY;
         }
-        Gravity.UI.mouseX = event.clientX;
-        Gravity.UI.mouseY = event.clientY;
+        PS.UI.mouseX = event.clientX;
+        PS.UI.mouseY = event.clientY;
     };
 
-    Gravity.canvasdisplay.oncontextmenu = Gravity.canvasdisplay.ondblclick = function () {
+    PS.canvasdisplay.oncontextmenu = PS.canvasdisplay.ondblclick = function () {
         window.focus();
         return false;
     };
@@ -59,13 +59,13 @@ Events.addListener('Gravity.initialize', function () {
 
     function scroll(event) {
         if (event.wheelDelta > 0 || event.detail < 0) {
-            Gravity.instance.drawOffsetXT += (Gravity.instance.centerX - event.clientX) * 0.1 / Gravity.instance.drawScale;
-            Gravity.instance.drawOffsetYT += (Gravity.instance.centerY - event.clientY) * 0.1 / Gravity.instance.drawScale;
-            Gravity.zoomIn();
+            PS.instance.drawOffsetXT += (PS.instance.centerX - event.clientX) * 0.1 / PS.instance.drawScale;
+            PS.instance.drawOffsetYT += (PS.instance.centerY - event.clientY) * 0.1 / PS.instance.drawScale;
+            PS.zoomIn();
         } else {
-            Gravity.instance.drawOffsetXT += (Gravity.instance.centerX - event.clientX) * 0.1 / Gravity.instance.drawScale;
-            Gravity.instance.drawOffsetYT += (Gravity.instance.centerY - event.clientY) * 0.1 / Gravity.instance.drawScale;
-            Gravity.zoomOut();
+            PS.instance.drawOffsetXT += (PS.instance.centerX - event.clientX) * 0.1 / PS.instance.drawScale;
+            PS.instance.drawOffsetYT += (PS.instance.centerY - event.clientY) * 0.1 / PS.instance.drawScale;
+            PS.zoomOut();
         }
     }
     if (window.chrome) {

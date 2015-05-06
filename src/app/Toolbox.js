@@ -1,4 +1,4 @@
-﻿var Gravity = require("./Gravity");
+﻿var PS = require("./ParticleSandbox");
 var settings = require("./Settings");
 module.exports = Toolbox;
 function Toolbox() { }

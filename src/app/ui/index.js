@@ -2,16 +2,14 @@
 var app = angular.module("ps.main", [
     'ps.navbar',
     'ps.menus',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'toastr'
 ]);
 module.exports = app;
 
-var Gravity = require('./../Gravity');
-var Toolbox = require('./../Toolbox');
-
 require('./navbar/');
 require('./menus/');
-require('./instance');
+require('./PS');
 require('./GenerateParticlesMenu');
 
 if (!('ontouchstart' in document)) {

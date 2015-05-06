@@ -2,5 +2,6 @@
 var app = angular.module('ps.navbar', []);
 module.exports = app;
 
-require('./navbar');
-require('./navbutton');
+require('./ps-navbar');
+require('./ps-navdropdown');
+require('./ps-navbutton');

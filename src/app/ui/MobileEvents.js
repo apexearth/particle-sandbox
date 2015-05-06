@@ -1,4 +1,4 @@
-﻿var Gravity = require('./../Gravity');
+﻿var PS = require('./../ParticleSandbox');
 var General = require('./../General');
 var Events = require('../Events');
 
@@ -45,7 +45,7 @@ var mobileEventData = {
 };
 
 Events.addListener('Gravity.initialize', function () {
-    Gravity.canvasdisplay.addEventListener('touchend', function (event) {
+    PS.canvasdisplay.addEventListener('touchend', function (event) {
         mobileEventData.process(event);
         if (event.changedTouches.length === 1
             && event.touches.length === 0) {
@@ -57,29 +57,29 @@ Events.addListener('Gravity.initialize', function () {
         }
         return false;
     });
-    Gravity.canvasdisplay.addEventListener('touchstart', function (event) {
+    PS.canvasdisplay.addEventListener('touchstart', function (event) {
         mobileEventData.process(event);
         if (event.touches.length === 1) {
             var touch = event.touches[0];
-            Gravity.UI.unitPlacementStartX = touch.pageX;
-            Gravity.UI.unitPlacementStartY = touch.pageY;
+            PS.UI.unitPlacementStartX = touch.pageX;
+            PS.UI.unitPlacementStartY = touch.pageY;
         }
         else if (event.touches.length > 1) {
-            Gravity.UI.unitPlacementStartX = null;
-            Gravity.UI.unitPlacementStartY = null;
+            PS.UI.unitPlacementStartX = null;
+            PS.UI.unitPlacementStartY = null;
         }
         return false;
     });
 
-    Gravity.canvasdisplay.addEventListener('touchmove', function (event) {
+    PS.canvasdisplay.addEventListener('touchmove', function (event) {
         mobileEventData.process(event);
         if (event.touches.length === 2) {
             if (mobileEventData.spacing !== mobileEventData.lastSpacing) {
                 var zoomSpeed = (mobileEventData.spacing - mobileEventData.lastSpacing) / 30;
-                Gravity.zoom(zoomSpeed);
+                PS.zoom(zoomSpeed);
                 var changeAverageX = mobileEventData.pageAverageX - mobileEventData.lastPageAverageX;
                 var changeAverageY = mobileEventData.pageAverageY - mobileEventData.lastPageAverageY;
-                Gravity.pan(changeAverageX, changeAverageY);
+                PS.pan(changeAverageX, changeAverageY);
             }
         }
         return false;
