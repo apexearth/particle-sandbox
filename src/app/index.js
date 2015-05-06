@@ -1,4 +1,4 @@
-var app = require('./ui/Application');
+var app = require('./ui');
 
 require('./ui');
 require('./Atan2');

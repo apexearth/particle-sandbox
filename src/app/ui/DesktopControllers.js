@@ -1,5 +1,5 @@
 ﻿var Gravity = require('./../Gravity');
-var app = require('./Application');
+var app = require('./');
 /*@ngInject*/
 app.controller("Main", ['$scope', '$http', function Main($scope, $http) {
     $scope.paused = false;

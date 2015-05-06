@@ -1,4 +1,4 @@
-var app = require("./Application");
+var app = require("./");
 var Gravity = require("../Gravity");
 /*@ngInject*/
 app.factory('instance', function() {

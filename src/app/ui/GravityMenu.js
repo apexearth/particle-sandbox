@@ -1,4 +1,4 @@
-var app = require('./Application');
+var app = require('./');
 app.controller("GravityMenu", function GravityMenu() {
     var menu = this;
     menu.GravityProportion = 1;

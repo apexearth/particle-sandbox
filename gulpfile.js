@@ -6,12 +6,17 @@ var $ = require('gulp-load-plugins')({lazy: true});
 var del = require('del');
 var transform = require('vinyl-transform');
 var browserify = require('browserify');
+var browserSync = require('browser-sync').create();
 
-gulp.task('watch:default', function () {
+gulp.task('watch:reload', function () {
     gulp.watch([
-        config.sourceAll,
-        config.rootJs
-    ], ['default']);
+        config.sourceAll
+    ], ['reload']);
+});
+gulp.task('reload', ['default'], function () {
+    if (browserSync.active) {
+        browserSync.reload();
+    }
 });
 
 gulp.task('default', [
@@ -19,6 +24,13 @@ gulp.task('default', [
     'build',
     'inject'
 ]);
+
+gulp.task('browser', [
+    'watch:reload',
+    'default'
+], function () {
+    startBrowserSync();
+});
 
 gulp.task('check', function () {
     return gulp.src([
@@ -30,7 +42,7 @@ gulp.task('check', function () {
         .pipe($.jshint.reporter('jshint-stylish', {verbose: true}))
         .pipe($.jshint.reporter('fail'));
 });
-gulp.task('clean:build', function (done) {
+gulp.task('clean:build', ['check'], function (done) {
     del([
         config.buildPath
     ], done);
@@ -85,3 +97,14 @@ gulp.task('inject', ['check', 'build'], function () {
         .pipe($.if(args.minify, $.minifyHtml()))
         .pipe(gulp.dest(config.buildPath));
 });
+
+
+function startBrowserSync() {
+    if (browserSync !== null && browserSync.active) return;
+
+    var options = {
+        server: config.buildPath,
+        reloadDelay: 1000
+    };
+    browserSync.init(options);
+}

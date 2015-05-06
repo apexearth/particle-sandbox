@@ -7,8 +7,9 @@ module.exports = function () {
     var config = {
         bowerAll: './bower_components/**',
         buildPath: buildPath,
+        buildAll: buildPath + '**',
         buildAppPath: buildAppPath,
-        buildApp: buildAppPath + '**',
+        buildApp: buildAppPath + '**/*.*',
 
         sourcePath: sourcePath,
         sourceAll: sourcePath + '**',
@@ -28,9 +29,9 @@ module.exports = function () {
 
     config.sourceOther = [
         config.sourceAll,
-        '!'+config.sourceHtml,
-        '!'+config.sourceCss,
-        '!'+config.sourceApp
+        '!' + config.sourceHtml,
+        '!' + config.sourceCss,
+        '!' + config.sourceApp
     ];
 
     config.getWiredepOptions = function () {

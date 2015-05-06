@@ -1,0 +1,58 @@
+<nav class="navbar navbar-default navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-top">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a style="line-height: 50px; margin: 0 15px 0 15px"><span style="color: #aaa;">particle</span><span style="color: #8a856e;">sandbox</span></a>
+    </div>
+    <div class="collapse navbar-collapse navbar-top">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">File <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="newInstance()">New</a></li>
+                    <li><a id="load">Load</a></li>
+                    <li><a id="save">Save</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Physics <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a id="toggle-collision">Collisions</a></li>
+                    <li><a id="toggle-menu-gravity">Gravity</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Visuals <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a id="toggle-followLargest">Follow Largest</a></li>
+                    <li><a id="toggle-menu-trails">Trails</a></li>
+                    <li><a id="toggle-quadtree">Show Quadtree</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">Generate <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a id="toggle-menu-generate-particles">Particles</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav nav navbar-nav navbar-right">
+            <li class="{{paused && 'nav-btn-yellow' || 'nav-btn-green'}}"><a ng-click="togglePause()">{{paused && "Resume" || "Pause"}}</a></li>
+            <li><a id="particleCount"></a></li>
+            <li><a id="fps"></a></li>
+            <li><a id="cap"></a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown"><b class="caret"></b>Share</a>
+                <ul class="dropdown-menu">
+                    <li><a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u=particlesandbox.com">Facebook</a></li>
+                    <li><a target="_blank" href="https://plus.google.com/share?url=particlesandbox.com">Google</a></li>
+                    <li><a target="_blank" href="http://twitter.com/intent/tweet?source=particlesandbox.com&text=Check out particlesandbox.com!&url=particlesandbox.com">Twitter</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
