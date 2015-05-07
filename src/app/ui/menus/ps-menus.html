@@ -63,18 +63,18 @@
             </tr>
         </table>
     </div>
-    <div id="menu-trails" class="menu well" style="display: none; position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
+    <div ng-show="ui.view() == 'trails'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
         <table>
             <tr>
                 <td>Show Trails</td>
                 <td>
-                    <input data-ng-model="showTrail" type="checkbox" />
+                    <input ng-model="settings.showTrail" ng-click="State.clear()" type="checkbox" />
                 </td>
             </tr>
             <tr>
                 <td>Trail Type</td>
                 <td>
-                    <select data-ng-model="trailType">
+                    <select ng-model="settings.trailType">
                         <option value="1">Full Redraw</option>
                         <option value="2">No Redraw</option>
                     </select>
@@ -82,14 +82,13 @@
             </tr>
             <tr>
                 <td>Trail Lifetime</td>
-                <td style="padding-left: 25px; padding-right: 25px;">
-                    <input data-ng-model="trailLifetime" id="trail-lifetime" style="width: 300px;" type="text" value="" data-slider-min="1" data-slider-max="30" data-slider-step="1" data-slider-value="4" data-value="4" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide" />
+                <td>
+                    <input ng-model="settings.trailLifetime" type="text" />
                 </td>
-                <td>{{trailLifetime}}</td>
             </tr>
         </table>
     </div>
-    <div ng-show="ui.view() == 'load'" class="pop-bg">
+    <div ng-show="ui.view() == 'save'" class="pop-bg">
         <div class="pop-inner">
             <div class="pop-close">x</div>
             <a download="particleSandbox.png" href="#" id="pop-save-image" class="pop-button pop-button2">Image</a>

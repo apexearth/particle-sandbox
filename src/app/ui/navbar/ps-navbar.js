@@ -1,6 +1,6 @@
 var app = require('../');
 var State = require("../../State");
-var settings = require("../../Settings");
+var settings = require("../../settings");
 
 /*@ngInject*/
 app.directive('psNavbar', function (toastr, ui) {

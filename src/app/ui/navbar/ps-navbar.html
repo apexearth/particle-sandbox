@@ -10,6 +10,7 @@
     </div>
     <div class="collapse navbar-collapse navbar-top" ng-show="isCollapsed">
         <ul class="nav navbar-nav">
+
             <li class="dropdown" ng-click="showFile = !showFile">
                 <a class="dropdown-toggle">File <b class="caret"></b></a>
                 <ul class="dropdown-menu" ng-show="showFile">
@@ -18,31 +19,35 @@
                     <li ng-click="ui.show('save')"><a>Save</a></li>
                 </ul>
             </li>
+
             <li class="dropdown" ng-click="showPhysics = !showPhysics">
                 <a class="dropdown-toggle">Physics <b class="caret"></b></a>
                 <ul class="dropdown-menu" ng-show="showPhysics">
-                    <li><a id="toggle-collision">Collisions</a></li>
-                    <li><a id="toggle-menu-gravity">Gravity</a></li>
+                    <li ng-click="ui.view('collisions')"><a>Collisions</a></li>
+                    <li ng-click="ui.view('gravity')"><a>Gravity</a></li>
                 </ul>
             </li>
+
             <li class="dropdown" ng-click="showVisuals = !showVisuals">
                 <a class="dropdown-toggle">Visuals <b class="caret"></b></a>
                 <ul class="dropdown-menu" ng-show="showVisuals">
-                    <li><a id="toggle-followLargest">Follow Largest</a></li>
-                    <li><a id="toggle-menu-trails">Trails</a></li>
-                    <li><a id="toggle-quadtree">Show Quadtree</a></li>
+                    <li ng-click="settings.followLargest = !settings.followLargest"><a>Follow Largest</a></li>
+                    <li ng-click="ui.view('trails')"><a>Trails</a></li>
+                    <li ng-click="settings.showQuadtree = !settings.showQuadtree"><a>Show Quadtree</a></li>
                 </ul>
             </li>
             <li class="dropdown" ng-click="showGenerate = !showGenerate">
                 <a class="dropdown-toggle">Generate <b class="caret"></b></a>
                 <ul class="dropdown-menu" ng-show="showGenerate">
-                    <li><a id="toggle-menu-generate-particles">Particles</a></li>
+                    <li ng-click="ui.view('generate-particles')"><a>Particles</a></li>
                 </ul>
             </li>
         </ul>
+
         <ul class="nav nav navbar-nav navbar-right">
             <li class="{{settings.paused && 'nav-btn-yellow' || 'nav-btn-green'}}">
-                <a ng-click="togglePause()">{{settings.paused && "Resume" || "Pause"}}</a></li>
+                <a ng-click="togglePause()">{{settings.paused && "Resume" || "Pause"}}</a>
+            </li>
             <li><a id="particleCount"></a></li>
             <li><a id="fps"></a></li>
             <li><a id="cap"></a></li>
@@ -52,7 +57,9 @@
                     <li>
                         <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u=particlesandbox.com">Facebook</a>
                     </li>
-                    <li><a target="_blank" href="https://plus.google.com/share?url=particlesandbox.com">Google</a></li>
+                    <li>
+                        <a target="_blank" href="https://plus.google.com/share?url=particlesandbox.com">Google</a>
+                    </li>
                     <li>
                         <a target="_blank" href="http://twitter.com/intent/tweet?source=particlesandbox.com&text=Check out particlesandbox.com!&url=particlesandbox.com">Twitter</a>
                     </li>

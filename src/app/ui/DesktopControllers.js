@@ -3,9 +3,6 @@ var settings = require('../settings');
 var app = require('./');
 /*@ngInject*/
 app.controller("Main", function Main($scope, $http) {
-    $scope.showTrail = true;
-    $scope.trailType = 2;
-    $scope.trailLifetime = 4;
 
     $scope.showTutorial = localStorage.getItem("showTutorial") || true;
     $scope.tutorialIndex = 0;
@@ -22,15 +19,6 @@ app.controller("Main", function Main($scope, $http) {
     };
 
 
-    $scope.$watch('showTrail', function (newValue, oldValue) {
-        PS.setShowTrail(newValue);
-    });
-    $scope.$watch('trailType', function (newValue, oldValue) {
-        settings.trailType = Number(newValue);
-    });
-    $scope.$watch('trailLifetime', function (newValue, oldValue) {
-        settings.trailLifetime = Number(newValue);
-    });
 
 
     $scope.newInstance = function () {

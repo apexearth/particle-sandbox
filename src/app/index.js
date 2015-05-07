@@ -7,7 +7,7 @@ var State = require('./State');
 require('./Keyboard');
 require('./Particle');
 require('./Quadtree');
-require('./Settings');
+require('./settings');
 var Toolbox = require('./Toolbox');
 
 app.run(function () {

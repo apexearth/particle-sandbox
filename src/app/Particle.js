@@ -1,6 +1,6 @@
 ﻿var Quadtree = require("./Quadtree");
 var General = require("./General");
-var settings = require("./Settings");
+var settings = require("./settings");
 module.exports = Particle;
 function Particle(x, y) {
     this.mass = 0;
@@ -126,43 +126,48 @@ Particle.updateTrail = function (me) {
         if (trail.a < 0) me.trail.splice(i, 1);
     }
 };
-Particle.drawWithoutTrail = function (me, Gravity) {
-    var position = Particle.getDrawVector(me.x, me.y, Gravity);
-    Gravity.context.fillStyle = 'rgb(' + me.colorR + ',' + me.colorG + ',' + me.colorB + ')';
-    General.drawCircle(Gravity.context, position.x, position.y, Math.max(0.5, me.radius * Gravity.instance.drawScale));
+Particle.drawWithoutTrail = function (me, PS) {
+    var position = Particle.getDrawVector(me.x, me.y, PS);
+    PS.context.fillStyle = 'rgb(' + me.colorR + ',' + me.colorG + ',' + me.colorB + ')';
+    General.drawCircle(PS.context, position.x, position.y, Math.max(0.5, me.radius * PS.instance.drawScale));
 };
-Particle.drawWithTrail = function (me, Gravity) {
-    Gravity.canvas.lineCap = "round";
+Particle.drawWithTrail = function (me, PS) {
+    PS.canvas.lineCap = "round";
     var position3;
     if (settings.trailType === 1) {
         for (var i = 0; i < me.trail.length - 2; i += 2) {
             var trail1 = me.trail[i];
             var trail2 = me.trail[i + 1];
             var trail3 = me.trail[i + 2];
-            var position1 = Particle.getDrawVector(trail1.x, trail1.y, Gravity);
-            var position2 = Particle.getDrawVector(trail2.x, trail2.y, Gravity);
-            position3 = Particle.getDrawVector(trail3.x, trail3.y, Gravity);
-            Gravity.context.beginPath();
-            Gravity.context.lineWidth = Math.max(0.5, trail1.diameter * Gravity.instance.drawScale);
-            Gravity.context.moveTo(position1.x, position1.y);
-            Gravity.context.quadraticCurveTo(position2.x, position2.y, position3.x, position3.y);
-            Gravity.context.strokeStyle = 'rgba(' + me.colorR + ',' + me.colorG + ',' + me.colorB + ',' + trail3.a + ')';
-            Gravity.context.stroke();
-            Gravity.context.closePath();
+            var position1 = Particle.getDrawVector(trail1.x, trail1.y, PS);
+            var position2 = Particle.getDrawVector(trail2.x, trail2.y, PS);
+            position3 = Particle.getDrawVector(trail3.x, trail3.y, PS);
+            PS.context.beginPath();
+            PS.context.lineWidth = Math.max(0.5, trail1.diameter * PS.instance.drawScale);
+            PS.context.moveTo(position1.x, position1.y);
+            PS.context.quadraticCurveTo(position2.x, position2.y, position3.x, position3.y);
+            PS.context.strokeStyle = 'rgba(' + me.colorR + ',' + me.colorG + ',' + me.colorB + ',' + trail3.a + ')';
+            PS.context.stroke();
+            PS.context.closePath();
         }
     }
-    var position = Particle.getDrawVector(me.x, me.y, Gravity);
-    var pposition = position3 || Particle.getDrawVector(me.px, me.py, Gravity);
-    Gravity.context.beginPath();
-    Gravity.context.moveTo(pposition.x, pposition.y);
-    Gravity.context.lineTo(position.x, position.y);
-    Gravity.context.lineWidth = Math.max(0.5, me.diameter * Gravity.instance.drawScale);
-    Gravity.context.lineCap = "round";
-    Gravity.context.strokeStyle = 'rgb(' + me.colorR + ',' + me.colorG + ',' + me.colorB + ')';
-    Gravity.context.stroke();
-    Gravity.context.closePath();
+    var position = Particle.getDrawVector(me.x, me.y, PS);
+    var pposition = position3 || Particle.getDrawVector(me.px, me.py, PS);
+    PS.context.beginPath();
+    PS.context.moveTo(pposition.x, pposition.y);
+    PS.context.lineTo(position.x, position.y);
+    PS.context.lineWidth = Math.max(0.5, me.diameter * PS.instance.drawScale);
+    PS.context.lineCap = "round";
+    PS.context.strokeStyle = 'rgb(' + me.colorR + ',' + me.colorG + ',' + me.colorB + ')';
+    PS.context.stroke();
+    PS.context.closePath();
 };
-Particle.draw = Particle.drawWithoutTrail;
+Particle.draw = function(me, PS) {
+    if (settings.showTrail)
+        Particle.drawWithTrail(me, PS);
+    else
+        Particle.drawWithoutTrail(me, PS);
+};
 
 Particle.getDrawVector = function (x, y, Gravity) {
     return {

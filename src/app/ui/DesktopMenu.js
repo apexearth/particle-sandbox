@@ -1,4 +1,4 @@
-﻿var settings = require('./../Settings');
+﻿var settings = require('./../settings');
 var General = require('./../General');
 var PS = require('./../ParticleSandbox');
 var GenerateParticlesMenu = require('./GenerateParticlesMenu');

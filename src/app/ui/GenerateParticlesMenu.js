@@ -1,5 +1,5 @@
 var General = require('./../General');
-var settings = require('./../Settings');
+var settings = require('./../settings');
 
 var GenerateParticlesMenu = {};
 module.exports = GenerateParticlesMenu;

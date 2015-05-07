@@ -1,5 +1,5 @@
 ﻿var PS = require("./ParticleSandbox");
-var settings = require("./Settings");
+var settings = require("./settings");
 module.exports = Toolbox;
 function Toolbox() { }
 

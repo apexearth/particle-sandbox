@@ -1,4 +1,6 @@
 var app = require('../');
+var settings = require('../../settings');
+var State = require('../../State');
 /*@ngInject*/
 app.directive('psMenus', function(ui){
     return {
@@ -6,6 +8,8 @@ app.directive('psMenus', function(ui){
         templateUrl: 'app/ui/menus/ps-menus.html',
         link: function(scope) {
             scope.ui = ui;
+            scope.settings = settings;
+            scope.State = settings;
         }
     };
 });

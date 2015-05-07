@@ -2,7 +2,7 @@
 var Quadtree = require('./Quadtree');
 var Particle = require('./Particle');
 var Keyboard = require('./Keyboard');
-var settings = require("./Settings");
+var settings = require("./settings");
 module.exports = PS;
 
 PS.instance = {};
@@ -298,12 +298,4 @@ PS.translateCoordinate = function (x, y) {
         "x": x * PS.instance.drawScale,
         "y": y * PS.instance.drawScale
     };
-};
-
-PS.setShowTrail = function (value) {
-    settings.showTrail = value;
-    if (value)
-        Particle.draw = Particle.drawWithTrail;
-    else
-        Particle.draw = Particle.drawWithoutTrail;
 };
