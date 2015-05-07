@@ -17,6 +17,7 @@ module.exports = {
 };
 
 function newInstance() {
+    PS.clear();
     delete PS.instance;
     setInstance(new PS());
     Quadtree.initializeQuadtree(PS.instance);

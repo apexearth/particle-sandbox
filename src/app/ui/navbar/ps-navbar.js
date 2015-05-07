@@ -1,41 +1,50 @@
-var app = require('./');
+var app = require('../');
 var State = require("../../State");
+var settings = require("../../Settings");
+
 /*@ngInject*/
-app.directive('psNavbar', function (toastr, PS) {
+app.directive('psNavbar', function (toastr, ui) {
     return {
         restrict: 'E',
         templateUrl: 'app/ui/navbar/ps-navbar.html',
-        scope: {},
-        controller: function () {
-            var vm = this;
-            vm.load = function () {
+        link: function (scope) {
+            scope.ui = ui;
+            scope.settings = settings;
+            scope.togglePause = function() {
+                settings.paused = !settings.paused;
+            };
+            scope.newInstance = function () {
+                toastr.info("Started a new instance!");
+                State.newInstance();
+            };
+            scope.load = function () {
                 if (State.loadInstance($("#pop-load-name").val()))
-                    toastr.success("Success", "Load successful.");
+                    toastr.success("Load successful.");
                 else
                     toastr.error("Error", "Load failed.");
                 $('#pop-load').hide();
             };
-            vm.deleteSave = function () {
+            scope.deleteSave = function () {
                 if (State.deleteSave($("#pop-load-name").val()))
-                    toastr.success("Success", "Deletion successful.");
+                    toastr.success("Deletion successful.");
                 else
-                    toastr.error("Error", "Deletion failed.");
+                    toastr.error("Deletion failed.");
                 $('#pop-load-delete-confirm').hide();
                 $('#pop-load').hide();
             };
-            vm.save = function () {
+            scope.save = function () {
                 if (State.save($("#pop-save-name").val()))
-                    toastr.success("Success", "Save successful.");
+                    toastr.success("Save successful.");
                 else
-                    toastr.error("Error", "Save failed.");
+                    toastr.error("Save failed.");
                 $("#pop-save").hide();
             };
-            vm.showPopLoad = function () {
+            scope.showPopLoad = function () {
                 var options = "";
                 var list = State.getSaveList();
                 var i = list.length;
                 if (i === 0) {
-                    toastr.success("Success", "There are currently no saves.");
+                    toastr.success("There are currently no saves.");
                     return;
                 }
                 while (i--) {
@@ -44,8 +53,7 @@ app.directive('psNavbar', function (toastr, PS) {
                 $('#pop-load-name').html(options);
                 $('#pop-load').show();
             };
-
-            vm.exportFile = function () {
+            scope.exportFile = function () {
                 var gravityInstance = State.getJson();
                 if (gravityInstance != null) {
                     var uriContent = "data:application/octet-stream," + encodeURIComponent(gravityInstance);

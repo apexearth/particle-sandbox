@@ -1,7 +1,6 @@
 ﻿var settings = require('./../Settings');
 var General = require('./../General');
 var PS = require('./../ParticleSandbox');
-var State = require('./../State');
 var GenerateParticlesMenu = require('./GenerateParticlesMenu');
 var Events = require('../Events');
 
@@ -122,22 +121,5 @@ Menu.initializeFunctions = function () {
             scope.trailLifetime = $('#trail-lifetime').slider().data('value');
         });
     });
-    $('#load').click(function () { Menu.showPopLoad(); });
-    $('#pop-load-button').click(function () { Menu.load(); });
-    $('#pop-load-delete-button').click(function () { $('#pop-load-delete-confirm').show(); });
-    $('#pop-load-delete-confirm-button').click(function () { Menu.deleteSave(); });
-    $('#save').click(function () {
-        $('#pop-save-image').attr("href", State.getImage());
-        $("#pop-save").show();
-        $('#pop-save input').focus().select();
-    });
-    $('#pop-save-button').click(function () { Menu.save(); });
-
-    $('.pop-close').click(function (event) { $(event.target).parent().parent().hide(); });
-    $('.pop-confirm-close').click(function (event) { $(event.target).parent().hide(); });
 
 };
-Menu.hideMenus = function () {
-    $(".menu").hide();
-};
-

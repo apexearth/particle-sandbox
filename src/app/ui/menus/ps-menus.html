@@ -89,7 +89,7 @@
             </tr>
         </table>
     </div>
-    <div id="pop-save" class="pop-bg" style="display:none;">
+    <div ng-show="ui.view() == 'load'" class="pop-bg">
         <div class="pop-inner">
             <div class="pop-close">x</div>
             <a download="particleSandbox.png" href="#" id="pop-save-image" class="pop-button pop-button2">Image</a>
@@ -102,7 +102,7 @@
             </div>
         </div>
     </div>
-    <div id="pop-load" class="pop-bg" style="display:none;">
+    <div ng-show="ui.view() == 'load'" class="pop-bg">
         <div class="pop-inner">
             <div class="pop-close">x</div>
             <div id="pop-load-delete-button" class="pop-button pop-button2" style="background-color: #540909">Delete</div>
@@ -117,7 +117,9 @@
                 Please select a save to load.
                 <br />
                 <br />
-                <select id="pop-load-name"></select>
+                <select>
+                    <option ng-repeat="save in saves">{{save.name}}</option>
+                </select>
             </div>
         </div>
     </div>

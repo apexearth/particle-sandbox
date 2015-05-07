@@ -51,7 +51,6 @@ function PS() {
     this.generateParticleRateCount = 0;
 
     //Settings
-    this.Settings = settings;
     this.largestParticleIndex = 0;
 }
 
@@ -64,7 +63,7 @@ PS.UI = function () {
 
 
 PS.beginUpdateTimer = function () {
-    setTimeout(function () {PS.update();}, 1000 / PS.instance.Settings.fpsTarget);
+    setTimeout(function () {PS.update();}, 1000 / settings.fpsTarget);
 };
 PS.beginDrawTimer = function () {
     setTimeout(function () {PS.draw();}, 33);
@@ -76,7 +75,7 @@ PS.setCenterXY = function () {
 PS.update = function () {
     PS.beginUpdateTimer();
     if (PS.instance == null) return;
-    if (PS.instance.Settings.paused) return;
+    if (settings.paused) return;
 
     PS.startUpdateStatistics();
     var i;
@@ -111,13 +110,13 @@ PS.update = function () {
         }
     }
     PS.instance.largestParticleIndex = PS.instance.particles.indexOf(largestParticle);
-    if (PS.instance.Settings.followLargest && foundNewLargest) PS.clear();
+    if (settings.followLargest && foundNewLargest) PS.clear();
 
     //Add more particles...
-    if (PS.instance.Settings.generateParticles
+    if (settings.generateParticles
         && PS.instance.generateParticleRateCount-- <= 1
         && PS.instance.processingTime < 500) {
-        PS.instance.generateParticleRateCount = PS.instance.Settings.generateParticleRate;
+        PS.instance.generateParticleRateCount = settings.generateParticleRate;
         PS.generateParticles();
     }
 
@@ -127,21 +126,21 @@ PS.update = function () {
 PS.generateParticles = function () {
     var angle = Math.random() * Math.PI * 2;
     var rand = Math.random();
-    var i = Math.abs(PS.instance.Settings.generateParticleRandomizer);
+    var i = Math.abs(settings.generateParticleRandomizer);
     while (i--) rand *= Math.random();
     if (settings.generateParticleRandomizer > 0) rand = 1 - rand;
-    var spawnSize = PS.instance.Settings.generateParticleArea * rand;
+    var spawnSize = settings.generateParticleArea * rand;
     var x = Math.cos(angle) * spawnSize;
     var y = Math.sin(angle) * spawnSize;
-    var xm = Math.random() * PS.instance.Settings.generateParticleSpeed * 2 - PS.instance.Settings.generateParticleSpeed;
-    var ym = Math.random() * PS.instance.Settings.generateParticleSpeed * 2 - PS.instance.Settings.generateParticleSpeed;
-    var size = PS.instance.Settings.generateParticleSize / 2 + PS.instance.Settings.generateParticleSize * Math.random();
+    var xm = Math.random() * settings.generateParticleSpeed * 2 - settings.generateParticleSpeed;
+    var ym = Math.random() * settings.generateParticleSpeed * 2 - settings.generateParticleSpeed;
+    var size = settings.generateParticleSize / 2 + settings.generateParticleSize * Math.random();
     PS.addParticle(x, y, xm, ym, size);
 };
 PS.draw = function () {
     PS.beginDrawTimer();
     if (PS.instance == null) return;
-    if (PS.instance.Settings.paused) return;
+    if (settings.paused) return;
 
     PS.startDrawStatistics();
 
@@ -172,9 +171,9 @@ PS.draw = function () {
         PS.instance.drawOffsetY += ((PS.instance.drawOffsetYT - PS.instance.drawOffsetY) * 0.15);
         if (Math.abs(PS.instance.drawOffsetX - PS.instance.drawOffsetXT) < 0.1) PS.instance.drawOffsetX = PS.instance.drawOffsetXT;
         if (Math.abs(PS.instance.drawOffsetY - PS.instance.drawOffsetYT) < 0.1) PS.instance.drawOffsetY = PS.instance.drawOffsetYT;
-        if (!PS.instance.Settings.followLargest) PS.clear();
+        if (!settings.followLargest) PS.clear();
     }
-    if (PS.instance.Settings.followLargest) {
+    if (settings.followLargest) {
         var largestParticle = PS.largestParticle();
         PS.instance.drawOffsetX = -largestParticle.x;
         PS.instance.drawOffsetY = -largestParticle.y;
@@ -182,12 +181,12 @@ PS.draw = function () {
         PS.instance.drawOffsetYT = -largestParticle.y;
     }
 
-    if (PS.instance.Settings.trailType === 1)
+    if (settings.trailType === 1)
         PS.clear();
-    else if (PS.instance.Settings.trailType === 2 && PS.instance.Settings.trailLifetime !== 30
-        && PS.instance.drawTrailCount++ >= PS.instance.Settings.trailLifetime) {
+    else if (settings.trailType === 2 && settings.trailLifetime !== 30
+        && PS.instance.drawTrailCount++ >= settings.trailLifetime) {
         PS.instance.drawTrailCount = 0;
-        PS.context.fillStyle = 'rgba(0,0,0,' + (1 / (PS.instance.Settings.trailLifetime * 2)) + ')';
+        PS.context.fillStyle = 'rgba(0,0,0,' + (1 / (settings.trailLifetime * 2)) + ')';
         PS.context.fillRect(0, 0, PS.canvas.width, PS.canvas.height);
     }
 
@@ -196,7 +195,7 @@ PS.draw = function () {
         if (particle != null)
             Particle.draw(particle, PS);
     }
-    if (PS.instance.Settings.showQuadtree) Quadtree.instance.draw(PS);
+    if (settings.showQuadtree) Quadtree.instance.draw(PS);
     PS.drawui();
 
     PS.contextdisplay.fillStyle = 'rgba(0,0,0,1)';
@@ -276,7 +275,7 @@ PS.startDrawStatistics = function () {
 };
 PS.startUpdateStatistics = function () {
     PS.instance.processingStart = Date.now();
-    PS.instance.frameLag = Date.now() - PS.instance.lastFrame - 1000 / PS.instance.Settings.fpsTarget;
+    PS.instance.frameLag = Date.now() - PS.instance.lastFrame - 1000 / settings.fpsTarget;
     PS.instance.lastFrame = Date.now();
 };
 PS.endDrawStatistics = function () {
@@ -302,7 +301,7 @@ PS.translateCoordinate = function (x, y) {
 };
 
 PS.setShowTrail = function (value) {
-    PS.instance.Settings.showTrail = value;
+    settings.showTrail = value;
     if (value)
         Particle.draw = Particle.drawWithTrail;
     else

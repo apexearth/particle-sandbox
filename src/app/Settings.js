@@ -1,23 +1,21 @@
-module.exports = new Settings();
+module.exports = {
+    generateParticles: false,
+    generateParticleArea: 50000,
+    generateParticleSpeed: 0,
+    generateParticleRandomizer: -2,
+    generateParticleRate: 6,
+    generateParticleSize: 10,
 
-function Settings() {
-    this.generateParticles = false;
-    this.generateParticleArea = 50000;
-    this.generateParticleSpeed = 0;
-    this.generateParticleRandomizer = -2;
-    this.generateParticleRate = 6;
-    this.generateParticleSize = 10;
+    gravityProportion: 1,
+    gravityExponential: 1,
 
-    this.gravityProportion = 1;
-    this.gravityExponential = 1;
-
-    this.enableCollision = true;
-    this.fpsTarget = 30;
-    this.followLargest = false;
-    this.trailLifetime = 4;
-    this.showTrail = true;
-    this.trailType = 1;
-    this.showQuadtree = false;
-    this.momentumAdd = true;
-    this.paused = false;
-}
+    enableCollision: true,
+    fpsTarget: 30,
+    followLargest: false,
+    trailLifetime: 4,
+    showTrail: true,
+    trailType: 2,
+    showQuadtree: false,
+    momentumAdd: true,
+    paused: false
+};

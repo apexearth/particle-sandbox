@@ -1,8 +1,8 @@
 ﻿var PS = require('./../ParticleSandbox');
+var settings = require('../settings');
 var app = require('./');
 /*@ngInject*/
-app.controller("Main", ['$scope', '$http', function Main($scope, $http) {
-    $scope.paused = false;
+app.controller("Main", function Main($scope, $http) {
     $scope.showTrail = true;
     $scope.trailType = 2;
     $scope.trailLifetime = 4;
@@ -22,31 +22,20 @@ app.controller("Main", ['$scope', '$http', function Main($scope, $http) {
     };
 
 
-    $scope.$watch('paused', function (newValue, oldValue) {
-        PS.instance.Settings.paused = newValue;
-    });
     $scope.$watch('showTrail', function (newValue, oldValue) {
         PS.setShowTrail(newValue);
     });
     $scope.$watch('trailType', function (newValue, oldValue) {
-        PS.instance.Settings.trailType = Number(newValue);
+        settings.trailType = Number(newValue);
     });
     $scope.$watch('trailLifetime', function (newValue, oldValue) {
-        PS.instance.Settings.trailLifetime = Number(newValue);
+        settings.trailLifetime = Number(newValue);
     });
 
 
-    $scope.togglePause = function () {
-        $scope.paused = !$scope.paused;
-    };
-
-    $scope.initialize = function () {
-        $scope.paused = PS.instance ? PS.instance.Settings.paused : true;
-    };
     $scope.newInstance = function () {
         PS.newInstance();
         PS.clear();
-        $scope.initialize();
     };
 
-}]);
+});

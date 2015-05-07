@@ -191,3 +191,7 @@ table {
 .nav-btn-green {
     background-color: #302d1c;
 }
+
+.dropdown-menu {
+    display: block;
+}
