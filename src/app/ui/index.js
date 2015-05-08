@@ -5,6 +5,7 @@ var app = angular.module("ps.main", [
 ]);
 module.exports = app;
 
+require('./toastrConfig');
 require('./ui');
 require('./navbar/');
 require('./menus/');

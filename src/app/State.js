@@ -1,19 +1,21 @@
 var PS = require('./ParticleSandbox');
 var Quadtree = require('./Quadtree');
 var Events = require('./Events');
+var settings = require('./settings');
+
 module.exports = {
     newInstance: newInstance,
-    loadInstance: loadInstance,
+    loadSave: loadSave,
     deleteSave: deleteSave,
-    validateName: validateName,
     save: save,
     getImage: getImage,
     getSaveList: getSaveList,
     addToSaveList: addToSaveList,
     removeFromSaveList: removeFromSaveList,
-    getJson: getJson,
+    getInstanceJson: getInstanceJson,
     initialize: initialize,
-    setInstance: setInstance
+    setInstance: setInstance,
+    toggleFollowLargest: toggleFollowLargest
 };
 
 function newInstance() {
@@ -22,9 +24,7 @@ function newInstance() {
     setInstance(new PS());
     Quadtree.initializeQuadtree(PS.instance);
 }
-
-function loadInstance(name) {
-    name = PS.validateName(name);
+function loadSave(name) {
     if (name.length === 0) return false;
     var gravityInstanceJSON = localStorage.getItem("gravityinstance" + name);
     if (gravityInstanceJSON != null) {
@@ -40,20 +40,18 @@ function loadInstance(name) {
     return false;
 }
 function deleteSave(name) {
-    name = PS.validateName(name);
     if (name.length === 0) return false;
     localStorage.removeItem("gravityinstance" + name);
     PS.removeFromSaveList(name);
     return true;
 }
 function save(name) {
-    name = PS.validateName(name);
     if (name.length === 0) return false;
     Quadtree.clear(PS.instance);
     var gravityInstanceJSON = JSON.stringify(PS.instance);
     if (gravityInstanceJSON != null) {
         localStorage.setItem("gravityinstance" + name, gravityInstanceJSON);
-        PS.addToSaveList(name);
+        addToSaveList(name);
         var gravityInstanceCompare = localStorage.getItem("gravityinstance" + name);
         if (gravityInstanceCompare === gravityInstanceJSON) {
             Quadtree.initializeQuadtree(PS.instance);
@@ -63,17 +61,6 @@ function save(name) {
     Quadtree.initializeQuadtree(PS.instance);
     return false;
 }
-function validateName(name) {
-    if (name == null) return "";
-    var result = "", match, regex = new RegExp("[a-zA-Z0-9]+");
-    match = regex.exec(name);
-    while (match != null) {
-        result += match;
-        name = name.substring(match.index + match[0].length);
-        match = regex.exec(name);
-    }
-    return result;
-}
 function getImage() {
     return PS.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 }
@@ -82,7 +69,10 @@ function getSaveList() {
     if (saveListString == null) {
         return [];
     }
-    return JSON.parse(saveListString);
+    var saveList = JSON.parse(saveListString).map(function(save){
+        return save;
+    });
+    return saveList;
 }
 function addToSaveList(name) {
     var saveList = getSaveList();
@@ -94,9 +84,17 @@ function removeFromSaveList(name) {
     if (saveList.indexOf(name) !== -1) saveList.splice(saveList.indexOf(name), 1);
     localStorage.setItem("saveList", JSON.stringify(saveList));
 }
-function getJson() {
+function getInstanceJson() {
     return JSON.stringify(PS.instance);
 }
+
+function toggleFollowLargest() {
+    settings.followLargest = !settings.followLargest;
+    if(settings.followLargest) {
+        PS.clear();
+    }
+}
+
 
 function initialize(canvasdisplay) {
     PS.canvasdisplay = canvasdisplay;

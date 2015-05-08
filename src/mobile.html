@@ -49,11 +49,11 @@
     <link rel="stylesheet" type="text/css" href="css/mobile.css"/>
 </head>
 
-<body data-ng-controller="gravity">
+<body ng-controller="gravity">
 <div id="log" style="z-index: 100; position: fixed; left: 50px; top: 100px; color: white;"></div>
 
 <div style="display: none;">
-    <div ng-show="view!='play'" class="backpanel" data-ng-click="toggleMenu()"></div>
+    <div ng-show="view!='play'" class="backpanel" ng-click="toggleMenu()"></div>
     <div class="bottom-menu">
         <div ng-click="setView('file')">File</div>
         <div ng-click="setView('physics')">Physics</div>

@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="css/desktop.css" />
 </head>
 
-<body data-ng-controller="Main">
+<body ng-controller="Main">
     <ps-navbar></ps-navbar>
     <div id="alerts"></div>
     <ps-menus></ps-menus>
@@ -23,10 +23,10 @@
         <div class="option" id="ps-toolbar-momentum">Momentum</div>
     </div>
 
-    <div data-ng-show="showTutorial">
+    <div ng-show="showTutorial">
         <div class="pop-bg" style="background-color: rgba(0,0,0,.35)">
         </div>
-        <div class="pop-inner" style="height: auto; margin-top: -250px;">
+        <div class="pop-inner" style="height: auto;">
             <h3>Particle Sandbox Tutorial</h3>
             {{tutorialData[tutorialIndex]}}
             <br /><br />
@@ -39,8 +39,8 @@
     <!-- bower:js -->
     <!-- endbower -->
 
-    <script type="text/javascript" src="lib/jquery-1.7.1.js"></script>
     <script type="text/javascript" src="lib/jquery.color-2.1.2.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
     <script type="text/javascript" src="lib/json2.js"></script>
     <script type="text/javascript" src="lib/Modernizr.js"></script>
     <script type="text/javascript" src="lib/slider/js/bootstrap-slider.js"></script>
@@ -49,9 +49,5 @@
     <!-- endinject -->
 
     <script src="lib/ga.js"></script>
-    <script type='text/javascript' id="__bs_script__">//<![CDATA[
-    document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.2.7.1.js'><\/script>".replace("HOST"
-            , location.hostname));
-    //]]></script>
 </body>
 </html>

@@ -1,15 +1,53 @@
+var Guid = require('Guid');
+
 var app = require('../');
 var settings = require('../../settings');
 var State = require('../../State');
 /*@ngInject*/
-app.directive('psMenus', function(ui){
+app.directive('psMenus', function (ui, toastr) {
     return {
         restrict: 'E',
         templateUrl: 'app/ui/menus/ps-menus.html',
-        link: function(scope) {
+        link: function (scope) {
             scope.ui = ui;
             scope.settings = settings;
             scope.State = settings;
+
+            scope.trailType = "2";
+            scope.setTrailType = function () {
+                settings.trailType = Number(scope.trailType);
+            };
+
+            //TODO: Fix getting an image.
+            //TODO: And the other menus!
+
+            // Load / Save
+            scope.saveName = null;
+            scope.save = function () {
+                if (scope.saveName === null || scope.saveName.length === 0) return;
+                if (State.save(scope.saveName)) {
+                    scope.loadSaveList = State.getSaveList();
+                    scope.loadSaveName = scope.saveName;
+                    toastr.success('Save successful');
+                } else {
+                    toastr.error('Save failed! Sorry :(');
+                }
+                ui.show('none');
+            };
+
+            scope.loadSaveList = State.getSaveList();
+            scope.loadSaveName = scope.loadSaveList[0];
+            scope.loadSave = function () {
+                if (scope.saveName === null || scope.saveName.length === 0) return;
+                if (State.loadSave(scope.loadSaveName)) {
+                    scope.saveName = scope.loadSaveName;
+                    ui.show('none');
+                    toastr.success('Load successful');
+                } else {
+                    ui.show('none');
+                    toastr.error('Load failed! Sorry :(');
+                }
+            };
         }
     };
 });

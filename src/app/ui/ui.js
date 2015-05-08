@@ -1,15 +1,17 @@
 var app = require('./');
 var state = {
-    view: null
+    view: 'none'
 };
 
 app.factory('ui', function (toastr) {
     var ui = {};
+
     ui.show = function (val) {
-        if (val) state.view = val;
+        if(val === state.view) state.view = 'none';
+        else if (val) state.view = val;
         else return state.view;
-        toastr.info("ui.show = " + state.view);
     };
     ui.view = ui.show;
+
     return ui;
 });

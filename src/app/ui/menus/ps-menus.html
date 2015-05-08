@@ -1,80 +1,85 @@
+<div ng-click="ui.view('none')" ng-show="ui.view() !== 'none'" class="pop-bg"></div>
 <div id="menus">
     <div id="menu-generate-particles" class="menu well" style="display: none; position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
         <table>
             <tr>
                 <td>Spawn Rate</td>
                 <td style="padding-left: 25px; padding-right: 25px;">
-                    <input id="generate-particle-rate" style="width: 300px;" type="text" value="" data-slider-min="1" data-slider-max="30" data-slider-step="1" data-slider-value="5" data-value="5" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide" />
+                    <input id="generate-particle-rate" style="width: 300px;" type="text" value="" data-slider-min="1" data-slider-max="30" data-slider-step="1" data-slider-value="5" data-value="5" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide"/>
                 </td>
                 <td><span id="generate-particle-rate-value"></span></td>
             </tr>
             <tr>
                 <td>Spawn Area</td>
                 <td style="padding-left: 25px; padding-right: 25px;">
-                    <input id="generate-particle-area" style="width: 300px;" type="text" value="" data-slider-min="1" data-slider-max="6000" data-slider-step="1.1" data-slider-value="500" data-value="500" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide" />
+                    <input id="generate-particle-area" style="width: 300px;" type="text" value="" data-slider-min="1" data-slider-max="6000" data-slider-step="1.1" data-slider-value="500" data-value="500" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide"/>
                 </td>
                 <td><span id="generate-particle-area-value"></span></td>
             </tr>
             <tr>
                 <td>Particle Speed</td>
                 <td style="padding-left: 25px; padding-right: 25px;">
-                    <input id="generate-particle-speed" style="width: 300px;" type="text" value="" data-slider-min="0" data-slider-max="5" data-slider-step=".1" data-slider-value=".001" data-value=".001" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide" />
+                    <input id="generate-particle-speed" style="width: 300px;" type="text" value="" data-slider-min="0" data-slider-max="5" data-slider-step=".1" data-slider-value=".001" data-value=".001" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide"/>
                 </td>
                 <td><span id="generate-particle-speed-value"></span></td>
             </tr>
             <tr>
                 <td>Avg Particle Size</td>
                 <td style="padding-left: 25px; padding-right: 25px;">
-                    <input id="generate-particle-size" style="width: 300px;" type="text" value="" data-slider-min="10" data-slider-max="500" data-slider-step="1" data-slider-value="10" data-value="10" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide" />
+                    <input id="generate-particle-size" style="width: 300px;" type="text" value="" data-slider-min="10" data-slider-max="500" data-slider-step="1" data-slider-value="10" data-value="10" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide"/>
                 </td>
                 <td><span id="generate-particle-size-value"></span></td>
             </tr>
             <tr>
                 <td>Inner</td>
                 <td style="padding-left: 25px; padding-right: 25px; text-align: center;">
-                    <input id="generate-particle-randomizer" style="width: 300px;" type="text" value="" data-slider-min="-5" data-slider-max="5" data-slider-step="1" data-slider-value="-2" data-value="-2" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide" />
-                    <br />
+                    <input id="generate-particle-randomizer" style="width: 300px;" type="text" value="" data-slider-min="-5" data-slider-max="5" data-slider-step="1" data-slider-value="-2" data-value="-2" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide"/>
+                    <br/>
                     <span id="generate-particle-randomizer-value"></span>
                 </td>
                 <td>Outer</td>
             </tr>
             <tr>
                 <td colspan="3">
-                    <input id="generate-particle" type="button" value="Generate Particles" class="btn btn-danger" onclick="GenerateParticlesMenu.toggleGenerateParticles()" />
+                    <input id="generate-particle" type="button" value="Generate Particles" class="btn btn-danger" onclick="GenerateParticlesMenu.toggleGenerateParticles()"/>
                 </td>
             </tr>
         </table>
     </div>
+
+
     <div id="menu-gravity" class="menu well" style="display: none; position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
         <table>
             <tr>
                 <td>Proportion</td>
                 <td style="padding-left: 25px; padding-right: 25px;">
-                    <input id="gravity-proportion" style="width: 300px;" type="text" value="" data-slider-min="1" data-slider-max="50" data-slider-step="1" data-slider-value="1" data-value="1" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide" />
+                    <input id="gravity-proportion" style="width: 300px;" type="text" value="" data-slider-min="1" data-slider-max="50" data-slider-step="1" data-slider-value="1" data-value="1" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide"/>
                 </td>
                 <td></td>
             </tr>
             <tr>
                 <td>Linear</td>
                 <td style="padding-left: 25px; padding-right: 25px;">
-                    <input id="gravity-exponential" style="width: 300px;" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="100" data-value="100" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide" />
+                    <input id="gravity-exponential" style="width: 300px;" type="text" value="" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="100" data-value="100" data-slider-orientation="horizontal" data-slider-handle="round" data-slider-tooltip="hide"/>
                 </td>
                 <td>Exponential</td>
             </tr>
         </table>
     </div>
+
+
     <div ng-show="ui.view() == 'trails'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
         <table>
             <tr>
                 <td>Show Trails</td>
                 <td>
-                    <input ng-model="settings.showTrail" ng-click="State.clear()" type="checkbox" />
+                    <input ng-model="settings.showTrail" ng-click="State.clear()" type="checkbox"/>
                 </td>
             </tr>
             <tr>
                 <td>Trail Type</td>
                 <td>
-                    <select ng-model="settings.trailType">
+                    <select ng-model="trailType" ng-change="setTrailType()">
                         <option value="1">Full Redraw</option>
                         <option value="2">No Redraw</option>
                     </select>
@@ -83,41 +88,48 @@
             <tr>
                 <td>Trail Lifetime</td>
                 <td>
-                    <input ng-model="settings.trailLifetime" type="text" />
+                    <input ng-model="settings.trailLifetime" type="number"/>
                 </td>
             </tr>
         </table>
     </div>
     <div ng-show="ui.view() == 'save'" class="pop-bg">
         <div class="pop-inner">
-            <div class="pop-close">x</div>
-            <a download="particleSandbox.png" href="#" id="pop-save-image" class="pop-button pop-button2">Image</a>
-            <div id="pop-save-button" class="pop-button">Save</div>
+            <div ng-click="ui.view('none')" class="pop-close">x</div>
+            <a ng-click="State.getImage()" download="particleSandbox.png" href="#" class="pop-button pop-button2">Image</a>
+
+            <div ng-click="save();" class="pop-button">Save</div>
             <div>
                 Please enter a save name.
-                <br />
-                <br />
-                <input id="pop-save-name" type="text" value="" />
+                <br/>
+                <br/>
+                <input ng-model="saveName" placeholder="enter save name" type="text" value=""/>
             </div>
         </div>
     </div>
+
+
     <div ng-show="ui.view() == 'load'" class="pop-bg">
-        <div class="pop-inner">
-            <div class="pop-close">x</div>
-            <div id="pop-load-delete-button" class="pop-button pop-button2" style="background-color: #540909">Delete</div>
-            <div id="pop-load-button" class="pop-button">Load</div>
-            <div id="pop-load-delete-confirm" class="pop-confirm">
-                <div class="pop-confirm-close">x</div>
+        <div ng-show="loadSaveList.length === 0" class="pop-inner">
+            <div ng-click="ui.view('none')" class="pop-close">x</div>
+            There are no saves for you to load!
+        </div>
+        <div ng-show="loadSaveList.length > 0" class="pop-inner">
+            <div ng-click="ui.view('none')" class="pop-close">x</div>
+            <div ng-click="confirmDelete = !confirmDelete" class="pop-button pop-button2" style="background-color: #540909">Delete</div>
+            <div ng-click="loadSave()" class="pop-button">Load</div>
+            <div ng-show="confirmDelete" class="pop-confirm">
+                <div ng-click="confirmDelete = false" class="pop-confirm-close">x</div>
                 Are you sure?
-                <div id="pop-load-delete-confirm-button" class="pop-button" style="background-color: #540909">Delete</div>
+                <div ng-click="deleteSave()" class="pop-button" style="background-color: #540909">Delete</div>
             </div>
 
             <div>
                 Please select a save to load.
-                <br />
-                <br />
-                <select>
-                    <option ng-repeat="save in saves">{{save.name}}</option>
+                <br/>
+                <br/>
+                <select ng-model="loadSaveName">
+                    <option ng-repeat="saveName in loadSaveList">{{saveName}}</option>
                 </select>
             </div>
         </div>

@@ -83,8 +83,8 @@ table {
             background-color: #66b;
         }
 
-
 .menu {
+    z-index: 100001;
 }
 
 .hide {
@@ -190,8 +190,4 @@ table {
 
 .nav-btn-green {
     background-color: #302d1c;
-}
-
-.dropdown-menu {
-    display: block;
 }
