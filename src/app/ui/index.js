@@ -9,7 +9,6 @@ require('./toastrConfig');
 require('./ui');
 require('./navbar/');
 require('./menus/');
-require('./GenerateParticlesMenu');
 
 if (!('ontouchstart' in document)) {
     require('./DesktopControllers');

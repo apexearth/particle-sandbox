@@ -23,7 +23,7 @@
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Physics <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li ng-click="ui.view('collisions')"><a>Collisions</a></li>
+                    <li ng-click="settings.enableCollision = !settings.enableCollision"><a>Collisions</a></li>
                     <li ng-click="ui.view('gravity')"><a>Gravity</a></li>
                 </ul>
             </li>
@@ -39,7 +39,7 @@
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Generate <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                    <li ng-click="ui.view('generate-particles')"><a>Particles</a></li>
+                    <li ng-click="ui.view('generate')"><a>Particles</a></li>
                 </ul>
             </li>
         </ul>

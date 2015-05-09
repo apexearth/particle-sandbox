@@ -18,7 +18,14 @@ app.directive('psMenus', function (ui, toastr) {
                 settings.trailType = Number(scope.trailType);
             };
 
-            //TODO: And the other menus!
+
+            // Gravity
+            scope.gravityProportion = 1;
+            scope.gravityExponential = 1;
+            scope.gravityChanged = function () {
+                settings.gravityProportion = scope.gravityProportion * scope.gravityExponential * scope.gravityExponential + 0.01;
+                settings.gravityExponential = scope.gravityExponential;
+            };
 
             // Load / Save
             scope.saveName = null;

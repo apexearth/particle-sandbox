@@ -2,15 +2,6 @@
 var Events = require('../Events');
 
 Events.addListener('Gravity.initialize', function () {
-    var $menu = $(".menu");
-
-    PS.canvasdisplay.onclick = function (event) {
-        if ($menu.is(":visible")) {
-            $menu.filter(":visible").slideToggle(150);
-            return false;
-        }
-        return false;
-    };
 
     PS.canvasdisplay.onmousedown = function (event) {
         if ($(".menu").is(":visible")) return false;

@@ -18,9 +18,6 @@ app.controller("Main", function Main($scope, $http) {
         $scope.showTutorial = false;
     };
 
-
-
-
     $scope.newInstance = function () {
         PS.newInstance();
         PS.clear();

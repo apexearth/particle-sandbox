@@ -1,4 +1,5 @@
 var app = require('../');
+var PS = require('../../ParticleSandbox');
 var State = require("../../State");
 var settings = require("../../settings");
 
@@ -15,11 +16,11 @@ app.directive('psNavbar', function (ui, toastr) {
                 State.newInstance();
                 toastr.success("Started a new instance!");
             };
-            scope.togglePause = function() {
+            scope.togglePause = function () {
                 settings.paused = !settings.paused;
             };
 
-            scope.followLargest = function() {
+            scope.followLargest = function () {
                 State.toggleFollowLargest();
             };
 
@@ -30,8 +31,14 @@ app.directive('psNavbar', function (ui, toastr) {
                     window.open(uriContent, 'particlesandbox.json');
                 }
             };
+            updateNavbar();
         }
     };
 });
 
-
+function updateNavbar() {
+    $('#fps').html(PS.instance.frameRate + " fps");
+    $('#cap').html((PS.instance.processingTime / 10).toFixed(1) + "%");
+    $('#particleCount').html(PS.particleCount());
+    setTimeout(function () {updateNavbar();}, 100);
+}
