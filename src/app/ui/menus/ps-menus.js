@@ -18,7 +18,6 @@ app.directive('psMenus', function (ui, toastr) {
                 settings.trailType = Number(scope.trailType);
             };
 
-            //TODO: Fix getting an image.
             //TODO: And the other menus!
 
             // Load / Save
@@ -47,6 +46,22 @@ app.directive('psMenus', function (ui, toastr) {
                     ui.show('none');
                     toastr.error('Load failed! Sorry :(');
                 }
+            };
+
+            scope.downloadImage = function () {
+                if (window.bowser.msie) {
+                    toastr.error('Unsupported by Internet Explorer');
+                    return;
+                }
+
+                var image = State.getImage();
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.style = "display: none";
+                a.href = image;
+                a.download = 'particleSandbox.png';
+                a.click();
+                document.body.removeChild(a);
             };
         }
     };
