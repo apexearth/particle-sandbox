@@ -55,6 +55,16 @@ app.directive('psMenus', function (ui, toastr) {
                 }
             };
 
+            scope.deleteSave = function () {
+                if (State.deleteSave(scope.loadSaveName)) {
+                    toastr.success(scope.loadSaveName+' deleted');
+                    scope.loadSaveList = State.getSaveList();
+                    scope.loadSaveName = scope.loadSaveList[0];
+                } else {
+                    toastr.error('Delete failed! Sorry :(');
+                }
+            };
+
             scope.downloadImage = function () {
                 if (window.bowser.msie) {
                     toastr.error('Unsupported by Internet Explorer');

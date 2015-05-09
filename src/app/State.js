@@ -42,7 +42,7 @@ function loadSave(name) {
 function deleteSave(name) {
     if (name.length === 0) return false;
     localStorage.removeItem("gravityinstance" + name);
-    PS.removeFromSaveList(name);
+    removeFromSaveList(name);
     return true;
 }
 function save(name) {

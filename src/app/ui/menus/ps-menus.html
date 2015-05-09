@@ -116,7 +116,7 @@
             <div ng-show="confirmDelete" class="pop-confirm">
                 <div ng-click="confirmDelete = false" class="pop-confirm-close">x</div>
                 Are you sure?
-                <div ng-click="deleteSave()" class="pop-button" style="background-color: #540909">Delete</div>
+                <div ng-click="deleteSave();confirmDelete = false" class="pop-button" style="background-color: #540909">Delete</div>
             </div>
 
             <div>
