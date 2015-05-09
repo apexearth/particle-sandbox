@@ -1,13 +1,10 @@
-﻿module.exports = new Keyboard();
-function Keyboard() {
-    this.keys = [];
-    document.onkeydown = this.keyDown;
-    document.onkeyup = this.keyUp;
-}
-
-Keyboard.prototype.keyDown = function(event) {
-    Keyboard.keys[event.keyCode] = true;
+﻿var keyboard = module.exports = {
+    keys: []
 };
-Keyboard.prototype.keyUp = function(event) {
-    Keyboard.keys[event.keyCode] = false;
+
+document.onkeydown = function (event) {
+    keyboard.keys[event.keyCode] = true;
+};
+document.onkeyup = function (event) {
+    keyboard.keys[event.keyCode] = false;
 };
