@@ -23,7 +23,7 @@ app.directive('psMenus', function (ui, toastr) {
             scope.gravityProportion = 1;
             scope.gravityExponential = 1;
             scope.gravityChanged = function () {
-                settings.gravityProportion = scope.gravityProportion * scope.gravityExponential * scope.gravityExponential + 0.01;
+                settings.gravityProportion = scope.gravityProportion * (scope.gravityExponential * scope.gravityExponential + 0.01);
                 settings.gravityExponential = scope.gravityExponential;
             };
 
@@ -69,6 +69,13 @@ app.directive('psMenus', function (ui, toastr) {
                 a.download = 'particleSandbox.png';
                 a.click();
                 document.body.removeChild(a);
+            };
+
+
+            scope.isButtonActive = function (value) {
+                return value
+                    ? "btn btn-success"
+                    : "btn btn-danger";
             };
         }
     };

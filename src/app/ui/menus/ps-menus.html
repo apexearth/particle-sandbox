@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    <input type="button" value="Generate Particles" class="btn btn-danger" ng-click="settings.generateParticles = !settings.generateParticles"/>
+                    <input type="button" value="Generate Particles" ng-class="isButtonActive(settings.generateParticles)" ng-click="settings.generateParticles = !settings.generateParticles"/>
                 </td>
             </tr>
         </table>

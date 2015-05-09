@@ -31,6 +31,11 @@ app.directive('psNavbar', function (ui, toastr) {
                     window.open(uriContent, 'particlesandbox.json');
                 }
             };
+
+
+            scope.isActive = function(value){
+                return value ? "active" : "";
+            };
             updateNavbar();
         }
     };

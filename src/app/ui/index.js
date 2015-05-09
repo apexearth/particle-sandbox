@@ -13,7 +13,6 @@ require('./menus/');
 if (!('ontouchstart' in document)) {
     require('./DesktopControllers');
     require('./DesktopEvents');
-    require('./DesktopMenu');
 }
 
 if ('ontouchstart' in document) {
