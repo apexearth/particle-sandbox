@@ -37,7 +37,9 @@
                         <a>Follow Largest <span ng-show="settings.followLargest" class="glyphicon glyphicon-ok"></span></a>
                     </li>
                     <li ng-click="ui.view('trails')"><a>Trails</a></li>
-                    <li ng-click="settings.showQuadtree = !settings.showQuadtree"><a>Show Quadtree</a></li>
+                    <li ng-class="isActive(settings.showQuadtree)" ng-click="settings.showQuadtree = !settings.showQuadtree">
+                        <a>Show Quadtree <span ng-show="settings.showQuadtree" class="glyphicon glyphicon-ok"></span></a>
+                    </li>
                 </ul>
             </li>
             <li class="dropdown">

@@ -34,7 +34,7 @@ app.directive('psNavbar', function (ui, toastr) {
 
 
             scope.isActive = function(value){
-                return value ? "active" : "";
+                return value ? "toggled" : "";
             };
             updateNavbar();
         }
