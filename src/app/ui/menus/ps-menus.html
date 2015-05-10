@@ -27,13 +27,13 @@
                 </td>
             </tr>
             <tr>
-                <td>Inner (-5) to Outer (5)</td>
+                <td>Inner <-> Outer</td>
                 <td>
-                    <input ng-model="settings.generateParticleRandomizer" type="number" min="-5" max="5" />
+                    <div ui-slider min="-5" max="5" ng-model="settings.generateParticleRandomizer"></div>
                 </td>
             </tr>
             <tr>
-                <td colspan="3">
+                <td colspan="2">
                     <input type="button" value="Generate Particles" ng-class="isButtonActive(settings.generateParticles)" ng-click="settings.generateParticles = !settings.generateParticles"/>
                 </td>
             </tr>
@@ -45,17 +45,17 @@
         <table>
             <tr>
                 <td>Proportion</td>
-                <td>
-                    <input ng-model="gravityProportion" min="-100" max="100" step=".01" type="number" ng-change="gravityChanged()" />
+                <td style="width: 200px;">
+                    <div ui-slider min="0" max="2" step="0.01" ng-model="gravityProportion" ng-change="gravityChanged()"></div>
                 </td>
                 <td></td>
             </tr>
             <tr>
-                <td>Linear: 0</td>
-                <td>
-                    <input ng-model="gravityExponential" min="-1" max="1" step=".01" type="number" ng-change="gravityChanged()"/>
+                <td>Linear</td>
+                <td style="width: 200px;">
+                    <div ui-slider min="-1" max="1" step="0.01" ng-model="gravityExponential" ng-change="gravityChanged()"></div>
                 </td>
-                <td>Exponential: 1</td>
+                <td>Exponential</td>
             </tr>
         </table>
     </div>

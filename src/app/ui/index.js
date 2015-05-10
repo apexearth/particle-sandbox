@@ -1,5 +1,6 @@
 /*@ngInject*/
 var app = angular.module("ps.main", [
+    'ui.slider',
     'ui.bootstrap',
     'toastr'
 ]);

@@ -32,57 +32,6 @@ table {
     background-color: #273511;
 }
 
-.rotate {
-    -webkit-transform: rotate(-90deg);
-    -moz-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    -o-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-    /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
-    -webkit-transform-origin: 50% 50%;
-    -moz-transform-origin: 50% 50%;
-    -ms-transform-origin: 50% 50%;
-    -o-transform-origin: 50% 50%;
-    transform-origin: 50% 50%;
-    /* Should be unset in IE9+ I think. */
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-}
-
-#ps-toolbar {
-    position: fixed;
-    top: 55px;
-    left: -110px;
-    width: 84px;
-    border-left: solid 24px #334;
-    border-right: solid 24px #334;
-    -ms-opacity: .75;
-    opacity: .75;
-    cursor: default;
-    font-size: 11px;
-}
-
-    #ps-toolbar div {
-        text-align: center;
-        vertical-align: middle;
-        height: 20px;
-        line-height: 20px;
-        padding: 0 5px 0 5px;
-        margin: 0;
-        background-color: #334;
-    }
-
-    #ps-toolbar .option {
-        background-color: #445;
-    }
-
-        #ps-toolbar .option:hover {
-            background-color: #556;
-        }
-
-        #ps-toolbar .option.active {
-            background-color: #66b;
-        }
-
 .menu {
     z-index: 100001;
 }
