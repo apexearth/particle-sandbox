@@ -62,7 +62,7 @@
 
 
     <div ng-show="ui.view() == 'trails'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
-        <table>
+        <table style="width: 300px;">
             <tr>
                 <td>Show Trails</td>
                 <td>
@@ -81,7 +81,7 @@
             <tr>
                 <td>Trail Lifetime</td>
                 <td>
-                    <input ng-model="settings.trailLifetime" type="number"/>
+                    <div ui-slider min="0" max="30" ng-model="settings.trailLifetime"></div>
                 </td>
             </tr>
         </table>
