@@ -8,16 +8,7 @@ var transform = require('vinyl-transform');
 var browserify = require('browserify');
 var browserSync = require('browser-sync').create();
 
-gulp.task('watch:reload', function () {
-    gulp.watch([
-        config.sourceAll
-    ], ['reload']);
-});
-gulp.task('reload', ['default'], function () {
-    if (browserSync.active) {
-        browserSync.reload();
-    }
-});
+
 
 gulp.task('default', [
     'check',
@@ -30,6 +21,17 @@ gulp.task('browser', [
     'default'
 ], function () {
     startBrowserSync();
+});
+
+gulp.task('watch:reload', function () {
+    gulp.watch([
+        config.sourceAll
+    ], ['reload']);
+});
+gulp.task('reload', ['default'], function () {
+    if (browserSync.active) {
+        browserSync.reload();
+    }
 });
 
 gulp.task('check', function () {
