@@ -1,0 +1,132 @@
+<div ng-click="ui.view('none')" ng-show="ui.view() !== 'none'" class="pop-bg"></div>
+<div id="menus">
+    <div ng-show="ui.view() === 'generate'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
+        <table>
+            <tr>
+                <td>Spawn Rate</td>
+                <td>
+                    <input ng-model="settings.generateParticleRate" type="number" min="1" max="30" />
+                </td>
+            </tr>
+            <tr>
+                <td>Spawn Area</td>
+                <td>
+                    <input ng-model="settings.generateParticleArea" type="number" min="1" />
+                </td>
+            </tr>
+            <tr>
+                <td>Particle Speed</td>
+                <td>
+                    <input ng-model="settings.generateParticleSpeed" type="number" min="0" />
+                </td>
+            </tr>
+            <tr>
+                <td>Avg Particle Size</td>
+                <td>
+                    <input ng-model="settings.generateParticleSize" type="number" min="1" />
+                </td>
+            </tr>
+            <tr>
+                <td>Inner <-> Outer</td>
+                <td>
+                    <div ui-slider min="-5" max="5" ng-model="settings.generateParticleRandomizer"></div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="button" value="Generate Particles" ng-class="isButtonActive(settings.generateParticles)" ng-click="settings.generateParticles = !settings.generateParticles"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div ng-show="ui.view() == 'gravity'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
+        <table>
+            <tr>
+                <td>Proportion</td>
+                <td style="width: 200px; padding-right: 10px; padding-left: 10px;">
+                    <div ui-slider use-decimals min="0" max="2" step="0.01" ng-model="gravityProportion" ng-change="gravityChanged()"></div>
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Linear</td>
+                <td style="width: 200px; padding-right: 10px; padding-left: 10px;">
+                    <div ui-slider use-decimals min="0" max="1" step="0.01" ng-model="gravityExponential" ng-change="gravityChanged()"></div>
+                </td>
+                <td>Exponential</td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div ng-show="ui.view() == 'trails'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
+        <table style="width: 300px;">
+            <tr>
+                <td>Show Trails</td>
+                <td>
+                    <input ng-model="settings.showTrail" ng-click="State.clear()" type="checkbox"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Trail Type</td>
+                <td>
+                    <select ng-model="trailType" ng-change="setTrailType()">
+                        <option value="1">Full Redraw</option>
+                        <option value="2">No Redraw</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Trail Lifetime</td>
+                <td>
+                    <div ui-slider min="0" max="30" ng-model="settings.trailLifetime"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div ng-show="ui.view() == 'save'" class="pop-bg">
+        <div class="pop-inner">
+            <div ng-click="ui.view('none')" class="pop-close">x</div>
+            <a ng-click="downloadImage()" href="#" class="pop-button pop-button2">Image</a>
+
+            <div ng-click="save();" class="pop-button">Save</div>
+            <div>
+                Please enter a save name.
+                <br/>
+                <br/>
+                <input ng-model="saveName" placeholder="enter save name" type="text" value=""/>
+            </div>
+        </div>
+    </div>
+
+
+    <div ng-show="ui.view() == 'load'" class="pop-bg">
+        <div ng-show="loadSaveList.length === 0" class="pop-inner">
+            <div ng-click="ui.view('none')" class="pop-close">x</div>
+            There are no saves for you to load!
+        </div>
+        <div ng-show="loadSaveList.length > 0" class="pop-inner">
+            <div ng-click="ui.view('none')" class="pop-close">x</div>
+            <div ng-click="confirmDelete = !confirmDelete" class="pop-button pop-button2" style="background-color: #540909">Delete</div>
+            <div ng-click="loadSave()" class="pop-button">Load</div>
+            <div ng-show="confirmDelete" class="pop-confirm">
+                <div ng-click="confirmDelete = false" class="pop-confirm-close">x</div>
+                Are you sure?
+                <div ng-click="deleteSave();confirmDelete = false" class="pop-button" style="background-color: #540909">Delete</div>
+            </div>
+
+            <div>
+                Please select a save to load.
+                <br/>
+                <br/>
+                <select ng-model="loadSaveName">
+                    <option ng-repeat="saveName in loadSaveList">{{saveName}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

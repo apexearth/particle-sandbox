@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="ps.main">
+<head>
+    <title>Particle Sandbox</title>
+    <meta name="description" content="Gravity sandbox particle simulator." />
+
+    <!-- bower:css -->
+    <!-- endbower -->
+
+    <!-- inject:css -->
+    <!-- endinject -->
+
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/jquery-ui/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="css/desktop.css" />
+</head>
+
+<body ng-controller="Main">
+    <ps-navbar></ps-navbar>
+    <div id="alerts"></div>
+    <ps-menus></ps-menus>
+
+    <div ng-show="showTutorial">
+        <div class="pop-bg" style="background-color: rgba(0,0,0,.35)">
+        </div>
+        <div class="pop-inner" style="height: auto;">
+            <h3>Particle Sandbox Tutorial</h3>
+            {{tutorialData[tutorialIndex]}}
+            <br /><br />
+            <button class="btn btn-info" ng-click="tutorialDisable()">Don't show again</button>
+            <button class="btn btn-info" ng-click="tutorialNext()">Next</button>
+        </div>
+    </div>
+    <canvas style="position: absolute; top: 0; left: 0; z-index: -1" id="canvas" width="800" height="600"></canvas>
+
+    <!-- bower:js -->
+    <!-- endbower -->
+
+    <script type="text/javascript" src="lib/jquery.color-2.1.2.min.js"></script>
+    <script type="text/javascript" src="lib/bootstrap.min.js"></script>
+    <script type="text/javascript" src="lib/slider.js"></script>
+    <script type="text/javascript" src="lib/json2.js"></script>
+    <script type="text/javascript" src="lib/Modernizr.js"></script>
+
+    <!-- inject:js -->
+    <!-- endinject -->
+
+    <script src="lib/ga.js"></script>
+</body>
+</html>
