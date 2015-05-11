@@ -1,4 +1,4 @@
-var Guid = require('Guid');
+var Guid = require('guid');
 
 var app = require('../');
 var settings = require('../../settings');
