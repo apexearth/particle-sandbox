@@ -8,11 +8,13 @@ module.exports = function () {
         bowerAll: './bower_components/**',
         buildPath: buildPath,
         buildAll: buildPath + '**',
+        buildLib: buildPath + 'lib/**',
         buildAppPath: buildAppPath,
         buildApp: buildAppPath + '**/*.*',
 
         sourcePath: sourcePath,
         sourceAll: sourcePath + '**',
+        sourceLib: sourcePath + 'lib/**',
         sourceHtml: sourcePath + '*.html',
         sourceCss: sourcePath + 'css/**/*.css',
         sourceApp: sourcePath + 'app/**/*.js',

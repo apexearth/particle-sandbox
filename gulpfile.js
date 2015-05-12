@@ -9,7 +9,6 @@ var browserify = require('browserify');
 var browserSync = require('browser-sync').create();
 
 
-
 gulp.task('default', [
     'check',
     'build',
@@ -22,6 +21,19 @@ gulp.task('browser', [
 ], function () {
     startBrowserSync();
 });
+
+gulp.task('deploy', ['default'], function () {
+    var s3 = require('gulp-s3-upload')({
+        accessKeyId: "AKIAIBSIXFUW27R23UEQ",
+        secretAccessKey: ""
+    });
+    gulp.src(config.buildAll)
+        .pipe(s3({
+            Bucket: 'apexearth-particlesandbox',
+            ACL: 'public-read'
+        }));
+});
+
 
 gulp.task('watch:reload', function () {
     gulp.watch([
@@ -92,7 +104,9 @@ gulp.task('inject', ['check', 'build'], function () {
 
     return gulp.src(config.buildPath + 'desktop.html')
         .pipe(wiredep(options))
-        .pipe($.inject(gulp.src(config.buildApp), {
+        .pipe($.inject(gulp.src([
+            config.buildApp
+        ]), {
             ignorePath: config.buildPath.substring(2),
             addRootSlash: false
         }))
