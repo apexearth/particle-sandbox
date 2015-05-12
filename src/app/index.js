@@ -8,10 +8,8 @@ require('./Keyboard');
 require('./Particle');
 require('./Quadtree');
 require('./settings');
-var Toolbox = require('./Toolbox');
 
 app.run(function () {
     var canvas = document.getElementById("canvas");
     State.initialize(canvas);
-    Toolbox.initialize();
 });

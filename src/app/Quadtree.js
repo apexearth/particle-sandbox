@@ -2,11 +2,11 @@
 var Quadtree;
 module.exports = {
     instance: null,
-    initializeQuadtree: InitializeQuadtree,
+    initializeQuadtree: initializeQuadtree,
     clear: clear,
     updateRoot: updateRoot
 };
-function InitializeQuadtree(gravity) {
+function initializeQuadtree(gravity) {
     module.exports.instance = Quadtree = new QuadtreeSector(null, 0, 0);
     var particles = gravity.particles, i = particles.length;
     while (i--) Quadtree.add(particles[i]);

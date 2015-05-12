@@ -22,9 +22,5 @@
     "vinyl-transform": "^1.0.0",
     "wiredep": "^2.2.2",
     "yargs": "^3.8.0"
-  },
-  "dependencies": {
-    "guid": "0.0.12",
-    "gulp": "^3.8.11"
   }
 }
