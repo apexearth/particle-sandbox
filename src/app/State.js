@@ -27,13 +27,20 @@ function newInstance() {
 function loadSave(name) {
     if (name.length === 0) return false;
     var gravityInstanceJSON = localStorage.getItem("gravityinstance" + name);
+    var gravitySettingsJSON = localStorage.getItem("gravitysettings" + name);
     if (gravityInstanceJSON != null) {
         var gravityInstance = JSON.parse(gravityInstanceJSON);
+        var gravitySettings = JSON.parse(gravitySettingsJSON);
         if (gravityInstance != null) {
             delete PS.instance;
             setInstance(gravityInstance);
             Quadtree.initializeQuadtree(PS.instance);
             PS.clear();
+            if (gravitySettings != null) {
+                for (var key in gravitySettings) {
+                    if (gravitySettings.hasOwnProperty(key)) settings[key] = gravitySettings[key];
+                }
+            }
             return true;
         }
     }
@@ -42,6 +49,7 @@ function loadSave(name) {
 function deleteSave(name) {
     if (name.length === 0) return false;
     localStorage.removeItem("gravityinstance" + name);
+    localStorage.removeItem("gravitysettings" + name);
     removeFromSaveList(name);
     return true;
 }
@@ -51,12 +59,10 @@ function save(name) {
     var gravityInstanceJSON = JSON.stringify(PS.instance);
     if (gravityInstanceJSON != null) {
         localStorage.setItem("gravityinstance" + name, gravityInstanceJSON);
+        localStorage.setItem("gravitysettings" + name, JSON.stringify(settings));
         addToSaveList(name);
-        var gravityInstanceCompare = localStorage.getItem("gravityinstance" + name);
-        if (gravityInstanceCompare === gravityInstanceJSON) {
-            Quadtree.initializeQuadtree(PS.instance);
-            return true;
-        }
+        Quadtree.initializeQuadtree(PS.instance);
+        return true;
     }
     Quadtree.initializeQuadtree(PS.instance);
     return false;
@@ -69,7 +75,7 @@ function getSaveList() {
     if (saveListString == null) {
         return [];
     }
-    var saveList = JSON.parse(saveListString).map(function(save){
+    var saveList = JSON.parse(saveListString).map(function (save) {
         return save;
     });
     return saveList;
@@ -90,7 +96,7 @@ function getInstanceJson() {
 
 function toggleFollowLargest() {
     settings.followLargest = !settings.followLargest;
-    if(settings.followLargest) {
+    if (settings.followLargest) {
         PS.clear();
     }
 }

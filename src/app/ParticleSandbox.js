@@ -50,7 +50,6 @@ function PS() {
 
     this.generateParticleRateCount = 0;
 
-    //Settings
     this.largestParticleIndex = 0;
 }
 

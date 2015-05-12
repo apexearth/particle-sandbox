@@ -1,14 +1,14 @@
-var Guid = require('guid');
+var State = require('../../State');
+var settings = require('../../settings');
 
 var app = require('../');
-var settings = require('../../settings');
-var State = require('../../State');
+
 /*@ngInject*/
 app.directive('psMenus', function (ui, toastr) {
     return {
         restrict: 'E',
         templateUrl: 'app/ui/menus/ps-menus.html',
-        link: function (scope) {
+        link: function PsMenus(ui, toastr, scope) {
             scope.ui = ui;
             scope.settings = settings;
             scope.State = settings;
@@ -23,8 +23,12 @@ app.directive('psMenus', function (ui, toastr) {
             scope.gravityProportion = 1;
             scope.gravityExponential = 1;
             scope.gravityChanged = function () {
-                settings.gravityProportion = scope.gravityProportion * (scope.gravityExponential * scope.gravityExponential + 0.01);
+                settings.gravityProportion = 0.001 + scope.gravityProportion * scope.gravityExponential * scope.gravityExponential;
                 settings.gravityExponential = scope.gravityExponential;
+            };
+            scope.gravityUpdateFromSettings = function () {
+                scope.gravityProportion = settings.gravityProportion / settings.gravityExponential / settings.gravityExponential - 0.001;
+                scope.gravityExponential = settings.gravityExponential;
             };
 
             // Load / Save
@@ -44,8 +48,9 @@ app.directive('psMenus', function (ui, toastr) {
             scope.loadSaveList = State.getSaveList();
             scope.loadSaveName = scope.loadSaveList[0];
             scope.loadSave = function () {
-                if (scope.saveName === null || scope.saveName.length === 0) return;
+                if (scope.loadSaveName === null || scope.loadSaveName.length === 0) return;
                 if (State.loadSave(scope.loadSaveName)) {
+                    scope.gravityUpdateFromSettings();
                     scope.saveName = scope.loadSaveName;
                     ui.show('none');
                     toastr.success('Load successful');
@@ -57,7 +62,7 @@ app.directive('psMenus', function (ui, toastr) {
 
             scope.deleteSave = function () {
                 if (State.deleteSave(scope.loadSaveName)) {
-                    toastr.success(scope.loadSaveName+' deleted');
+                    toastr.success(scope.loadSaveName + ' deleted');
                     scope.loadSaveList = State.getSaveList();
                     scope.loadSaveName = scope.loadSaveList[0];
                 } else {
@@ -89,4 +94,6 @@ app.directive('psMenus', function (ui, toastr) {
             };
         }
     };
+
 });
+
