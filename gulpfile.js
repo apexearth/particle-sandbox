@@ -48,7 +48,7 @@ gulp.task('reload', ['default'], function () {
 
 gulp.task('check', function () {
     return gulp.src([
-        config.sourceApp,
+        config.sourceAppJs,
         config.rootJs
     ])
         .pipe($.if(args.verbose, $.print()))
@@ -77,8 +77,15 @@ gulp.task('build:app', ['clean:build', 'check'], function () {
         .pipe(gulp.dest(config.buildAppPath));
 });
 gulp.task('build:css', ['clean:build', 'check'], function () {
-    return gulp.src(config.sourceCss, {base: config.sourcePath})
+    return gulp.src([
+        config.sourceCss,
+        config.sourceAppCss
+    ], {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
+        .pipe($.autoprefixer({
+            browsers: ['last 2 versions'],
+            cascade: false
+        }))
         .pipe($.if(args.minify, $.uglifycss()))
         .pipe(gulp.dest(config.buildPath));
 });

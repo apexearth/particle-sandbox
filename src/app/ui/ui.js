@@ -10,7 +10,7 @@ app.factory('ui', function (toastr) {
     ui.show = function (val) {
         if(val === state.view) {
             state.view = 'none';
-            settings.paused = true;
+            settings.paused = false;
         }
         else if (val) {
             state.view = val;

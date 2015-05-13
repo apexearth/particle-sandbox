@@ -1,29 +1,100 @@
-<div ng-click="ui.view('none')" ng-show="ui.view() !== 'none'" class="pop-bg"></div>
-<div id="menus">
+<div class="psmenu" ng-class="{
+    'psmenu-inactive': !isMenuActive,
+    'psmenu-active': isMenuActive}">
+    <div class="psmenu-title"
+         ng-class="{
+         'psmenu-title-inactive': !isMenuActive,
+         'psmenu-title-active': isMenuActive}"
+         ng-click="(isMenuActive = !isMenuActive);ui.view('none')">
+    </div>
+    <div ng-show="isMenuActive">
+        <div class="psmenu-button" ng-click="ui.view('visuals')">
+            visuals
+        </div>
+        <div class="psmenu-button" ng-click="ui.view('physics')">
+            physics
+        </div>
+        <div class="psmenu-button">
+            toolbox
+        </div>
+    </div>
+</div>
+
+
+<div class="psmenu-menu" ng-show="ui.view() == 'visuals'">
+    <table style="width: 300px;">
+        <tr>
+            <td>Show Trails</td>
+            <td>
+                <input ng-model="settings.showTrail" ng-click="State.clear()" type="checkbox"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Trail Type</td>
+            <td>
+                <select ng-model="trailType" ng-change="setTrailType()">
+                    <option value="1">Full Redraw</option>
+                    <option value="2">No Redraw</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Trail Lifetime</td>
+            <td>
+                <div ui-slider min="0" max="30" ng-model="settings.trailLifetime"></div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="psmenu-menu" ng-show="ui.view() == 'physics'">
+    <table>
+        <tr>
+            <td>Proportion</td>
+            <td style="width: 200px; padding-right: 10px; padding-left: 10px;">
+                <div ui-slider use-decimals min="0" max="2" step="0.01" ng-model="gravityProportion" ng-change="gravityChanged()"></div>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Linear</td>
+            <td style="width: 200px; padding-right: 10px; padding-left: 10px;">
+                <div ui-slider use-decimals min="0" max="1" step="0.01" ng-model="gravityExponential" ng-change="gravityChanged()"></div>
+            </td>
+            <td>Exponential</td>
+        </tr>
+    </table>
+</div>
+
+
+
+<div ng-click="ui.view('none')" ng-show="false && ui.view() !== 'none'" class="pop-bg"></div>
+<div id="menus" ng-show="false">
     <div ng-show="ui.view() === 'generate'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
         <table>
             <tr>
                 <td>Spawn Rate</td>
                 <td>
-                    <input ng-model="settings.generateParticleRate" type="number" min="1" max="30" />
+                    <input ng-model="settings.generateParticleRate" type="number" min="1" max="30"/>
                 </td>
             </tr>
             <tr>
                 <td>Spawn Area</td>
                 <td>
-                    <input ng-model="settings.generateParticleArea" type="number" min="1" />
+                    <input ng-model="settings.generateParticleArea" type="number" min="1"/>
                 </td>
             </tr>
             <tr>
                 <td>Particle Speed</td>
                 <td>
-                    <input ng-model="settings.generateParticleSpeed" type="number" min="0" />
+                    <input ng-model="settings.generateParticleSpeed" type="number" min="0"/>
                 </td>
             </tr>
             <tr>
                 <td>Avg Particle Size</td>
                 <td>
-                    <input ng-model="settings.generateParticleSize" type="number" min="1" />
+                    <input ng-model="settings.generateParticleSize" type="number" min="1"/>
                 </td>
             </tr>
             <tr>
@@ -40,52 +111,6 @@
         </table>
     </div>
 
-
-    <div ng-show="ui.view() == 'gravity'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
-        <table>
-            <tr>
-                <td>Proportion</td>
-                <td style="width: 200px; padding-right: 10px; padding-left: 10px;">
-                    <div ui-slider use-decimals min="0" max="2" step="0.01" ng-model="gravityProportion" ng-change="gravityChanged()"></div>
-                </td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Linear</td>
-                <td style="width: 200px; padding-right: 10px; padding-left: 10px;">
-                    <div ui-slider use-decimals min="0" max="1" step="0.01" ng-model="gravityExponential" ng-change="gravityChanged()"></div>
-                </td>
-                <td>Exponential</td>
-            </tr>
-        </table>
-    </div>
-
-
-    <div ng-show="ui.view() == 'trails'" class="menu well" style="position: fixed; left: 50%; top: 75px; padding: 40px; margin-left: -340px; width: 600px; background-color: rgba(68,68,68,.5);">
-        <table style="width: 300px;">
-            <tr>
-                <td>Show Trails</td>
-                <td>
-                    <input ng-model="settings.showTrail" ng-click="State.clear()" type="checkbox"/>
-                </td>
-            </tr>
-            <tr>
-                <td>Trail Type</td>
-                <td>
-                    <select ng-model="trailType" ng-change="setTrailType()">
-                        <option value="1">Full Redraw</option>
-                        <option value="2">No Redraw</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Trail Lifetime</td>
-                <td>
-                    <div ui-slider min="0" max="30" ng-model="settings.trailLifetime"></div>
-                </td>
-            </tr>
-        </table>
-    </div>
 
 
     <div ng-show="ui.view() == 'save'" class="pop-bg">

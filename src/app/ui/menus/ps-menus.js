@@ -97,4 +97,6 @@ function PsMenus(ui, toastr, scope) {
             ? "btn btn-success"
             : "btn btn-danger";
     };
+
+    scope.isMenuActive = false;
 }

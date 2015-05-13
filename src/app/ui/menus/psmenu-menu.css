@@ -1,0 +1,9 @@
+.psmenu-menu {
+    position: absolute;
+    left: 100px;
+    top: 50px;
+    padding: 10px;
+    border: solid 1px rgba(125, 125, 255, .2);
+    background-color: rgba(125, 125, 255, .1);
+
+}

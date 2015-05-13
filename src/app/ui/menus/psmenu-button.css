@@ -1,0 +1,22 @@
+.psmenu-button {
+    text-align: center;
+    line-height: 30px;
+    width: 70px;
+    border: solid 1px rgba(125, 125, 255, .2);
+    border-top: solid 1px rgba(125, 125, 255, .1);
+    border-bottom: solid 1px rgba(125, 125, 255, .1);
+    margin-bottom: -1px;
+    cursor: pointer;
+}
+
+.psmenu-button:first-of-type {
+    border-top: solid 1px rgba(125, 125, 255, .2);
+}
+.psmenu-button:last-of-type {
+    border-bottom: solid 1px rgba(125, 125, 255, .2);
+}
+
+
+.psmenu-button:hover {
+    background-color: rgba(125, 125, 255, .2);
+}

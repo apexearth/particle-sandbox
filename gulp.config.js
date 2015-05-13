@@ -15,9 +15,10 @@ module.exports = function () {
         sourcePath: sourcePath,
         sourceAll: sourcePath + '**',
         sourceLib: sourcePath + 'lib/**',
-        sourceHtml: sourcePath + '*.html',
+        sourceHtml: sourcePath + '**/*.html',
         sourceCss: sourcePath + 'css/**/*.css',
-        sourceApp: sourcePath + 'app/**/*.js',
+        sourceAppCss: sourcePath + 'app/**/*.css',
+        sourceAppJs: sourcePath + 'app/**/*.js',
         rootJs: './*.js',
         buildAppJsFile: 'particle-sandbox.js',
         buildAppMinJsFile: 'particle-sandbox.min.js',
@@ -33,7 +34,8 @@ module.exports = function () {
         config.sourceAll,
         '!' + config.sourceHtml,
         '!' + config.sourceCss,
-        '!' + config.sourceApp
+        '!' + config.sourceAppCss,
+        '!' + config.sourceAppJs
     ];
 
     config.getWiredepOptions = function () {
