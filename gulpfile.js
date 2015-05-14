@@ -79,7 +79,8 @@ gulp.task('build:app', ['clean:build', 'check'], function () {
 gulp.task('build:css', ['clean:build', 'check'], function () {
     return gulp.src([
         config.sourceCss,
-        config.sourceAppCss
+        config.sourceAppCss,
+        '!./src/css/mobile.css'
     ], {base: config.sourcePath})
         .pipe($.if(args.verbose, $.print()))
         .pipe($.autoprefixer({
@@ -87,7 +88,8 @@ gulp.task('build:css', ['clean:build', 'check'], function () {
             cascade: false
         }))
         .pipe($.if(args.minify, $.uglifycss()))
-        .pipe(gulp.dest(config.buildPath));
+        .pipe($.concat(args.minify ? config.buildAppMinCssFile : config.buildAppCssFile))
+        .pipe(gulp.dest(config.buildAppPath));
 });
 gulp.task('build:html', ['clean:build', 'check'], function () {
     return gulp.src(config.sourceHtml, {base: config.sourcePath})
