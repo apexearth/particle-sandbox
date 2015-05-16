@@ -11,66 +11,8 @@
     <div class="collapse navbar-collapse navbar-top">
         <ul class="nav navbar-nav">
 
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">File <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li ng-click="newInstance()"><a>New</a></li>
-                    <li ng-click="ui.show('load')"><a>Load</a></li>
-                    <li ng-click="ui.show('save')"><a>Save</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Physics <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li ng-class="isActive(settings.enableCollision)" ng-click="settings.enableCollision = !settings.enableCollision">
-                        <a>Collisions <span ng-show="settings.enableCollision" class="glyphicon glyphicon-ok"></span></a>
-                    </li>
-                    <li ng-click="ui.view('gravity')"><a>Gravity</a></li>
-                </ul>
-            </li>
-
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Visuals <b class="caret"></b></a>
-                <ul class="dropdown-menu" >
-                    <li ng-class="isActive(settings.followLargest)" ng-click="followLargest()">
-                        <a>Follow Largest <span ng-show="settings.followLargest" class="glyphicon glyphicon-ok"></span></a>
-                    </li>
-                    <li ng-click="ui.view('trails')"><a>Trails</a></li>
-                    <li ng-class="isActive(settings.showQuadtree)" ng-click="settings.showQuadtree = !settings.showQuadtree">
-                        <a>Show Quadtree <span ng-show="settings.showQuadtree" class="glyphicon glyphicon-ok"></span></a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Generate <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li ng-click="ui.view('generate')"><a>Particles</a></li>
-                </ul>
-            </li>
-        </ul>
 
         <ul class="nav nav navbar-nav navbar-right">
-            <li class="{{settings.paused && 'nav-btn-yellow' || 'nav-btn-green'}}">
-                <a ng-click="togglePause()">{{settings.paused && "Resume" || "Pause"}}</a>
-            </li>
-            <li><a id="particleCount"></a></li>
-            <li><a id="fps"></a></li>
-            <li><a id="cap"></a></li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><b class="caret"></b>Share</a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u=particlesandbox.com">Facebook</a>
-                    </li>
-                    <li>
-                        <a target="_blank" href="https://plus.google.com/share?url=particlesandbox.com">Google</a>
-                    </li>
-                    <li>
-                        <a target="_blank" href="http://twitter.com/intent/tweet?source=particlesandbox.com&text=Check out particlesandbox.com!&url=particlesandbox.com">Twitter</a>
-                    </li>
-                </ul>
-            </li>
         </ul>
     </div>
 </div>

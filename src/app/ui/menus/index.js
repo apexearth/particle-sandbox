@@ -1,1 +1,3 @@
-require('./ps-menus');
+require('./psmenu');
+require('./psmenu-toggle');
+require('./psmenu-button');

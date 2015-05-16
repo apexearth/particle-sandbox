@@ -1,13 +1,14 @@
+var PS = require('../../ParticleSandbox');
 var State = require('../../State');
 var settings = require('../../settings');
 
 var app = require('../');
 
 /*@ngInject*/
-app.directive('psMenus', function (ui, toastr) {
+app.directive('psmenu', function (ui, toastr) {
     return {
         restrict: 'E',
-        templateUrl: 'app/ui/menus/ps-menus.html',
+        templateUrl: 'app/ui/menus/psmenu.html',
         scope: {},
         controller: function PsMenus($scope) {
             $scope.ui = ui;
@@ -32,7 +33,12 @@ app.directive('psMenus', function (ui, toastr) {
                 $scope.gravityExponential = settings.gravityExponential;
             };
 
-            // Load / Save
+            // New / Load / Save
+            $scope.newInstance = function () {
+                State.newInstance();
+                toastr.success("Started a new instance!");
+            };
+
             $scope.saveName = null;
             $scope.save = function () {
                 if ($scope.saveName === null || $scope.saveName.length === 0) return;
@@ -87,6 +93,14 @@ app.directive('psMenus', function (ui, toastr) {
                 document.body.removeChild(a);
             };
 
+            $scope.exportFile = function () {
+                var gravityInstance = State.getInstanceJson();
+                if (gravityInstance != null) {
+                    var uriContent = "data:application/octet-stream," + encodeURIComponent(gravityInstance);
+                    window.open(uriContent, 'particlesandbox.json');
+                }
+            };
+
 
             $scope.isButtonActive = function (value) {
                 return value
@@ -95,7 +109,16 @@ app.directive('psMenus', function (ui, toastr) {
             };
 
             $scope.isMenuActive = true;
+
+            updateNavbar();
         }
     };
 });
 
+
+function updateNavbar() {
+    $('#fps').html(PS.instance.frameRate + " fps");
+    $('#cap').html((PS.instance.processingTime / 10).toFixed(1) + "%");
+    $('#particleCount').html(PS.particleCount());
+    setTimeout(function () {updateNavbar();}, 100);
+}

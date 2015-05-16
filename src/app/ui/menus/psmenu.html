@@ -1,29 +1,32 @@
 <div class="psmenu-back" ng-show="ui.view() !== 'none'" ng-click="ui.view('none')"></div>
 
 
-<div class="psmenu" ng-class="{
-    'psmenu-inactive': !isMenuActive,
-    'psmenu-active': isMenuActive}">
-    <div class="psmenu-toggle"
-         ng-class="{
-         'psmenu-toggle-inactive': !isMenuActive,
-         'psmenu-toggle-active': isMenuActive}"
-         ng-click="(isMenuActive = !isMenuActive);ui.view('none')">
+<div class="psmenu"
+     ng-class="{ 'psmenu-inactive': !isMenuActive, 'psmenu-active': isMenuActive }">
+    <psmenu-toggle activecolor="rgba(125, 125, 255, .4)" inactivecolor="rgba(255, 255, 255, .3)" toggle="isMenuActive" ng-click="ui.view('none')"></psmenu-toggle>
+    <psmenu-toggle activecolor="rgba(125, 255, 125, .2)" inactivecolor="rgba(255, 255, 175, .2)" toggle="settings.paused">
+        <div style="position: fixed; width: 30px; line-height: 30px; left: 50px; top: 10px; font-size: 20px;"
+             class="glyphicon"
+             ng-class="{'glyphicon-play': settings.paused, 'glyphicon-pause': !settings.paused}">
+        </div>
+    </psmenu-toggle>
+
+
+    <div style="position: fixed; top: 10px; left: 90px; line-height: 30px; font-size: 15px; color: rgba(255,255,255,.25);">
+        <span id="particleCount"></span>
+        <span id="fps"></span>
+        <span id="cap"></span>
     </div>
-    <div ng-show="isMenuActive">
-        <div class="psmenu-button" ng-click="ui.view('visuals')" ng-class="{'psmenu-button-active': ui.view() === 'visuals'}">
-            visuals
-        </div>
-        <div class="psmenu-button" ng-click="ui.view('physics')" ng-class="{'psmenu-button-active': ui.view() === 'physics'}">
-            physics
-        </div>
-        <div class="psmenu-button" ng-click="ui.view('generate')" ng-class="{'psmenu-button-active': ui.view() === 'generate'}">
-            generate
-        </div>
+
+    <div ng-show="isMenuActive" style="margin-top: 10px;">
+        <psmenu-button ng-click="newInstance()">New</psmenu-button>
+        <psmenu-button view="load">load</psmenu-button>
+        <psmenu-button view="save">save</psmenu-button>
+        <psmenu-button view="visuals">visuals</psmenu-button>
+        <psmenu-button view="physics">physics</psmenu-button>
+        <psmenu-button view="generate">generate</psmenu-button>
     </div>
 </div>
-
-
 
 
 <div class="psmenu-menu" ng-show="ui.view() === 'visuals'">
@@ -112,7 +115,6 @@
         </tr>
     </table>
 </div>
-
 
 
 <div ng-show="ui.view() === 'save'" class="pop-bg">

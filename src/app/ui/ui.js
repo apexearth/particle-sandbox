@@ -7,14 +7,19 @@ var state = {
 app.factory('ui', function (toastr) {
     var ui = {};
 
+    var lastSeenPaused = false;
     ui.show = function (val) {
-        if(val === state.view) {
+        if (state.view === 'none' && val === 'none') {
+            lastSeenPaused = settings.paused;
+        }
+        else if (val === state.view) {
             state.view = 'none';
-            settings.paused = false;
+            settings.paused = lastSeenPaused;
         }
         else if (val) {
             state.view = val;
-            settings.paused = state.view !== 'none';
+            lastSeenPaused = settings.paused;
+            settings.paused = lastSeenPaused || state.view !== 'none';
         }
         else return state.view;
     };

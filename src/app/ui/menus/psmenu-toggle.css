@@ -1,35 +1,40 @@
 .psmenu-toggle {
     cursor: pointer;
+    padding: 0;
+    margin: 0 10px 0 0;
     border-radius: 3px;
+    display: inline-block;
     width: 30px;
     height: 30px;
-    margin-bottom: 10px;
     line-height: 30px;
     text-align: center;
 }
 
+
 .psmenu .psmenu-toggle-inactive {
+    opacity: .65;
     border: solid 1px rgba(255, 255, 255, .1);
 }
 
 .psmenu .psmenu-toggle-inactive:hover {
-    background-color: rgba(255, 255, 255, .20);
+    opacity: .75;
     border: none;
 }
 
 .psmenu .psmenu-toggle-inactive:active {
-    background-color: rgba(255, 255, 255, .1);
+    opacity: 1;
     border: none;
 }
 
+
 .psmenu .psmenu-toggle-active {
-    background-color: rgba(125, 125, 255, .3);
+    opacity: .65;
 }
 
 .psmenu .psmenu-toggle-active:hover {
-    background-color: rgba(125, 125, 255, .25);
+    opacity: .75;
 }
 
 .psmenu .psmenu-toggle-active:active {
-    background-color: rgba(125, 125, 255, .15);
+    opacity: 1;
 }
