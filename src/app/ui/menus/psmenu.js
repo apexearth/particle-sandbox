@@ -4,16 +4,30 @@ var settings = require('../../settings');
 
 var app = require('../');
 
+var menuState = {
+    view: 'none'
+};
+
 /*@ngInject*/
-app.directive('psmenu', function (ui, toastr) {
+app.directive('psmenu', function (toastr) {
     return {
         restrict: 'E',
         templateUrl: 'app/ui/menus/psmenu.html',
         scope: {},
         controller: function PsMenus($scope) {
-            $scope.ui = ui;
             $scope.settings = settings;
             $scope.State = settings;
+
+            $scope.show = function (val) {
+                if (val === menuState.view) {
+                    menuState.view = 'none';
+                }
+                else if (val) {
+                    menuState.view = val;
+                }
+                else return menuState.view;
+            };
+            $scope.view = $scope.show;
 
             $scope.trailType = "2";
             $scope.setTrailType = function () {
@@ -49,7 +63,7 @@ app.directive('psmenu', function (ui, toastr) {
                 } else {
                     toastr.error('Save failed! Sorry :(');
                 }
-                ui.show('none');
+                $scope.show('none');
             };
 
             $scope.loadSaveList = State.getSaveList();
@@ -59,10 +73,10 @@ app.directive('psmenu', function (ui, toastr) {
                 if (State.loadSave($scope.loadSaveName)) {
                     $scope.gravityUpdateFromSettings();
                     $scope.saveName = $scope.loadSaveName;
-                    ui.show('none');
+                    $scope.show('none');
                     toastr.success('Load successful');
                 } else {
-                    ui.show('none');
+                    $scope.show('none');
                     toastr.error('Load failed! Sorry :(');
                 }
             };

@@ -8,6 +8,7 @@
     border-bottom: solid 1px rgba(125, 125, 255, .1);
     margin-bottom: -1px;
     cursor: pointer;
+    user-select: none;
 }
 
 .psmenu-button:first-of-type {

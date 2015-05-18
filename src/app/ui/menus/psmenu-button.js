@@ -2,7 +2,7 @@ var app = require('../');
 
 var template =
     '<div class="psmenu-button" ng-click="action()" ng-class="class()">' +
-    '<ng-transclude></ng-transclude>' +
+    '{{title}}' +
     '</div>';
 
 /*@ngInject*/
@@ -12,17 +12,18 @@ app.directive('psmenuButton', function () {
         template: template,
         transclude: true,
         scope: {
-            view: '@'
+            menu: '@',
+            title: '@'
         },
-        controller: function ($scope, ui) {
-            $scope.ui = ui;
+        controller: function ($scope) {
+            var $parent = $scope.$parent;
             $scope.action = function () {
-                if ($scope.view) ui.view($scope.view);
+                if ($scope.menu) $parent.view($scope.menu);
             };
             $scope.class = function () {
-                return ui.view() === $scope.view ? 'psmenu-button-active' : '';
+                return $parent.view() === $scope.menu ? 'psmenu-button-active' : '';
             };
+
         }
     };
 });
-

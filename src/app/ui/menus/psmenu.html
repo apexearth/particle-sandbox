@@ -19,17 +19,19 @@
     </div>
 
     <div ng-show="isMenuActive" style="margin-top: 10px;">
-        <psmenu-button ng-click="newInstance()">New</psmenu-button>
-        <psmenu-button view="load">load</psmenu-button>
-        <psmenu-button view="save">save</psmenu-button>
-        <psmenu-button view="visuals">visuals</psmenu-button>
-        <psmenu-button view="physics">physics</psmenu-button>
-        <psmenu-button view="generate">generate</psmenu-button>
+        <psmenu-dropdown title="file">
+            <psmenu-button ng-click="newInstance()" title="new"></psmenu-button>
+            <psmenu-button menu="load" title="load"></psmenu-button>
+            <psmenu-button menu="save" title="save"></psmenu-button>
+        </psmenu-dropdown>
+        <psmenu-button menu="visuals" title="visuals"></psmenu-button>
+        <psmenu-button menu="physics" title="physics"></psmenu-button>
+        <psmenu-button menu="generate" title="generate"></psmenu-button>
     </div>
 </div>
 
 
-<div class="psmenu-menu" ng-show="ui.view() === 'visuals'">
+<div class="psmenu-menu" ng-show="view() === 'visuals'">
     <table style="width: 300px;">
         <tr>
             <td>Show Trails</td>
@@ -56,7 +58,7 @@
 </div>
 
 
-<div class="psmenu-menu" ng-show="ui.view() === 'physics'">
+<div class="psmenu-menu" ng-show="view() === 'physics'">
     <table>
         <tr>
             <td>Proportion</td>
@@ -76,7 +78,7 @@
 </div>
 
 
-<div class="psmenu-menu" ng-show="ui.view() === 'generate'">
+<div class="psmenu-menu" ng-show="view() === 'generate'">
     <table>
         <tr>
             <td>Spawn Rate</td>
@@ -117,9 +119,9 @@
 </div>
 
 
-<div ng-show="ui.view() === 'save'" class="pop-bg">
+<div ng-show="view() === 'save'" class="pop-bg">
     <div class="pop-inner">
-        <div ng-click="ui.view('none')" class="pop-close">x</div>
+        <div ng-click="view('none')" class="pop-close">x</div>
         <a ng-click="downloadImage()" href="#" class="pop-button pop-button2">Image</a>
 
         <div ng-click="save();" class="pop-button">Save</div>
@@ -133,13 +135,13 @@
 </div>
 
 
-<div ng-show="ui.view() === 'load'" class="pop-bg">
+<div ng-show="view() === 'load'" class="pop-bg">
     <div ng-show="loadSaveList.length === 0" class="pop-inner">
-        <div ng-click="ui.view('none')" class="pop-close">x</div>
+        <div ng-click="view('none')" class="pop-close">x</div>
         There are no saves for you to load!
     </div>
     <div ng-show="loadSaveList.length > 0" class="pop-inner">
-        <div ng-click="ui.view('none')" class="pop-close">x</div>
+        <div ng-click="view('none')" class="pop-close">x</div>
         <div ng-click="confirmDelete = !confirmDelete" class="pop-button pop-button2" style="background-color: #540909">Delete</div>
         <div ng-click="loadSave()" class="pop-button">Load</div>
         <div ng-show="confirmDelete" class="pop-confirm">
