@@ -24,7 +24,5 @@
     "wiredep": "^2.2.2",
     "yargs": "^3.8.0"
   },
-  "dependencies": {
-    "node-uuid": "^1.4.3"
-  }
+  "dependencies": {}
 }

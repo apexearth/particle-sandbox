@@ -1,10 +1,11 @@
 var app = require('../');
-var uuid = require("node-uuid");
 var template =
     '<div class="psmenu-button" ng-click="toggle()" ng-class="class()">' +
     '{{title}}' +
     '</div>' +
     '<ng-transclude ng-show="$parent.show() === name" style="position: absolute; margin-left: 80px; margin-top: -31px;"></ng-transclude>';
+
+var dropDownId = 0;
 
 /*@ngInject*/
 app.directive('psmenuDropdown', function () {
@@ -17,7 +18,7 @@ app.directive('psmenuDropdown', function () {
         },
         controller: function ($scope) {
             var $parent = $scope.$parent;
-            $scope.name = uuid.v1();
+            $scope.name = 'psmenuDropdown' + dropDownId++;
             $scope.toggle = function () {
                 $parent.show($scope.name);
             };
