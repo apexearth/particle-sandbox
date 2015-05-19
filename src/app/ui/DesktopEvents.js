@@ -16,7 +16,8 @@ Events.addListener('PS.initialize', function () {
         return false;
     };
 
-    PS.canvasdisplay.onmouseup = function (event) {
+    document.onmouseup = psOnMouseUp;
+    function psOnMouseUp(event) {
         if (event.button !== 0)
             PS.instance.panning = false;
 
@@ -26,9 +27,10 @@ Events.addListener('PS.initialize', function () {
                 y: event.clientY
             });
         }
-    };
+    }
 
-    PS.canvasdisplay.onmousemove = function (event) {
+    document.onmousemove = psOnMouseMove;
+    function psOnMouseMove(event) {
         if (PS.instance.panning === true) {
             PS.instance.drawOffsetXT -= (PS.instance.px - event.clientX) / PS.instance.drawScale;
             PS.instance.drawOffsetYT -= (PS.instance.py - event.clientY) / PS.instance.drawScale;
@@ -37,7 +39,7 @@ Events.addListener('PS.initialize', function () {
         }
         PS.UI.mouseX = event.clientX;
         PS.UI.mouseY = event.clientY;
-    };
+    }
 
     PS.canvasdisplay.oncontextmenu = PS.canvasdisplay.ondblclick = function () {
         window.focus();
@@ -59,6 +61,7 @@ Events.addListener('PS.initialize', function () {
             PS.zoomOut();
         }
     }
+
     if (window.chrome) {
         document.onmousewheel = scroll;
     }
