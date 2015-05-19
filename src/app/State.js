@@ -14,14 +14,13 @@ module.exports = {
     removeFromSaveList: removeFromSaveList,
     getInstanceJson: getInstanceJson,
     initialize: initialize,
-    setInstance: setInstance,
     toggleFollowLargest: toggleFollowLargest
 };
 
 function newInstance() {
     PS.clear();
     delete PS.instance;
-    setInstance(new PS());
+    PS.instance = new PS();
     Quadtree.initializeQuadtree(PS.instance);
 }
 function loadSave(name) {
@@ -33,7 +32,7 @@ function loadSave(name) {
         var gravitySettings = JSON.parse(gravitySettingsJSON);
         if (gravityInstance != null) {
             delete PS.instance;
-            setInstance(gravityInstance);
+            PS.instance = gravityInstance;
             Quadtree.initializeQuadtree(PS.instance);
             PS.clear();
             if (gravitySettings != null) {
@@ -110,7 +109,7 @@ function initialize(canvasdisplay) {
     PS.canvasui = document.createElement('canvas');
     PS.context = PS.canvas.getContext("2d");
     PS.contextui = PS.canvasui.getContext("2d");
-    setInstance(new PS());
+    PS.instance = new PS();
     Quadtree.initializeQuadtree(PS.instance);
 
     window.onresize = function () { PS.setCanvasSize(); };
@@ -129,10 +128,5 @@ function initialize(canvasdisplay) {
     PS.setCanvasSize();
     PS.clear();
 
-    Events.emit('Gravity.initialize');
-}
-
-function setInstance(gravity) {
-    PS.instance = gravity;
-    Events.emit('Gravity.create');
+    Events.emit('PS.initialize');
 }

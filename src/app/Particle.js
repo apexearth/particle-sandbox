@@ -169,10 +169,10 @@ Particle.draw = function(me, PS) {
         Particle.drawWithoutTrail(me, PS);
 };
 
-Particle.getDrawVector = function (x, y, Gravity) {
+Particle.getDrawVector = function (x, y, PS) {
     return {
-        x: (x + Gravity.instance.drawOffsetX) * Gravity.instance.drawScale + Gravity.instance.centerX,
-        y: (y + Gravity.instance.drawOffsetY) * Gravity.instance.drawScale + Gravity.instance.centerY
+        x: (x + PS.instance.drawOffsetX) * PS.instance.drawScale + PS.instance.centerX,
+        y: (y + PS.instance.drawOffsetY) * PS.instance.drawScale + PS.instance.centerY
     };
 };
 Particle.applyGravityMutually = function (me, other, distance) {
@@ -270,7 +270,7 @@ Particle.pullCenter = function (me) {
     me.xm += Math.cos(angle) * (distance * 0.00000001);
     me.ym += Math.sin(angle) * (distance * 0.00000001);
 };
-Particle.explode = function (me, Gravity) {
+Particle.explode = function (me, PS) {
     var explosiveForce = 2 + Math.log(me.selfGravity);
     var i = 10;
     while (i-- && me.mass > 0) {
@@ -278,7 +278,7 @@ Particle.explode = function (me, Gravity) {
         var rand = Math.random() * Math.PI * 2;
         var mass = 10 + 100 * Math.random();
         me.mass -= mass;
-        var newParticle = Gravity.addParticle(me.x, me.y,
+        var newParticle = PS.addParticle(me.x, me.y,
             Math.cos(rand) * (forceRand * explosiveForce) + me.xm,
             Math.sin(rand) * (forceRand * explosiveForce) + me.ym,
             mass);
@@ -286,12 +286,12 @@ Particle.explode = function (me, Gravity) {
         newParticle.ignoreGravity = 60;
     }
 };
-Particle.breakParticle = function (me, other, Gravity) {
-    if (Gravity.instance.particles.length > 200) return;
+Particle.breakParticle = function (me, other, PS) {
+    if (PS.instance.particles.length > 200) return;
     var breakMass = 50 + other.mass / me.mass;
     while (me.mass > breakMass) {
         me.mass -= other.mass;
-        Gravity.addParticle(
+        PS.addParticle(
             me.x,
             me.y,
             me.xm,
@@ -305,10 +305,10 @@ Particle.unCollide = function (me, other) {
     me.x = other.x - Math.cos(angle) * (me.radius + other.radius + 2);
     me.y = other.y - Math.sin(angle) * (me.radius + other.radius + 2);
 };
-Particle.unCollideAll = function (me, Gravity) {
+Particle.unCollideAll = function (me, PS) {
     var other, distance;
-    for (var i = Gravity.instance.particles.length - 1; i >= 0; i--) {
-        other = Gravity.instance.particles[i];
+    for (var i = PS.instance.particles.length - 1; i >= 0; i--) {
+        other = PS.instance.particles[i];
         if (me !== other) {
             distance = General.distance(me.x - other.x, me.y - other.y);
             if (distance < me.radius + other.radius) {

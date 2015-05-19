@@ -1,7 +1,7 @@
 ﻿var PS = require('./../ParticleSandbox');
 var Events = require('../Events');
 
-Events.addListener('Gravity.initialize', function () {
+Events.addListener('PS.initialize', function () {
 
     PS.canvasdisplay.onmousedown = function (event) {
         if ($(".menu").is(":visible")) return false;

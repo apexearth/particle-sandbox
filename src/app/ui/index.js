@@ -10,7 +10,7 @@ require('./toastrConfig');
 require('./menus/');
 
 if (!('ontouchstart' in document)) {
-    require('./DesktopControllers');
+    require('./DesktopController');
     require('./DesktopEvents');
 }
 

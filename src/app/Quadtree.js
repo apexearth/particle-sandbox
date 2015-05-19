@@ -89,21 +89,21 @@ QuadtreeSector.prototype.updateFar = function () {
         }
     }
 };
-QuadtreeSector.prototype.draw = function (Gravity) {
-    var context = Gravity.context;
+QuadtreeSector.prototype.draw = function (PS) {
+    var context = PS.context;
     var i = Quadtree.all.length;
     while (i--) {
         var tree = this.all[i];
         if (tree.objects != null) {
-            var coords = Gravity.translateCoordinate(tree.left * tree.d + Gravity.instance.drawOffsetX, tree.top * tree.d + Gravity.instance.drawOffsetY);
-            var lengths = Gravity.translateCoordinate(tree.d, tree.d);
+            var coords = PS.translateCoordinate(tree.left * tree.d + PS.instance.drawOffsetX, tree.top * tree.d + PS.instance.drawOffsetY);
+            var lengths = PS.translateCoordinate(tree.d, tree.d);
             context.strokeStyle = "rgba(50,50,50,1)";
             context.lineWidth = "1px";
-            context.strokeRect(coords.x + Gravity.instance.centerX, coords.y + Gravity.instance.centerY, lengths.x, lengths.y);
+            context.strokeRect(coords.x + PS.instance.centerX, coords.y + PS.instance.centerY, lengths.x, lengths.y);
 
-            coords = Gravity.translateCoordinate(tree.x + Gravity.instance.drawOffsetX, tree.y + Gravity.instance.drawOffsetY);
+            coords = PS.translateCoordinate(tree.x + PS.instance.drawOffsetX, tree.y + PS.instance.drawOffsetY);
             context.fillStyle = "rgba(255,0,0,1)";
-            General.drawCircle(Gravity.context, coords.x + Gravity.instance.centerX, coords.y + Gravity.instance.centerY, 2);
+            General.drawCircle(PS.context, coords.x + PS.instance.centerX, coords.y + PS.instance.centerY, 2);
         }
     }
 };

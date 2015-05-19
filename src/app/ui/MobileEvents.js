@@ -44,7 +44,7 @@ var mobileEventData = {
     }
 };
 
-Events.addListener('Gravity.initialize', function () {
+Events.addListener('PS.initialize', function () {
     PS.canvasdisplay.addEventListener('touchend', function (event) {
         mobileEventData.process(event);
         if (event.changedTouches.length === 1
