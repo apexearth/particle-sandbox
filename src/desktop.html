@@ -17,19 +17,8 @@
 
 <body ng-controller="Main">
     <div id="alerts"></div>
-    <psmenu></psmenu>
+    <psmenu oncontextmenu="return false;"></psmenu>
 
-    <div ng-show="showTutorial">
-        <div class="pop-bg" style="background-color: rgba(0,0,0,.35)">
-        </div>
-        <div class="pop-inner" style="height: auto;">
-            <h3>Particle Sandbox Tutorial</h3>
-            {{tutorialData[tutorialIndex]}}
-            <br /><br />
-            <button class="btn btn-info" ng-click="tutorialDisable()">Don't show again</button>
-            <button class="btn btn-info" ng-click="tutorialNext()">Next</button>
-        </div>
-    </div>
     <canvas style="position: absolute; top: 0; left: 0; z-index: -1" id="canvas" width="800" height="600"></canvas>
 
     <!-- bower:js -->

@@ -78,6 +78,7 @@ function getSaveList() {
     var saveList = JSON.parse(saveListString).map(function (save) {
         return save;
     });
+    if (saveList[0] === null) saveList.splice(0, 1);
     return saveList;
 }
 function addToSaveList(name) {

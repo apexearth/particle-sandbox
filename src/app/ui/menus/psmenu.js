@@ -9,7 +9,7 @@ var menuState = {
 };
 
 /*@ngInject*/
-app.directive('psmenu', function (toastr) {
+app.directive('psmenu', function (toastr, $http) {
     return {
         restrict: 'E',
         templateUrl: 'app/ui/menus/psmenu.html',
@@ -33,17 +33,20 @@ app.directive('psmenu', function (toastr) {
             $scope.setTrailType = function () {
                 settings.trailType = Number($scope.trailType);
             };
+            $scope.followLargest = function () {
+                State.toggleFollowLargest();
+            };
 
 
             // Gravity
             $scope.gravityProportion = 1;
             $scope.gravityExponential = 1;
             $scope.gravityChanged = function () {
-                settings.gravityProportion = 0.001 + $scope.gravityProportion * $scope.gravityExponential * $scope.gravityExponential;
+                settings.gravityProportion = 0.01 + $scope.gravityProportion * $scope.gravityExponential * $scope.gravityExponential;
                 settings.gravityExponential = $scope.gravityExponential;
             };
             $scope.gravityUpdateFromSettings = function () {
-                $scope.gravityProportion = settings.gravityProportion / settings.gravityExponential / settings.gravityExponential - 0.001;
+                $scope.gravityProportion = settings.gravityProportion / settings.gravityExponential / settings.gravityExponential - 0.01;
                 $scope.gravityExponential = settings.gravityExponential;
             };
 
@@ -112,6 +115,18 @@ app.directive('psmenu', function (toastr) {
                 if (gravityInstance != null) {
                     var uriContent = "data:application/octet-stream," + encodeURIComponent(gravityInstance);
                     window.open(uriContent, 'particlesandbox.json');
+                }
+            };
+
+
+            $scope.tutorialIndex = 0;
+            $http.get('json/tutorial.json').success(function (data) {
+                $scope.tutorialData = data;
+            });
+            $scope.tutorialNext = function () {
+                if ($scope.tutorialIndex++ >= $scope.tutorialData.length - 1){
+                    $scope.tutorialIndex = 0;
+                    $scope.show('none');
                 }
             };
 

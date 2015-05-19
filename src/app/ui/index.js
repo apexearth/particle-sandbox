@@ -7,7 +7,6 @@ var app = angular.module("ps.main", [
 module.exports = app;
 
 require('./toastrConfig');
-require('./navbar/');
 require('./menus/');
 
 if (!('ontouchstart' in document)) {
