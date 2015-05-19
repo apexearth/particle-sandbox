@@ -15,7 +15,7 @@ app.directive('psmenuButton', function () {
             menu: '@',
             title: '@'
         },
-        controller: function ($scope) {
+        controller: function PsmenuButtonController($scope) {
             var $parent = $scope.$parent;
             $scope.action = function () {
                 if ($scope.menu) $parent.view($scope.menu);

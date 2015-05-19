@@ -14,7 +14,7 @@ app.directive('psmenu', function (toastr) {
         restrict: 'E',
         templateUrl: 'app/ui/menus/psmenu.html',
         scope: {},
-        controller: function PsMenus($scope) {
+        controller: function PsmenuController($scope) {
             $scope.settings = settings;
             $scope.State = settings;
 

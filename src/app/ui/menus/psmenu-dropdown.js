@@ -16,7 +16,7 @@ app.directive('psmenuDropdown', function () {
         scope: {
             title: '@'
         },
-        controller: function ($scope) {
+        controller: function PsmenuDropdownController($scope) {
             var $parent = $scope.$parent;
             $scope.name = 'psmenuDropdown' + dropDownId++;
             $scope.toggle = function () {
