@@ -18,6 +18,7 @@ module.exports = function () {
         sourceHtml: sourcePath + '**/*.html',
         sourceCss: sourcePath + 'css/**/*.css',
         sourceAppCss: sourcePath + 'app/**/*.css',
+        sourceAppLess: sourcePath + 'app/**/*.less',
         sourceAppJs: sourcePath + 'app/**/*.js',
 
         rootJs: './*.js',
