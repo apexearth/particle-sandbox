@@ -8,5 +8,13 @@
     "jquery": "~2.1.4",
     "bowser": "~0.7.2",
     "jquery-ui": "~1.11.4"
+  },
+  "overrides": {
+    "jquery-ui": {
+      "main": [
+        "jquery-ui.js",
+        "themes/base/jquery-ui.css"
+      ]
+    }
   }
 }

@@ -7,7 +7,7 @@ var del = require('del');
 var transform = require('vinyl-transform');
 var browserify = require('browserify');
 var browserSync = require('browser-sync').create();
-
+var wiredep = require('wiredep');
 
 gulp.task('default', [
     'check',
@@ -104,17 +104,20 @@ gulp.task('build:other', ['clean:build', 'check'], function () {
         .pipe(gulp.dest(config.buildPath));
 });
 gulp.task('build:bower', ['clean:build', 'check'], function () {
-    return gulp.src(config.bowerAll, {base: './'})
+    var options = config.getWiredepOptions();
+    var injections = wiredep(options);
+    var injectionArr = injections.js.concat(injections.css);
+    injectionArr.push(options.directory+'**/.*bower.json');
+    return gulp.src(injectionArr, {base: './'})
         .pipe($.if(args.verbose, $.print()))
         .pipe(gulp.dest(config.buildPath));
 });
 
 gulp.task('inject', ['check', 'build'], function () {
     var options = config.getWiredepOptions();
-    var wiredep = require('wiredep').stream;
-
+    options.directory = config.buildPath + options.directory.substring(2);
     return gulp.src(config.buildPath + 'desktop.html')
-        .pipe(wiredep(options))
+        .pipe(wiredep.stream(options))
         .pipe($.inject(gulp.src([
             config.buildApp
         ]), {
