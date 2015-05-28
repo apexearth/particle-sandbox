@@ -40,6 +40,7 @@ module.exports = function () {
         '!' + config.sourceHtml,
         '!' + config.sourceCss,
         '!' + config.sourceAppCss,
+        '!' + config.sourceAppLess,
         '!' + config.sourceAppJs
     ];
 
