@@ -16,6 +16,7 @@ module.exports = function () {
         sourceAll: sourcePath + '**',
         sourceLib: sourcePath + 'lib/**',
         sourceHtml: sourcePath + '**/*.html',
+        sourceCssPath: sourcePath + 'css/',
         sourceCss: sourcePath + 'css/**/*.css',
         sourceAppCss: sourcePath + 'app/**/*.css',
         sourceAppLess: sourcePath + 'app/**/*.less',
@@ -36,12 +37,11 @@ module.exports = function () {
     };
 
     config.sourceOther = [
-        config.sourceAll,
-        '!' + config.sourceHtml,
-        '!' + config.sourceCss,
-        '!' + config.sourceAppCss,
-        '!' + config.sourceAppLess,
-        '!' + config.sourceAppJs
+        sourcePath + 'fonts/**',
+        sourcePath + 'img/**',
+        sourcePath + 'json/**',
+        sourcePath + 'lib/**',
+        sourcePath + '*.json'
     ];
 
     config.getWiredepOptions = function () {

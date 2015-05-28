@@ -82,7 +82,7 @@ gulp.task('build:css', ['clean:build', 'check'], function () {
         config.sourceAppCss,
         config.sourceAppLess,
         '!./src/css/mobile.css'
-    ], {base: config.sourcePath})
+    ])
         .pipe($.less({ paths: [] }))
         .pipe($.if(args.verbose, $.print()))
         .pipe($.autoprefixer({
