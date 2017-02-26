@@ -1,16 +1,18 @@
-const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null;
+const PIXI = typeof window !== 'undefined' ? require('pixi.js') : null;
 const angles = require('./angles')
 
 class Particle {
-    constructor({parent, position}) {
+    constructor({parent, position, momentum, mass}) {
         if (!parent) throw new Error('No parent recieved.')
+        position = position || {x: 0, y: 0}
+        momentum = momentum || {x: 0, y: 0}
+
         this.parent = parent
-        this.mass   = 100
-        this.radius = 2
+        this.mass = mass || 4
 
         if (typeof window !== 'undefined') {
             this.container = new PIXI.Container();
-            this.graphics  = new PIXI.Graphics();
+            this.graphics = new PIXI.Graphics();
             this.draw();
             this.container.addChild(this.graphics);
             this.parent.container.addChild(this.container);
@@ -18,12 +20,22 @@ class Particle {
             this.container = {position: {x: 0, y: 0}};
         }
 
-        this.position.x    = position.x
-        this.position.y    = position.y
+        this.position.x = position.x
+        this.position.y = position.y
         this.position_prev = {x: position.x, y: position.y}
 
-        this.momentum      = {x: 0, y: 0}
-        this.momentum_prev = {x: 0, y: 0}
+        this.momentum = {
+            x: momentum.x,
+            y: momentum.y
+        }
+        this.momentum_prev = {
+            x: momentum.x,
+            y: momentum.y
+        }
+    }
+
+    get radius() {
+        return Math.sqrt(this.mass);
     }
 
     get position() {
@@ -67,7 +79,7 @@ class Particle {
             other.momentum.x -= pull.this.x * seconds
             other.momentum.y -= pull.this.y * seconds
 
-            let distance        = Math.pow(this.position.x - other.position.x, 2) + Math.pow(this.position.y - other.position.y, 2);
+            let distance = Math.pow(this.position.x - other.position.x, 2) + Math.pow(this.position.y - other.position.y, 2);
             let collideDistance = Math.pow(this.radius + other.radius, 2);
             if (distance < collideDistance) {
                 this.parent.collisions.push({
@@ -79,18 +91,18 @@ class Particle {
     }
 
     calculatePull(other) {
-        let constant          = .05;
-        let xDirection        = this.position.x - other.position.x
-        let yDirection        = this.position.y - other.position.y
+        let constant = 100;
+        let xDirection = this.position.x - other.position.x
+        let yDirection = this.position.y - other.position.y
         let xDirectionSquared = 2 + xDirection * xDirection
         let yDirectionSquared = 2 + yDirection * yDirection
-        let hyp               = Math.sqrt(xDirectionSquared + yDirectionSquared);
-        let xDirectionWeight  = xDirection / hyp;
-        let yDirectionWeight  = yDirection / hyp;
-        let distance          = xDirectionSquared * yDirectionSquared;
+        let hyp = Math.sqrt(xDirectionSquared + yDirectionSquared);
+        let xDirectionWeight = xDirection / hyp;
+        let yDirectionWeight = yDirection / hyp;
+        let distance = xDirectionSquared * yDirectionSquared;
 
         return {
-            this : {
+            this: {
                 x: distance === 0 ? 0 : -this.mass / distance * constant * xDirectionWeight,
                 y: distance === 0 ? 0 : -this.mass / distance * constant * yDirectionWeight
             },
@@ -106,13 +118,13 @@ class Particle {
      * @param other
      */
     uncollide(other) {
-        let centerPoint  = {
+        let centerPoint = {
             x: (this.position.x + other.position.x) / 2,
             y: (this.position.y + other.position.y) / 2
         }
-        let angle        = angles.angle(this.position.x, this.position.y, other.position.x, other.position.y);
-        this.position.x  = centerPoint.x - Math.cos(angle) * this.radius
-        this.position.y  = centerPoint.y - Math.sin(angle) * this.radius
+        let angle = angles.angle(this.position.x, this.position.y, other.position.x, other.position.y);
+        this.position.x = centerPoint.x - Math.cos(angle) * this.radius
+        this.position.y = centerPoint.y - Math.sin(angle) * this.radius
         other.position.x = centerPoint.x + Math.cos(angle) * other.radius
         other.position.y = centerPoint.y + Math.sin(angle) * other.radius
     }
@@ -134,15 +146,14 @@ class Particle {
 
     // TODO: Base me off of the angle, so things bounce.
     distributeVelocity(other) {
-        let averageMass     = (this.mass + other.mass) / 2
-        let meProportion    = averageMass / (this.mass + averageMass);
-        let otherProportion = averageMass / (other.mass + averageMass);
-        let xm              = this.momentum.x;
-        let ym              = this.momentum.y;
-        this.momentum.x     = xm * (1 - meProportion) + other.momentum.x * meProportion;
-        this.momentum.y     = ym * (1 - meProportion) + other.momentum.y * meProportion;
-        other.momentum.x    = other.momentum.x * (1 - otherProportion) + xm * otherProportion;
-        other.momentum.y    = other.momentum.y * (1 - otherProportion) + ym * otherProportion;
+        let otherProportion = this.mass / (this.mass + other.mass);
+        let meProportion = 1 - otherProportion;
+        let xm = this.momentum.x;
+        let ym = this.momentum.y;
+        this.momentum.x = xm * (1 - meProportion) + other.momentum.x * meProportion;
+        this.momentum.y = ym * (1 - meProportion) + other.momentum.y * meProportion;
+        other.momentum.x = other.momentum.x * (1 - otherProportion) + xm * otherProportion;
+        other.momentum.y = other.momentum.y * (1 - otherProportion) + ym * otherProportion;
     }
 
 }

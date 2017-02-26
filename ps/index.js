@@ -1,15 +1,16 @@
-var input    = require('./inputs');
-var PIXI     = require('pixi.js');
-var renderer = new PIXI.WebGLRenderer(width(), height());
+const input    = require('./inputs');
+const PIXI     = require('pixi.js');
+const renderer = new PIXI.WebGLRenderer(width(), height());
 document.body.appendChild(renderer.view);
 
-var ParticleSandbox = require('./ParticleSandbox');
-var ps              = new ParticleSandbox()
-for (var i = 0; i < 500; i++) {
+const ParticleSandbox = require('./ParticleSandbox');
+const ps              = new ParticleSandbox()
+for (let i = 0; i < 100; i++) {
     ps.addParticle({
+        mass: 20 + Math.random() * 10,
         position: {
-            x: 2000 * Math.random() - 1000,
-            y: 2000 * Math.random() - 1000,
+            x: 500 * Math.random() - 250,
+            y: 500 * Math.random() - 250,
         }
     });
 }
@@ -22,14 +23,14 @@ function height() {
 }
 
 
-var stage      = ps.container;
-var lastMouseX = input('mouseX');
-var lastMouseY = input('mouseY');
-var last       = Date.now()
+let stage      = ps.container;
+let lastMouseX = input('mouseX');
+let lastMouseY = input('mouseY');
+let last       = Date.now()
 document.addEventListener('mousewheel', zoom);
 
 function zoom(event) {
-    var change = (event.deltaY > 0 ? .2 : -.2);
+    let change = (event.deltaY > 0 ? .2 : -.2);
     if (change > 0 && stage.scale.y > .2) {
         stage.position.x -= (stage.position.x - window.innerWidth / 2) * change / stage.scale.y;
         stage.position.y -= (stage.position.y - window.innerHeight / 2) * change / stage.scale.y;
@@ -70,7 +71,7 @@ function animate() {
     if (input('right')) {
         stage.position.x -= scrollSpeed;
     }
-    var zoomSpeed = .02;
+    let zoomSpeed = .02;
     if (input('zoomOut') && stage.scale.y > .2) {
         stage.position.x -= (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
         stage.position.y -= (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y;

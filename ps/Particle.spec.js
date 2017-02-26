@@ -1,39 +1,39 @@
-let expect          = require('chai').expect
+let expect = require('chai').expect
 let ParticleSandbox = require('./ParticleSandbox')
 
 describe("Particle", function () {
-    it("particle interaction", function () {
-            let ps = new ParticleSandbox();
+    it("2 particle interaction", function () {
+        let ps = new ParticleSandbox();
 
-            let p1 = ps.addParticle({position: {x: -10, y: 0}})
-            let p2 = ps.addParticle({position: {x: 10, y: 0}})
-            expect(p1.position.x).to.equal(-10);
-            expect(p1.position.y).to.equal(0);
-            expect(p2.position.x).to.equal(10);
-            expect(p2.position.y).to.equal(0);
+        let p1 = ps.addParticle({position: {x: -10, y: 0}})
+        let p2 = ps.addParticle({position: {x: 10, y: 0}})
+        expect(p1.position.x).to.equal(-10);
+        expect(p1.position.y).to.equal(0);
+        expect(p2.position.x).to.equal(10);
+        expect(p2.position.y).to.equal(0);
 
-            ps.update(.1);
-            expect(p1.position.x).to.gt(-10);
-            expect(p1.position.y).to.equal(0);
-            expect(p2.position.x).to.lt(10);
-            expect(p2.position.y).to.equal(0);
+        ps.update(.1);
+        expect(p1.position.x).to.gt(-10);
+        expect(p1.position.y).to.equal(0);
+        expect(p2.position.x).to.lt(10);
+        expect(p2.position.y).to.equal(0);
 
-            let countDown = -1;
-            while (ps.particles.length > 1 && countDown !== 0) {
-                ps.update(.1)
-                for (let particle of ps.particles) {
-                    expect(particle.position.x).to.be.a('number')
-                    expect(particle.position.y).to.be.a('number')
-                    if (countDown < 0) {
-                        if (particle.position.x === 2 || particle.position.x === -2)
-                            countDown = 99;
-                    }
+        let countDown = -1;
+        while (ps.particles.length > 1 && countDown !== 0) {
+            ps.update(.1)
+            for (let particle of ps.particles) {
+                expect(particle.position.x).to.be.a('number')
+                expect(particle.position.y).to.be.a('number')
+                if (countDown < 0) {
+                    if (particle.position.x === 2 || particle.position.x === -2)
+                        countDown = 99;
                 }
-                countDown--;
             }
+            countDown--;
+        }
 
-            // In a world of only two particles, they should come together, and end up equalizing positions and momentum.
-            //   Account for any float value discrepancies.
+        // In a world of only two particles, they should come together, and end up equalizing positions and momentum.
+        //   Account for any float value discrepancies.
         expect(p1.position.x).to.equal(-2)
         expect(p1.position.y).to.equal(0)
         expect(p1.momentum.x).to.equal(0)
@@ -42,8 +42,33 @@ describe("Particle", function () {
         expect(p2.position.y).to.equal(0)
         expect(p2.momentum.x).to.equal(0)
         expect(p2.momentum.y).to.equal(0)
+    });
+
+    it('2 particle interaction, different sized', function () {
+        let ps = new ParticleSandbox();
+
+        let p1 = ps.addParticle({mass: 4, position: {x: -2, y: 0}})
+        let p2 = ps.addParticle({mass: 5, position: {x: 2, y: 0}})
+
+        const getMidpoint = () => {
+            return {
+                x: (p1.x + p2.x) / 2,
+                xy: (p1.y + p2.y) / 2
+            };
         }
-    );
+
+        let initialMidpoint = getMidpoint()
+
+        while (ps.particles.length > 1) {
+            ps.update(.1);
+            expect(p1.mass).to.be.lt(4);
+            expect(p2.mass).to.be.gt(5);
+            expect(getMidpoint()).to.deep.equal(initialMidpoint);
+            assertAlmostEqual(p1.momentum.x, 0);
+            assertAlmostEqual(p2.momentum.y, 0);
+            console.log('pass ok');
+        }
+    });
 
     it('.uncollide()', function () {
         let ps = new ParticleSandbox();
@@ -69,6 +94,27 @@ describe("Particle", function () {
         expect(p2.position.y).to.equal(2);
 
     });
+
+    it('.distributeVelocity()', function () {
+        let ps = new ParticleSandbox();
+
+        let p1 = ps.addParticle({
+            mass: 6,
+            momentum: {x: 0, y: 0}
+        })
+        let p2 = ps.addParticle({
+            mass: 2,
+            momentum: {x: 8, y: 8}
+        })
+
+        p1.distributeVelocity(p2);
+        expect(p1.momentum).to.deep.equal({
+            x: 2, y: 2
+        })
+        expect(p2.momentum).to.deep.equal({
+            x: 2, y: 2
+        })
+    })
 });
 
 // For those annoying float value issues.
