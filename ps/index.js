@@ -5,15 +5,20 @@ document.body.appendChild(renderer.view);
 
 const ParticleSandbox = require('./ParticleSandbox');
 const ps              = new ParticleSandbox()
-for (let i = 0; i < 100; i++) {
-    ps.addParticle({
-        mass: 20 + Math.random() * 10,
-        position: {
-            x: 500 * Math.random() - 250,
-            y: 500 * Math.random() - 250,
-        }
-    });
-}
+if (typeof window !== 'undefined') window.ps = ps;
+let p1 = ps.addParticle({mass: 5, position: {x: 0, y: 0}})
+let p2 = ps.addParticle({mass: 2, position: {x: 2, y: 0}})
+let p3 = ps.addParticle({mass: 2, position: {x: 0, y: 2}})
+
+//for (let i = 0; i < 100; i++) {
+//    ps.addParticle({
+//        mass: 20 + Math.random() * 10,
+//        position: {
+//            x: 500 * Math.random() - 250,
+//            y: 500 * Math.random() - 250,
+//        }
+//    });
+//}
 
 function width() {
     return typeof window !== 'undefined' ? window.innerWidth : 500;
@@ -46,7 +51,7 @@ function zoom(event) {
 function animate() {
     requestAnimationFrame(animate)
     let current = Date.now()
-    let time    = Math.min((current - last) / 1000, 1000 / 30);
+    let time    = Math.min((current - last) / 1000, 30 / 1000);
     ps.update(time)
     last = current
     if (window.innerWidth !== renderer.view.width || window.innerHeight !== renderer.view.height) {

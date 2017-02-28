@@ -1,4 +1,4 @@
-const PIXI = typeof window !== 'undefined' ? require('pixi.js') : null;
+const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null;
 const angles = require('./angles')
 
 class Particle {
@@ -7,12 +7,13 @@ class Particle {
         position = position || {x: 0, y: 0}
         momentum = momentum || {x: 0, y: 0}
 
-        this.parent = parent
-        this.mass = mass || 4
+        this.parent    = parent
+        this.mass      = mass || 4
+        this.mass_prev = this.mass
 
         if (typeof window !== 'undefined') {
             this.container = new PIXI.Container();
-            this.graphics = new PIXI.Graphics();
+            this.graphics  = new PIXI.Graphics();
             this.draw();
             this.container.addChild(this.graphics);
             this.parent.container.addChild(this.container);
@@ -20,11 +21,11 @@ class Particle {
             this.container = {position: {x: 0, y: 0}};
         }
 
-        this.position.x = position.x
-        this.position.y = position.y
-        this.position_prev = {x: position.x, y: position.y}
+        this.position.x    = position.x
+        this.position.y    = position.y
+        this.position_prev = {_x: position.x, _y: position.y}
 
-        this.momentum = {
+        this.momentum      = {
             x: momentum.x,
             y: momentum.y
         }
@@ -35,7 +36,11 @@ class Particle {
     }
 
     get radius() {
-        return Math.sqrt(this.mass);
+        if (!this._radius || this.mass_prev !== this.mass) {
+            this.mass_prev = this.mass;
+            this._radius   = Math.sqrt(this.mass / Math.PI);
+        }
+        return this._radius;
     }
 
     get position() {
@@ -69,7 +74,7 @@ class Particle {
         this.momentum_prev = Object.assign({}, this.momentum)
     }
 
-    updateInteract(seconds) {
+    updateAttract(seconds) {
         for (let i = this.parent.particles.indexOf(this) + 1; i < this.parent.particles.length; i++) {
             let other = this.parent.particles[i]
             if (this === other) continue
@@ -78,31 +83,45 @@ class Particle {
             this.momentum.y -= pull.other.y * seconds
             other.momentum.x -= pull.this.x * seconds
             other.momentum.y -= pull.this.y * seconds
+        }
+    }
 
-            let distance = Math.pow(this.position.x - other.position.x, 2) + Math.pow(this.position.y - other.position.y, 2);
-            let collideDistance = Math.pow(this.radius + other.radius, 2);
-            if (distance < collideDistance) {
-                this.parent.collisions.push({
-                    particle1: this,
-                    particle2: other
-                })
+    updateCollisions(seconds) {
+        for (let i = this.parent.particles.indexOf(this) + 1; i < this.parent.particles.length; i++) {
+            let other = this.parent.particles[i]
+            if (this === other) continue
+            let collision = this.calculateCollision(other);
+            if (collision) {
+                this.parent.collisions.push(collision);
             }
         }
     }
 
+    calculateCollision(other) {
+        let distance        = Math.sqrt(Math.pow(this.position.x - other.position.x, 2) + Math.pow(this.position.y - other.position.y, 2));
+        let collideDistance = this.radius + other.radius;
+        if (distance < collideDistance) {
+            return {
+                particle1: this,
+                particle2: other
+            };
+        }
+        return null;
+    }
+
     calculatePull(other) {
-        let constant = 100;
-        let xDirection = this.position.x - other.position.x
-        let yDirection = this.position.y - other.position.y
+        let constant          = 100;
+        let xDirection        = this.position.x - other.position.x
+        let yDirection        = this.position.y - other.position.y
         let xDirectionSquared = 2 + xDirection * xDirection
         let yDirectionSquared = 2 + yDirection * yDirection
-        let hyp = Math.sqrt(xDirectionSquared + yDirectionSquared);
-        let xDirectionWeight = xDirection / hyp;
-        let yDirectionWeight = yDirection / hyp;
-        let distance = xDirectionSquared * yDirectionSquared;
+        let hyp               = Math.sqrt(xDirectionSquared + yDirectionSquared);
+        let xDirectionWeight  = xDirection / hyp;
+        let yDirectionWeight  = yDirection / hyp;
+        let distance          = xDirectionSquared * yDirectionSquared;
 
         return {
-            this: {
+            this : {
                 x: distance === 0 ? 0 : -this.mass / distance * constant * xDirectionWeight,
                 y: distance === 0 ? 0 : -this.mass / distance * constant * yDirectionWeight
             },
@@ -115,18 +134,34 @@ class Particle {
 
     /**
      * This is not completely accurate.
-     * @param other
+     * Collision *should* happen at the action point of impact between this frame and the last frame.
      */
     uncollide(other) {
-        let centerPoint = {
-            x: (this.position.x + other.position.x) / 2,
-            y: (this.position.y + other.position.y) / 2
+        let totalRadius = this.radius + other.radius;
+
+        let totalRelativeMomentum   = {
+            x: Math.abs(this.momentum.x - other.momentum.x),
+            y: Math.abs(this.momentum.y - other.momentum.y)
         }
-        let angle = angles.angle(this.position.x, this.position.y, other.position.x, other.position.y);
-        this.position.x = centerPoint.x - Math.cos(angle) * this.radius
-        this.position.y = centerPoint.y - Math.sin(angle) * this.radius
-        other.position.x = centerPoint.x + Math.cos(angle) * other.radius
-        other.position.y = centerPoint.y + Math.sin(angle) * other.radius
+        let thisMomentumPercentage  = {
+            x: Math.abs(this.momentum.x) / totalRelativeMomentum.x || 0.5,
+            y: Math.abs(this.momentum.y) / totalRelativeMomentum.y || 0.5
+        }
+        let otherMomentumPercentage = {
+            x: Math.abs(other.momentum.x) / totalRelativeMomentum.x || 0.5,
+            y: Math.abs(other.momentum.y) / totalRelativeMomentum.y || 0.5
+        }
+
+        let collisionPoint = {
+            x: ((this.position.x * this.radius) + (other.position.x * other.radius)) / totalRadius,
+            y: ((this.position.y * this.radius) + (other.position.y * other.radius)) / totalRadius
+        }
+
+        let angle        = angles.angle(this.position.x, this.position.y, other.position.x, other.position.y);
+        this.position.x  = collisionPoint.x - Math.cos(angle) * totalRadius * thisMomentumPercentage.x
+        this.position.y  = collisionPoint.y - Math.sin(angle) * totalRadius * thisMomentumPercentage.y
+        other.position.x = collisionPoint.x + Math.cos(angle) * totalRadius * otherMomentumPercentage.x
+        other.position.y = collisionPoint.y + Math.sin(angle) * totalRadius * otherMomentumPercentage.y
     }
 
     exchangeMass(other) {
@@ -146,14 +181,14 @@ class Particle {
 
     // TODO: Base me off of the angle, so things bounce.
     distributeVelocity(other) {
-        let otherProportion = this.mass / (this.mass + other.mass);
-        let meProportion = 1 - otherProportion;
-        let xm = this.momentum.x;
-        let ym = this.momentum.y;
-        this.momentum.x = xm * (1 - meProportion) + other.momentum.x * meProportion;
-        this.momentum.y = ym * (1 - meProportion) + other.momentum.y * meProportion;
-        other.momentum.x = other.momentum.x * (1 - otherProportion) + xm * otherProportion;
-        other.momentum.y = other.momentum.y * (1 - otherProportion) + ym * otherProportion;
+        let meProportion    = this.mass / (this.mass + other.mass);
+        let otherProportion = 1 - meProportion;
+        let xm              = this.momentum.x;
+        let ym              = this.momentum.y;
+        this.momentum.x     = xm * meProportion + other.momentum.x * otherProportion;
+        this.momentum.y     = ym * meProportion + other.momentum.y * otherProportion;
+        other.momentum.x    = this.momentum.x;
+        other.momentum.y    = this.momentum.y;
     }
 
 }

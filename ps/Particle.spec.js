@@ -1,12 +1,12 @@
-let expect = require('chai').expect
+let expect          = require('chai').expect
 let ParticleSandbox = require('./ParticleSandbox')
 
 describe("Particle", function () {
     it("2 particle interaction", function () {
         let ps = new ParticleSandbox();
 
-        let p1 = ps.addParticle({position: {x: -10, y: 0}})
-        let p2 = ps.addParticle({position: {x: 10, y: 0}})
+        let p1 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -10, y: 0}})
+        let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 10, y: 0}})
         expect(p1.position.x).to.equal(-10);
         expect(p1.position.y).to.equal(0);
         expect(p2.position.x).to.equal(10);
@@ -18,18 +18,18 @@ describe("Particle", function () {
         expect(p2.position.x).to.lt(10);
         expect(p2.position.y).to.equal(0);
 
-        let countDown = -1;
-        while (ps.particles.length > 1 && countDown !== 0) {
+        let limit = 10000;
+        while (ps.particles.length > 1 && limit !== 0) {
             ps.update(.1)
             for (let particle of ps.particles) {
                 expect(particle.position.x).to.be.a('number')
                 expect(particle.position.y).to.be.a('number')
-                if (countDown < 0) {
+                if (limit < 0) {
                     if (particle.position.x === 2 || particle.position.x === -2)
-                        countDown = 99;
+                        limit = 99;
                 }
             }
-            countDown--;
+            limit--;
         }
 
         // In a world of only two particles, they should come together, and end up equalizing positions and momentum.
@@ -47,33 +47,52 @@ describe("Particle", function () {
     it('2 particle interaction, different sized', function () {
         let ps = new ParticleSandbox();
 
-        let p1 = ps.addParticle({mass: 4, position: {x: -2, y: 0}})
-        let p2 = ps.addParticle({mass: 5, position: {x: 2, y: 0}})
+        let p1 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -2, y: 0}})
+        let p2 = ps.addParticle({mass: 4 * 4 * Math.PI, position: {x: 4, y: 0}})
 
         const getMidpoint = () => {
             return {
-                x: (p1.x + p2.x) / 2,
-                xy: (p1.y + p2.y) / 2
+                x: (p1.position.x + p2.position.x) / 2,
+                y: (p1.position.y + p2.position.y) / 2
             };
         }
 
+        let limit           = 10000;
         let initialMidpoint = getMidpoint()
-
-        while (ps.particles.length > 1) {
+        while (ps.particles.length > 1 && limit-- > 0) {
             ps.update(.1);
-            expect(p1.mass).to.be.lt(4);
-            expect(p2.mass).to.be.gt(5);
             expect(getMidpoint()).to.deep.equal(initialMidpoint);
             assertAlmostEqual(p1.momentum.x, 0);
             assertAlmostEqual(p2.momentum.y, 0);
-            console.log('pass ok');
+        }
+    });
+
+    it('3 particle interaction, different sized', function () {
+        let ps = new ParticleSandbox();
+
+        let p1 = ps.addParticle({mass: 5 * 5 * Math.PI, position: {x: 0, y: 0}})
+        let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 2, y: 0}})
+        let p3 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 0, y: 2}})
+
+        const getMidpoint = () => {
+            return {
+                x: (p1.position.x + p2.position.x + p3.position.x) / 3,
+                y: (p1.position.y + p2.position.y + p3.position.y) / 3
+            };
+        }
+
+        let limit           = 10000;
+        let initialMidpoint = getMidpoint()
+        while (ps.particles.length > 1 && limit-- > 0) {
+            ps.update(.1);
+            expect(getMidpoint()).to.deep.equal(initialMidpoint);
         }
     });
 
     it('.uncollide()', function () {
         let ps = new ParticleSandbox();
-        let p1 = ps.addParticle({position: {x: -1, y: 0}})
-        let p2 = ps.addParticle({position: {x: 1, y: 0}})
+        let p1 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -1, y: 0}})
+        let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 1, y: 0}})
         p1.uncollide(p2);
         expect(p1.position.x).to.equal(-2);
         expect(p1.position.y).to.equal(0);
@@ -95,15 +114,26 @@ describe("Particle", function () {
 
     });
 
+    it('.exchangeMass()', function () {
+        let ps        = new ParticleSandbox();
+        let p1        = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -1, y: 0}})
+        let p2        = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 1, y: 0}})
+        p1.momentum.x = 3
+        p1.momentum.y = 1
+        p2.momentum.x = -1
+        p2.momentum.y = -3
+        p1.distributeVelocity(p2)
+    });
+
     it('.distributeVelocity()', function () {
         let ps = new ParticleSandbox();
 
         let p1 = ps.addParticle({
-            mass: 6,
+            mass    : 6,
             momentum: {x: 0, y: 0}
         })
         let p2 = ps.addParticle({
-            mass: 2,
+            mass    : 2,
             momentum: {x: 8, y: 8}
         })
 

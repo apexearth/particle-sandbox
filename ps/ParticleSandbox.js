@@ -20,14 +20,15 @@ class ParticleSandbox {
     }
 
     update(seconds) {
-        this.particles.forEach(particle => particle.updateInteract(seconds))
+        this.particles.forEach(particle => particle.updateAttract(seconds))
         this.particles.forEach(particle => particle.updateMovement(seconds))
-        this.particles.forEach(particle => particle.update(seconds))
+        this.particles.forEach(particle => particle.updateCollisions(seconds))
         this.collisions.forEach(collision => {
-            collision.particle1.distributeVelocity(collision.particle2);
             collision.particle1.exchangeMass(collision.particle2);
             collision.particle1.uncollide(collision.particle2);
+            collision.particle1.distributeVelocity(collision.particle2);
         })
+        this.particles.forEach(particle => particle.update(seconds))
         this.collisions = []
         this.quadtree.update();
     }
