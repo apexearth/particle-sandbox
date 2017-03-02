@@ -115,14 +115,13 @@ describe("Particle", function () {
     });
 
     it('.exchangeMass()', function () {
-        let ps        = new ParticleSandbox();
-        let p1        = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -1, y: 0}})
-        let p2        = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 1, y: 0}})
-        p1.momentum.x = 3
-        p1.momentum.y = 1
-        p2.momentum.x = -1
-        p2.momentum.y = -3
-        p1.distributeVelocity(p2)
+        let ps          = new ParticleSandbox()
+        let initialMass = 10
+        let p1          = ps.addParticle({mass: initialMass, position: {x: -1, y: 0}})
+        let p2          = ps.addParticle({mass: initialMass * 2, position: {x: 1, y: 0}})
+        p1.exchangeMass(p2)
+        expect(p1.mass).to.equal(8)
+        expect(p2.mass).to.equal(22)
     });
 
     it('.distributeVelocity()', function () {
