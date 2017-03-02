@@ -1,4 +1,4 @@
-let expect          = require('chai').expect
+let expect = require('chai').expect
 let ParticleSandbox = require('./ParticleSandbox')
 
 describe("Particle", function () {
@@ -57,7 +57,7 @@ describe("Particle", function () {
             };
         }
 
-        let limit           = 10000;
+        let limit = 10000;
         let initialMidpoint = getMidpoint()
         while (ps.particles.length > 1 && limit-- > 0) {
             ps.update(.1);
@@ -81,7 +81,7 @@ describe("Particle", function () {
             };
         }
 
-        let limit           = 10000;
+        let limit = 10000;
         let initialMidpoint = getMidpoint()
         while (ps.particles.length > 1 && limit-- > 0) {
             ps.update(.1);
@@ -112,13 +112,40 @@ describe("Particle", function () {
         assertAlmostEqual(p2.position.x, 0);
         expect(p2.position.y).to.equal(2);
 
+        p1.position.x = 0
+        p1.position.y = 0
+        p2.position.x = 1
+        p2.position.y = 1
+        p1.updatePrevious()
+        p2.updatePrevious()
+
+        p1.uncollide(p2);
+        assertAlmostEqual(p1.position.x, -0.9142135623730949);
+        assertAlmostEqual(p1.position.y, -0.9142135623730949);
+        assertAlmostEqual(p2.position.x, 1.9142135623730951);
+        assertAlmostEqual(p2.position.y, 1.9142135623730951);
+
+        p1.radius = 4
+        p2.radius = 2
+        p1.position.x = 0
+        p1.position.y = -1
+        p2.position.x = 0
+        p2.position.y = 1
+        p1.updatePrevious()
+        p2.updatePrevious()
+
+        p1.uncollide(p2);
+        assertAlmostEqual(p1.position.x, 0);
+        assertAlmostEqual(p1.position.y, -2.3333333333333335);
+        assertAlmostEqual(p2.position.x, 0);
+        assertAlmostEqual(p2.position.y, 3.6666666666666665);
     });
 
     it('.exchangeMass()', function () {
-        let ps          = new ParticleSandbox()
+        let ps = new ParticleSandbox()
         let initialMass = 10
-        let p1          = ps.addParticle({mass: initialMass, position: {x: -1, y: 0}})
-        let p2          = ps.addParticle({mass: initialMass * 2, position: {x: 1, y: 0}})
+        let p1 = ps.addParticle({mass: initialMass, position: {x: -1, y: 0}})
+        let p2 = ps.addParticle({mass: initialMass * 2, position: {x: 1, y: 0}})
         p1.exchangeMass(p2)
         expect(p1.mass).to.equal(8)
         expect(p2.mass).to.equal(22)
@@ -128,11 +155,11 @@ describe("Particle", function () {
         let ps = new ParticleSandbox();
 
         let p1 = ps.addParticle({
-            mass    : 6,
+            mass: 6,
             momentum: {x: 0, y: 0}
         })
         let p2 = ps.addParticle({
-            mass    : 2,
+            mass: 2,
             momentum: {x: 8, y: 8}
         })
 
