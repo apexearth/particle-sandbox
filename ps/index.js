@@ -1,4 +1,5 @@
 const input    = require('./inputs');
+const stats    = require('./stats');
 const PIXI     = require('pixi.js');
 const renderer = new PIXI.WebGLRenderer(width(), height());
 document.body.appendChild(renderer.view);
@@ -7,12 +8,12 @@ const ParticleSandbox = require('./ParticleSandbox');
 const ps              = new ParticleSandbox()
 if (typeof window !== 'undefined') window.ps = ps;
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 1000; i++) {
     ps.addParticle({
-        mass: 20 + Math.random() * 10,
+        mass    : 20 + Math.random() * 10,
         position: {
-            x: 500 * Math.random() - 250,
-            y: 500 * Math.random() - 250,
+            x: 2000 * Math.random() - 1000,
+            y: 2000 * Math.random() - 1000,
         }
     });
 }
@@ -44,6 +45,10 @@ function zoom(event) {
         stage.scale.x = stage.scale.y = Math.min(4, stage.scale.y - change);
     }
 }
+
+// fps text
+const fpsText = new PIXI.Text(stats.fps, {fill: "white"});
+stage.addChild(fpsText);
 
 function animate() {
     requestAnimationFrame(animate)
@@ -86,6 +91,14 @@ function animate() {
     }
 
     renderer.render(stage);
+
+    if (Math.floor(stats.fpsStart / 1000) !== Math.floor(current / 1000)) {
+        stats.fps        = stats.fpsCounter;
+        stats.fpsStart   = current;
+        stats.fpsCounter = 0;
+        fpsText.text     = stats.fps;
+    }
+    stats.fpsCounter++;
     lastMouseX = input('mouseX');
     lastMouseY = input('mouseY');
 }

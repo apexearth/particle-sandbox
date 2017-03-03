@@ -147,8 +147,8 @@ describe("Particle", function () {
         let p1 = ps.addParticle({mass: initialMass, position: {x: -1, y: 0}})
         let p2 = ps.addParticle({mass: initialMass * 2, position: {x: 1, y: 0}})
         p1.exchangeMass(p2)
-        expect(p1.mass).to.equal(8)
-        expect(p2.mass).to.equal(22)
+        expect(p1.mass).to.equal(9.8)
+        expect(p2.mass).to.equal(20.2)
     });
 
     it('.distributeVelocity()', function () {

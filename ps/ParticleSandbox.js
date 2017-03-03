@@ -24,13 +24,15 @@ class ParticleSandbox {
         this.particles.forEach(particle => particle.updateMovement(seconds))
         this.particles.forEach(particle => particle.updateCollisions(seconds))
         this.collisions.forEach(collision => {
-            collision.particle1.exchangeMass(collision.particle2);
+            if (collision.particle1.mass <= 0) return;
+            if (collision.particle2.mass <= 0) return;
             collision.particle1.uncollide(collision.particle2);
             collision.particle1.distributeVelocity(collision.particle2);
+            collision.particle1.exchangeMass(collision.particle2);
         })
         this.particles.forEach(particle => particle.update(seconds))
         this.collisions = []
-        this.quadtree.update();
+        //this.quadtree.update();
     }
 
     addParticle(options) {
@@ -39,7 +41,7 @@ class ParticleSandbox {
             parent: this
         }, options));
         this.particles.push(particle)
-        this.quadtree.add(particle);
+        //this.quadtree.add(particle);
         return particle;
     }
 

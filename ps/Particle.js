@@ -160,11 +160,11 @@ class Particle {
         if (this.mass === other.mass) {
             // We're the same! :-o
         } else if (this.mass > other.mass) {
-            transferAmount = Math.min(other.mass, Math.max(other.mass * (this.mass / other.mass) / 10, 0.1));
+            transferAmount = Math.min(other.mass, Math.max(other.mass * (this.mass / other.mass) / 100, 0.1));
             this.mass += transferAmount;
             other.mass -= transferAmount;
         } else {
-            transferAmount = Math.min(this.mass, Math.max(this.mass * (other.mass / this.mass) / 10, 0.1));
+            transferAmount = Math.min(this.mass, Math.max(this.mass * (other.mass / this.mass) / 100, 0.1));
             this.mass -= transferAmount;
             other.mass += transferAmount;
         }
