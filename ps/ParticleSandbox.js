@@ -1,25 +1,20 @@
 if (typeof window !== 'undefined') {
-    var PIXI = require('pixi.js');
+    const PIXI = require('pixi.js');
 }
-var Particle = require('./Particle')
-var Quadtree = require('../../endless-quadtree')
+const Particle = require('./Particle')
 
 class ParticleSandbox {
     constructor(options) {
         this.options    = Object.assign(this.defaultOptions, options)
         this.particles  = []
         this.collisions = []
-        this.quadtree   = new Quadtree({
-            dimensions    : ['x', 'y'],
-            entityLimit   : 20,
-            entityCoordKey: 'position'
-        })
         if (typeof window !== 'undefined') {
             this.container = new PIXI.Container();
         }
     }
 
     update(seconds) {
+        this.particles.forEach(particle => particle.color = 0xffffff)
         this.particles.forEach(particle => particle.updateAttract(seconds))
         this.particles.forEach(particle => particle.updateMovement(seconds))
         this.particles.forEach(particle => particle.updateCollisions(seconds))
@@ -32,7 +27,6 @@ class ParticleSandbox {
         })
         this.particles.forEach(particle => particle.update(seconds))
         this.collisions = []
-        //this.quadtree.update();
     }
 
     addParticle(options) {
@@ -40,8 +34,8 @@ class ParticleSandbox {
         let particle = new Particle(Object.assign({
             parent: this
         }, options));
+        this.particles.forEach(other => other.analyzePosition(particle))
         this.particles.push(particle)
-        //this.quadtree.add(particle);
         return particle;
     }
 
@@ -52,7 +46,6 @@ class ParticleSandbox {
             if (typeof window !== 'undefined') {
                 this.container.removeChild(particle.container);
             }
-            this.quadtree.remove(particle);
         }
     }
 

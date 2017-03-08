@@ -1,5 +1,6 @@
 const input    = require('./inputs');
 const stats    = require('./stats');
+const debug    = require('./debug');
 const PIXI     = require('pixi.js');
 const renderer = new PIXI.WebGLRenderer(width(), height());
 document.body.appendChild(renderer.view);
@@ -8,15 +9,6 @@ const ParticleSandbox = require('./ParticleSandbox');
 const ps              = new ParticleSandbox()
 if (typeof window !== 'undefined') window.ps = ps;
 
-for (let i = 0; i < 1000; i++) {
-    ps.addParticle({
-        mass    : 20 + Math.random() * 10,
-        position: {
-            x: 2000 * Math.random() - 1000,
-            y: 2000 * Math.random() - 1000,
-        }
-    });
-}
 
 function width() {
     return typeof window !== 'undefined' ? window.innerWidth : 500;
@@ -24,13 +16,6 @@ function width() {
 function height() {
     return typeof window !== 'undefined' ? window.innerHeight : 500;
 }
-
-
-let stage      = ps.container;
-let lastMouseX = input('mouseX');
-let lastMouseY = input('mouseY');
-let last       = Date.now()
-document.addEventListener('mousewheel', zoom);
 
 function zoom(event) {
     let change = (event.deltaY > 0 ? .2 : -.2);
@@ -46,10 +31,9 @@ function zoom(event) {
     }
 }
 
-// fps text
-const fpsText = new PIXI.Text(stats.fps, {fill: "white"});
-stage.addChild(fpsText);
-
+let lastMouseX = input('mouseX');
+let lastMouseY = input('mouseY');
+let last       = Date.now()
 function animate() {
     requestAnimationFrame(animate)
     let current = Date.now()
@@ -91,17 +75,28 @@ function animate() {
     }
 
     renderer.render(stage);
+    debug.update(current)
 
-    if (Math.floor(stats.fpsStart / 1000) !== Math.floor(current / 1000)) {
-        stats.fps        = stats.fpsCounter;
-        stats.fpsStart   = current;
-        stats.fpsCounter = 0;
-        fpsText.text     = stats.fps;
-    }
-    stats.fpsCounter++;
     lastMouseX = input('mouseX');
     lastMouseY = input('mouseY');
 }
+
+
+for (let i = 0; i < 1000; i++) {
+    ps.addParticle({
+        mass    : 20 + Math.random() * 10,
+        position: {
+            x: 3000 * Math.random() - 1500,
+            y: 3000 * Math.random() - 1500,
+        }
+    });
+}
+
+let stage      = ps.container;
+debug.initialize(stage);
+
+document.addEventListener('mousewheel', zoom);
+
 animate();
 
 ps.container.position.x = width() / 2;
