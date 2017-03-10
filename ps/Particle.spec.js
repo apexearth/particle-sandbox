@@ -12,7 +12,7 @@ describe("Particle", function () {
         expect(p2.position.x).to.equal(10);
         expect(p2.position.y).to.equal(0);
 
-        ps.update(.1);
+        ps.update(.01);
         expect(p1.position.x).to.gt(-10);
         expect(p1.position.y).to.equal(0);
         expect(p2.position.x).to.lt(10);
@@ -20,7 +20,7 @@ describe("Particle", function () {
 
         let limit = 10000;
         while (ps.particles.length > 1 && limit !== 0) {
-            ps.update(.1)
+            ps.update(.01)
             for (let particle of ps.particles) {
                 expect(particle.position.x).to.be.a('number')
                 expect(particle.position.y).to.be.a('number')
@@ -34,6 +34,7 @@ describe("Particle", function () {
 
         // In a world of only two particles, they should come together, and end up equalizing positions and momentum.
         //   Account for any float value discrepancies.
+        // If failing, check they they didn't move so quickly that hit-detection missed the pass.
         expect(p1.position.x).to.equal(-2)
         expect(p1.position.y).to.equal(0)
         expect(p1.momentum.x).to.equal(0)
@@ -96,25 +97,25 @@ describe("Particle", function () {
 
         ps.update(.1);
         expect(p1.momentum).to.deep.equal({
-            x: 0.015552246402051401, y: 0
+            x: 1.5552246402051404, y: 0
         })
         expect(p2.momentum).to.deep.equal({
-            x: -0.015552246402051401, y: 0
+            x: -1.5552246402051404, y: 0
         })
 
         let p3 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 0, y: 10}})
         ps.update(.1);
         expect(p1.momentum).to.deep.equal({
-            x: 0.03195513156842704,
-            y: 0.0008459797977690968
+            x: 3.2459739618409538,
+            y: 0.08787154475409521,
         })
         expect(p2.momentum).to.deep.equal({
-            x: -0.03195513156842704,
-            y: 0.0008459797977690968
+            x: -3.2459739618409538,
+            y: 0.08787154475409521,
         })
         expect(p3.momentum).to.deep.equal({
             x: 0,
-            y: -0.0016919595955381937
+            y: -0.17574308950819043
         })
     });
 
