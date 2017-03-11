@@ -86,8 +86,8 @@ for (let i = 0; i < 1000; i++) {
     ps.addParticle({
         mass    : 20 + Math.random() * 10,
         position: {
-            x: 3000 * Math.random() - 1500,
-            y: 3000 * Math.random() - 1500,
+            x: 10000 * Math.random() - 5000,
+            y: 10000 * Math.random() - 5000,
         }
     });
 }

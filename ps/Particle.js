@@ -11,11 +11,10 @@ class Particle {
         if (typeof window !== 'undefined') {
             this.container = new PIXI.Container();
             this.graphics  = new PIXI.Graphics();
-            this.draw();
             this.container.addChild(this.graphics);
             this.parent.container.addChild(this.container);
         } else {
-            this.container = {position: {x: 0, y: 0}};
+            this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}};
         }
 
         this.color      = 0xff00ff;
@@ -33,6 +32,7 @@ class Particle {
         this.distantParticles    = [];
         this.distantCheckTimeout = 0;
         this.distantCheckAge     = 0;
+        this.draw();
     }
 
     set radius(val) {
@@ -43,6 +43,7 @@ class Particle {
         if (!this._radius || this.mass_prev !== this.mass) {
             this.mass_prev = this.mass;
             this._radius   = Math.sqrt(this.mass / Math.PI);
+            this.scale.x   = this.scale.y = this._radius
         }
         return this._radius;
     }
@@ -51,12 +52,17 @@ class Particle {
         return this.container.position;
     }
 
+    get scale() {
+        return this.container.scale;
+    }
+
     draw() {
         if (typeof window !== 'undefined') {
             this.graphics.clear();
             this.graphics.beginFill(this.color)
-            this.graphics.drawCircle(0, 0, this.radius);
+            this.graphics.drawCircle(0, 0, 1);
             this.graphics.endFill();
+            this.scale.x = this.scale.y = this._radius
         }
     }
 
@@ -65,7 +71,6 @@ class Particle {
             this.parent.removeParticle(this)
         }
         this.updatePrevious()
-        this.draw()
     }
 
     updateMovement(seconds) {
@@ -84,20 +89,30 @@ class Particle {
         }
     }
 
-    analyzePosition(other) {
+    analyzePosition(other, presence, index) {
         let distance = Math.sqrt(Math.pow(this.position.x - other.position.x, 2) + Math.pow(this.position.y - other.position.y, 2));
         if (distance > (this.radius + other.radius) * 25) {
-            this.distantParticles.push({
-                particle: other,
-                distance,
-                age     : 0
-            });
+            if (presence === 'near') {
+                this.nearbyParticles.splice(index, 1);
+            }
+            if (presence === 'near' || presence === undefined) {
+                this.distantParticles.push({
+                    particle: other,
+                    distance,
+                    age     : 0
+                });
+            }
         } else {
-            this.nearbyParticles.push({
-                particle: other,
-                distance,
-                age     : 0
-            });
+            if (presence === 'distant') {
+                this.distantParticles.splice(index, 1);
+            }
+            if (presence === 'distant' || presence === undefined) {
+                this.nearbyParticles.push({
+                    particle: other,
+                    distance,
+                    age     : 0
+                });
+            }
         }
     }
 
@@ -115,14 +130,13 @@ class Particle {
             }
 
             nearby.age += seconds
-            let pull = this.calculatePull(other)
+            let pull = this.calculatePull(other, nearby.distance)
             this.momentum.x -= pull.other.x * seconds
             this.momentum.y -= pull.other.y * seconds
             other.momentum.x -= pull.this.x * seconds
             other.momentum.y -= pull.this.y * seconds
             if (nearby.age > 2 * Math.random()) {
-                this.nearbyParticles.splice(i, 1);
-                this.analyzePosition(other);
+                this.analyzePosition(other, 'near', i);
             }
         }
 
@@ -137,17 +151,16 @@ class Particle {
                 }
                 distant.age += this.distantCheckAge
 
-                let pull = this.calculatePull(other)
+                let pull = this.calculatePull(other, distant.distance)
                 this.momentum.x -= pull.other.x * this.distantCheckAge
                 this.momentum.y -= pull.other.y * this.distantCheckAge
                 other.momentum.x -= pull.this.x * this.distantCheckAge
                 other.momentum.y -= pull.this.y * this.distantCheckAge
 
-                this.distantParticles.splice(i, 1);
-                this.analyzePosition(other);
+                this.analyzePosition(other, 'distant', i);
             }
             this.distantCheckAge     = 0
-            this.distantCheckTimeout = Math.random() * .1
+            this.distantCheckTimeout = Math.random() * .5
         }
 
     }
@@ -174,25 +187,22 @@ class Particle {
         return null;
     }
 
-    calculatePull(other) {
-        let constant          = 1000;
-        let xDirection        = this.position.x - other.position.x
-        let yDirection        = this.position.y - other.position.y
-        let xDirectionSquared = 2 + xDirection * xDirection
-        let yDirectionSquared = 2 + yDirection * yDirection
-        let hyp               = Math.sqrt(xDirectionSquared + yDirectionSquared);
-        let xDirectionWeight  = xDirection / hyp;
-        let yDirectionWeight  = yDirection / hyp;
-        let distance          = xDirectionSquared * yDirectionSquared;
+    calculatePull(other, distance) {
+        let pull   = (distance * distance) / 1000;
+        let xDirection = this.position.x - other.position.x
+        let yDirection = this.position.y - other.position.y
+        let hyp        = Math.sqrt(1 + xDirection * xDirection + yDirection * yDirection) * pull;
+        xDirection     = xDirection / hyp;
+        yDirection     = yDirection / hyp;
 
         return {
             this : {
-                x: distance === 0 ? 0 : -this.mass / distance * constant * xDirectionWeight,
-                y: distance === 0 ? 0 : -this.mass / distance * constant * yDirectionWeight
+                x: xDirection === 0 ? 0 : -this.mass * xDirection,
+                y: yDirection === 0 ? 0 : -this.mass * yDirection
             },
             other: {
-                x: distance === 0 ? 0 : other.mass / distance * constant * xDirectionWeight,
-                y: distance === 0 ? 0 : other.mass / distance * constant * yDirectionWeight
+                x: xDirection === 0 ? 0 : other.mass * xDirection,
+                y: yDirection === 0 ? 0 : other.mass * yDirection
             }
         }
     }
