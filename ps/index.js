@@ -63,10 +63,10 @@ function animate() {
         stage.position.x -= scrollSpeed;
     }
     let zoomSpeed = .02;
-    if (input('zoomOut') && stage.scale.y > .2) {
+    if (input('zoomOut') && stage.scale.y > .02) {
         stage.position.x -= (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
         stage.position.y -= (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y;
-        stage.scale.x = stage.scale.y = Math.max(.2, stage.scale.y - zoomSpeed);
+        stage.scale.x = stage.scale.y = Math.max(.02, stage.scale.y - zoomSpeed);
     }
     if (input('zoomIn') && stage.scale.y < 4) {
         stage.position.x += (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
@@ -81,18 +81,15 @@ function animate() {
     lastMouseY = input('mouseY');
 }
 
-
-for (let i = 0; i < 1000; i++) {
-    ps.addParticle({
-        mass    : 20 + Math.random() * 10,
-        position: {
-            x: 10000 * Math.random() - 5000,
-            y: 10000 * Math.random() - 5000,
-        }
-    });
+const addParticles = () => {
+    ps.addParticles(10);
+    if (ps.particles.length < 3000) {
+        setTimeout(addParticles, 10);
+    }
 }
+addParticles()
 
-let stage      = ps.container;
+let stage = ps.container;
 debug.initialize(stage);
 
 document.addEventListener('mousewheel', zoom);

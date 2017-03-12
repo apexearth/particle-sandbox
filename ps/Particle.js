@@ -28,10 +28,6 @@ class Particle {
         }
         this.updatePrevious()
 
-        this.nearbyParticles     = [];
-        this.distantParticles    = [];
-        this.distantCheckTimeout = 0;
-        this.distantCheckAge     = 0;
         this.draw();
     }
 
@@ -66,6 +62,14 @@ class Particle {
         }
     }
 
+    distance(other) {
+        return Math.sqrt(Math.pow(this.position.x - other.position.x, 2) + Math.pow(this.position.y - other.position.y, 2));
+    }
+
+    collisionRange(other, distance) {
+        return distance < (this.radius + other.radius) * 50;
+    }
+
     update(seconds) {
         if (this.mass <= 0) {
             this.parent.removeParticle(this)
@@ -89,94 +93,23 @@ class Particle {
         }
     }
 
-    analyzePosition(other, presence, index) {
-        let distance = Math.sqrt(Math.pow(this.position.x - other.position.x, 2) + Math.pow(this.position.y - other.position.y, 2));
-        if (distance > (this.radius + other.radius) * 25) {
-            if (presence === 'near') {
-                this.nearbyParticles.splice(index, 1);
-            }
-            if (presence === 'near' || presence === undefined) {
-                this.distantParticles.push({
-                    particle: other,
-                    distance,
-                    age     : 0
-                });
-            }
-        } else {
-            if (presence === 'distant') {
-                this.distantParticles.splice(index, 1);
-            }
-            if (presence === 'distant' || presence === undefined) {
-                this.nearbyParticles.push({
-                    particle: other,
-                    distance,
-                    age     : 0
-                });
-            }
-        }
+    updateAttract(pair) {
+        let pull = pair.particle1.calculatePull(pair.particle2, pair.distance)
+        pair.particle1.momentum.x -= pull.other.x * pair.age
+        pair.particle1.momentum.y -= pull.other.y * pair.age
+        pair.particle2.momentum.x -= pull.this.x * pair.age
+        pair.particle2.momentum.y -= pull.this.y * pair.age
     }
 
-    updateAttract(seconds) {
-        if (this.nearbyParticles.length > 0) {
-            this.color = 0xff00ff;
-        }
-        for (let i = this.nearbyParticles.length - 1; i >= 0; i--) {
-            let nearby  = this.nearbyParticles[i]
-            let other   = nearby.particle;
-            other.color = 0xff00ff;
-            if (other.mass <= 0) {
-                this.nearbyParticles.splice(i, 1);
-                continue;
-            }
-
-            nearby.age += seconds
-            let pull = this.calculatePull(other, nearby.distance)
-            this.momentum.x -= pull.other.x * seconds
-            this.momentum.y -= pull.other.y * seconds
-            other.momentum.x -= pull.this.x * seconds
-            other.momentum.y -= pull.this.y * seconds
-            if (nearby.age > 2 * Math.random()) {
-                this.analyzePosition(other, 'near', i);
-            }
-        }
-
-        this.distantCheckAge += seconds
-        if (this.distantCheckAge > this.distantCheckTimeout) {
-            for (let i = this.distantParticles.length - 1; i >= 0; i--) {
-                let distant = this.distantParticles[i]
-                let other   = distant.particle
-                if (other.mass <= 0) {
-                    this.distantParticles.splice(i, 1);
-                    continue;
-                }
-                distant.age += this.distantCheckAge
-
-                let pull = this.calculatePull(other, distant.distance)
-                this.momentum.x -= pull.other.x * this.distantCheckAge
-                this.momentum.y -= pull.other.y * this.distantCheckAge
-                other.momentum.x -= pull.this.x * this.distantCheckAge
-                other.momentum.y -= pull.this.y * this.distantCheckAge
-
-                this.analyzePosition(other, 'distant', i);
-            }
-            this.distantCheckAge     = 0
-            this.distantCheckTimeout = Math.random() * .5
-        }
-
-    }
-
-    updateCollisions(seconds) {
-        for (let i = 0; i < this.nearbyParticles.length; i++) {
-            let nearby    = this.nearbyParticles[i]
-            let collision = this.calculateCollision(nearby.particle);
-            if (collision) {
-                this.parent.collisions.push(collision);
-            }
+    updateCollisions(pair) {
+        let collision = pair.particle1.calculateCollision(pair.particle2);
+        if (collision) {
+            this.parent.collisions.push(collision);
         }
     }
 
     calculateCollision(other) {
-        let distance        = Math.sqrt(Math.pow(this.position.x - other.position.x, 2) + Math.pow(this.position.y - other.position.y, 2));
+        let distance        = this.distance(other)
         let collideDistance = this.radius + other.radius;
         if (distance < collideDistance) {
             return {
@@ -188,7 +121,7 @@ class Particle {
     }
 
     calculatePull(other, distance) {
-        let pull   = (distance * distance) / 1000;
+        let pull       = (distance * distance) / 100;
         let xDirection = this.position.x - other.position.x
         let yDirection = this.position.y - other.position.y
         let hyp        = Math.sqrt(1 + xDirection * xDirection + yDirection * yDirection) * pull;
