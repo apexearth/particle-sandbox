@@ -1,13 +1,9 @@
 language: node_js
 node_js:
-  - "0.10"
-before_install:
-  - npm install -g bower
-  - bower install
-  - npm install -g gulp
+  - "7"
 script:
-  - gulp
+  - npm install
+  - npm test
 branches:
   only:
-    - master
     - develop

@@ -1,6 +1,9 @@
 {
   "name": "particle-sandbox",
-  "version": "0.0.1",
+  "version": "2.0.0",
+  "scripts": {
+    "test": "mocha ps/**/*.spec.js"
+  },
   "devDependencies": {
     "browser-sync": "^2.7.1",
     "browserify": "9.0.4",
