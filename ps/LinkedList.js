@@ -36,16 +36,15 @@ class LinkedList {
             this._first = node
         }
         if (this._last) {
-            node._prev       = this._last
-            this._last._next = node
+            this._last.addAfter(node)
         }
-        node._next = null
         this._last = node
         this._count++;
         return node;
     }
 
     remove(node) {
+        if (node._removed) return;
         if (this.current === node) {
             this._current = node.prev
         }

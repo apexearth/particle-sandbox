@@ -1,10 +1,13 @@
 const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null;
 const angles = require('./angles')
 
+let id = 0;
+
 class Particle {
     constructor({parent, position, momentum, mass}) {
         if (!parent) throw new Error('No parent recieved.')
         this.parent = parent
+        this.id     = id++;
         position    = position || {x: 0, y: 0}
         momentum    = momentum || {x: 0, y: 0}
 
@@ -50,6 +53,10 @@ class Particle {
 
     get scale() {
         return this.container.scale;
+    }
+
+    get speed() {
+        return Math.sqrt(this.momentum.x * this.momentum.x + this.momentum.y * this.momentum.y)
     }
 
     draw() {
@@ -102,40 +109,68 @@ class Particle {
     }
 
     updateCollisions(pair) {
-        let collision = pair.particle1.calculateCollision(pair.particle2);
+        let collision = pair.particle1.calculateCollision(pair);
+        pair.collided = !!collision
         if (collision) {
             this.parent.collisions.push(collision);
         }
     }
 
-    calculateCollision(other) {
-        let distance        = this.distance(other)
-        let collideDistance = this.radius + other.radius;
-        if (distance < collideDistance) {
+    calculateCollision(pair) {
+        let distance      = pair.particle1.distance(pair.particle2)
+        let combinedRadii = pair.particle1.radius + pair.particle2.radius;
+        if (distance < combinedRadii) {
             return {
-                particle1: this,
-                particle2: other
+                distance,
+                combinedRadii,
+                pair,
+                particle1: pair.particle1,
+                particle2: pair.particle2
             };
         }
         return null;
     }
 
-    calculatePull(other, distance) {
-        let pull       = (distance * distance) / 100;
-        let xDirection = this.position.x - other.position.x
-        let yDirection = this.position.y - other.position.y
-        let hyp        = Math.sqrt(1 + xDirection * xDirection + yDirection * yDirection) * pull;
-        xDirection     = xDirection / hyp;
-        yDirection     = yDirection / hyp;
+    static calculateAngle(pos1, pos2) {
+        return Math.atan2(pos2.y - pos1.y, pos2.x - pos1.x)
+    }
 
+    static calculateSpeed(x, y) {
+        return Math.sqrt(x * x + y * y)
+    }
+
+    static calculateDirection(pos1, pos2) {
+        let xDirection = pos1.x - pos2.x
+        let yDirection = pos1.y - pos2.y
+        let hyp        = Particle.calculateSpeed(xDirection, yDirection)
+        if (hyp === 0) {
+            return {x: 0, y: 0}
+        }
+        xDirection = xDirection / hyp
+        yDirection = yDirection / hyp
+        return {
+            x: xDirection,
+            y: yDirection
+        }
+    }
+
+    calculatePull(other, distance) {
+        let pull   = (distance * distance) / 100;
+        let {x, y} = Particle.calculateDirection(this.position, other.position)
+        if (pull === 0) {
+            return {
+                this : {x: 0, y: 0},
+                other: {x: 0, y: 0}
+            }
+        }
         return {
             this : {
-                x: xDirection === 0 ? 0 : -this.mass * xDirection,
-                y: yDirection === 0 ? 0 : -this.mass * yDirection
+                x: -this.mass * x / pull,
+                y: -this.mass * y / pull
             },
             other: {
-                x: xDirection === 0 ? 0 : other.mass * xDirection,
-                y: yDirection === 0 ? 0 : other.mass * yDirection
+                x: other.mass * x / pull,
+                y: other.mass * y / pull
             }
         }
     }
@@ -158,31 +193,67 @@ class Particle {
         other.position.y = collisionPoint.y + Math.sin(angle) * this.radius
     }
 
-    exchangeMass(other) {
+    static exchangeMass({particle1, particle2}) {
         let transferAmount;
-        if (this.mass === other.mass) {
+        if (particle1.mass === particle2.mass) {
             // We're the same! :-o
-        } else if (this.mass > other.mass) {
-            transferAmount = Math.min(other.mass, Math.max(other.mass * (this.mass / other.mass) / 100, 0.1));
-            this.mass += transferAmount;
-            other.mass -= transferAmount;
+        } else if (particle1.mass > particle2.mass) {
+            transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) / 100, 0.1));
+            particle1.mass += transferAmount;
+            particle2.mass -= transferAmount;
         } else {
-            transferAmount = Math.min(this.mass, Math.max(this.mass * (other.mass / this.mass) / 100, 0.1));
-            this.mass -= transferAmount;
-            other.mass += transferAmount;
+            transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) / 100, 0.1));
+            particle1.mass -= transferAmount;
+            particle2.mass += transferAmount;
         }
     }
 
-    // TODO: Base me off of the angle, so things bounce.
-    distributeVelocity(other) {
+    distributeVelocity(other, percentage = 1) {
         let meProportion    = this.mass / (this.mass + other.mass);
         let otherProportion = 1 - meProportion;
         let xm              = this.momentum.x;
         let ym              = this.momentum.y;
-        this.momentum.x     = xm * meProportion + other.momentum.x * otherProportion;
-        this.momentum.y     = ym * meProportion + other.momentum.y * otherProportion;
-        other.momentum.x    = this.momentum.x;
-        other.momentum.y    = this.momentum.y;
+        this.momentum.x     = xm * meProportion + (other.momentum.x * otherProportion) * percentage;
+        this.momentum.y     = ym * meProportion + (other.momentum.y * otherProportion) * percentage;
+        other.momentum.x    = other.momentum.x * otherProportion + (xm * meProportion) * percentage;
+        other.momentum.y    = other.momentum.y * otherProportion + (ym * meProportion) * percentage;
+    }
+
+    // TODO: Look through this again, might have some small bugs in it.
+    // https://en.wikipedia.org/wiki/Elastic_collision#Two-_and_three-dimensional
+    bounce(other) {
+        let totalMass = this.mass + other.mass
+
+        let a1 = Particle.calculateAngle({x: 0, y: 0}, this.momentum)
+        let m1 = this.mass;
+        let v1 = Particle.calculateSpeed(this.momentum.x, this.momentum.y)
+
+        let a2 = Particle.calculateAngle({x: 0, y: 0}, other.momentum)
+        let m2 = other.mass;
+        let v2 = Particle.calculateSpeed(other.momentum.x, other.momentum.y)
+
+        let contactAngle = Particle.calculateAngle(this.position, other.position);
+
+        const calcX = (a1, m1, v1, a2, m2, v2) => {
+            return ((v1 * Math.cos(a1 - contactAngle) * (m1 - m2) + (2 * m2 * v2 * Math.cos(a2 - contactAngle))) / totalMass)
+                * Math.cos(contactAngle)
+                + (v1 * Math.sin(a1 - contactAngle) * Math.cos(contactAngle + Math.PI / 2))
+        }
+        const calcY = (a1, m1, v1, a2, m2, v2) => {
+            return ((v1 * Math.cos(a1 - contactAngle) * (m1 - m2) + (2 * m2 * v2 * Math.cos(a2 - contactAngle))) / totalMass)
+                * Math.sin(contactAngle)
+                + (v1 * Math.sin(a1 - contactAngle) * Math.sin(contactAngle + Math.PI / 2))
+        }
+
+        let v1x = calcX(a1, m1, v1, a2, m2, v2);
+        let v1y = calcY(a1, m1, v1, a2, m2, v2);
+        let v2x = calcX(a2, m2, v2, a1, m1, v1);
+        let v2y = calcY(a2, m2, v2, a1, m1, v1);
+
+        this.momentum.x  = v1x
+        this.momentum.y  = v1y
+        other.momentum.x = v2x
+        other.momentum.y = v2y
     }
 
 }

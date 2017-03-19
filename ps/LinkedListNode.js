@@ -18,6 +18,8 @@ class LinkedListNode {
         if (this._next) {
             this._next._prev = node
             node._next       = this._next
+        } else {
+            node._next = null
         }
         this._next = node
         node._prev = this
@@ -28,6 +30,8 @@ class LinkedListNode {
         if (this._prev) {
             node._prev       = this._prev
             this._prev._next = node
+        } else {
+            node._prev = null
         }
         this._prev = node
         node._next = this
@@ -36,13 +40,15 @@ class LinkedListNode {
     remove() {
         if (this._removed)
             throw new Error("Already removed.")
-        this._removed = true
         if (this._prev) {
             this._prev._next = this._next
         }
         if (this._next) {
             this._next._prev = this._prev
         }
+        this._next = null
+        this._prev = null
+        this._removed = true
     }
 }
 
