@@ -17,17 +17,16 @@ function height() {
     return typeof window !== 'undefined' ? window.innerHeight : 500;
 }
 
-function zoom(event) {
-    let change = (event.deltaY > 0 ? .2 : -.2);
-    if (change > 0 && stage.scale.y > .2) {
-        stage.position.x -= (stage.position.x - window.innerWidth / 2) * change / stage.scale.y;
-        stage.position.y -= (stage.position.y - window.innerHeight / 2) * change / stage.scale.y;
-        stage.scale.x = stage.scale.y = Math.max(.2, stage.scale.y - change);
+function zoom(zoomSpeed) {
+    if (zoomSpeed < 0 && stage.scale.y > .02) {
+        stage.position.x += (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
+        stage.position.y += (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y;
+        stage.scale.x = stage.scale.y = Math.max(.02, stage.scale.y + zoomSpeed);
     }
-    if (change < 0 && stage.scale.y < 4) {
-        stage.position.x += (input('mouseX') - window.innerWidth / 2) * change;
-        stage.position.y += (input('mouseY') - window.innerHeight / 2) * change;
-        stage.scale.x = stage.scale.y = Math.min(4, stage.scale.y - change);
+    if (zoomSpeed > 0 && stage.scale.y < 4) {
+        stage.position.x += (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
+        stage.position.y += (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y;
+        stage.scale.x = stage.scale.y = Math.min(4, stage.scale.y + zoomSpeed);
     }
 }
 
@@ -63,15 +62,11 @@ function animate() {
         stage.position.x -= scrollSpeed;
     }
     let zoomSpeed = .02;
-    if (input('zoomOut') && stage.scale.y > .02) {
-        stage.position.x -= (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
-        stage.position.y -= (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y;
-        stage.scale.x = stage.scale.y = Math.max(.02, stage.scale.y - zoomSpeed);
+    if (input('zoomOut')) {
+        zoom(-zoomSpeed)
     }
-    if (input('zoomIn') && stage.scale.y < 4) {
-        stage.position.x += (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
-        stage.position.y += (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y;
-        stage.scale.x = stage.scale.y = Math.min(4, stage.scale.y + zoomSpeed);
+    if (input('zoomIn')) {
+        zoom(zoomSpeed)
     }
 
     renderer.render(stage);
@@ -82,8 +77,8 @@ function animate() {
 }
 
 const addParticles = () => {
-    ps.addParticles(200);
-    if (ps.particles.length < 2) {
+    ps.addParticles(20);
+    if (ps.particles.length < 2000) {
         setTimeout(addParticles, 10);
     }
 }
@@ -92,7 +87,7 @@ addParticles()
 let stage = ps.container;
 debug.initialize(stage);
 
-document.addEventListener('mousewheel', zoom);
+document.addEventListener('mousewheel', event => zoom(event.deltaY < 0 ? .2 : -.2));
 
 animate();
 

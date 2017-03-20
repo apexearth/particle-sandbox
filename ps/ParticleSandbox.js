@@ -113,8 +113,8 @@ class ParticleSandbox {
             this.addParticle({
                 mass    : 20 + Math.random() * 10,
                 position: {
-                    x: 2000 * Math.random() - 1000,
-                    y: 2000 * Math.random() - 1000,
+                    x: 20000 * Math.random() - 10000,
+                    y: 20000 * Math.random() - 10000,
                 }
             });
         }
