@@ -6,10 +6,16 @@
     "watch": "webpack --watch"
   },
   "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
     "browserify": "9.0.4",
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "pixi.js": "^4.2.3",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
     "user-input": "^1.3.1",
     "user-input-mapping": "^1.3.0",
     "webpack": "^1.13.3"

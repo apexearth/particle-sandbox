@@ -1,3 +1,5 @@
+const ui = require('./ui');
+
 const input    = require('./inputs');
 const stats    = require('./stats');
 const debug    = require('./debug');
