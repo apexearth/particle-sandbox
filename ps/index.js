@@ -89,7 +89,7 @@ addParticles()
 let stage = ps.container;
 debug.initialize(stage);
 
-document.addEventListener('mousewheel', event => zoom(event.deltaY < 0 ? .2 : -.2));
+document.addEventListener('mousewheel', event => zoom(event.deltaY < 0 ? .1 : -.1));
 
 animate();
 
