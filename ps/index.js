@@ -23,12 +23,12 @@ function zoom(zoomSpeed) {
     if (zoomSpeed < 0 && stage.scale.y > .02) {
         stage.position.x += (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
         stage.position.y += (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y;
-        stage.scale.x = stage.scale.y = Math.max(.02, stage.scale.y + zoomSpeed);
+        stage.scale.x = stage.scale.y = stage.scale.y + zoomSpeed;
     }
     if (zoomSpeed > 0 && stage.scale.y < 4) {
         stage.position.x += (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y;
         stage.position.y += (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y;
-        stage.scale.x = stage.scale.y = Math.min(4, stage.scale.y + zoomSpeed);
+        stage.scale.x = stage.scale.y = stage.scale.y + zoomSpeed;
     }
 }
 

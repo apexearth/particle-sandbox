@@ -1,8 +1,15 @@
-@base: #f938ab;
+@base: #67f95e;
+@gui-bg-color: fade(@base, 30%);
+@gui-button-color: fade(@base, 50%);
+@gui-button-hover-color: lighten(@gui-button-color, 15%);
+
+@font-base: lighten(@base, 10%);
+@font-family: "Courier New", Courier, monospace;
 
 html, body {
   margin: 0;
-  color: #fff;
+  color: @font-base;
+  font-family: @font-family;
 }
 
 canvas {
@@ -14,6 +21,68 @@ canvas {
   z-index: -1;
 }
 
-.menu-button {
-  background-color: @base;
+.no-text-select {
+  user-select: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.gui-rounded(@size: 4px) {
+  border-radius: @size;
+}
+
+.gui-backpanel {
+  background-color: @gui-bg-color;
+}
+
+.gui-button {
+  .no-text-select;
+  .clickable;
+}
+
+@menu-margin: 15px;
+@menu-button-size: 25px;
+#menu-button {
+  .gui-rounded;
+  .gui-button;
+  position: fixed;
+  left: @menu-margin;
+  top: @menu-margin;
+  width: @menu-button-size;
+  height: @menu-button-size;
+  line-height: @menu-button-size;
+  text-align: center;
+
+  background-color: @gui-button-color;
+  &:hover {
+    background-color: @gui-button-hover-color;
+  }
+}
+
+#menu {
+  .gui-backpanel;
+  .gui-rounded;
+  position: fixed;
+  top: @menu-margin * 2 + @menu-button-size;
+  left: @menu-margin;
+  min-width: 50px;
+  min-height: 50px;
+}
+
+#menu-list {
+  @padding: 10px;
+  padding: @padding / 2;
+  div {
+    padding-left: @padding;
+    padding-right: @padding;
+    padding-top: @padding / 4;
+    padding-bottom: @padding / 4;
+
+    .gui-button;
+    &:hover {
+      background-color: rgba(255, 255, 255, .1);
+    }
+  }
 }

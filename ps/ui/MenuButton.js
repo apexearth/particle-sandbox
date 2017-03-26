@@ -1,7 +1,23 @@
 import React from 'react';
+import {menu} from './state';
 
-module.exports = () => (
-    <div className="menu-button">
-        Testing one two three...
-    </div>
-)
+class MenuButton extends React.Component {
+
+    componentDidMount() {
+        this.setState(menu)
+        menu.subscribe(menu => {
+            this.setState(menu)
+        })
+    }
+
+    render() {
+        return (
+            <div id="menu-button"
+                 onClick={menu.toggleVisible}>
+                &nbsp;
+            </div>
+        )
+    }
+}
+
+module.exports = MenuButton;
