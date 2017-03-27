@@ -23,7 +23,7 @@ class ParticleSandbox {
 
     update(seconds) {
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count)
-        this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * .2)
+        this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * .1)
         this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * .02)
         this.particles.forEach(particle => particle.updateMovement(seconds))
         this.collisions.forEach(collision => {
@@ -54,14 +54,15 @@ class ParticleSandbox {
                     root.remove(pair)
                 } else {
                     this.updatePairLocation(pair, root)
+                    pair.update()
+
                     if (pair.checkCollision) {
                         pair.particle1.updateCollisions(pair)
                     }
                     if (!pair.collided) {
-                        pair.previouslyCollided = false;
+                        pair.previouslyCollided = false
                         pair.particle1.updateAttract(pair)
                     }
-                    pair.update()
                     pair.age = 0;
                 }
             }

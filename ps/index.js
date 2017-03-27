@@ -4,7 +4,7 @@ const input    = require('./inputs');
 const stats    = require('./stats');
 const debug    = require('./debug');
 const PIXI     = require('pixi.js');
-const renderer = new PIXI.WebGLRenderer(width(), height());
+const renderer = new PIXI.WebGLRenderer(width(), height(), {antialias: true});
 document.body.appendChild(renderer.view);
 
 const ParticleSandbox = require('./ParticleSandbox');
@@ -80,7 +80,7 @@ function animate() {
 
 const addParticles = () => {
     ps.addParticles(20);
-    if (ps.particles.length < 2000) {
+    if (ps.particles.length < 3250) {
         setTimeout(addParticles, 10);
     }
 }

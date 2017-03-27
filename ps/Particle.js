@@ -20,17 +20,18 @@ class Particle {
             this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}};
         }
 
-        this.color      = 0xff00ff;
-        this.mass       = mass || 4
-        this.mass_prev  = this.mass
-        this.position.x = position.x
-        this.position.y = position.y
-        this.momentum   = {
+        this.color         = 0xff00ff;
+        this.mass          = mass || 4
+        this.mass_prev     = this.mass
+        this.position.x    = position.x
+        this.position.y    = position.y
+        this.momentum      = {
             x: momentum.x,
             y: momentum.y
         }
+        this.position_prev = {}
+        this.momentum_prev = {}
         this.updatePrevious()
-
         this.draw();
     }
 
@@ -90,22 +91,23 @@ class Particle {
     }
 
     updatePrevious() {
-        this.position_prev = {
-            x: this.position.x,
-            y: this.position.y,
-        }
-        this.momentum_prev = {
-            x: this.momentum.x,
-            y: this.momentum.y,
-        }
+        this.position_prev.x = this.position.x
+        this.position_prev.y = this.position.y
+        this.momentum_prev.x = this.momentum.x
+        this.momentum_prev.y = this.momentum.y
     }
 
+    /**
+     * High Run Rate
+     */
     updateAttract(pair) {
-        let pull = pair.particle1.calculatePull(pair.particle2, pair.distance)
-        pair.particle1.momentum.x -= pull.other.x * pair.age
-        pair.particle1.momentum.y -= pull.other.y * pair.age
-        pair.particle2.momentum.x -= pull.this.x * pair.age
-        pair.particle2.momentum.y -= pull.this.y * pair.age
+        if (pair.distance === 0) return
+        let pull     = (pair.distance * pair.distance) / 200
+        let {x, y}   = Particle.calculateDirection(pair.particle1.position, pair.particle2.position)
+        pair.particle1.momentum.x -= pair.particle2.mass * x / pull * pair.age
+        pair.particle1.momentum.y -= pair.particle2.mass * y / pull * pair.age
+        pair.particle2.momentum.x -= -pair.particle1.mass * x / pull * pair.age
+        pair.particle2.momentum.y -= -pair.particle1.mass * y / pull * pair.age
     }
 
     updateCollisions(pair) {
@@ -154,43 +156,20 @@ class Particle {
         }
     }
 
-    calculatePull(other, distance) {
-        let pull   = (distance * distance) / 100;
-        let {x, y} = Particle.calculateDirection(this.position, other.position)
-        if (pull === 0) {
-            return {
-                this : {x: 0, y: 0},
-                other: {x: 0, y: 0}
-            }
-        }
-        return {
-            this : {
-                x: -this.mass * x / pull,
-                y: -this.mass * y / pull
-            },
-            other: {
-                x: other.mass * x / pull,
-                y: other.mass * y / pull
-            }
-        }
-    }
-
     /**
      * This is not completely accurate.
      * Collision *should* happen at the action point of impact between this frame and the last frame.
      */
     uncollide(other) {
-        let totalRadius    = this.radius + other.radius;
-        let collisionPoint = {
-            x: ((this.position.x * this.radius) + (other.position.x * other.radius)) / totalRadius,
-            y: ((this.position.y * this.radius) + (other.position.y * other.radius)) / totalRadius
-        }
+        let totalRadius     = this.radius + other.radius;
+        let collisionPointX = ((this.position.x * this.radius) + (other.position.x * other.radius)) / totalRadius
+        let collisionPointY = ((this.position.y * this.radius) + (other.position.y * other.radius)) / totalRadius
 
         let angle        = angles.angle(this.position.x, this.position.y, other.position.x, other.position.y);
-        this.position.x  = collisionPoint.x - Math.cos(angle) * other.radius
-        this.position.y  = collisionPoint.y - Math.sin(angle) * other.radius
-        other.position.x = collisionPoint.x + Math.cos(angle) * this.radius
-        other.position.y = collisionPoint.y + Math.sin(angle) * this.radius
+        this.position.x  = collisionPointX - Math.cos(angle) * other.radius
+        this.position.y  = collisionPointY - Math.sin(angle) * other.radius
+        other.position.x = collisionPointX + Math.cos(angle) * this.radius
+        other.position.y = collisionPointY + Math.sin(angle) * this.radius
     }
 
     static exchangeMass({particle1, particle2}) {
