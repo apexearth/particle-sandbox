@@ -37,11 +37,11 @@ describe("Particle", function () {
         expect(p1.mass).to.equal(p2.mass)
         expect(p1.position.x).to.equal(2)
         expect(p1.position.y).to.equal(0)
-        expect(p1.momentum.x).to.equal(15.343686308927152) // Bounce velocity
-        expect(p1.momentum.y).to.equal(1.8790596325348703e-15)
+        expect(p1.momentum.x).to.equal(21.731404646661826) // Bounce velocity
+        expect(p1.momentum.y).to.equal(2.6613295141510325e-15)
         expect(p2.position.x).to.equal(-2)
         expect(p2.position.y).to.equal(0)
-        expect(p2.momentum.x).to.equal(-15.343686308927152)
+        expect(p2.momentum.x).to.equal(-21.731404646661826)
         expect(p2.momentum.y).to.equal(0)
     });
 
@@ -51,22 +51,22 @@ describe("Particle", function () {
         let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 10, y: 0}})
 
         ps.update(.1);
-        expect(p1.momentum).to.deep.equal({x: 0.3141592653589793, y: 0})
-        expect(p2.momentum).to.deep.equal({x: -0.3141592653589793, y: 0})
+        expect(p1.momentum).to.deep.equal({ x: 0.6283185307179586, y: 0 })
+        expect(p2.momentum).to.deep.equal({ x: -0.6283185307179586, y: 0 })
 
         let p3 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 0, y: 10}})
         ps.update(.1);
         expect(p1.momentum).to.deep.equal({
-            "x": 1.073303055376075,
-            "y": 0.4463868904337619,
+            "x": 2.1559625868289225,
+            "y": 0.8969907576052748
         })
         expect(p2.momentum).to.deep.equal({
-            "x": -1.073303055376075,
-            "y": 0.4463868904337619,
+            "x": -2.1559625868289225,
+            "y": 0.8969907576052748
         })
         expect(p3.momentum).to.deep.equal({
             "x": 0,
-            "y": -0.8927737808675238,
+            "y": -1.7939815152105496
         })
     });
 
