@@ -6,6 +6,8 @@ const ParticlePair = require('./ParticlePair')
 const LinkedList   = require('./LinkedList')
 const stats        = require('./stats')
 
+const UserInput = require('./UserInput')
+
 class ParticleSandbox {
     constructor(options) {
         this.options    = Object.assign(this.defaultOptions, options)
@@ -17,8 +19,13 @@ class ParticleSandbox {
         ]
         this.collisions = []
         if (typeof window !== 'undefined') {
-            this.container = new PIXI.Container();
+            this.root      = new PIXI.Container()
+            this.container = new PIXI.Container()
+            this.root.addChild(this.container)
         }
+        this.components = [
+            new UserInput({parent: this})
+        ]
     }
 
     update(seconds) {
@@ -39,6 +46,7 @@ class ParticleSandbox {
         this.particles.forEach(particle => particle.update(seconds))
         this.collisions = []
 
+        this.components.forEach(component => component.update(seconds))
         stats.update(this)
     }
 

@@ -71,7 +71,7 @@ function animate() {
         zoom(zoomSpeed)
     }
 
-    renderer.render(stage);
+    renderer.render(root);
     debug.update(current)
 
     lastMouseX = input('mouseX');
@@ -86,6 +86,7 @@ const addParticles = () => {
 }
 addParticles()
 
+let root = ps.root;
 let stage = ps.container;
 debug.initialize(stage);
 
