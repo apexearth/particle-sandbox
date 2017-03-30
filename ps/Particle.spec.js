@@ -1,6 +1,6 @@
-let expect          = require('chai').expect
-let ParticleSandbox = require('./ParticleSandbox')
-let Particle        = require('./Particle')
+const expect          = require('chai').expect
+const ParticleSandbox = require('./ParticleSandbox')
+const Particle        = require('./Particle')
 
 describe("Particle", function () {
     it("2 particle interaction", function () {
@@ -45,14 +45,24 @@ describe("Particle", function () {
         expect(p2.momentum.y).to.equal(0)
     });
 
+    it('.select() & .deselect()', function () {
+        let ps = new ParticleSandbox()
+        let p  = ps.addParticle()
+        expect(p.selected).to.equal(false)
+        p.select()
+        expect(p.selected).to.equal(true)
+        p.deselect()
+        expect(p.selected).to.equal(false)
+    });
+
     it('.updateAttract()', function () {
         let ps = new ParticleSandbox();
         let p1 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -10, y: 0}})
         let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 10, y: 0}})
 
         ps.update(.1);
-        expect(p1.momentum).to.deep.equal({ x: 0.6283185307179586, y: 0 })
-        expect(p2.momentum).to.deep.equal({ x: -0.6283185307179586, y: 0 })
+        expect(p1.momentum).to.deep.equal({x: 0.6283185307179586, y: 0})
+        expect(p2.momentum).to.deep.equal({x: -0.6283185307179586, y: 0})
 
         let p3 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 0, y: 10}})
         ps.update(.1);

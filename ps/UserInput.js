@@ -32,13 +32,14 @@ class UserInput {
                     this.state.selecting = true
                     // TODO: This takes the current x/y from the frame, not the actual mouse click event's x/y, thus user might experience frustration.
                     // Should fix later -- don't want to do a hack right now.
-                    this.state.start.x   = inputs('mouseX')
-                    this.state.start.y   = inputs('mouseY')
+                    this.state.start.x = inputs('mouseX')
+                    this.state.start.y = inputs('mouseY')
                 }
                 this.state.finish.x = inputs('mouseX')
                 this.state.finish.y = inputs('mouseY')
-            } else {
+            } else if (this.state.selecting) {
                 this.state.selecting = false;
+                this.parent.select(this.state.start.x, this.state.start.y, this.state.finish.x, this.state.finish.y)
             }
         }
         this.draw()

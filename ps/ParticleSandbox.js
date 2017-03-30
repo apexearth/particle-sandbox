@@ -22,6 +22,8 @@ class ParticleSandbox {
             this.root      = new PIXI.Container()
             this.container = new PIXI.Container()
             this.root.addChild(this.container)
+        } else {
+            this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}};
         }
         this.components = [
             new UserInput({parent: this})
@@ -137,6 +139,29 @@ class ParticleSandbox {
                 this.container.removeChild(particle.container);
             }
         }
+    }
+
+    select(x1, y1, x2, y2) {
+        let minX = Math.min(x1, x2)
+        let minY = Math.min(y1, y2)
+        let maxX = Math.max(x1, x2)
+        let maxY = Math.max(y1, y2)
+        minX     = (minX - this.container.position.x) / this.container.scale.x
+        minY     = (minY - this.container.position.y) / this.container.scale.y
+        maxX     = (maxX - this.container.position.x) / this.container.scale.x
+        maxY     = (maxY - this.container.position.y) / this.container.scale.y
+        this.particles.forEach(particle => {
+            if (!(
+                    particle.position.x < minX ||
+                    particle.position.x > maxX ||
+                    particle.position.y < minY ||
+                    particle.position.y > maxY
+                )) {
+                particle.select()
+            } else {
+                particle.deselect()
+            }
+        })
     }
 
     get defaultOptions() {

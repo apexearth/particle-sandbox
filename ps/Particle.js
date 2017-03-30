@@ -20,6 +20,7 @@ class Particle {
             this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}};
         }
 
+        this._selected     = false;
         this.color         = 0xff00ff;
         this.mass          = mass || 4
         this.mass_prev     = this.mass
@@ -33,6 +34,10 @@ class Particle {
         this.momentum_prev = {}
         this.updatePrevious()
         this.draw();
+    }
+
+    get selected() {
+        return this._selected;
     }
 
     set radius(val) {
@@ -63,7 +68,7 @@ class Particle {
     draw() {
         if (typeof window !== 'undefined') {
             this.graphics.clear();
-            this.graphics.beginFill(this.color)
+            this.graphics.beginFill(this._selected ? 0xffffff : this.color)
             this.graphics.drawCircle(0, 0, 1);
             this.graphics.endFill();
             this.scale.x = this.scale.y = this._radius
@@ -77,6 +82,21 @@ class Particle {
     collisionRange(other, distance) {
         return distance < (this.radius + other.radius) * 50;
     }
+
+    select() {
+        if (!this._selected) {
+            this._selected = true
+            this.draw()
+        }
+    }
+
+    deselect() {
+        if (this._selected) {
+            this._selected = false;
+            this.draw()
+        }
+    }
+
 
     update(seconds) {
         if (this.mass <= 0) {
