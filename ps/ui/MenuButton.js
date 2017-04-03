@@ -1,5 +1,5 @@
-import React from 'react';
-import {menu} from './state';
+import React from 'react'
+import {menu} from './state'
 
 class MenuButton extends React.Component {
 
@@ -20,4 +20,4 @@ class MenuButton extends React.Component {
     }
 }
 
-module.exports = MenuButton;
+module.exports = MenuButton

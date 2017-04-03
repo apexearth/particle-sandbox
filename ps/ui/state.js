@@ -1,12 +1,12 @@
-const {EventEmitter} = require('events');
+const {EventEmitter} = require('events')
 
-const state = module.exports = new EventEmitter();
+const state = module.exports = new EventEmitter()
 
 state.initialize = instance => {
     ps = state.ps = instance
 }
 
-let ps = state.ps = null;
+let ps = state.ps = null
 
 const menu = state.menu = {
     subscribe    : fn => state.on('menu', fn),

@@ -4,7 +4,7 @@ const ParticleSandbox = require('./ParticleSandbox')
 describe('ParticleSandbox', () => {
     it('run', () => {
         let ps = new ParticleSandbox()
-        ps.addParticles(100);
+        ps.addParticles(100)
         for (let i = 0; i < 10000; i++) {
             ps.update(1 / 60)
         }
@@ -14,7 +14,7 @@ describe('ParticleSandbox', () => {
         let p1 = ps.addParticle({position: {x: 0, y: 0}})
         let p2 = ps.addParticle({position: {x: 10, y: 10}})
         let p3 = ps.addParticle({position: {x: -10, y: -10}})
-        ps.select(0, 0, 10, 10);
+        ps.select(0, 0, 10, 10)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
         expect(p3.selected).to.equal(false)
@@ -25,7 +25,7 @@ describe('ParticleSandbox', () => {
         ps.container.position.y = 5
         ps.container.scale.x    = .5
         ps.container.scale.y    = .5
-        ps.select(0, 0, 10, 10);
+        ps.select(0, 0, 10, 10)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
         expect(p3.selected).to.equal(true)
@@ -37,7 +37,7 @@ describe('ParticleSandbox', () => {
         ps.container.position.y = 0
         ps.container.scale.x    = 1
         ps.container.scale.y    = 1
-        ps.select(0, 0, 1, 1);
+        ps.select(0, 0, 1, 1)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(false)
         expect(p3.selected).to.equal(false)
@@ -45,7 +45,7 @@ describe('ParticleSandbox', () => {
         expect(ps.selectedParticles.indexOf(p2)).to.equal(-1)
         expect(ps.selectedParticles.indexOf(p3)).to.equal(-1)
 
-        ps.select(10, 10, 11, 11, true);
+        ps.select(10, 10, 11, 11, true)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
         expect(p3.selected).to.equal(false)

@@ -1,9 +1,9 @@
 class LinkedList {
     constructor() {
-        this._first   = null;
-        this._last    = null;
-        this._current = null;
-        this._count   = 0;
+        this._first   = null
+        this._last    = null
+        this._current = null
+        this._count   = 0
     }
 
     get first() {
@@ -23,7 +23,7 @@ class LinkedList {
     }
 
     set current(val) {
-        this._current = val;
+        this._current = val
     }
 
     get count() {
@@ -39,12 +39,12 @@ class LinkedList {
             this._last.addAfter(node)
         }
         this._last = node
-        this._count++;
-        return node;
+        this._count++
+        return node
     }
 
     remove(node) {
-        if (node._removed) return;
+        if (node._removed) return
         if (this.current === node) {
             this._current = node.prev
         }

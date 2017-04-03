@@ -1,10 +1,10 @@
-const expect         = require('chai').expect;
-const LinkedList     = require('./LinkedList');
-const LinkedListNode = require('./LinkedListNode');
+const expect         = require('chai').expect
+const LinkedList     = require('./LinkedList')
+const LinkedListNode = require('./LinkedListNode')
 
 describe('LinkedList', () => {
     it('basics', () => {
-        let ll = new LinkedList();
+        let ll = new LinkedList()
         let n1 = ll.add(new LinkedListNode())
         let n2 = ll.add(new LinkedListNode())
         let n3 = ll.add(new LinkedListNode())

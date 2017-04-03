@@ -1,5 +1,5 @@
-const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null;
-const inputs = require('./inputs');
+const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null
+const inputs = require('./inputs')
 
 class UserInput {
     constructor({parent}) {
@@ -23,7 +23,7 @@ class UserInput {
                 selecting: false,
                 start    : {x: 0, y: 0},
                 finish   : {x: 0, y: 0}
-            };
+            }
         }
 
         if (this.mode === "selection") {
@@ -38,7 +38,7 @@ class UserInput {
                 this.state.finish.x = inputs('mouseX')
                 this.state.finish.y = inputs('mouseY')
             } else if (this.state.selecting) {
-                this.state.selecting = false;
+                this.state.selecting = false
                 this.parent.select(this.state.start.x, this.state.start.y, this.state.finish.x, this.state.finish.y)
             }
         }
@@ -61,4 +61,4 @@ class UserInput {
     }
 }
 
-module.exports = UserInput;
+module.exports = UserInput

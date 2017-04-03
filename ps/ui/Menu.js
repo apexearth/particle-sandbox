@@ -1,5 +1,5 @@
-import React from 'react';
-import {menu} from './state';
+import React from 'react'
+import {menu} from './state'
 class Menu extends React.Component {
 
     componentDidMount() {
@@ -10,7 +10,7 @@ class Menu extends React.Component {
     }
 
     render() {
-        if (!menu.visible)  return null;
+        if (!menu.visible)  return null
         return (
             <div id="menu">
                 <div id="menu-list">
@@ -25,4 +25,4 @@ class Menu extends React.Component {
     }
 }
 
-module.exports = Menu;
+module.exports = Menu

@@ -24,7 +24,7 @@ class ParticleSandbox {
             this.container = new PIXI.Container()
             this.root.addChild(this.container)
         } else {
-            this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}};
+            this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}}
         }
         this.components = [
             new UserInput({parent: this})
@@ -43,7 +43,7 @@ class ParticleSandbox {
             if (!collision.pair.previouslyCollided) {
                 collision.particle1.bounce(collision.particle2)
                 collision.particle1.uncollide(collision.particle2)
-                collision.pair.previouslyCollided = true;
+                collision.pair.previouslyCollided = true
             }
         })
         this.particles.forEach(particle => particle.update(seconds))
@@ -74,7 +74,7 @@ class ParticleSandbox {
                         pair.previouslyCollided = false
                         pair.particle1.updateAttract(pair)
                     }
-                    pair.age = 0;
+                    pair.age = 0
                 }
             }
         }
@@ -128,16 +128,16 @@ class ParticleSandbox {
                     x: 20000 * Math.random() - 10000,
                     y: 20000 * Math.random() - 10000,
                 }
-            });
+            })
         }
     }
 
     removeParticle(particle) {
-        let index = this.particles.indexOf(particle);
+        let index = this.particles.indexOf(particle)
         if (index >= 0) {
-            this.particles.splice(index, 1);
+            this.particles.splice(index, 1)
             if (typeof window !== 'undefined') {
-                this.container.removeChild(particle.container);
+                this.container.removeChild(particle.container)
             }
         }
     }

@@ -15,11 +15,11 @@ module.exports = {
         }
         stats.fpsCounter++
 
-        clear();
+        clear()
         print('FPS:   ' + stats.fps)
         print('Count: ' + stats.particleCount)
     }
 }
 
-const clear = () => fpsText.text = '';
+const clear = () => fpsText.text = ''
 const print = text => fpsText.text += text + '\n'

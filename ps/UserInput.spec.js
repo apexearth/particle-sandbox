@@ -1,7 +1,7 @@
 const expect                  = require('chai').expect
 const UserInput               = require('./UserInput')
 const inputs                  = require('./inputs')
-inputs.mapping.requireUpdates = true; // For testing, don't auto update input values.
+inputs.mapping.requireUpdates = true // For testing, don't auto update input values.
 
 describe('UserInput', () => {
     it('selection', () => {

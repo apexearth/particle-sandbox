@@ -1,12 +1,12 @@
-import React from 'react';
-import state from './state';
+import React from 'react'
+import state from './state'
 
 class SelectionInfo extends React.Component {
 
     // TODO: Should be updated frequently if ps is not null.
     render() {
         const {ps} = state
-        setTimeout(() => this.forceUpdate(), 200);
+        setTimeout(() => this.forceUpdate(), 200)
         if (!ps || ps.selectedParticles.length === 0) return null
         const stats = this.statistics()
         return (
@@ -45,7 +45,7 @@ class SelectionInfo extends React.Component {
             },
             mass       : 0,
             averageMass: 0
-        };
+        }
         for (let p of ps.selectedParticles) {
             stats.position.x += p.position.x
             stats.position.y += p.position.y
@@ -63,4 +63,4 @@ class SelectionInfo extends React.Component {
     }
 }
 
-module.exports = SelectionInfo;
+module.exports = SelectionInfo

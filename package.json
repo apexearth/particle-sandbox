@@ -2,8 +2,26 @@
   "name": "particle-sandbox",
   "version": "2.0.0",
   "scripts": {
-    "test": "mocha ps/**/*.spec.js",
+    "test": "npm-run-all test-eslint test-mocha",
+    "test-eslint": "eslint ./**/*.js",
+    "test-mocha": "mocha ps/**/*.spec.js",
     "watch": "webpack --watch"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    },
+    "rules": {
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-var": "error"
+    }
   },
   "devDependencies": {
     "babel-core": "^6.24.0",
@@ -13,10 +31,12 @@
     "babel-preset-react": "^6.23.0",
     "chai": "^3.5.0",
     "css-loader": "^0.27.3",
+    "eslint": "^3.19.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.2",
     "mocha": "^3.2.0",
+    "npm-run-all": "^4.0.2",
     "pixi.js": "^4.2.3",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
