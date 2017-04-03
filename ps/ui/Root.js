@@ -2,6 +2,7 @@ import React from 'react';
 
 import Menu from './Menu';
 import MenuButton from './MenuButton';
+import SelectionInfo from './SelectionInfo';
 
 class Root extends React.Component {
 
@@ -10,6 +11,7 @@ class Root extends React.Component {
             <div>
                 <Menu />
                 <MenuButton />
+                <SelectionInfo />
             </div>
         )
     }

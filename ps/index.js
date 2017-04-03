@@ -10,7 +10,7 @@ document.body.appendChild(renderer.view);
 const ParticleSandbox = require('./ParticleSandbox');
 const ps              = new ParticleSandbox()
 if (typeof window !== 'undefined') window.ps = ps;
-
+ui.initialize(ps)
 
 function width() {
     return typeof window !== 'undefined' ? window.innerWidth : 500;
@@ -86,7 +86,7 @@ const addParticles = () => {
 }
 addParticles()
 
-let root = ps.root;
+let root  = ps.root;
 let stage = ps.container;
 debug.initialize(stage);
 
