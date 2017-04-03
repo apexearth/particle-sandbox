@@ -10,14 +10,15 @@ const UserInput = require('./UserInput')
 
 class ParticleSandbox {
     constructor(options) {
-        this.options    = Object.assign(this.defaultOptions, options)
-        this.particles  = []
-        this.pairs      = [
+        this.options           = Object.assign(this.defaultOptions, options)
+        this.particles         = []
+        this.selectedParticles = []
+        this.pairs             = [
             new LinkedList(),
             new LinkedList(),
             new LinkedList(),
         ]
-        this.collisions = []
+        this.collisions        = []
         if (typeof window !== 'undefined') {
             this.root      = new PIXI.Container()
             this.container = new PIXI.Container()
@@ -141,7 +142,7 @@ class ParticleSandbox {
         }
     }
 
-    select(x1, y1, x2, y2) {
+    select(x1, y1, x2, y2, additive = false) {
         let minX = Math.min(x1, x2)
         let minY = Math.min(y1, y2)
         let maxX = Math.max(x1, x2)
@@ -150,6 +151,9 @@ class ParticleSandbox {
         minY     = (minY - this.container.position.y) / this.container.scale.y
         maxX     = (maxX - this.container.position.x) / this.container.scale.x
         maxY     = (maxY - this.container.position.y) / this.container.scale.y
+        if (!additive) {
+            this.selectedParticles.splice(0)
+        }
         this.particles.forEach(particle => {
             if (!(
                     particle.position.x < minX ||
@@ -158,8 +162,15 @@ class ParticleSandbox {
                     particle.position.y > maxY
                 )) {
                 particle.select()
-            } else {
-                particle.deselect()
+                this.selectedParticles.push(particle)
+            } else if (!additive) {
+                if (particle.selected) {
+                    particle.deselect()
+                    let index = this.selectedParticles.indexOf(particle)
+                    if (index >= 0) {
+                        this.selectedParticles.splice(index, 1)
+                    }
+                }
             }
         })
     }

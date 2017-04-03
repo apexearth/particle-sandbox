@@ -60,7 +60,7 @@ describe("Particle", function () {
         let p1 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -10, y: 0}})
         let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 10, y: 0}})
 
-        ps.update(.1);
+        ps.update(.1)
         expect(p1.momentum).to.deep.equal({x: 0.6283185307179586, y: 0})
         expect(p2.momentum).to.deep.equal({x: -0.6283185307179586, y: 0})
 
