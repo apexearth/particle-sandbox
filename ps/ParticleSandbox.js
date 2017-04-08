@@ -26,9 +26,19 @@ class ParticleSandbox {
         } else {
             this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}}
         }
+
+        this._userInput = new UserInput({parent: this})
         this.components = [
-            new UserInput({parent: this})
+            this._userInput
         ]
+    }
+
+    get userInput() {
+        return this._userInput
+    }
+
+    get defaultOptions() {
+        return {}
     }
 
     update(seconds) {
@@ -125,8 +135,8 @@ class ParticleSandbox {
             this.addParticle({
                 mass    : 20 + Math.random() * 10,
                 position: {
-                    x: 20000 * Math.random() - 10000,
-                    y: 20000 * Math.random() - 10000,
+                    x: 5000 * Math.random() - 2500,
+                    y: 5000 * Math.random() - 2500,
                 }
             })
         }
@@ -173,10 +183,6 @@ class ParticleSandbox {
                 }
             }
         })
-    }
-
-    get defaultOptions() {
-        return {}
     }
 }
 

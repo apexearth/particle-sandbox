@@ -19,7 +19,6 @@ class Menu extends React.Component {
                     <div>Settings</div>
                     <div>Settings</div>
                 </div>
-
             </div>
         )
     }

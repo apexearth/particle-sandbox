@@ -2,8 +2,6 @@ import React from 'react'
 import state from './state'
 
 class SelectionInfo extends React.Component {
-
-    // TODO: Should be updated frequently if ps is not null.
     render() {
         const {ps} = state
         setTimeout(() => this.forceUpdate(), 200)
@@ -12,6 +10,7 @@ class SelectionInfo extends React.Component {
         return (
             <div id="selection-info">
                 <table cellPadding="0" cellSpacing="0">
+                    <tbody>
                     <tr>
                         <td>count:</td>
                         <td>{ps.selectedParticles.length}</td>
@@ -28,6 +27,7 @@ class SelectionInfo extends React.Component {
                         <td>mass:</td>
                         <td>{stats.mass.toFixed(2)} ({stats.averageMass.toFixed(2)} avg)</td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         )
