@@ -6,23 +6,25 @@
 @font-base: fade(lighten(@base, 10%), 80%);
 @font-family: "Courier New", Courier, monospace;
 
+.no-text-select {
+  user-select: none;
+}
+
 html, body {
+  .no-text-select;
   margin: 0;
   color: @font-base;
   font-family: @font-family;
 }
 
 canvas {
+  .no-text-select;
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   z-index: -1;
-}
-
-.no-text-select {
-  user-select: none;
 }
 
 .clickable(@color, @click-color) {

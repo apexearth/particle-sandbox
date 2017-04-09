@@ -193,15 +193,12 @@ class Particle {
     }
 
     static exchangeMass({particle1, particle2}) {
-        let transferAmount
-        if (particle1.mass === particle2.mass) {
-            // We're the same! :-o
-        } else if (particle1.mass > particle2.mass) {
-            transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) / 100, 0.1))
+        if (particle1.mass > particle2.mass) {
+            let transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) / 100, 0.1))
             particle1.mass += transferAmount
             particle2.mass -= transferAmount
         } else {
-            transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) / 100, 0.1))
+            let transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) / 100, 0.1))
             particle1.mass -= transferAmount
             particle2.mass += transferAmount
         }
