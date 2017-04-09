@@ -80,7 +80,7 @@ function animate() {
 
 const addParticles = () => {
     ps.addParticles(20)
-    if (ps.particles.length < 3250) {
+    if (ps.particles.length < 1000) {
         setTimeout(addParticles, 10)
     }
 }

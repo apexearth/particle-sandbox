@@ -27,12 +27,12 @@ canvas {
 
 .clickable(@color, @click-color) {
   cursor: pointer;
-  background-color: fade(@color, 20%);
+  background-color: fade(@color, 35%);
   &:hover {
-    background-color: fade(@color, 35%);
+    background-color: fade(@color, 36%);
   }
   &:active {
-    background-color: fade(@click-color, 30%);
+    background-color: fade(@click-color, 25%);
   }
 }
 
@@ -55,11 +55,11 @@ canvas {
   .gui-text;
   .no-text-select;
   .clickable(@base, @base2);
+  text-align: center;
 }
 
 .gui-button-selected {
-  .gui-text;
-  .no-text-select;
+  .gui-button;
   .clickable(@base2, @base2);
 }
 
@@ -73,7 +73,7 @@ canvas {
 @menu-button-size: 25px;
 #menu-button {
   .gui-rounded;
-  .gui-button;
+  .clickable(@base, @base2);
   position: fixed;
   left: @menu-margin;
   top: @menu-margin;
@@ -92,13 +92,7 @@ canvas {
   min-width: 50px;
   min-height: 50px;
   z-index: 2;
-}
-
-#menu-list {
-  div {
-    .gui-text;
-    .gui-button;
-  }
+  overflow: hidden; // To keep rounded edges.
 }
 
 #selection-info {

@@ -15,5 +15,9 @@ const menu = state.menu = {
     toggleVisible: () => {
         menu.visible = !menu.visible
         menu.notify()
+    },
+    changeTool   : value => {
+        ps.userInput.mode = value
+        menu.notify()
     }
 }

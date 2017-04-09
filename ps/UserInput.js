@@ -1,6 +1,11 @@
 const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null
 const inputs = require('./inputs')
 
+const modes = {
+    select: 'select',
+    create: 'create'
+}
+
 class UserInput {
     constructor({parent}) {
         if (!parent) throw new Error('No parent recieved.')
@@ -11,8 +16,12 @@ class UserInput {
             this.container.addChild(this.graphics)
             this.parent.root.addChild(this.container)
         }
-        this.mode  = "selection"
+        this.mode  = "select"
         this.state = {}
+    }
+
+    static get modes() {
+        return modes
     }
 
     update(seconds) {
@@ -26,7 +35,7 @@ class UserInput {
             }
         }
 
-        if (this.mode === "selection") {
+        if (this.mode === "select") {
             if (inputs('mouse0')) {
                 if (!this.state.selecting) {
                     this.state.selecting = true
@@ -48,7 +57,7 @@ class UserInput {
     draw() {
         if (typeof window === 'undefined') return
         this.graphics.clear()
-        if (this.mode === "selection") {
+        if (this.mode === "select") {
             if (!this.state.selecting) return
             this.graphics.beginFill(0x99ff99, .03)
             this.graphics.lineStyle(1, 0x99ff99, .5)
