@@ -3,21 +3,22 @@ const input    = require('./inputs')
 const stats    = require('./stats')
 const debug    = require('./debug')
 const PIXI     = require('pixi.js')
-const renderer = new PIXI.WebGLRenderer(width(), height(), {antialias: true})
+const renderer = new PIXI.WebGLRenderer(screenWidth(), screenHeight(), {antialias: true})
 module.exports = renderer
 document.body.appendChild(renderer.view)
+
+function screenWidth() {
+    return typeof window !== 'undefined' ? window.innerWidth : 500
+}
+
+function screenHeight() {
+    return typeof window !== 'undefined' ? window.innerHeight : 500
+}
 
 const ParticleSandbox = require('./ParticleSandbox')
 const ps              = new ParticleSandbox()
 if (typeof window !== 'undefined') window.ps = ps
 ui.initialize(ps)
-
-function width() {
-    return typeof window !== 'undefined' ? window.innerWidth : 500
-}
-function height() {
-    return typeof window !== 'undefined' ? window.innerHeight : 500
-}
 
 function zoom(zoomSpeed) {
     if (zoomSpeed < 0 && stage.scale.y > .5) {
@@ -93,6 +94,3 @@ debug.initialize(stage)
 document.addEventListener('mousewheel', event => zoom(event.deltaY < 0 ? .1 : -.1))
 
 animate()
-
-ps.container.position.x = width() / 2
-ps.container.position.y = height() / 2

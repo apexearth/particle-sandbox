@@ -26,11 +26,24 @@ class ParticleSandbox {
         } else {
             this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}}
         }
+        this.container.position.x = this.screenWidth / 2
+        this.container.position.y = this.screenHeight / 2
 
         this._userInput = new UserInput({parent: this})
         this.components = [
             this._userInput
         ]
+        this.modes      = {
+            followSelection: true
+        }
+    }
+
+    get position() {
+        return this.container.position
+    }
+
+    get scale() {
+        return this.container.scale
     }
 
     get userInput() {
@@ -39,6 +52,14 @@ class ParticleSandbox {
 
     get defaultOptions() {
         return {}
+    }
+
+    get screenWidth() {
+        return typeof window !== 'undefined' ? window.innerWidth : 500
+    }
+
+    get screenHeight() {
+        return typeof window !== 'undefined' ? window.innerHeight : 500
     }
 
     update(seconds) {
@@ -60,6 +81,21 @@ class ParticleSandbox {
         this.collisions = []
 
         this.components.forEach(component => component.update(seconds))
+
+        if (this.modes.followSelection && this.selectedParticles.length) {
+            let position = {
+                x: 0,
+                y: 0
+            }
+            this.selectedParticles.forEach(p => {
+                position.x += p.position.x
+                position.y += p.position.y
+            })
+            position.x /= this.selectedParticles.length
+            position.y /= this.selectedParticles.length
+            this.position.x = ((this.screenWidth / 2) - position.x * this.scale.x)
+            this.position.y = ((this.screenHeight / 2) - position.y * this.scale.y)
+        }
         stats.update(this)
     }
 
