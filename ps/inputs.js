@@ -1,9 +1,10 @@
 const userInput = require('user-input')
-const Mapping = require('user-input-mapping')
+const Mapping   = require('user-input-mapping')
+const {view}    = require('./renderer')
 
 const inputs = userInput()
-    .withMouse()
-    .withKeyboard()
+    .withMouse(view)
+    .withKeyboard(view)
 
 const mapping = new Mapping(
     inputs,
@@ -25,9 +26,9 @@ const mapping = new Mapping(
         }
     }, false)
 
-const value = mapping.value.bind(mapping)
-const clear   = mapping.clear.bind(mapping)
-const update  = mapping.update.bind(mapping)
+const value    = mapping.value.bind(mapping)
+const clear    = mapping.clear.bind(mapping)
+const update   = mapping.update.bind(mapping)
 value.clear    = clear
 value.update   = update
 value.mapping  = mapping

@@ -1,9 +1,9 @@
 import React from 'react'
-import state from './state'
+import {ps, selectionInfo} from './state'
+import Button from './components/Button'
 
 class SelectionInfo extends React.Component {
     render() {
-        const {ps} = state
         setTimeout(() => this.forceUpdate(), 200)
         if (!ps || ps.selectedParticles.length === 0) return null
         const stats = this.statistics()
@@ -26,6 +26,11 @@ class SelectionInfo extends React.Component {
                     <tr>
                         <td>mass:</td>
                         <td>{stats.mass.toFixed(2)} ({stats.averageMass.toFixed(2)} avg)</td>
+                    </tr>
+                    <tr>
+                        <td colSpan="2">
+                            <Button onClick={selectionInfo.toggleFollowSelection} selected={selectionInfo.followSelection}>Follow</Button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

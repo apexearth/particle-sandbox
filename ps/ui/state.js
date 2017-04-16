@@ -21,3 +21,15 @@ const menu = state.menu = {
         menu.notify()
     }
 }
+
+const selectionInfo = state.selectionInfo = {
+    subscribe: fn => state.on('selectionInfo', fn),
+    notify   : () => state.emit('selectionInfo', menu),
+    toggleFollowSelection() {
+        ps.modes.followSelection = !ps.modes.followSelection
+        selectionInfo.notify()
+    },
+    get followSelection() {
+        return ps.modes.followSelection
+    }
+}
