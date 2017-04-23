@@ -38,7 +38,7 @@ canvas {
   }
 }
 
-.gui-rounded(@size: 4px) {
+.gui-rounded(@size: 2px) {
   border-radius: @size;
 }
 
@@ -54,14 +54,18 @@ canvas {
 }
 
 .gui-button {
-  .gui-text;
   .no-text-select;
   .clickable(@base, @base2);
   text-align: center;
 }
 
-.gui-button-selected {
+.gui-text-button {
   .gui-button;
+  .gui-text;
+}
+
+.gui-text-button-selected {
+  .gui-text-button;
   .clickable(@base2, @base2);
 }
 
@@ -112,17 +116,33 @@ canvas {
   padding-right: 5px;
 }
 
-#tools {
-  display: flex;
+#zoom-meter {
   position: fixed;
+  top: @menu-margin;
+  left: @menu-margin * 7;
+  height: 25px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  font-size: 0;
+}
+
+#zoom-meter .zoom-meter-button {
+  .gui-rounded;
+  .gui-button;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+}
+
+#zoom-meter .zoom-meter-button span {
   top: 0;
-  left: 0;
-  right: 0;
-  justify-content: center;
-  z-index: 0;
+  font-size: 12px;
+  line-height: 25px;
 }
 
-#tools > div {
-  margin: @gui-padding;
+#zoom-meter .zoom-meter-bar {
+  line-height: 0;
+  border: solid 2px fade(@base, 40%);
+  width: 100px;
 }
-

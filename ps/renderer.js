@@ -54,10 +54,10 @@ module.exports = {
             }
             let zoomSpeed = .02
             if (input('zoomOut')) {
-                zoom(-zoomSpeed)
+                ps.zoom(-zoomSpeed)
             }
             if (input('zoomIn')) {
-                zoom(zoomSpeed)
+                ps.zoom(zoomSpeed)
             }
 
             renderer.render(root)
@@ -67,18 +67,7 @@ module.exports = {
             lastMouseY = input('mouseY')
         }
 
-        document.addEventListener('mousewheel', event => zoom(event.deltaY < 0 ? .1 : -.1))
-        function zoom(zoomSpeed) {
-            if (zoomSpeed < 0 && stage.scale.y > .5) {
-                stage.position.x += (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y
-                stage.position.y += (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y
-                stage.scale.x = stage.scale.y = stage.scale.y + zoomSpeed
-            }
-            if (zoomSpeed > 0 && stage.scale.y < 4) {
-                stage.position.x += (stage.position.x - window.innerWidth / 2) * zoomSpeed / stage.scale.y
-                stage.position.y += (stage.position.y - window.innerHeight / 2) * zoomSpeed / stage.scale.y
-                stage.scale.x = stage.scale.y = stage.scale.y + zoomSpeed
-            }
-        }
+        document.addEventListener('mousewheel', event => ps.zoom(event.deltaY < 0 ? .1 : -.1))
+
     }
 }

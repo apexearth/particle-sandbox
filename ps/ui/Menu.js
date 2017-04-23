@@ -1,7 +1,7 @@
 import React from 'react'
 import state from './state'
 import UserInput from '../UserInput'
-import Button from './components/Button'
+import TextButton from './components/TextButton'
 
 const {menu} = state
 class Menu extends React.Component {
@@ -24,12 +24,12 @@ class Menu extends React.Component {
 
         const ToolButton = ({mode}) => {
             return (
-                <Button key={mode} selected={mode === currentMode} onClick={menu.changeTool.bind(this, mode)}>
+                <TextButton selected={mode === currentMode} onClick={menu.changeTool.bind(this, mode)}>
                     {mode[0].toUpperCase() + mode.substring(1)}
-                </Button>
+                </TextButton>
             )
         }
-        const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton mode={UserInput.modes[key]}/>)
+        const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={UserInput.modes[key]}/>)
         return (
             <div id="menu">
                 {buttons}
@@ -37,7 +37,6 @@ class Menu extends React.Component {
             </div>
         )
     }
-
 
 }
 

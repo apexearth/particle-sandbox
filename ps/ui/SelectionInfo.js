@@ -1,6 +1,6 @@
 import React from 'react'
 import {ps, selectionInfo} from './state'
-import Button from './components/Button'
+import Button from './components/TextButton'
 
 class SelectionInfo extends React.Component {
     render() {

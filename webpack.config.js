@@ -18,6 +18,7 @@ module.exports = {
         rules: [
             {test: /\.js$/, use: 'babel-loader'},
             {test: /\.jsx$/, use: 'babel-loader'},
+            {test: /\.css/, use: 'css-loader'},
             {
                 test: /\.less$/,
                 use : ExtractTextPlugin.extract({
@@ -25,6 +26,13 @@ module.exports = {
                     use       : ['css-loader', 'less-loader'],
                     publicPath: "/build"
                 })
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                use : [
+                    'url-loader?limit=10000',
+                    'img-loader'
+                ]
             },
         ]
     },

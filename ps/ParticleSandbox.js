@@ -188,6 +188,28 @@ class ParticleSandbox {
         }
     }
 
+    zoomIn() {
+        this.zoom(.1)
+    }
+
+    zoomOut() {
+        this.zoom(-.1)
+    }
+
+    zoom(zoomSpeed) {
+        const container = this.container
+        if (zoomSpeed < 0 && container.scale.y > .5) {
+            container.position.x += (container.position.x - window.innerWidth / 2) * zoomSpeed / container.scale.y
+            container.position.y += (container.position.y - window.innerHeight / 2) * zoomSpeed / container.scale.y
+            container.scale.x = container.scale.y = container.scale.y + zoomSpeed
+        }
+        if (zoomSpeed > 0 && container.scale.y < 4) {
+            container.position.x += (container.position.x - window.innerWidth / 2) * zoomSpeed / container.scale.y
+            container.position.y += (container.position.y - window.innerHeight / 2) * zoomSpeed / container.scale.y
+            container.scale.x = container.scale.y = container.scale.y + zoomSpeed
+        }
+    }
+
     select(x1, y1, x2, y2, additive = false) {
         let minX = Math.min(x1, x2)
         let minY = Math.min(y1, y2)
