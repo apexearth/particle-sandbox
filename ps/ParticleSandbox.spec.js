@@ -53,4 +53,21 @@ describe('ParticleSandbox', () => {
         expect(ps.selectedParticles.indexOf(p2)).to.be.gte(0)
         expect(ps.selectedParticles.indexOf(p3)).to.equal(-1)
     })
+
+    it('.zoomIn()', () => {
+        let ps           = new ParticleSandbox()
+        let initialScale = ps.container.scale.x
+        ps.zoomIn()
+        let postScale = ps.container.scale.x
+        expect(initialScale).to.be.lt(postScale)
+        expect(postScale).to.equal(initialScale + .1)
+    })
+    it('.zoomOut()', () => {
+        let ps           = new ParticleSandbox()
+        let initialScale = ps.container.scale.x
+        ps.zoomOut()
+        let postScale = ps.container.scale.x
+        expect(initialScale).to.be.gt(postScale)
+        expect(postScale).to.equal(initialScale - .1)
+    })
 })

@@ -1,6 +1,9 @@
 if (typeof window !== 'undefined') {
     const PIXI = require('pixi.js')
 }
+
+const _window = require('./window')
+
 const Particle       = require('./Particle')
 const ParticlePair   = require('./ParticlePair')
 const LinkedList     = require('./LinkedList')
@@ -208,8 +211,8 @@ class ParticleSandbox extends EventEmitter {
         let initialScale  = container.scale.y
         container.scale.x = container.scale.y = Math.max(zoomMin, Math.min(zoomMax, initialScale * zoomSpeed))
         let changedScale = container.scale.y - initialScale
-        container.position.x += (container.position.x - window.innerWidth / 2) * changedScale / container.scale.y
-        container.position.y += (container.position.y - window.innerHeight / 2) * changedScale / container.scale.y
+        container.position.x += (container.position.x - _window.innerWidth / 2) * changedScale / container.scale.y
+        container.position.y += (container.position.y - _window.innerHeight / 2) * changedScale / container.scale.y
         this.emit('zoom')
     }
 
