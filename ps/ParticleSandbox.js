@@ -1,15 +1,21 @@
 if (typeof window !== 'undefined') {
     const PIXI = require('pixi.js')
 }
-const Particle     = require('./Particle')
-const ParticlePair = require('./ParticlePair')
-const LinkedList   = require('./LinkedList')
-const stats        = require('./stats')
+const Particle       = require('./Particle')
+const ParticlePair   = require('./ParticlePair')
+const LinkedList     = require('./LinkedList')
+const stats          = require('./stats')
+const {EventEmitter} = require('events')
 
 const UserInput = require('./UserInput')
 
-class ParticleSandbox {
+const zoomMin = .1
+const zoomMax = 2
+
+
+class ParticleSandbox extends EventEmitter {
     constructor(options) {
+        super()
         this.options           = Object.assign(this.defaultOptions, options)
         this.particles         = []
         this.selectedParticles = []
@@ -197,17 +203,18 @@ class ParticleSandbox {
     }
 
     zoom(zoomSpeed) {
-        const container = this.container
-        if (zoomSpeed < 0 && container.scale.y > .5) {
-            container.position.x += (container.position.x - window.innerWidth / 2) * zoomSpeed / container.scale.y
-            container.position.y += (container.position.y - window.innerHeight / 2) * zoomSpeed / container.scale.y
-            container.scale.x = container.scale.y = container.scale.y + zoomSpeed
-        }
-        if (zoomSpeed > 0 && container.scale.y < 4) {
-            container.position.x += (container.position.x - window.innerWidth / 2) * zoomSpeed / container.scale.y
-            container.position.y += (container.position.y - window.innerHeight / 2) * zoomSpeed / container.scale.y
-            container.scale.x = container.scale.y = container.scale.y + zoomSpeed
-        }
+        zoomSpeed += 1
+        const container   = this.container
+        let initialScale  = container.scale.y
+        container.scale.x = container.scale.y = Math.max(zoomMin, Math.min(zoomMax, initialScale * zoomSpeed))
+        let changedScale = container.scale.y - initialScale
+        container.position.x += (container.position.x - window.innerWidth / 2) * changedScale / container.scale.y
+        container.position.y += (container.position.y - window.innerHeight / 2) * changedScale / container.scale.y
+        this.emit('zoom')
+    }
+
+    get zoomPercentage() {
+        return Math.max(0, Math.min(1, (this.container.scale.x - zoomMin) / (zoomMax - zoomMin)))
     }
 
     select(x1, y1, x2, y2, additive = false) {

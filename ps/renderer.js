@@ -1,73 +1,45 @@
-const stats    = require('./stats')
-const debug    = require('./debug')
-const PIXI     = require('pixi.js')
-const renderer = new PIXI.WebGLRenderer(screenWidth(), screenHeight(), {antialias: true})
-document.body.appendChild(renderer.view)
+if (typeof window !== 'undefined') {
+    const stats    = require('./stats')
+    const debug    = require('./debug')
+    const PIXI     = require('pixi.js')
+    const renderer = new PIXI.WebGLRenderer(screenWidth(), screenHeight(), {antialias: true})
+    document.body.appendChild(renderer.view)
 
-function screenWidth() {
-    return typeof window !== 'undefined' ? window.innerWidth : 500
-}
+    function screenWidth() {
+        return typeof window !== 'undefined' ? window.innerWidth : 500
+    }
 
-function screenHeight() {
-    return typeof window !== 'undefined' ? window.innerHeight : 500
-}
+    function screenHeight() {
+        return typeof window !== 'undefined' ? window.innerHeight : 500
+    }
 
-module.exports = {
-    view: renderer.view,
-    initialize (ps, input) {
-        let lastMouseX = input('mouseX')
-        let lastMouseY = input('mouseY')
-        let last       = Date.now()
+    module.exports = {
+        view: renderer.view,
+        initialize (ps) {
+            let last = Date.now()
 
-        let {root} = ps
-        let stage   = ps.container
+            let {root} = ps
+            let stage  = ps.container
 
-        debug.initialize(stage)
-        animate()
-        function animate() {
-            requestAnimationFrame(animate)
-            let current = Date.now()
-            let time    = Math.min((current - last) / 1000, 30 / 1000)
-            ps.update(time)
-            last = current
-            if (window.innerWidth !== renderer.view.width || window.innerHeight !== renderer.view.height) {
-                renderer.resize(window.innerWidth, window.innerHeight)
+            debug.initialize(stage)
+            animate()
+            function animate() {
+                requestAnimationFrame(animate)
+                let current = Date.now()
+                let time    = Math.min((current - last) / 1000, 30 / 1000)
+                ps.update(time)
+                last = current
+                if (window.innerWidth !== renderer.view.width || window.innerHeight !== renderer.view.height) {
+                    renderer.resize(window.innerWidth, window.innerHeight)
+                }
+
+                renderer.render(root)
+                debug.update(current)
+
             }
 
-            if (input('mouse2')) {
-                stage.position.x += input('mouseX') - lastMouseX
-                stage.position.y += input('mouseY') - lastMouseY
-            }
+            document.addEventListener('mousewheel', event => ps.zoom(event.deltaY < 0 ? .1 : -.1))
 
-            let scrollSpeed = 6
-            if (input('up')) {
-                stage.position.y += scrollSpeed
-            }
-            if (input('down')) {
-                stage.position.y -= scrollSpeed
-            }
-            if (input('left')) {
-                stage.position.x += scrollSpeed
-            }
-            if (input('right')) {
-                stage.position.x -= scrollSpeed
-            }
-            let zoomSpeed = .02
-            if (input('zoomOut')) {
-                ps.zoom(-zoomSpeed)
-            }
-            if (input('zoomIn')) {
-                ps.zoom(zoomSpeed)
-            }
-
-            renderer.render(root)
-            debug.update(current)
-
-            lastMouseX = input('mouseX')
-            lastMouseY = input('mouseY')
         }
-
-        document.addEventListener('mousewheel', event => ps.zoom(event.deltaY < 0 ? .1 : -.1))
-
     }
 }

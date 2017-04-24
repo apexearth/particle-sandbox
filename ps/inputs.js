@@ -4,7 +4,7 @@ const {view}    = require('./renderer')
 
 const inputs = userInput()
     .withMouse(view)
-    .withKeyboard(view)
+    .withKeyboard()
 
 const mapping = new Mapping(
     inputs,

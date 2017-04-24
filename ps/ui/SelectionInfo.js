@@ -27,13 +27,10 @@ class SelectionInfo extends React.Component {
                         <td>mass:</td>
                         <td>{stats.mass.toFixed(2)} ({stats.averageMass.toFixed(2)} avg)</td>
                     </tr>
-                    <tr>
-                        <td colSpan="2">
-                            <Button onClick={selectionInfo.toggleFollowSelection} selected={selectionInfo.followSelection}>Follow</Button>
-                        </td>
-                    </tr>
                     </tbody>
                 </table>
+                <Button onClick={selectionInfo.toggleFollowSelection}
+                        selected={selectionInfo.followSelection}>Follow</Button>
             </div>
         )
     }

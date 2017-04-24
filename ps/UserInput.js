@@ -1,5 +1,5 @@
-const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null
-const inputs = require('./inputs')
+const PIXI           = typeof window !== 'undefined' ? require('pixi.js') : null
+const inputs         = require('./inputs')
 
 const modes = {
     select: 'select',
@@ -18,6 +18,9 @@ class UserInput {
         }
         this.mode  = "select"
         this.state = {}
+
+        this.lastMouseX = inputs('mouseX')
+        this.lastMouseY = inputs('mouseY')
     }
 
     static get modes() {
@@ -25,7 +28,9 @@ class UserInput {
     }
 
     update(seconds) {
-        const {ps} = this
+        const {ps}        = this
+        const {container} = ps
+
         if (this.mode !== this.state.mode) {
             // Initialize the state for the current mode.
             this.state = {
@@ -80,7 +85,38 @@ class UserInput {
                 })
             }
         }
+
+
+        if (inputs('mouse2')) {
+            container.position.x += inputs('mouseX') - this.lastMouseX
+            container.position.y += inputs('mouseY') - this.lastMouseY
+        }
+
+        let scrollSpeed = 6
+        if (inputs('up')) {
+            container.position.y += scrollSpeed
+        }
+        if (inputs('down')) {
+            container.position.y -= scrollSpeed
+        }
+        if (inputs('left')) {
+            container.position.x += scrollSpeed
+        }
+        if (inputs('right')) {
+            container.position.x -= scrollSpeed
+        }
+        let zoomSpeed = .02
+        if (inputs('zoomOut')) {
+            ps.zoom(-zoomSpeed)
+        }
+        if (inputs('zoomIn')) {
+            ps.zoom(zoomSpeed)
+        }
+
         this.draw()
+
+        this.lastMouseX = inputs('mouseX')
+        this.lastMouseY = inputs('mouseY')
     }
 
     draw() {

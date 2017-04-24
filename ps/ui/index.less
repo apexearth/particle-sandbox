@@ -29,7 +29,6 @@ canvas {
 
 .clickable(@color, @click-color) {
   cursor: pointer;
-  background-color: fade(@color, 35%);
   &:hover {
     background-color: fade(@color, 36%);
   }
@@ -49,24 +48,28 @@ canvas {
 .gui-text {
   padding-left: @gui-padding;
   padding-right: @gui-padding;
-  padding-top: @gui-padding / 2;
-  padding-bottom: @gui-padding / 2;
 }
 
-.gui-button {
+.gui-button(@color: @base, @color2: @base2) {
+  background-color: fade(@color, 35%);
+  box-sizing: border-box;
+  border: solid 1px fade(@color, 30%);
   .no-text-select;
-  .clickable(@base, @base2);
-  text-align: center;
+  .clickable(@color, @color2);
 }
 
 .gui-text-button {
-  .gui-button;
+  .gui-text-button(@base, @base2);
+}
+
+.gui-text-button(@color, @color2) {
+  .gui-button(@color, @color2);
   .gui-text;
+  text-align: center;
 }
 
 .gui-text-button-selected {
-  .gui-text-button;
-  .clickable(@base2, @base2);
+  .gui-text-button(@base2, @base2);
 }
 
 .gui-panel {
@@ -79,7 +82,7 @@ canvas {
 @menu-button-size: 25px;
 #menu-button {
   .gui-rounded;
-  .clickable(@base, @base2);
+  .gui-button(@base, @base2);
   position: fixed;
   left: @menu-margin;
   top: @menu-margin;
@@ -137,12 +140,23 @@ canvas {
 
 #zoom-meter .zoom-meter-button span {
   top: 0;
-  font-size: 12px;
-  line-height: 25px;
+  color: fade(@base, 75%);
+  font-size: 16px;
+  line-height: 23px;
 }
 
-#zoom-meter .zoom-meter-bar {
+#zoom-meter .zoom-meter-hbar {
   line-height: 0;
-  border: solid 2px fade(@base, 40%);
+  background-color: fade(@base, 40%);
+  height: 4px;
   width: 100px;
+  margin-left: -8px;
+}
+
+#zoom-meter .zoom-meter-vbar {
+  line-height: 0;
+  position: relative;
+  background-color: darken(@base, 40%);
+  width: 8px;
+  height: 25px;
 }
