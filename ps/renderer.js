@@ -1,6 +1,5 @@
 if (typeof window !== 'undefined') {
     const stats    = require('./stats')
-    const debug    = require('./debug')
     const PIXI     = require('pixi.js')
     const renderer = new PIXI.WebGLRenderer(screenWidth(), screenHeight(), {antialias: true})
     document.body.appendChild(renderer.view)
@@ -19,9 +18,7 @@ if (typeof window !== 'undefined') {
             let last = Date.now()
 
             let {root} = ps
-            let stage  = ps.container
 
-            debug.initialize(stage)
             animate()
             function animate() {
                 requestAnimationFrame(animate)

@@ -225,10 +225,10 @@ class ParticleSandbox extends EventEmitter {
         let minY = Math.min(y1, y2)
         let maxX = Math.max(x1, x2)
         let maxY = Math.max(y1, y2)
-        minX     = (minX - this.container.position.x) / this.container.scale.x
-        minY     = (minY - this.container.position.y) / this.container.scale.y
-        maxX     = (maxX - this.container.position.x) / this.container.scale.x
-        maxY     = (maxY - this.container.position.y) / this.container.scale.y
+        minX     = (minX - this.position.x) / this.scale.x
+        minY     = (minY - this.position.y) / this.scale.y
+        maxX     = (maxX - this.position.x) / this.scale.x
+        maxY     = (maxY - this.position.y) / this.scale.y
         if (!additive) {
             this.selectedParticles.splice(0)
         }

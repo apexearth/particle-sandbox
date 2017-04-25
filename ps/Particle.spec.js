@@ -31,18 +31,15 @@ describe("Particle", function () {
             limit--
         }
 
-        // In a world of only two particles, they should come together, and end up equalizing positions and momentum.
-        //   Account for any float value discrepancies.
-        // If failing, check they they didn't move so quickly that hit-detection missed the pass.
-        expect(p1.mass).to.equal(p2.mass)
-        expect(p1.position.x).to.equal(2)
-        expect(p1.position.y).to.equal(0)
-        expect(p1.momentum.x).to.equal(21.731404646661826) // Bounce velocity
-        expect(p1.momentum.y).to.equal(2.6613295141510325e-15)
-        expect(p2.position.x).to.equal(-2)
-        expect(p2.position.y).to.equal(0)
-        expect(p2.momentum.x).to.equal(-21.731404646661826)
-        expect(p2.momentum.y).to.equal(0)
+        expect(p1.mass).to.equal(25.132741228718338)
+        expect(p1.position.x).to.equal(-13.315213431817622)
+        expect(p1.position.y).to.equal(8.521215702289746e-15)
+        expect(p1.momentum.x).to.equal(-4.246259699602248)
+        expect(p1.momentum.y).to.equal(1.5949348092289836e-14)
+        expect(p2.position.x).to.equal(-16.14364055656381)
+        expect(p2.position.y).to.equal(3.010333547787671e-14)
+        expect(p2.momentum.x).to.equal(-17.364922590974615)
+        expect(p2.momentum.y).to.equal(1.2394972875410275e-13)
     })
 
     it('.select() & .deselect()', function () {

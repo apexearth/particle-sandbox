@@ -10,10 +10,12 @@ describe('ParticleSandbox', () => {
         }
     })
     it('.select()', () => {
-        let ps = new ParticleSandbox()
-        let p1 = ps.addParticle({position: {x: 0, y: 0}})
-        let p2 = ps.addParticle({position: {x: 10, y: 10}})
-        let p3 = ps.addParticle({position: {x: -10, y: -10}})
+        let ps     = new ParticleSandbox()
+        ps.position.x = 0
+        ps.position.y = 0
+        let p1     = ps.addParticle({position: {x: 0, y: 0}})
+        let p2     = ps.addParticle({position: {x: 10, y: 10}})
+        let p3     = ps.addParticle({position: {x: -10, y: -10}})
         ps.select(0, 0, 10, 10)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
@@ -21,10 +23,10 @@ describe('ParticleSandbox', () => {
         expect(ps.selectedParticles.indexOf(p1)).to.be.gte(0)
         expect(ps.selectedParticles.indexOf(p2)).to.be.gte(0)
         expect(ps.selectedParticles.indexOf(p3)).to.equal(-1)
-        ps.container.position.x = 5
-        ps.container.position.y = 5
-        ps.container.scale.x    = .5
-        ps.container.scale.y    = .5
+        ps.position.x = 5
+        ps.position.y = 5
+        ps.scale.x = .5
+        ps.scale.y = .5
         ps.select(0, 0, 10, 10)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
@@ -33,10 +35,10 @@ describe('ParticleSandbox', () => {
         expect(ps.selectedParticles.indexOf(p2)).to.be.gte(0)
         expect(ps.selectedParticles.indexOf(p3)).to.be.gte(0)
 
-        ps.container.position.x = 0
-        ps.container.position.y = 0
-        ps.container.scale.x    = 1
-        ps.container.scale.y    = 1
+        ps.position.x -= 5
+        ps.position.y -= 5
+        ps.scale.x = 1
+        ps.scale.y = 1
         ps.select(0, 0, 1, 1)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(false)
