@@ -31,7 +31,6 @@ if (typeof window !== 'undefined') {
                 }
 
                 renderer.render(root)
-                debug.update(current)
 
             }
 

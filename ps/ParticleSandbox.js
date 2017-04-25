@@ -197,12 +197,12 @@ class ParticleSandbox extends EventEmitter {
         }
     }
 
-    zoomIn() {
-        this.zoom(.1)
+    zoomIn(amount = .1) {
+        this.zoom(amount)
     }
 
-    zoomOut() {
-        this.zoom(-.1)
+    zoomOut(amount = .1) {
+        this.zoom(-amount)
     }
 
     zoom(zoomSpeed) {

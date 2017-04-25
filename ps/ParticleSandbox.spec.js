@@ -2,20 +2,21 @@ const expect          = require('chai').expect
 const ParticleSandbox = require('./ParticleSandbox')
 
 describe('ParticleSandbox', () => {
+    let ps
+    beforeEach(() => ps = new ParticleSandbox())
+
     it('run', () => {
-        let ps = new ParticleSandbox()
         ps.addParticles(100)
         for (let i = 0; i < 10000; i++) {
             ps.update(1 / 60)
         }
     })
     it('.select()', () => {
-        let ps     = new ParticleSandbox()
         ps.position.x = 0
         ps.position.y = 0
-        let p1     = ps.addParticle({position: {x: 0, y: 0}})
-        let p2     = ps.addParticle({position: {x: 10, y: 10}})
-        let p3     = ps.addParticle({position: {x: -10, y: -10}})
+        let p1        = ps.addParticle({position: {x: 0, y: 0}})
+        let p2        = ps.addParticle({position: {x: 10, y: 10}})
+        let p3        = ps.addParticle({position: {x: -10, y: -10}})
         ps.select(0, 0, 10, 10)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
@@ -25,8 +26,8 @@ describe('ParticleSandbox', () => {
         expect(ps.selectedParticles.indexOf(p3)).to.equal(-1)
         ps.position.x = 5
         ps.position.y = 5
-        ps.scale.x = .5
-        ps.scale.y = .5
+        ps.scale.x    = .5
+        ps.scale.y    = .5
         ps.select(0, 0, 10, 10)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
@@ -57,19 +58,28 @@ describe('ParticleSandbox', () => {
     })
 
     it('.zoomIn()', () => {
-        let ps           = new ParticleSandbox()
         let initialScale = ps.container.scale.x
-        ps.zoomIn()
+        ps.zoomIn(.1)
         let postScale = ps.container.scale.x
         expect(initialScale).to.be.lt(postScale)
-        expect(postScale).to.equal(initialScale + .1)
+        expect(postScale).to.equal(initialScale * 1.1)
     })
     it('.zoomOut()', () => {
-        let ps           = new ParticleSandbox()
         let initialScale = ps.container.scale.x
-        ps.zoomOut()
+        ps.zoomOut(.1)
         let postScale = ps.container.scale.x
         expect(initialScale).to.be.gt(postScale)
-        expect(postScale).to.equal(initialScale - .1)
+        expect(postScale).to.equal(initialScale * .9)
+    })
+
+    it('.addParticle()', () => {
+        ps.addParticle({position: {x: 1, y: 2}})
+        let p1 = ps.particles[0]
+        expect(p1.position).to.deep.equal({x: 1, y: 2})
+    })
+    it('.removeParticle()', () => {
+        ps.addParticle({position: {x: 1, y: 2}})
+        ps.removeParticle(ps.particles[0])
+        expect(ps.particles.length).to.equal(0)
     })
 })
