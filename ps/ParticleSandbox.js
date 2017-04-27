@@ -217,7 +217,11 @@ class ParticleSandbox extends EventEmitter {
     }
 
     get zoomPercentage() {
-        return Math.max(0, Math.min(1, (this.container.scale.x - zoomMin) / (zoomMax - zoomMin)))
+        return Math.max(0, Math.min(1, (this.scale.x - zoomMin) / (zoomMax - zoomMin)))
+    }
+
+    set zoomPercentage(val) {
+        this.scale.x = this.scale.y = Math.max(zoomMin, Math.min(zoomMax, zoomMin + val * (zoomMax - zoomMin)))
     }
 
     select(x1, y1, x2, y2, additive = false) {
