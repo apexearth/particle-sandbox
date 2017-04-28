@@ -72,6 +72,28 @@ describe('ParticleSandbox', () => {
         expect(postScale).to.equal(initialScale * .9)
     })
 
+    it('.adjustPositionAfterScaling()', () => {
+        expect(ps.position.x).to.equal(250)
+        expect(ps.position.y).to.equal(250)
+        ps.adjustPositionAfterScaling(.1)
+        expect(ps.position.x).to.equal(250)
+        expect(ps.position.y).to.equal(250)
+        ps.adjustPositionAfterScaling(-.1)
+        expect(ps.position.x).to.equal(250)
+        expect(ps.position.y).to.equal(250)
+
+        ps.position.x = 0
+        ps.position.y = 0
+        ps.adjustPositionAfterScaling(-.1)
+        ps.adjustPositionAfterScaling(-.1)
+        expect(ps.position.x).to.equal(43.388429752066116)
+        expect(ps.position.y).to.equal(43.388429752066116)
+        ps.adjustPositionAfterScaling(.1)
+        ps.adjustPositionAfterScaling(.1)
+        expect(ps.position.x).to.equal(-5.0760126517702275)
+        expect(ps.position.y).to.equal(-5.0760126517702275)
+    })
+
     it('.addParticle()', () => {
         ps.addParticle({position: {x: 1, y: 2}})
         let p1 = ps.particles[0]

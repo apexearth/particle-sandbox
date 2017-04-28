@@ -207,13 +207,15 @@ class ParticleSandbox extends EventEmitter {
 
     zoom(zoomSpeed) {
         zoomSpeed += 1
-        const container   = this.container
-        let initialScale  = container.scale.y
-        container.scale.x = container.scale.y = Math.max(zoomMin, Math.min(zoomMax, initialScale * zoomSpeed))
-        let changedScale = container.scale.y - initialScale
-        container.position.x += (container.position.x - _window.innerWidth / 2) * changedScale / container.scale.y
-        container.position.y += (container.position.y - _window.innerHeight / 2) * changedScale / container.scale.y
+        let initialScale = this.scale.y
+        this.scale.x     = this.scale.y = Math.max(zoomMin, Math.min(zoomMax, initialScale * zoomSpeed))
+        this.adjustPositionAfterScaling(this.scale.y - initialScale)
         this.emit('zoom')
+    }
+
+    adjustPositionAfterScaling(amount) {
+        this.position.x += (this.position.x - _window.innerWidth / 2) * amount / (this.scale.x - amount)
+        this.position.y += (this.position.y - _window.innerHeight / 2) * amount / (this.scale.y - amount)
     }
 
     get zoomPercentage() {
@@ -221,7 +223,9 @@ class ParticleSandbox extends EventEmitter {
     }
 
     set zoomPercentage(val) {
-        this.scale.x = this.scale.y = Math.max(zoomMin, Math.min(zoomMax, zoomMin + val * (zoomMax - zoomMin)))
+        let initialScale = this.scale.y
+        this.scale.x     = this.scale.y = Math.max(zoomMin, Math.min(zoomMax, zoomMin + val * (zoomMax - zoomMin)))
+        this.adjustPositionAfterScaling(this.scale.y - initialScale)
     }
 
     select(x1, y1, x2, y2, additive = false) {
