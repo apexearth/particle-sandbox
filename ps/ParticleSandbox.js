@@ -11,9 +11,7 @@ const stats          = require('./stats')
 const {EventEmitter} = require('events')
 
 const UserInput = require('./UserInput')
-
-const zoomMin = .1
-const zoomMax = 2
+const config    = require('./config')
 
 
 class ParticleSandbox extends EventEmitter {
@@ -197,35 +195,18 @@ class ParticleSandbox extends EventEmitter {
         }
     }
 
-    zoomIn(amount = .1) {
-        this.zoom(amount)
+    get zoom() {
+        return Math.max(0, Math.min(1, (this.scale.x - config.zoomMin) / (config.zoomMax - config.zoomMin)))
     }
 
-    zoomOut(amount = .1) {
-        this.zoom(-amount)
-    }
-
-    zoom(zoomSpeed) {
-        zoomSpeed += 1
+    set zoom(val) {
         let initialScale = this.scale.y
-        this.scale.x     = this.scale.y = Math.max(zoomMin, Math.min(zoomMax, initialScale * zoomSpeed))
-        this.adjustPositionAfterScaling(this.scale.y - initialScale)
-        this.emit('zoom')
-    }
+        this.scale.x     = this.scale.y = Math.max(config.zoomMin, Math.min(config.zoomMax, config.zoomMin + val * (config.zoomMax - config.zoomMin)))
+        let amount = this.scale.y - initialScale
 
-    adjustPositionAfterScaling(amount) {
         this.position.x += (this.position.x - _window.innerWidth / 2) * amount / (this.scale.x - amount)
         this.position.y += (this.position.y - _window.innerHeight / 2) * amount / (this.scale.y - amount)
-    }
-
-    get zoomPercentage() {
-        return Math.max(0, Math.min(1, (this.scale.x - zoomMin) / (zoomMax - zoomMin)))
-    }
-
-    set zoomPercentage(val) {
-        let initialScale = this.scale.y
-        this.scale.x     = this.scale.y = Math.max(zoomMin, Math.min(zoomMax, zoomMin + val * (zoomMax - zoomMin)))
-        this.adjustPositionAfterScaling(this.scale.y - initialScale)
+        this.emit('zoom')
     }
 
     select(x1, y1, x2, y2, additive = false) {

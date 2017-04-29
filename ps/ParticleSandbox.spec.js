@@ -1,5 +1,6 @@
 const expect          = require('chai').expect
 const ParticleSandbox = require('./ParticleSandbox')
+const config          = require('./config.js')
 
 describe('ParticleSandbox', () => {
     let ps
@@ -57,41 +58,34 @@ describe('ParticleSandbox', () => {
         expect(ps.selectedParticles.indexOf(p3)).to.equal(-1)
     })
 
-    it('.zoomIn()', () => {
+    it('.zoom', () => {
+        const zoomRange  = config.zoomMax - config.zoomMin
         let initialScale = ps.container.scale.x
-        ps.zoomIn(.1)
-        let postScale = ps.container.scale.x
+        ps.zoom += .1
+        let postScale    = ps.container.scale.x
         expect(initialScale).to.be.lt(postScale)
-        expect(postScale).to.equal(initialScale * 1.1)
-    })
-    it('.zoomOut()', () => {
-        let initialScale = ps.container.scale.x
-        ps.zoomOut(.1)
-        let postScale = ps.container.scale.x
-        expect(initialScale).to.be.gt(postScale)
-        expect(postScale).to.equal(initialScale * .9)
-    })
+        expect(postScale).to.equal(initialScale + zoomRange * .1)
+        ps.zoom -= .1
 
-    it('.adjustPositionAfterScaling()', () => {
         expect(ps.position.x).to.equal(250)
         expect(ps.position.y).to.equal(250)
-        ps.adjustPositionAfterScaling(.1)
+        ps.zoom += .1
         expect(ps.position.x).to.equal(250)
         expect(ps.position.y).to.equal(250)
-        ps.adjustPositionAfterScaling(-.1)
+        ps.zoom -= .1
         expect(ps.position.x).to.equal(250)
         expect(ps.position.y).to.equal(250)
 
         ps.position.x = 0
         ps.position.y = 0
-        ps.adjustPositionAfterScaling(-.1)
-        ps.adjustPositionAfterScaling(-.1)
-        expect(ps.position.x).to.equal(43.388429752066116)
-        expect(ps.position.y).to.equal(43.388429752066116)
-        ps.adjustPositionAfterScaling(.1)
-        ps.adjustPositionAfterScaling(.1)
-        expect(ps.position.x).to.equal(-5.0760126517702275)
-        expect(ps.position.y).to.equal(-5.0760126517702275)
+        ps.zoom -= .1
+        ps.zoom -= .1
+        expect(ps.position.x).to.equal(94.99999999999997)
+        expect(ps.position.y).to.equal(94.99999999999997)
+        ps.zoom += .1
+        ps.zoom += .1
+        expect(ps.position.x).to.equal(7.105427357601002e-15)
+        expect(ps.position.y).to.equal(7.105427357601002e-15)
     })
 
     it('.addParticle()', () => {

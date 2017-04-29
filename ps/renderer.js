@@ -33,9 +33,6 @@ if (typeof window !== 'undefined') {
                 renderer.render(root)
 
             }
-
-            document.addEventListener('mousewheel', event => ps.zoom(event.deltaY < 0 ? .1 : -.1))
-
         }
     }
 }

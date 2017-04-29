@@ -10,6 +10,7 @@ class ZoomMeter extends React.Component {
         this.setState({
             mouseUp: () => this.mouseUp()
         })
+        document.addEventListener('mousewheel', event => ps.zoom += (event.deltaY < 0 ? .1 : -.1))
     }
 
     mouseUp(e) {
@@ -35,8 +36,7 @@ class ZoomMeter extends React.Component {
         const {ps}        = state
         let element       = e.target
         while (element.className !== "zoom-meter-center" && element.parentElement) element = element.parentElement
-        ps.zoomPercentage = (e.clientX - element.parentNode.offsetLeft - element.offsetLeft) / element.offsetWidth
-        this.forceUpdate()
+        ps.zoom = (e.clientX - element.parentNode.offsetLeft - element.offsetLeft) / element.offsetWidth
     }
 
     render() {
@@ -44,20 +44,18 @@ class ZoomMeter extends React.Component {
         return (
             <div id="zoom-meter">
                 <div onClick={() => {
-                    ps.zoomOut()
-                    this.forceUpdate()
+                    ps.zoom -= .1
                 }} className="zoom-meter-button">
                     <span className="glyphicon glyphicon-minus"/>
                 </div>
                 <div className="zoom-meter-center"
                      onMouseMove={e => this.mouseMove(e)}
                      onMouseDown={e => this.mouseDown(e)}>
-                    <div className="zoom-meter-vbar" style={{left: (ps.zoomPercentage * zoomBarMax) + "px"}}></div>
+                    <div className="zoom-meter-vbar" style={{left: (ps.zoom * zoomBarMax) + "px"}}></div>
                     <div className="zoom-meter-hbar"></div>
                 </div>
                 <div onClick={() => {
-                    ps.zoomIn()
-                    this.forceUpdate()
+                    ps.zoom += .1
                 }} className="zoom-meter-button">
                     <span className="glyphicon glyphicon-plus"/>
                 </div>
