@@ -75,12 +75,12 @@ class UserInput {
                 this.state.finish.y = inputs('mouseY')
                 this.ps.addParticle({
                     position: {
-                        x: (this.state.start.x - ps.container.position.x) / ps.container.scale.x,
-                        y: (this.state.start.y - ps.container.position.y) / ps.container.scale.y,
+                        x: (this.state.start.x - this.ps.position.x) / this.ps.scale.x,
+                        y: (this.state.start.y - this.ps.position.y) / this.ps.scale.y,
                     },
                     momentum: {
-                        x: (this.state.start.x - this.state.finish.x) / ps.container.scale.x,
-                        y: (this.state.start.y - this.state.finish.y) / ps.container.scale.x
+                        x: (this.state.start.x - this.state.finish.x) / this.ps.scale.x,
+                        y: (this.state.start.y - this.state.finish.y) / this.ps.scale.x
                     }
                 })
             }
