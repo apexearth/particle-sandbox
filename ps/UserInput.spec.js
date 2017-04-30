@@ -6,7 +6,7 @@ const ParticleSandbox = require('./ParticleSandbox')
 inputs.mapping.requireUpdates = true // For testing, don't auto update input values.
 
 describe('UserInput', () => {
-    let input;
+    let input
     beforeEach(() => {
         input = new ParticleSandbox().userInput
         inputs('mouseX', 0)
@@ -14,7 +14,7 @@ describe('UserInput', () => {
         inputs('mouse0', 0)
     })
     it('select', () => {
-        input.ps.addParticle({position: {x: 0, y: 0}});
+        input.ps.addParticle({position: {x: 0, y: 0}})
 
         expect(input.mode).to.equal('select')
         expect(input.state).to.deep.equal({})
