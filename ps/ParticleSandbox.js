@@ -161,11 +161,20 @@ class ParticleSandbox extends EventEmitter {
         }
     }
 
-    addParticle(options) {
-        options      = options || {position: {x: Math.random() * 100, y: Math.random() * 100}}
-        let particle = new Particle(Object.assign({
+    previewParticle(options) {
+        options = options || {position: {x: Math.random() * 100, y: Math.random() * 100}}
+        return new Particle(Object.assign({
             parent: this
         }, options))
+    }
+
+    addParticle(particle, options) {
+        if (!particle || particle.constructor !== Particle) {
+            options  = particle || {position: {x: Math.random() * 100, y: Math.random() * 100}}
+            particle = new Particle(Object.assign({
+                parent: this
+            }, options))
+        }
         this.particles.forEach(other => {
             this.updatePairLocation(new ParticlePair(particle, other))
         })

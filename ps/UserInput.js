@@ -67,27 +67,28 @@ class UserInput {
                     this.state.timeHeld = 0
                     this.state.start.x  = inputs('mouseX')
                     this.state.start.y  = inputs('mouseY')
+                    this.state.particle = this.ps.previewParticle()
                 }
                 this.state.finish.x = inputs('mouseX')
                 this.state.finish.y = inputs('mouseY')
+
                 if (Math.sqrt(Math.pow(this.state.finish.x - this.state.start.x, 2) + Math.pow(this.state.finish.y - this.state.start.y, 2)) < 5) {
                     this.state.timeHeld += seconds
                 }
+                this.state.particle.position.x                 = (this.state.start.x - this.ps.position.x) / this.ps.scale.x
+                this.state.particle.position.y                 = (this.state.start.y - this.ps.position.y) / this.ps.scale.y
+                this.state.particle.radius = (2 + 10 * this.state.timeHeld) / this.ps.scale.x
+                this.state.particle.draw()
+
             } else if (this.state.stage) {
-                this.state.stage    = 0
-                this.state.finish.x = inputs('mouseX')
-                this.state.finish.y = inputs('mouseY')
-                this.ps.addParticle({
-                    position: {
-                        x: (this.state.start.x - this.ps.position.x) / this.ps.scale.x,
-                        y: (this.state.start.y - this.ps.position.y) / this.ps.scale.y,
-                    },
-                    radius  : 5 + 5 * this.state.timeHeld,
-                    momentum: {
-                        x: (this.state.start.x - this.state.finish.x) / this.ps.scale.x,
-                        y: (this.state.start.y - this.state.finish.y) / this.ps.scale.x
-                    }
-                })
+                this.state.stage             = 0
+                this.state.finish.x          = inputs('mouseX')
+                this.state.finish.y          = inputs('mouseY')
+                this.state.particle.momentum = {
+                    x: (this.state.start.x - this.state.finish.x) / this.ps.scale.x,
+                    y: (this.state.start.y - this.state.finish.y) / this.ps.scale.x
+                }
+                this.ps.addParticle(this.state.particle)
             }
         }
 

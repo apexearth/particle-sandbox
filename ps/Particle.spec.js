@@ -281,7 +281,7 @@ describe("Particle", function () {
             })
 
             p1.bounce(p2, 2)
-            expect(p1.momentum.x).to.equal(-0.9999999999999999)
+            expect(p1.momentum.x).to.equal(-0.9999999999999998)
             expect(p1.momentum.y).to.equal(1)
             expect(p2.momentum.x).to.equal(1.0000000000000002)
             expect(p2.momentum.y).to.equal(-1.0000000000000002)

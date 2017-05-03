@@ -71,31 +71,52 @@ describe('UserInput', () => {
         inputs('mouseY', 2)
         inputs('mouse0', 1)
         input.update(.01)
-        expect(input.state).to.deep.equal({
-            mode  : 'create',
-            stage : 1,
-            start : {x: 1, y: 2},
-            finish: {x: 1, y: 2}
+        expect({
+            mode    : input.state.mode,
+            stage   : input.state.stage,
+            start   : input.state.start,
+            finish  : input.state.finish,
+            timeHeld: input.state.timeHeld,
+        }).to.deep.equal({
+            mode    : 'create',
+            stage   : 1,
+            start   : {x: 1, y: 2},
+            finish  : {x: 1, y: 2},
+            timeHeld: .01
         })
 
         inputs('mouseX', 11)
         inputs('mouseY', 12)
         input.update(.01)
-        expect(input.state).to.deep.equal({
-            mode  : 'create',
-            stage : 1,
-            start : {x: 1, y: 2},
-            finish: {x: 11, y: 12}
+        expect({
+            mode    : input.state.mode,
+            stage   : input.state.stage,
+            start   : input.state.start,
+            finish  : input.state.finish,
+            timeHeld: input.state.timeHeld,
+        }).to.deep.equal({
+            mode    : 'create',
+            stage   : 1,
+            start   : {x: 1, y: 2},
+            finish  : {x: 11, y: 12},
+            timeHeld: .02
         })
 
         expect(input.ps.particles.length).to.equal(0)
         inputs('mouse0', 0)
         input.update(.01)
-        expect(input.state).to.deep.equal({
-            mode  : 'create',
-            stage : 0,
-            start : {x: 1, y: 2},
-            finish: {x: 11, y: 12}
+        expect({
+            mode    : input.state.mode,
+            stage   : input.state.stage,
+            start   : input.state.start,
+            finish  : input.state.finish,
+            timeHeld: input.state.timeHeld,
+        }).to.deep.equal({
+            mode    : 'create',
+            stage   : 0,
+            start   : {x: 1, y: 2},
+            finish  : {x: 11, y: 12},
+            timeHeld: .02
         })
         expect(input.ps.particles.length).to.equal(1)
     })

@@ -75,7 +75,7 @@ class Particle {
             this.graphics.beginFill(this._selected ? 0xffffff : this.color)
             this.graphics.drawCircle(0, 0, 1)
             this.graphics.endFill()
-            this.scale.x = this.scale.y = this._radius
+            this.scale.x = this.scale.y = this.radius
         }
     }
 
