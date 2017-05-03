@@ -1,5 +1,5 @@
-const PIXI           = typeof window !== 'undefined' ? require('pixi.js') : null
-const inputs         = require('./inputs')
+const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null
+const inputs = require('./inputs')
 
 const modes = {
     select: 'select',
@@ -63,12 +63,16 @@ class UserInput {
                 this.state.stage = 0
             } else if (inputs('mouse0')) {
                 if (!this.state.stage) {
-                    this.state.stage   = 1
-                    this.state.start.x = inputs('mouseX')
-                    this.state.start.y = inputs('mouseY')
+                    this.state.stage    = 1
+                    this.state.timeHeld = 0
+                    this.state.start.x  = inputs('mouseX')
+                    this.state.start.y  = inputs('mouseY')
                 }
                 this.state.finish.x = inputs('mouseX')
                 this.state.finish.y = inputs('mouseY')
+                if (Math.sqrt(Math.pow(this.state.finish.x - this.state.start.x, 2) + Math.pow(this.state.finish.y - this.state.start.y, 2)) < 5) {
+                    this.state.timeHeld += seconds
+                }
             } else if (this.state.stage) {
                 this.state.stage    = 0
                 this.state.finish.x = inputs('mouseX')
@@ -78,6 +82,7 @@ class UserInput {
                         x: (this.state.start.x - ps.container.position.x) / ps.container.scale.x,
                         y: (this.state.start.y - ps.container.position.y) / ps.container.scale.y,
                     },
+                    radius  : 5 + 5 * this.state.timeHeld,
                     momentum: {
                         x: (this.state.start.x - this.state.finish.x) / ps.container.scale.x,
                         y: (this.state.start.y - this.state.finish.y) / ps.container.scale.x

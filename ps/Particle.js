@@ -4,7 +4,7 @@ const angles = require('./angles')
 let id = 0
 
 class Particle {
-    constructor({parent, position, momentum, mass}) {
+    constructor({parent, position, momentum, mass, radius}) {
         if (!parent) throw new Error('No parent recieved.')
         this.parent = parent
         this.id     = id++
@@ -20,10 +20,14 @@ class Particle {
             this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}}
         }
 
-        this._selected     = false
-        this.color         = 0xff00ff
-        this.mass          = mass || 4
-        this.mass_prev     = this.mass
+        this._selected = false
+        this.color     = 0xff00ff
+        if (radius) {
+            this.radius = radius
+        } else {
+            this.mass      = mass || 4
+            this.mass_prev = this.mass
+        }
         this.position.x    = position.x
         this.position.y    = position.y
         this.momentum      = {
