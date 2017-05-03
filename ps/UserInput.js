@@ -72,7 +72,7 @@ class UserInput {
                 this.state.finish.x = inputs('mouseX')
                 this.state.finish.y = inputs('mouseY')
 
-                if (Math.sqrt(Math.pow(this.state.finish.x - this.state.start.x, 2) + Math.pow(this.state.finish.y - this.state.start.y, 2)) < 5) {
+                if (Math.sqrt(Math.pow(this.state.finish.x - this.state.start.x, 2) + Math.pow(this.state.finish.y - this.state.start.y, 2)) < 10) {
                     this.state.timeHeld += seconds
                 }
                 this.state.particle.position.x                 = (this.state.start.x - this.ps.position.x) / this.ps.scale.x

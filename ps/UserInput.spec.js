@@ -99,7 +99,7 @@ describe('UserInput', () => {
             stage   : 1,
             start   : {x: 1, y: 2},
             finish  : {x: 11, y: 12},
-            timeHeld: .02
+            timeHeld: .01
         })
 
         expect(input.ps.particles.length).to.equal(0)
@@ -116,7 +116,7 @@ describe('UserInput', () => {
             stage   : 0,
             start   : {x: 1, y: 2},
             finish  : {x: 11, y: 12},
-            timeHeld: .02
+            timeHeld: .01
         })
         expect(input.ps.particles.length).to.equal(1)
     })
