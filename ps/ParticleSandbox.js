@@ -71,8 +71,8 @@ class ParticleSandbox extends EventEmitter {
 
     update(seconds) {
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count)
-        this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * .1)
-        this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * .02)
+        this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * .25)
+        this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * .1)
         this.particles.forEach(particle => particle.updateMovement(seconds))
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
@@ -109,7 +109,6 @@ class ParticleSandbox extends EventEmitter {
     updatePairs(root, seconds, count) {
         let pair
         // Run calculations on interactions by pairs.
-        // First entry is a blank LinkedList object.
         while (count-- > 0 && (pair = (root.next || (root.current = root.first)))) {
             pair.age += seconds
             if (pair.age >= pair.ageUntilUpdate) {
@@ -134,16 +133,17 @@ class ParticleSandbox extends EventEmitter {
     }
 
     updatePairLocation(pair, root) {
-        if (pair.distance > (pair.particle1.radius * pair.particle2.radius * 200)) {
-            if (root !== this.pairs[0]) {
+        const combinedRadii = pair.particle1.radius + pair.particle2.radius
+        if (pair.distance > (combinedRadii * 75)) {
+            if (root !== this.pairs[2]) {
                 if (root) {
                     // console.log('removing pair 2 - relocation ' + pair.particle1.id + ' ' + pair.particle2.id)
                     root.remove(pair)
                 }
                 this.pairs[2].add(pair)
             }
-        } else if (pair.distance > (pair.particle1.radius * pair.particle2.radius * 50)) {
-            if (root !== this.pairs[0]) {
+        } else if (pair.distance > (combinedRadii * 25)) {
+            if (root !== this.pairs[1]) {
                 if (root) {
                     // console.log('removing pair 1 - relocation ' + pair.particle1.id + ' ' + pair.particle2.id)
                     root.remove(pair)

@@ -29,7 +29,7 @@ class Menu extends React.Component {
                 </TextButton>
             )
         }
-        const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={UserInput.modes[key]}/>)
+        const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={key}/>)
         return (
             <div id="menu">
                 {buttons}

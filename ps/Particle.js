@@ -132,6 +132,7 @@ class Particle {
         pair.particle1.momentum.y -= pair.particle2.mass * y / pull * pair.age
         pair.particle2.momentum.x -= -pair.particle1.mass * x / pull * pair.age
         pair.particle2.momentum.y -= -pair.particle1.mass * y / pull * pair.age
+        if (pair.age > 5) console.log(pair.distance, pair.age)
     }
 
     updateCollisions(pair) {

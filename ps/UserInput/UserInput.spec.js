@@ -1,7 +1,7 @@
 const expect          = require('chai').expect
 const UserInput       = require('./UserInput')
-const inputs          = require('./inputs')
-const ParticleSandbox = require('./ParticleSandbox')
+const inputs          = require('../inputs')
+const ParticleSandbox = require('../ParticleSandbox')
 
 inputs.mapping.requireUpdates = true // For testing, don't auto update input values.
 
@@ -22,9 +22,6 @@ describe('UserInput', () => {
         input.update(.01)
         expect(input.state).to.deep.equal({
             mode  : 'select',
-            stage : 0,
-            start : {x: 0, y: 0},
-            finish: {x: 0, y: 0}
         })
 
         inputs('mouseX', 1)
@@ -62,9 +59,6 @@ describe('UserInput', () => {
         input.update(.01)
         expect(input.state).to.deep.equal({
             mode  : 'create',
-            stage : 0,
-            start : {x: 0, y: 0},
-            finish: {x: 0, y: 0}
         })
 
         inputs('mouseX', 1)
