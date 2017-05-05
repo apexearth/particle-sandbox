@@ -53,6 +53,10 @@ class ParticleSandbox extends EventEmitter {
         return this.container.scale
     }
 
+    get targetScale() {
+        return this._targetScale || (this._targetScale = {x: this.scale.x, y: this.scale.y})
+    }
+
     get userInput() {
         return this._userInput
     }
@@ -102,6 +106,13 @@ class ParticleSandbox extends EventEmitter {
             position.y /= this.selectedParticles.length
             this.position.x = ((this.screenWidth / 2) - position.x * this.scale.x)
             this.position.y = ((this.screenHeight / 2) - position.y * this.scale.y)
+        }
+        if (Math.abs(this.scale.x - this.targetScale.x) > .01) {
+            let amount   = (this.targetScale.x - this.scale.x) * .1
+            this.scale.x = this.scale.y += amount
+            this.position.x += (this.position.x - _window.innerWidth / 2) * amount / (this.scale.x - amount)
+            this.position.y += (this.position.y - _window.innerHeight / 2) * amount / (this.scale.y - amount)
+            this.emit('zoom')
         }
         stats.update(this)
     }
@@ -168,6 +179,10 @@ class ParticleSandbox extends EventEmitter {
         }, options))
     }
 
+    cancelPreviewParticle(particle) {
+        this.container.removeChild(particle.container)
+    }
+
     addParticle(particle, options) {
         if (!particle || particle.constructor !== Particle) {
             options  = particle || {position: {x: Math.random() * 100, y: Math.random() * 100}}
@@ -205,17 +220,11 @@ class ParticleSandbox extends EventEmitter {
     }
 
     get zoom() {
-        return Math.max(0, Math.min(1, (this.scale.x - config.zoomMin) / (config.zoomMax - config.zoomMin)))
+        return Math.max(0, Math.min(1, (this.targetScale.x - config.zoomMin) / (config.zoomMax - config.zoomMin)))
     }
 
     set zoom(val) {
-        let initialScale = this.scale.y
-        this.scale.x     = this.scale.y = Math.max(config.zoomMin, Math.min(config.zoomMax, config.zoomMin + val * (config.zoomMax - config.zoomMin)))
-        let amount = this.scale.y - initialScale
-
-        this.position.x += (this.position.x - _window.innerWidth / 2) * amount / (this.scale.x - amount)
-        this.position.y += (this.position.y - _window.innerHeight / 2) * amount / (this.scale.y - amount)
-        this.emit('zoom')
+        this.targetScale.x = this.targetScale.y = Math.max(config.zoomMin, Math.min(config.zoomMax, config.zoomMin + val * (config.zoomMax - config.zoomMin)))
     }
 
     select(x1, y1, x2, y2, additive = false) {

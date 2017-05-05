@@ -4,6 +4,10 @@ module.exports = {
     update (seconds, state, ps)  {
         if (inputs('mouse2')) {
             state.stage = 0
+            if (state.particle) {
+                ps.cancelPreviewParticle(state.particle)
+                state.particle = null
+            }
         } else if (inputs('mouse0')) {
             if (!state.stage) {
                 state.stage    = 1
@@ -31,7 +35,7 @@ module.exports = {
             state.finish.y = inputs('mouseY')
 
             state.particle.momentum = {x: 0, y: 0}
-            if(ps.selectedParticles.length) {
+            if (ps.selectedParticles.length) {
                 for (let particle of ps.selectedParticles) {
                     state.particle.momentum.x += particle.momentum.x
                     state.particle.momentum.y += particle.momentum.y
