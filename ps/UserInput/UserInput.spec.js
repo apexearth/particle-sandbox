@@ -127,10 +127,16 @@ describe('UserInput', () => {
         inputs('mouseX', 1)
         inputs('mouseY', 2)
         inputs('mouse0', 1)
-        input.update(.01)
+        input.update(.005)
         expect(input.state).to.deep.equal({
             mode               : 'rapidCreate',
-            secondsSinceLastAdd: .01,
+            secondsSinceLastAdd: .005,
+        })
+        input.update(.005)
+        expect(input.state).to.deep.equal({
+            mode               : 'rapidCreate',
+            secondsSinceLastAdd: 0,
+            stage              : 1,
         })
     })
 })
