@@ -36,9 +36,9 @@ class ParticleSandbox extends EventEmitter {
         this.container.position.x = this.screenWidth / 2
         this.container.position.y = this.screenHeight / 2
 
+        this._paused    = false
         this._userInput = new UserInput({parent: this})
         this.components = [
-            this._userInput
         ]
         this.modes      = {
             followSelection: true
@@ -57,6 +57,16 @@ class ParticleSandbox extends EventEmitter {
         return this._targetScale || (this._targetScale = {x: this.scale.x, y: this.scale.y})
     }
 
+    get paused() {
+        return this._paused
+    }
+
+    set paused(val) {
+        this._paused = val
+        if (this._paused) this.emit('pause', this)
+        else if (!this._paused) this.emit('play', this)
+    }
+
     get userInput() {
         return this._userInput
     }
@@ -73,7 +83,15 @@ class ParticleSandbox extends EventEmitter {
         return typeof window !== 'undefined' ? window.innerHeight : 500
     }
 
+    togglePause() {
+        this.paused = !this.paused
+    }
+
     update(seconds) {
+        this._userInput.update(seconds)
+
+        if (this.paused) return
+
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count)
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * .25)
         this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * .1)

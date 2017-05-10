@@ -21,7 +21,7 @@ describe('UserInput', () => {
 
         input.update(.01)
         expect(input.state).to.deep.equal({
-            mode  : 'select',
+            mode: 'select',
         })
 
         inputs('mouseX', 1)
@@ -58,7 +58,7 @@ describe('UserInput', () => {
 
         input.update(.01)
         expect(input.state).to.deep.equal({
-            mode  : 'create',
+            mode: 'create',
         })
 
         inputs('mouseX', 1)
@@ -113,5 +113,24 @@ describe('UserInput', () => {
             timeHeld: .01
         })
         expect(input.ps.particles.length).to.equal(1)
+    })
+    it('rapidCreate', () => {
+        input.mode = 'rapidCreate'
+        expect(input.mode).to.equal('rapidCreate')
+        expect(input.state).to.deep.equal({})
+
+        input.update(.01)
+        expect(input.state).to.deep.equal({
+            mode: 'rapidCreate',
+        })
+
+        inputs('mouseX', 1)
+        inputs('mouseY', 2)
+        inputs('mouse0', 1)
+        input.update(.01)
+        expect(input.state).to.deep.equal({
+            mode               : 'rapidCreate',
+            secondsSinceLastAdd: .01,
+        })
     })
 })
