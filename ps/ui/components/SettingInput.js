@@ -1,10 +1,11 @@
 import React from 'react'
 
-const SettingInput = (object, key) => {
+const SettingInput = (settings, settingKey) => {
+    console.log(settings, settingKey)
     return (
-        <div style={{display: 'flex'}}>
-            <div>{key}</div>
-            <div>{object[key]}</div>
+        <div className="settings-input" style={{display: 'flex'}}>
+            <div>{settingKey}</div>
+            <div>{settings[settingKey]}</div>
         </div>
     )
 }
