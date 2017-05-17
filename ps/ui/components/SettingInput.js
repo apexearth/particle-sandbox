@@ -4,7 +4,11 @@ const SettingInput = ({settings, settingsKey}) => {
     return (
         <div className="settings-input" style={{display: 'flex'}}>
             <div>{settingsKey}</div>
-            <div>{settings[settingsKey]}</div>
+            <input
+                type="text"
+                defaultValue={settings[settingsKey]}
+                onChange={event => settings[settingsKey] = event.target.value}
+            />
         </div>
     )
 }
