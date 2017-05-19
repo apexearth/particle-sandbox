@@ -27,6 +27,20 @@ canvas {
   z-index: -1;
 }
 
+input {
+  .gui-backpanel;
+  .gui-border;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.title h3 {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
 .clickable(@color, @click-color) {
   cursor: pointer;
   &:hover {
@@ -35,6 +49,10 @@ canvas {
   &:active {
     background-color: fade(@click-color, 25%);
   }
+}
+
+.gui-border {
+  border: solid 1px fade(@base, 30%);
 }
 
 .gui-rounded(@size: 2px) {
@@ -76,6 +94,24 @@ canvas {
   .gui-backpanel;
   .gui-rounded;
   padding: @gui-padding;
+}
+
+.gui-window {
+  .gui-panel;
+}
+
+.settings-list {
+  position: fixed;
+  left: 155px;
+  top: 55px;
+}
+
+.settings-input *:nth-child(1) {
+  width: 35%;
+}
+
+.settings-input *:nth-child(2) {
+  width: 65%;
 }
 
 @menu-margin: 15px;

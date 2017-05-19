@@ -36,7 +36,7 @@ class Menu extends React.Component {
                 <div id="menu">
                     {buttons}
                 </div>
-                <SettingsList title={`Settings: ${currentMode}`} object={UserInput.modes[currentMode].settings}/>
+                <SettingsList title={`Settings: ${currentMode}`} settings={UserInput.modes[currentMode].settings}/>
             </div>
         )
     }
