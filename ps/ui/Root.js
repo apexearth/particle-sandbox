@@ -10,8 +10,8 @@ class Root extends React.Component {
     render() {
         return (
             <div>
-                <Menu />
                 <MenuButton />
+                <Menu />
                 <PlayPauseButton />
                 <SelectionInfo />
                 <ZoomMeter />

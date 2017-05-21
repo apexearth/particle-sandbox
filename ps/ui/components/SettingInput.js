@@ -1,10 +1,14 @@
 import React from 'react'
 
-const SettingInput = (object, key) => {
+const SettingInput = ({settings, settingsKey}) => {
     return (
-        <div style={{display: 'flex'}}>
-            <div>{key}</div>
-            <div>{object[key]}</div>
+        <div className="settings-input" style={{display: 'flex'}}>
+            <div>{settingsKey}</div>
+            <input
+                type="text"
+                defaultValue={settings[settingsKey]}
+                onChange={event => settings[settingsKey] = event.target.value}
+            />
         </div>
     )
 }
