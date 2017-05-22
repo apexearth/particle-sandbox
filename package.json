@@ -2,6 +2,8 @@
   "name": "particle-sandbox",
   "version": "2.0.0",
   "scripts": {
+    "travis-develop": "npm test",
+    "travis-master": "npm run publish",
     "test": "npm-run-all test-eslint test-mocha",
     "test-eslint": "eslint ./**/*.js",
     "test-mocha": "mocha ps/**/*.spec.js",
