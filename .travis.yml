@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - "7"
 script:
-  - npm install
   - if [ "$TRAVIS_BRANCH" = "develop" ]; then npm run travis-develop; fi
   - if [ "$TRAVIS_BRANCH" = "master" ];  then npm run travis-master;  fi
 branches:
