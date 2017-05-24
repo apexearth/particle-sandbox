@@ -1,0 +1,229 @@
+@base: #67f95e;
+@base2: #9ba0f9;
+@gui-bg-color: fade(@base, 15%);
+@gui-padding: 10px;
+
+@font-base: fade(lighten(@base, 10%), 80%);
+@font-family: "Courier New", Courier, monospace;
+
+.no-text-select {
+  user-select: none;
+}
+
+html, body {
+  .no-text-select;
+  margin: 0;
+  color: @font-base;
+  font-family: @font-family;
+}
+
+canvas {
+  .no-text-select;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+input {
+  .gui-backpanel;
+  .gui-border;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+a, a:visited, a:hover, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.title h3 {
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.clickable(@color, @click-color) {
+  cursor: pointer;
+  &:hover {
+    background-color: fade(@color, 28%);
+  }
+  &:active {
+    background-color: fade(@click-color, 25%);
+  }
+}
+
+.gui-border {
+  border: solid 1px fade(@base, 30%);
+}
+
+.gui-rounded(@size: 2px) {
+  border-radius: @size;
+}
+
+.gui-backpanel {
+  background-color: @gui-bg-color;
+}
+
+.gui-text {
+  padding-left: @gui-padding;
+  padding-right: @gui-padding;
+}
+
+.gui-button(@color: @base, @color2: @base2) {
+  background-color: fade(@color, 35%);
+  box-sizing: border-box;
+  border: solid 1px fade(@color, 30%);
+  .no-text-select;
+  .clickable(@color, @color2);
+}
+
+.gui-text-button {
+  .gui-text-button(@base, @base2);
+}
+
+.gui-text-button(@color, @color2) {
+  .gui-button(@color, @color2);
+  .gui-text;
+  text-align: center;
+}
+
+.gui-text-button-selected {
+  .gui-text-button(@base2, @base2);
+}
+
+.gui-panel {
+  .gui-backpanel;
+  .gui-rounded;
+  padding: @gui-padding;
+}
+
+.gui-window {
+  .gui-panel;
+}
+
+.settings-list {
+  position: fixed;
+  left: 155px;
+  top: 55px;
+}
+
+.settings-input *:nth-child(1) {
+  width: 35%;
+}
+
+.settings-input *:nth-child(2) {
+  width: 65%;
+}
+
+@menu-margin: 15px;
+@menu-button-size: 25px;
+#menu-button {
+  .gui-rounded;
+  .gui-button(@base, @base2);
+  position: fixed;
+  left: @menu-margin;
+  top: @menu-margin;
+  width: @menu-button-size;
+  height: @menu-button-size;
+  line-height: @menu-button-size;
+  text-align: center;
+  z-index: 2;
+}
+
+#play-pause-button {
+  .gui-rounded;
+  .gui-button(@base, @base2);
+  position: fixed;
+  left: @menu-margin * 3;
+  top: @menu-margin;
+  width: @menu-button-size;
+  height: @menu-button-size;
+  line-height: @menu-button-size;
+  text-align: center;
+  z-index: 2;
+}
+
+#menu {
+  .gui-rounded;
+  position: fixed;
+  top: @menu-margin * 2 + @menu-button-size;
+  left: @menu-margin;
+  min-width: 50px;
+  min-height: 50px;
+  z-index: 2;
+  overflow: hidden; // To keep rounded edges.
+}
+
+#selection-info {
+  position: fixed;
+  right: 0;
+  min-width: 100px;
+  padding: 10px;
+  border-left: solid 1px fade(@base, 40%);
+  border-bottom: solid 1px fade(@base, 40%);
+  border-bottom-left-radius: 4px;
+  z-index: 2;
+}
+
+#selection-info > table > tr > td:nth-of-type(1) {
+  padding-right: 5px;
+}
+
+#zoom-meter {
+  position: fixed;
+  top: @menu-margin;
+  left: @menu-margin * 7;
+  height: 25px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  font-size: 0;
+}
+
+#zoom-meter .zoom-meter-center {
+  display: flex;
+  align-items: center;
+}
+
+#zoom-meter .zoom-meter-button {
+  .gui-rounded;
+  .gui-button;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+}
+
+#zoom-meter .zoom-meter-button span {
+  top: 0;
+  color: fade(@base, 75%);
+  font-size: 16px;
+  line-height: 23px;
+}
+
+#zoom-meter .zoom-meter-hbar {
+  line-height: 0;
+  background-color: fade(@base, 40%);
+  height: 4px;
+  width: 100px;
+  margin-left: -8px;
+}
+
+#zoom-meter .zoom-meter-vbar {
+  line-height: 0;
+  position: relative;
+  background-color: darken(@base, 40%);
+  width: 8px;
+  height: 25px;
+}
+
+#link-original {
+  color: darken(@base, 50%);
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 4px;
+}

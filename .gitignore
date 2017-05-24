@@ -1,3 +1,10 @@
+build/
+node_modules/
+bower_components/
+.idea/
+*.tgz
+
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
