@@ -1,5 +1,6 @@
 const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null
 const angles = require('./angles')
+const Color  = require('color')
 
 let id = 0
 
@@ -21,7 +22,7 @@ class Particle {
         }
 
         this._selected = false
-        this.color     = 0xff00ff
+        this.color     = Color.rgb(50 + Math.random() * 200, 50 + Math.random() * 200, 50 + Math.random() * 200).rgbNumber()
         if (radius) {
             this.radius = radius
         } else {
