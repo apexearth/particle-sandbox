@@ -36,6 +36,11 @@ input {
   padding-bottom: 1px;
 }
 
+a, a:visited, a:hover, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 .title h3 {
   margin: 0;
   margin-bottom: 5px;
@@ -44,7 +49,7 @@ input {
 .clickable(@color, @click-color) {
   cursor: pointer;
   &:hover {
-    background-color: fade(@color, 36%);
+    background-color: fade(@color, 28%);
   }
   &:active {
     background-color: fade(@click-color, 25%);
@@ -213,4 +218,12 @@ input {
   background-color: darken(@base, 40%);
   width: 8px;
   height: 25px;
+}
+
+#link-original {
+  color: darken(@base, 50%);
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 4px;
 }
