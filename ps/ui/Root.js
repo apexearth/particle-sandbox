@@ -6,6 +6,7 @@ import PlayPauseButton from './PlayPauseButton'
 import SelectionInfo from './SelectionInfo'
 import ZoomMeter from './ZoomMeter'
 import LinkOriginal from './LinkOriginal'
+import ShareButtons from './ShareButtons'
 
 class Root extends React.Component {
     render() {
@@ -17,6 +18,7 @@ class Root extends React.Component {
                 <SelectionInfo />
                 <ZoomMeter />
                 <LinkOriginal />
+                <ShareButtons />
             </div>
         )
     }

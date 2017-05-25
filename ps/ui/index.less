@@ -221,9 +221,25 @@ a, a:visited, a:hover, a:active {
 }
 
 #link-original {
-  color: darken(@base, 50%);
+  color: fade(@base, 70%);
+  font-size: smaller;
   position: fixed;
   bottom: 0;
   right: 0;
   margin: 4px;
+}
+
+#share-buttons {
+  position: fixed;
+  display: flex;
+  bottom: 0;
+}
+
+#share-buttons div div {
+  filter: opacity(.5);
+}
+
+#share-buttons div div:hover {
+  filter: opacity(.75);
+  cursor: pointer;
 }
