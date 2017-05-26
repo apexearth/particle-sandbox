@@ -15,7 +15,8 @@ const mapping = new Mapping(
             'left'   : ['<left>', 'A'],
             'right'  : ['<right>', 'D'],
             'zoomIn' : ['=', '<num-+>'],
-            'zoomOut': ['-', '<num-->']
+            'zoomOut': ['-', '<num-->'],
+            'delete' : ['<backspace>', '<delete>']
         },
         mouse   : {
             'mouse0': 'mouse0',

@@ -38,8 +38,7 @@ class ParticleSandbox extends EventEmitter {
 
         this._paused    = false
         this._userInput = new UserInput({parent: this})
-        this.components = [
-        ]
+        this.components = []
         this.modes      = {
             followSelection: true
         }
@@ -225,6 +224,21 @@ class ParticleSandbox extends EventEmitter {
                 }
             })
         }
+    }
+
+    removeSelectedParticles() {
+        this.removeParticles(this.selectedParticles)
+        this.selectedParticles.forEach(particle => {
+            particle.deselect()
+            let index = this.selectedParticles.indexOf(particle)
+            if (index >= 0) {
+                this.selectedParticles.splice(index, 1)
+            }
+        })
+    }
+
+    removeParticles(particles) {
+        particles.forEach(particle => this.removeParticle(particle))
     }
 
     removeParticle(particle) {
