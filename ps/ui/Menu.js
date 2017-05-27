@@ -32,11 +32,13 @@ class Menu extends React.Component {
         }
         const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={key}/>)
         return (
-            <div>
-                <div id="menu">
+            <div id="edit-menu">
+                <div id="edit-menu-buttons">
                     {buttons}
                 </div>
-                <SettingsList title={`Settings: ${currentMode}`} settings={UserInput.modes[currentMode].settings}/>
+                <SettingsList id="edit-menu-settings"
+                              title={`${currentMode}`}
+                              settings={UserInput.modes[currentMode].settings}/>
             </div>
         )
     }

@@ -14,7 +14,7 @@ class MenuButton extends React.Component {
         return (
             <div id="menu-button"
                  onClick={menu.toggleVisible}>
-                &nbsp;
+                <span className="glyphicon glyphicon-edit"/>
             </div>
         )
     }

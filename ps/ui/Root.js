@@ -13,15 +13,16 @@ class Root extends React.Component {
     render() {
         return (
             <div>
-                <MenuButton />
-                <Menu />
-                <PlayPauseButton />
-
-                <SettingsButton />
-
-
+                <div>
+                    <div id="gui-buttons">
+                        <SettingsButton />
+                        <MenuButton />
+                        <PlayPauseButton />
+                        <ZoomMeter />
+                    </div>
+                    <Menu />
+                </div>
                 <SelectionInfo />
-                <ZoomMeter />
                 <LinkOriginal />
                 <ShareButtons />
             </div>
