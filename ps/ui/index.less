@@ -76,9 +76,21 @@ a, a:visited, a:hover, a:active {
 .gui-button(@color: @base, @color2: @base2) {
   background-color: fade(@color, 35%);
   box-sizing: border-box;
-  border: solid 1px fade(@color, 30%);
   .no-text-select;
   .clickable(@color, @color2);
+}
+
+.gui-button-span {
+  font-size: 0;
+  text-align: center;
+
+  span {
+    top: 0;
+    color: fade(@base, 75%);
+    font-size: 16px;
+    line-height: 25px;
+    text-align: center;
+  }
 }
 
 .gui-text-button {
@@ -130,20 +142,19 @@ a, a:visited, a:hover, a:active {
   width: @menu-button-size;
   height: @menu-button-size;
   line-height: @menu-button-size;
-  text-align: center;
   z-index: 2;
 }
 
 #play-pause-button {
   .gui-rounded;
   .gui-button(@base, @base2);
+  .gui-button-span;
   position: fixed;
   left: @menu-margin * 3;
   top: @menu-margin;
   width: @menu-button-size;
   height: @menu-button-size;
   line-height: @menu-button-size;
-  text-align: center;
   z-index: 2;
 }
 
@@ -156,6 +167,17 @@ a, a:visited, a:hover, a:active {
   min-height: 50px;
   z-index: 2;
   overflow: hidden; // To keep rounded edges.
+}
+
+#settings-button {
+  .gui-rounded;
+  .gui-button;
+  .gui-button-span;
+  position: fixed;
+  bottom: @menu-margin * 2 + 8;
+  left: @menu-margin;
+  width: 25px;
+  height: 25px;
 }
 
 #selection-info {
@@ -192,16 +214,9 @@ a, a:visited, a:hover, a:active {
 #zoom-meter .zoom-meter-button {
   .gui-rounded;
   .gui-button;
+  .gui-button-span;
   width: 25px;
   height: 25px;
-  text-align: center;
-}
-
-#zoom-meter .zoom-meter-button span {
-  top: 0;
-  color: fade(@base, 75%);
-  font-size: 16px;
-  line-height: 23px;
 }
 
 #zoom-meter .zoom-meter-hbar {
