@@ -228,13 +228,6 @@ class ParticleSandbox extends EventEmitter {
 
     removeSelectedParticles() {
         this.removeParticles(this.selectedParticles)
-        this.selectedParticles.forEach(particle => {
-            particle.deselect()
-            let index = this.selectedParticles.indexOf(particle)
-            if (index >= 0) {
-                this.selectedParticles.splice(index, 1)
-            }
-        })
     }
 
     removeParticles(particles) {
@@ -247,6 +240,13 @@ class ParticleSandbox extends EventEmitter {
             this.particles.splice(index, 1)
             if (typeof window !== 'undefined') {
                 this.container.removeChild(particle.container)
+            }
+        }
+        if (particle.selected) {
+            particle.deselect()
+            let index = this.selectedParticles.indexOf(particle)
+            if (index >= 0) {
+                this.selectedParticles.splice(index, 1)
             }
         }
     }

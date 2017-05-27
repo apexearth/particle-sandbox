@@ -33,3 +33,13 @@ const selectionInfo = state.selectionInfo = {
         return ps.modes.followSelection
     }
 }
+
+const settings = state.settings = {
+    subscribe    : fn => state.on('settings', fn),
+    notify       : () => state.emit('settings', menu),
+    visible      : true,
+    toggleVisible: () => {
+        settings.visible = !settings.visible
+        settings.notify()
+    },
+}
