@@ -126,11 +126,12 @@ a, a:visited, a:hover, a:active {
 }
 
 .settings-input *:nth-child(1) {
-  width: 40%;
+  width: 100%;
 }
 
 .settings-input *:nth-child(2) {
-  width: 60%;
+  margin-left: 10px;
+  width: 70px;
 }
 
 #gui-buttons {
@@ -150,7 +151,6 @@ a, a:visited, a:hover, a:active {
   .gui-button-span;
   width: @menu-button-size;
   height: @menu-button-size;
-  display: none; // temp
 }
 
 #menu-button {
@@ -185,7 +185,7 @@ a, a:visited, a:hover, a:active {
 }
 
 #edit-menu-settings {
-  width: 150px;
+  min-width: 150px;
 }
 
 #selection-info {

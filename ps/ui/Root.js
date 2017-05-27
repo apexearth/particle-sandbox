@@ -1,6 +1,7 @@
 import React from 'react'
 
-import Menu from './Menu'
+import EditMenu from './EditMenu'
+import SettingsMenu from './SettingsMenu'
 import MenuButton from './MenuButton'
 import SettingsButton from './SettingsButton'
 import PlayPauseButton from './PlayPauseButton'
@@ -20,7 +21,8 @@ class Root extends React.Component {
                         <PlayPauseButton />
                         <ZoomMeter />
                     </div>
-                    <Menu />
+                    <EditMenu />
+                    <SettingsMenu />
                 </div>
                 <SelectionInfo />
                 <LinkOriginal />

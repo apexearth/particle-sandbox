@@ -1,19 +1,19 @@
 import React from 'react'
-import {menu} from './state'
+import {edit} from './state'
 
 class MenuButton extends React.Component {
 
     componentDidMount() {
-        this.setState(menu)
-        menu.subscribe(menu => {
-            this.setState(menu)
+        this.setState(edit)
+        edit.subscribe(menu => {
+            this.setState(edit)
         })
     }
 
     render() {
         return (
             <div id="menu-button"
-                 onClick={menu.toggleVisible}>
+                 onClick={edit.toggleVisible}>
                 <span className="glyphicon glyphicon-edit"/>
             </div>
         )

@@ -1,6 +1,7 @@
-const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null
-const angles = require('./angles')
-const Color  = require('color')
+const PIXI         = typeof window !== 'undefined' ? require('pixi.js') : null
+const angles       = require('./angles')
+const Color        = require('color')
+const {simulation} = require('./config')
 
 let id = 0
 
@@ -127,7 +128,7 @@ class Particle {
      */
     updateAttract(pair) {
         if (pair.distance === 0) return
-        let pull     = (pair.distance * pair.distance) / 200
+        let pull     = Math.pow(pair.distance, simulation.gravityExponent) / simulation.gravityStrength
         let {x, y}   = Particle.calculateDirection(pair.particle1.position, pair.particle2.position)
         pair.particle1.momentum.x -= pair.particle2.mass * x / pull * pair.age
         pair.particle1.momentum.y -= pair.particle2.mass * y / pull * pair.age

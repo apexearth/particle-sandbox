@@ -11,7 +11,10 @@ const stats          = require('./stats')
 const {EventEmitter} = require('events')
 
 const UserInput = require('./UserInput')
-const config    = require('./config')
+const {
+          view,
+          simulation
+      }         = require('./config')
 
 
 class ParticleSandbox extends EventEmitter {
@@ -257,11 +260,11 @@ class ParticleSandbox extends EventEmitter {
     }
 
     get zoom() {
-        return Math.max(0, Math.min(1, (this.targetScale.x - config.zoomMin) / (config.zoomMax - config.zoomMin)))
+        return Math.max(0, Math.min(1, (this.targetScale.x - view.zoomMin) / (view.zoomMax - view.zoomMin)))
     }
 
     set zoom(val) {
-        this.targetScale.x = this.targetScale.y = Math.max(config.zoomMin, Math.min(config.zoomMax, config.zoomMin + val * (config.zoomMax - config.zoomMin)))
+        this.targetScale.x = this.targetScale.y = Math.max(view.zoomMin, Math.min(view.zoomMax, view.zoomMin + val * (view.zoomMax - view.zoomMin)))
     }
 
     select(x1, y1, x2, y2, additive = false) {

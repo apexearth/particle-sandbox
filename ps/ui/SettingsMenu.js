@@ -1,36 +1,34 @@
 import React from 'react'
 import state from './state'
-import UserInput from '../UserInput'
+import config from '../config'
 import TextButton from './components/TextButton'
 import SettingsList from './components/SettingsList'
 
-const {menu} = state
-class Menu extends React.Component {
+const {settings} = state
+class SettingsMenu extends React.Component {
 
     componentDidMount() {
-        this.setState(menu)
-        menu.subscribe(menu => {
-            this.setState(menu)
-        })
+        this.setState(settings)
+        state.subscribe(state => this.setState(settings))
+        settings.subscribe(settings => this.setState(settings))
     }
 
     render() {
-        if (!menu.visible)  return null
+        if (!settings.visible())  return null
 
         const {ps} = state
         if (!ps) return null
 
-        const {userInput} = ps
-        const currentMode = userInput.mode
+        const currentMode = settings.section
 
-        const ToolButton = ({mode}) => {
+        const SectionButton = ({mode}) => {
             return (
-                <TextButton selected={mode === currentMode} onClick={menu.changeTool.bind(this, mode)}>
+                <TextButton selected={mode === currentMode} onClick={settings.changeSection.bind(this, mode)}>
                     {mode[0].toUpperCase() + mode.substring(1)}
                 </TextButton>
             )
         }
-        const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={key}/>)
+        const buttons       = Object.keys(config).map(key => <SectionButton key={key} mode={key}/>)
         return (
             <div id="edit-menu">
                 <div id="edit-menu-buttons">
@@ -38,11 +36,11 @@ class Menu extends React.Component {
                 </div>
                 <SettingsList id="edit-menu-settings"
                               title={`${currentMode}`}
-                              settings={UserInput.modes[currentMode].settings}/>
+                              settings={config[currentMode]}/>
             </div>
         )
     }
 
 }
 
-module.exports = Menu
+module.exports = SettingsMenu

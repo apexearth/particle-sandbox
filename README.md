@@ -1,18 +1,9 @@
 # Particle Sandbox
 
-## 2.x.x
+New version:
+http://particlesandbox.com
 
-## Youtrack
-
-http://apexearth.myjetbrains.com/youtrack/agiles/90-0
-
-## TODO
-
-- Settings for tools. Dynamic component.
-    - SettingsList
-        - SettingsInput
-        - Title
-        - MovableWindow
-    - GearButton
+Original:
+http://particlesandbox.com/v1
 
 
