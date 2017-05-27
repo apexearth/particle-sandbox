@@ -89,6 +89,8 @@ class ParticleSandbox extends EventEmitter {
     update(seconds) {
         this._userInput.update(seconds)
 
+        this.updateZoom(seconds)
+
         if (this.paused) return
 
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count)
@@ -124,14 +126,17 @@ class ParticleSandbox extends EventEmitter {
             this.position.x = ((this.screenWidth / 2) - position.x * this.scale.x)
             this.position.y = ((this.screenHeight / 2) - position.y * this.scale.y)
         }
+        stats.update(this)
+    }
+
+    updateZoom(seconds) {
         if (Math.abs(this.scale.x - this.targetScale.x) > .01) {
-            let amount   = (this.targetScale.x - this.scale.x) * .1
+            let amount   = (this.targetScale.x - this.scale.x) * seconds * 10
             this.scale.x = this.scale.y += amount
             this.position.x += (this.position.x - _window.innerWidth / 2) * amount / (this.scale.x - amount)
             this.position.y += (this.position.y - _window.innerHeight / 2) * amount / (this.scale.y - amount)
             this.emit('zoom')
         }
-        stats.update(this)
     }
 
     updatePairs(root, seconds, count) {
