@@ -13,16 +13,16 @@ const {
           TwitterShareButton,
       } = ShareButtons
 
-const FacebookIcon = generateShareIcon('facebook')
+const FacebookIcon   = generateShareIcon('facebook')
 const GooglePlusIcon = generateShareIcon('google')
-const TwitterIcon = generateShareIcon('twitter')
-const LinkedinIcon = generateShareIcon('linkedin')
+const TwitterIcon    = generateShareIcon('twitter')
+const LinkedinIcon   = generateShareIcon('linkedin')
 
 module.exports = () => (
     <div id="share-buttons">
-        <FacebookShareButton url="http://particlesandbox.com">
+        <a href="https://www.facebook.com/particlesandbox" target="_blank">
             <FacebookIcon size={24} round={false}/>
-        </FacebookShareButton>
+        </a>
         <GooglePlusShareButton url="http://particlesandbox.com">
             <GooglePlusIcon size={24} round={false}/>
         </GooglePlusShareButton>
