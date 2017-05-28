@@ -47,6 +47,7 @@ module.exports = {
             state.particle.momentum.y += (state.start.y - state.finish.y) / ps.scale.x
 
             ps.addParticle(state.particle)
+            state.particle = null
         }
     },
     draw (state, graphics)  {
