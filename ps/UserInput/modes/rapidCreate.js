@@ -1,8 +1,10 @@
 const inputs = require('../../inputs')
 
 const settings = {
-    radius: 2,
-    delay : .01,
+    radius   : 2,
+    delay    : .01,
+    momentumX: 0,
+    momentumY: 0,
 }
 
 module.exports = {
@@ -16,13 +18,29 @@ module.exports = {
             if (state.secondsSinceLastAdd >= settings.delay) {
                 state.secondsSinceLastAdd = 0
                 state.stage               = 1
-                ps.addParticle({
+                let particle              = ps.addParticle({
                     position: {
                         x: (inputs('mouseX') - ps.position.x) / ps.scale.x,
                         y: (inputs('mouseY') - ps.position.y) / ps.scale.y
                     },
+                    momentum: {
+                        x: settings.momentumX,
+                        y: settings.momentumY,
+                    },
                     radius  : settings.radius
                 })
+                // Adjust momentum per selected particles.
+                if (ps.selectedParticles.length) {
+                    let momentum = {x: 0, y: 0}
+                    for (let particle of ps.selectedParticles) {
+                        momentum.x += particle.momentum.x
+                        momentum.y += particle.momentum.y
+                    }
+                    momentum.x /= ps.selectedParticles.length
+                    momentum.y /= ps.selectedParticles.length
+                    particle.momentum.x = momentum.x
+                    particle.momentum.y = momentum.y
+                }
             }
         } else if (state.stage) {
             state.stage               = 0
@@ -30,6 +48,6 @@ module.exports = {
         }
     },
     draw (state, graphics)  {
-        
+
     }
 }

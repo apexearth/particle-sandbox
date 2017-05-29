@@ -1,6 +1,12 @@
 const inputs = require('../../inputs')
 
+const settings = {
+    initialRadius: 2,
+    growthRate   : 10,
+}
+
 module.exports = {
+    settings,
     update (seconds, state, ps)  {
         if (inputs('mouse2')) {
             state.stage = 0
@@ -26,7 +32,7 @@ module.exports = {
             }
             state.particle.position.x = (state.start.x - ps.position.x) / ps.scale.x
             state.particle.position.y = (state.start.y - ps.position.y) / ps.scale.y
-            state.particle.radius     = (2 + 10 * state.timeHeld) / ps.scale.x
+            state.particle.radius     = (settings.initialRadius + settings.growthRate * state.timeHeld) / ps.scale.x
             state.particle.draw()
 
         } else if (state.stage) {
@@ -35,6 +41,7 @@ module.exports = {
             state.finish.y = inputs('mouseY')
 
             state.particle.momentum = {x: 0, y: 0}
+            // Adjust momentum per selected particles.
             if (ps.selectedParticles.length) {
                 for (let particle of ps.selectedParticles) {
                     state.particle.momentum.x += particle.momentum.x
