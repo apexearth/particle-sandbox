@@ -12,7 +12,7 @@ class UserInput {
             this.container.addChild(this.graphics)
             this.ps.root.addChild(this.container)
         }
-        this.mode  = "select"
+        this.mode  = "create"
         this.state = {}
 
         this.lastMouseX = inputs('mouseX')
