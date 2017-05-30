@@ -15,8 +15,7 @@ describe('UserInput', () => {
     })
     it('select', () => {
         input.ps.addParticle({position: {x: 0, y: 0}})
-
-        expect(input.mode).to.equal('select')
+        input.mode = 'select'
         expect(input.state).to.deep.equal({})
 
         input.update(.01)
