@@ -1,26 +1,15 @@
-const PIXI         = typeof window !== 'undefined' ? require('pixi.js') : null
-const angles       = require('./angles')
-const Color        = require('color')
+const angles        = require('./angles')
+const Color         = require('color')
+const SandboxObject = require('./SandboxObject')
 const {simulation} = require('./config')
 
 let id = 0
 
-class Particle {
+class Particle extends SandboxObject {
     constructor({parent, position, momentum, mass, radius}) {
-        if (!parent) throw new Error('No parent recieved.')
-        this.parent = parent
+        super({parent, position})
         this.id     = id++
-        position    = position || {x: 0, y: 0}
         momentum    = momentum || {x: 0, y: 0}
-
-        if (typeof window !== 'undefined') {
-            this.container = new PIXI.Container()
-            this.graphics  = new PIXI.Graphics()
-            this.container.addChild(this.graphics)
-            this.parent.container.addChild(this.container)
-        } else {
-            this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}}
-        }
 
         this._selected = false
         this.color     = Color.rgb(50 + Math.random() * 200, 50 + Math.random() * 200, 50 + Math.random() * 200).rgbNumber()
@@ -30,8 +19,6 @@ class Particle {
             this.mass      = mass || 4
             this.mass_prev = this.mass
         }
-        this.position.x    = position.x
-        this.position.y    = position.y
         this.momentum      = {
             x: momentum.x,
             y: momentum.y
@@ -57,14 +44,6 @@ class Particle {
             this.scale.x   = this.scale.y = this._radius
         }
         return this._radius
-    }
-
-    get position() {
-        return this.container.position
-    }
-
-    get scale() {
-        return this.container.scale
     }
 
     get speed() {
