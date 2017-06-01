@@ -47,6 +47,10 @@ class ParticleSandbox extends EventEmitter {
         }
     }
 
+    get stats() {
+        return stats
+    }
+
     get position() {
         return this.container.position
     }
@@ -110,7 +114,13 @@ class ParticleSandbox extends EventEmitter {
                 collision.pair.previouslyCollided = true
             }
         })
-        this.particles.forEach(particle => particle.update(seconds))
+        this.particles.forEach(particle => {
+            if (particle.mass <= 0) {
+                this.removeParticle(particle)
+            } else {
+                particle.update(seconds)
+            }
+        })
         this.collisions = []
 
         this.components.forEach(component => component.update(seconds))
@@ -129,7 +139,6 @@ class ParticleSandbox extends EventEmitter {
             this.position.x = ((this.screenWidth / 2) - position.x * this.scale.x)
             this.position.y = ((this.screenHeight / 2) - position.y * this.scale.y)
         }
-        stats.update(this)
     }
 
     updateZoom(seconds) {
@@ -146,10 +155,15 @@ class ParticleSandbox extends EventEmitter {
         let pair
         // Run calculations on interactions by pairs.
         while (count-- > 0 && (pair = (root.next || (root.current = root.first)))) {
+
             pair.age += seconds
             if (pair.age >= pair.ageUntilUpdate) {
-                if (pair.particle1.mass <= 0 || pair.particle2.mass <= 0) {
-                    //console.log('removing pair - mass')
+                if (
+                    pair.particle1.mass <= 0 ||
+                    pair.particle2.mass <= 0 ||
+                    pair.particle1.removed ||
+                    pair.particle2.removed
+                ) {
                     root.remove(pair)
                 } else {
                     this.updatePairLocation(pair, root)
@@ -204,7 +218,7 @@ class ParticleSandbox extends EventEmitter {
         }, options))
     }
 
-    cancelPreviewParticle(particle) {
+    cancelPreview(particle) {
         this.container.removeChild(particle.container)
     }
 
@@ -219,6 +233,8 @@ class ParticleSandbox extends EventEmitter {
             this.updatePairLocation(new ParticlePair(particle, other))
         })
         this.particles.push(particle)
+        this.addObject(particle)
+        stats.simulation.particleCount++
         return particle
     }
 
@@ -246,9 +262,7 @@ class ParticleSandbox extends EventEmitter {
         let index = this.particles.indexOf(particle)
         if (index >= 0) {
             this.particles.splice(index, 1)
-            if (typeof window !== 'undefined') {
-                this.container.removeChild(particle.container)
-            }
+
         }
         if (particle.selected) {
             particle.deselect()
@@ -256,6 +270,22 @@ class ParticleSandbox extends EventEmitter {
             if (index >= 0) {
                 this.selectedParticles.splice(index, 1)
             }
+        }
+        this.removeObject(particle)
+        stats.simulation.particleCount--
+    }
+
+    addObject(object) {
+        object.removed = false
+        if (typeof window !== 'undefined') {
+            this.container.addChild(object.container)
+        }
+    }
+
+    removeObject(object) {
+        object.removed = true
+        if (typeof window !== 'undefined') {
+            this.container.removeChild(object.container)
         }
     }
 

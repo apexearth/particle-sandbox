@@ -33,7 +33,7 @@ class Generator extends SandboxObject {
         this.state.delay += seconds
         if (this.state.delay >= this.settings.delay) {
             this.state.delay = 0
-            this.parent.addParticle()
+            this.parent.addParticle({position: this.position})
         }
     }
 }

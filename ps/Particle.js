@@ -84,9 +84,6 @@ class Particle extends SandboxObject {
 
 
     update(seconds) {
-        if (this.mass <= 0) {
-            this.parent.removeParticle(this)
-        }
         this.updatePrevious()
     }
 

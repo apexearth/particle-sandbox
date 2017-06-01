@@ -10,13 +10,13 @@ class SandboxObject {
             this.container = new PIXI.Container()
             this.graphics  = new PIXI.Graphics()
             this.container.addChild(this.graphics)
-            this.parent.container.addChild(this.container)
         } else {
             this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}}
         }
 
         this.position.x = position.x
         this.position.y = position.y
+        this.removed    = false
     }
 
     get position() {

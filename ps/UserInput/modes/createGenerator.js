@@ -58,10 +58,5 @@ module.exports = {
         }
     },
     draw (state, graphics)  {
-        if (!state.stage)  return
-        graphics.lineStyle(1, 0x99ff99, .5)
-        graphics.moveTo(state.start.x, state.start.y)
-        graphics.lineTo(state.finish.x, state.finish.y)
-        graphics.endFill()
     }
 }

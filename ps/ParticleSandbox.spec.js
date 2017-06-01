@@ -104,4 +104,22 @@ describe('ParticleSandbox', () => {
         ps.removeParticle(ps.particles[0])
         expect(ps.particles.length).to.equal(0)
     })
+
+    it('add and remove SandboxObject', () => {
+        const SandboxObject = require('./SandboxObject')
+        let so = new SandboxObject({parent: ps})
+        ps.addObject(so)
+    })
+
+    it('.cancelPreview()', () => {
+        let hit                  = false
+        ps.container.removeChild = particle => {
+            hit = true
+            expect(particle).to.exist
+        }
+
+        let particle = ps.previewParticle()
+        ps.cancelPreview(particle)
+        expect(hit).to.equal(true)
+    })
 })

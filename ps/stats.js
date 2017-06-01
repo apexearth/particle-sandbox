@@ -3,7 +3,8 @@ let stats = module.exports = {
     fpsCounter: 0,
     fpsStart  : 0,
 
-    update: ps => {
-        stats.particleCount = ps.particles.length
+    simulation: {
+        particleCount    : 0,
+        particlePairCount: 0
     }
 }
