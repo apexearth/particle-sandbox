@@ -1,6 +1,6 @@
 const expect          = require('chai').expect
 const ParticleSandbox = require('./ParticleSandbox')
-const config          = require('./config.js')
+const {view}          = require('./config.js')
 
 describe('ParticleSandbox', () => {
     let ps
@@ -59,7 +59,7 @@ describe('ParticleSandbox', () => {
     })
 
     it('.zoom', () => {
-        const zoomRange  = config.zoomMax - config.zoomMin
+        const zoomRange  = view.zoomMax - view.zoomMin
         let initialScale = ps.targetScale.x
         ps.zoom += .1
         let postScale    = ps.targetScale.x
@@ -84,14 +84,14 @@ describe('ParticleSandbox', () => {
         ps.update(.1)
         ps.zoom -= .1
         ps.update(.1)
-        expect(ps.position.x).to.equal(14.342001769737482)
-        expect(ps.position.y).to.equal(14.342001769737482)
+        expect(ps.position.x).to.equal(94.99999999999997)
+        expect(ps.position.y).to.equal(94.99999999999997)
         ps.zoom += .1
         ps.update(.1)
         ps.zoom += .1
         ps.update(.1)
-        expect(ps.position.x).to.equal(16.6187420116016)
-        expect(ps.position.y).to.equal(16.6187420116016)
+        expect(ps.position.x).to.equal(7.105427357601002e-15)
+        expect(ps.position.y).to.equal(7.105427357601002e-15)
     })
 
     it('.addParticle()', () => {

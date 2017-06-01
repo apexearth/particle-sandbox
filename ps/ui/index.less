@@ -2,6 +2,7 @@
 @base2: #9ba0f9;
 @gui-bg-color: fade(@base, 15%);
 @gui-padding: 10px;
+@gui-padding-half: 5px;
 
 @font-base: fade(lighten(@base, 10%), 80%);
 @font-family: "Courier New", Courier, monospace;
@@ -117,28 +118,45 @@ a, a:visited, a:hover, a:active {
   .gui-panel;
 }
 
+.gui-flex-row {
+  display: flex;
+}
+
 .settings-list {
-  position: fixed;
-  left: 155px;
-  top: 55px;
 }
 
 .settings-input *:nth-child(1) {
-  width: 35%;
+  width: 100%;
 }
 
 .settings-input *:nth-child(2) {
-  width: 65%;
+  margin-left: 10px;
+  width: 70px;
+}
+
+#gui-buttons {
+  .gui-flex-row;
+  margin: @gui-padding;
+
+  > div {
+    margin-right: @gui-padding-half;
+  }
 }
 
 @menu-margin: 15px;
 @menu-button-size: 25px;
+#settings-button {
+  .gui-rounded;
+  .gui-button;
+  .gui-button-span;
+  width: @menu-button-size;
+  height: @menu-button-size;
+}
+
 #menu-button {
   .gui-rounded;
   .gui-button(@base, @base2);
-  position: fixed;
-  left: @menu-margin;
-  top: @menu-margin;
+  .gui-button-span;
   width: @menu-button-size;
   height: @menu-button-size;
   line-height: @menu-button-size;
@@ -149,16 +167,13 @@ a, a:visited, a:hover, a:active {
   .gui-rounded;
   .gui-button(@base, @base2);
   .gui-button-span;
-  position: fixed;
-  left: @menu-margin * 3;
-  top: @menu-margin;
   width: @menu-button-size;
   height: @menu-button-size;
   line-height: @menu-button-size;
   z-index: 2;
 }
 
-#menu {
+#edit-menu {
   .gui-rounded;
   position: fixed;
   top: @menu-margin * 2 + @menu-button-size;
@@ -169,15 +184,8 @@ a, a:visited, a:hover, a:active {
   overflow: hidden; // To keep rounded edges.
 }
 
-#settings-button {
-  .gui-rounded;
-  .gui-button;
-  .gui-button-span;
-  position: fixed;
-  bottom: @menu-margin * 2 + 8;
-  left: @menu-margin;
-  width: 25px;
-  height: 25px;
+#edit-menu-settings {
+  min-width: 150px;
 }
 
 #selection-info {
@@ -196,9 +204,6 @@ a, a:visited, a:hover, a:active {
 }
 
 #zoom-meter {
-  position: fixed;
-  top: @menu-margin;
-  left: @menu-margin * 7;
   height: 25px;
   z-index: 2;
   display: flex;
@@ -232,7 +237,7 @@ a, a:visited, a:hover, a:active {
   position: relative;
   background-color: darken(@base, 40%);
   width: 8px;
-  height: 25px;
+  height: @menu-button-size;
 }
 
 #link-original {

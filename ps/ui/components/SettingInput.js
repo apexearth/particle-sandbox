@@ -7,7 +7,7 @@ const SettingInput = ({settings, settingsKey}) => {
             <input
                 type="text"
                 defaultValue={settings[settingsKey]}
-                onChange={event => settings[settingsKey] = event.target.value}
+                onChange={event => settings[settingsKey] = Number(event.target.value)}
             />
         </div>
     )

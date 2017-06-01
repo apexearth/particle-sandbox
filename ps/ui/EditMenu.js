@@ -4,18 +4,17 @@ import UserInput from '../UserInput'
 import TextButton from './components/TextButton'
 import SettingsList from './components/SettingsList'
 
-const {menu} = state
-class Menu extends React.Component {
+const {edit} = state
+class EditMenu extends React.Component {
 
     componentDidMount() {
-        this.setState(menu)
-        menu.subscribe(menu => {
-            this.setState(menu)
-        })
+        this.setState(edit)
+        state.subscribe(state => this.setState(edit))
+        edit.subscribe(edit => this.setState(edit))
     }
 
     render() {
-        if (!menu.visible)  return null
+        if (!edit.visible())  return null
 
         const {ps} = state
         if (!ps) return null
@@ -25,22 +24,24 @@ class Menu extends React.Component {
 
         const ToolButton = ({mode}) => {
             return (
-                <TextButton selected={mode === currentMode} onClick={menu.changeTool.bind(this, mode)}>
+                <TextButton selected={mode === currentMode} onClick={edit.changeTool.bind(this, mode)}>
                     {mode[0].toUpperCase() + mode.substring(1)}
                 </TextButton>
             )
         }
         const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={key}/>)
         return (
-            <div>
-                <div id="menu">
+            <div id="edit-menu">
+                <div id="edit-menu-buttons">
                     {buttons}
                 </div>
-                <SettingsList title={`Settings: ${currentMode}`} settings={UserInput.modes[currentMode].settings}/>
+                <SettingsList id="edit-menu-settings"
+                              title={`${currentMode}`}
+                              settings={UserInput.modes[currentMode].settings}/>
             </div>
         )
     }
 
 }
 
-module.exports = Menu
+module.exports = EditMenu

@@ -1,6 +1,7 @@
 import React from 'react'
 
-import Menu from './Menu'
+import EditMenu from './EditMenu'
+import SettingsMenu from './SettingsMenu'
 import MenuButton from './MenuButton'
 import SettingsButton from './SettingsButton'
 import PlayPauseButton from './PlayPauseButton'
@@ -13,15 +14,17 @@ class Root extends React.Component {
     render() {
         return (
             <div>
-                <MenuButton />
-                <Menu />
-                <PlayPauseButton />
-
-                <SettingsButton />
-
-
+                <div>
+                    <div id="gui-buttons">
+                        <SettingsButton />
+                        <MenuButton />
+                        <PlayPauseButton />
+                        <ZoomMeter />
+                    </div>
+                    <EditMenu />
+                    <SettingsMenu />
+                </div>
                 <SelectionInfo />
-                <ZoomMeter />
                 <LinkOriginal />
                 <ShareButtons />
             </div>

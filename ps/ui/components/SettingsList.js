@@ -2,14 +2,14 @@ import React from 'react'
 import SettingInput from './SettingInput'
 import Title from './Title'
 
-const SettingsList = ({title, settings}) => {
+const SettingsList = ({id, title, settings}) => {
     if (!settings) return null
 
     const keys  = Object.keys(settings)
     const array = keys
         .map(key => <SettingInput settings={settings} settingsKey={key} key={key}/>)
     return (
-        <div className="settings-list gui-window">
+        <div id={id} className="settings-list gui-window">
             <Title>{title}</Title>
             {array}
         </div>
