@@ -105,6 +105,17 @@ describe('ParticleSandbox', () => {
         expect(ps.particles.length).to.equal(0)
     })
 
+    it('.addGenerator()', () => {
+        ps.addGenerator({position: {x: 1, y: 2}})
+        let p1 = ps.generators[0]
+        expect(p1.position).to.deep.equal({x: 1, y: 2})
+    })
+    it('.removeGenerator()', () => {
+        ps.addGenerator({position: {x: 1, y: 2}})
+        ps.removeGenerator(ps.generators[0])
+        expect(ps.particles.length).to.equal(0)
+    })
+
     it('add and remove SandboxObject', () => {
         const SandboxObject = require('./SandboxObject')
         let so = new SandboxObject({parent: ps})

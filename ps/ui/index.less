@@ -249,10 +249,21 @@ a, a:visited, a:hover, a:active {
   margin: 4px;
 }
 
-#share-buttons {
+#top-right {
+  position: fixed;
+  display: flex;
+  top: 0;
+  right: 0;
+}
+
+#bottom-left {
   position: fixed;
   display: flex;
   bottom: 0;
+}
+
+#share-buttons {
+  display: flex;
 }
 
 #share-buttons > div > div, #share-buttons > a {
@@ -262,4 +273,14 @@ a, a:visited, a:hover, a:active {
 #share-buttons > div > div:hover, #share-buttons > a:hover {
   filter: opacity(.75);
   cursor: pointer;
+}
+
+#statistics {
+  display: flex;
+  filter: opacity(.75);
+  margin-bottom: -2px;
+}
+
+#statistics > div {
+  padding: 2px 5px 2px 5px;
 }

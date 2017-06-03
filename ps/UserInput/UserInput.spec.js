@@ -138,4 +138,18 @@ describe('UserInput', () => {
             stage              : 1,
         })
     })
+    it('generator', () => {
+        input.mode = 'generator'
+
+        inputs('mouseX', 1)
+        inputs('mouseY', 2)
+        inputs('mouse0', 1)
+
+        expect(input.ps.generators.length).to.equal(0)
+        input.update(.01)
+        expect(input.ps.generators.length).to.equal(1)
+        expect(input.ps.generators[0].position).to.deep.equal(input.ps.translatePosition({x: 1, y: 2}))
+        input.update(.01)
+        expect(input.ps.generators.length).to.equal(1)
+    })
 })

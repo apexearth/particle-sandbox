@@ -4,12 +4,12 @@ if (typeof window !== 'undefined') {
 
 const _window = require('./window')
 
-const Generator      = require('./Generator')
-const Particle       = require('./Particle')
-const ParticlePair   = require('./ParticlePair')
-const LinkedList     = require('./LinkedList')
-const stats          = require('./stats')
-const {EventEmitter} = require('events')
+const Generator              = require('./Generator')
+const Particle               = require('./Particle')
+const ParticlePair           = require('./ParticlePair')
+const ParticlePairLinkedList = require('./ParticlePairLinkedList')
+const stats                  = require('./stats')
+const {EventEmitter}         = require('events')
 
 const UserInput = require('./UserInput')
 const {
@@ -25,9 +25,9 @@ class ParticleSandbox extends EventEmitter {
         this.particles         = []
         this.selectedParticles = []
         this.pairs             = [
-            new LinkedList(),
-            new LinkedList(),
-            new LinkedList(),
+            new ParticlePairLinkedList(),
+            new ParticlePairLinkedList(),
+            new ParticlePairLinkedList(),
         ]
         this.collisions        = []
         this.generators        = []
@@ -35,6 +35,8 @@ class ParticleSandbox extends EventEmitter {
             this.root      = new PIXI.Container()
             this.container = new PIXI.Container()
             this.root.addChild(this.container)
+            this.fxcontainer = new PIXI.Container()
+            this.container.addChild(this.fxcontainer)
         } else {
             this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}}
         }
@@ -91,6 +93,13 @@ class ParticleSandbox extends EventEmitter {
         return typeof window !== 'undefined' ? window.innerHeight : 500
     }
 
+    translatePosition(position) {
+        return {
+            x: (position.x - this.position.x) / this.scale.x,
+            y: (position.y - this.position.y) / this.scale.y
+        }
+    }
+
     togglePause() {
         this.paused = !this.paused
     }
@@ -124,6 +133,7 @@ class ParticleSandbox extends EventEmitter {
             }
         })
         this.collisions = []
+        this.generators.forEach(generator => generator.update(seconds))
 
         this.components.forEach(component => component.update(seconds))
 
@@ -140,6 +150,9 @@ class ParticleSandbox extends EventEmitter {
             position.y /= this.selectedParticles.length
             this.position.x = ((this.screenWidth / 2) - position.x * this.scale.x)
             this.position.y = ((this.screenHeight / 2) - position.y * this.scale.y)
+        }
+        if (typeof window !== 'undefined') {
+            this.container.addChild(this.fxcontainer)
         }
     }
 
@@ -214,10 +227,12 @@ class ParticleSandbox extends EventEmitter {
     }
 
     previewParticle(options) {
-        options = options || {position: {x: Math.random() * 100, y: Math.random() * 100}}
-        return new Particle(Object.assign({
+        options      = options || {position: {x: Math.random() * 100, y: Math.random() * 100}}
+        let particle = new Particle(Object.assign({
             parent: this
         }, options))
+        this.addObject(particle)
+        return particle
     }
 
     cancelPreview(particle) {
@@ -264,7 +279,6 @@ class ParticleSandbox extends EventEmitter {
         let index = this.particles.indexOf(particle)
         if (index >= 0) {
             this.particles.splice(index, 1)
-
         }
         if (particle.selected) {
             particle.deselect()
@@ -286,9 +300,18 @@ class ParticleSandbox extends EventEmitter {
         }
 
         this.generators.push(generator)
-        this.addObject(generator)
+        this.addFxObject(generator)
         stats.simulation.generatorCount++
         return generator
+    }
+
+    removeGenerator(generator) {
+        let index = this.generators.indexOf(generator)
+        if (index >= 0) {
+            this.generators.splice(index, 1)
+        }
+        this.removeFxObject(generator)
+        stats.simulation.generatorCount--
     }
 
     addObject(object) {
@@ -302,6 +325,20 @@ class ParticleSandbox extends EventEmitter {
         object.removed = true
         if (typeof window !== 'undefined') {
             this.container.removeChild(object.container)
+        }
+    }
+
+    addFxObject(object) {
+        object.removed = false
+        if (typeof window !== 'undefined') {
+            this.fxcontainer.addChild(object.container)
+        }
+    }
+
+    removeFxObject(object) {
+        object.removed = true
+        if (typeof window !== 'undefined') {
+            this.fxcontainer.removeChild(object.container)
         }
     }
 

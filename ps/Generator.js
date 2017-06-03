@@ -20,6 +20,7 @@ class Generator extends SandboxObject {
         super({parent, position})
         this.settings = Object.assign({}, defaultSettings, settings)
         this.state    = Object.assign({}, defaultState)
+        this.draw()
     }
 
     static get defaultSettings() {
@@ -46,6 +47,17 @@ class Generator extends SandboxObject {
                     }
                 })
             }
+        }
+    }
+
+    draw() {
+        if (typeof window !== 'undefined') {
+            let size = Math.max(10, this.settings.range, this.settings.radius)
+            this.graphics.clear()
+            this.graphics.alpha = .2
+            this.graphics.beginFill(0xffffff)
+            this.graphics.drawRect(-size, -size, size * 2, size * 2)
+            this.graphics.endFill()
         }
     }
 }

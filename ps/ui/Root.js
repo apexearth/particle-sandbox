@@ -9,6 +9,7 @@ import SelectionInfo from './SelectionInfo'
 import ZoomMeter from './ZoomMeter'
 import LinkOriginal from './LinkOriginal'
 import ShareButtons from './ShareButtons'
+import Statistics from './Statistics'
 
 class Root extends React.Component {
     render() {
@@ -24,9 +25,14 @@ class Root extends React.Component {
                     <EditMenu />
                     <SettingsMenu />
                 </div>
-                <SelectionInfo />
+                <div id="top-right">
+                    <SelectionInfo />
+                </div>
                 <LinkOriginal />
-                <ShareButtons />
+                <div id="bottom-left">
+                    <ShareButtons />
+                    <Statistics />
+                </div>
             </div>
         )
     }
