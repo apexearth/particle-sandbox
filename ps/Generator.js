@@ -1,3 +1,4 @@
+const angles        = require('./angles')
 const SandboxObject = require('./SandboxObject')
 
 const defaultSettings = {
@@ -33,7 +34,18 @@ class Generator extends SandboxObject {
         this.state.delay += seconds
         if (this.state.delay >= this.settings.delay) {
             this.state.delay = 0
-            this.parent.addParticle({position: this.position})
+            for (let i = 0; i < this.settings.count; i++) {
+                this.parent.addParticle({
+                    position: {
+                        x: this.position.x - this.settings.range + (Math.random() * this.settings.range * 2),
+                        y: this.position.y - this.settings.range + (Math.random() * this.settings.range * 2)
+                    },
+                    momentum: {
+                        x: Math.cos(angles.randomAngleDeg(this.settings.minDirection, this.settings.maxDirection)) * this.settings.speed,
+                        y: Math.sin(angles.randomAngleDeg(this.settings.minDirection, this.settings.maxDirection)) * this.settings.speed
+                    }
+                })
+            }
         }
     }
 }

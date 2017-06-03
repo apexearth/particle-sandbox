@@ -4,6 +4,7 @@ if (typeof window !== 'undefined') {
 
 const _window = require('./window')
 
+const Generator      = require('./Generator')
 const Particle       = require('./Particle')
 const ParticlePair   = require('./ParticlePair')
 const LinkedList     = require('./LinkedList')
@@ -29,6 +30,7 @@ class ParticleSandbox extends EventEmitter {
             new LinkedList(),
         ]
         this.collisions        = []
+        this.generators        = []
         if (typeof window !== 'undefined') {
             this.root      = new PIXI.Container()
             this.container = new PIXI.Container()
@@ -273,6 +275,20 @@ class ParticleSandbox extends EventEmitter {
         }
         this.removeObject(particle)
         stats.simulation.particleCount--
+    }
+
+    addGenerator(generator, options) {
+        if (!generator || generator.constructor !== Particle) {
+            options   = generator || {position: {x: Math.random() * 100, y: Math.random() * 100}}
+            generator = new Generator(Object.assign({
+                parent: this
+            }, options))
+        }
+
+        this.generators.push(generator)
+        this.addObject(generator)
+        stats.simulation.generatorCount++
+        return generator
     }
 
     addObject(object) {

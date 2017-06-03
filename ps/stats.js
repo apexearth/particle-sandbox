@@ -5,6 +5,7 @@ let stats = module.exports = {
 
     simulation: {
         particleCount    : 0,
-        particlePairCount: 0
+        particlePairCount: 0,
+        generatorCount   : 0
     }
 }

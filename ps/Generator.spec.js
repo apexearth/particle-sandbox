@@ -1,29 +1,37 @@
-const expect    = require('chai').expect
-const Generator = require('./Generator')
+const expect          = require('chai').expect
+const ParticleSandbox = require('./ParticleSandbox')
 
 describe('Generator', function () {
+    let ps
+
+    beforeEach(() => ps = new ParticleSandbox())
+
     it('new', function () {
-        let spy         = 0
-        let parent      = {addParticle: () => spy++}
-        const generator = new Generator({parent})
-        expect(generator.settings).to.contain.keys([
-            'delay',
-            'count',
-            'radius',
-            'speed',
-            'minDirection',
-            'maxDirection',
-            'range',
-        ])
-        expect(generator.state).to.contain.keys([
-            'delay'
-        ])
+        expect(ps.particles.length).to.equal(0)
+        const generator   = ps.addGenerator({
+            position: {x: 5, y: 5},
+            settings: {
+                delay       : 1,
+                count       : 2,
+                radius      : 1,
+                speed       : 5,
+                minDirection: 0,
+                maxDirection: 0,
+                range       : 5
+            }
+        })
         let expectedDelay = generator.settings.delay
         generator.update(expectedDelay / 2)
+        expect(ps.particles.length).to.equal(0)
         expect(generator.state.delay).to.equal(expectedDelay / 2)
         generator.update(expectedDelay / 2)
+        expect(ps.particles.length).to.equal(2)
         expect(generator.state.delay).to.equal(0)
-        expect(spy).to.equal(1)
-
+        expect(ps.particles[0].position.x).to.be.lte(10)
+        expect(ps.particles[0].position.x).to.be.gte(-10)
+        expect(ps.particles[0].position.y).to.be.lte(10)
+        expect(ps.particles[0].position.y).to.be.gte(-10)
+        expect(ps.particles[0].momentum.x).to.equal(5)
+        expect(ps.particles[0].momentum.y).to.equal(0)
     })
 })
