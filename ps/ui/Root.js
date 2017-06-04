@@ -14,8 +14,8 @@ import Statistics from './Statistics'
 class Root extends React.Component {
     render() {
         return (
-            <div>
-                <div>
+            <div className="zero-size">
+                <div className="zero-size">
                     <div id="gui-buttons">
                         <SettingsButton />
                         <MenuButton />

@@ -81,6 +81,7 @@ a, a:visited, a:hover, a:active {
   .clickable(@color, @color2);
 }
 
+@gui-button-height: 25px;
 .gui-button-span {
   font-size: 0;
   text-align: center;
@@ -89,7 +90,7 @@ a, a:visited, a:hover, a:active {
     top: 0;
     color: fade(@base, 75%);
     font-size: 16px;
-    line-height: 25px;
+    line-height: @gui-button-height;
     text-align: center;
   }
 }
@@ -134,16 +135,23 @@ a, a:visited, a:hover, a:active {
   width: 70px;
 }
 
+.zero-size {
+  height: 0;
+  overflow: visible;
+}
+
 #gui-buttons {
   .gui-flex-row;
-  margin: @gui-padding;
+  .zero-size;
+  position: relative;
+  left: @gui-padding;
+  top: @gui-padding;
 
   > div {
     margin-right: @gui-padding-half;
   }
 }
 
-@menu-margin: 15px;
 @menu-button-size: 25px;
 #settings-button {
   .gui-rounded;
@@ -175,9 +183,10 @@ a, a:visited, a:hover, a:active {
 
 #edit-menu {
   .gui-rounded;
+  display: inline-block;
   position: fixed;
-  top: @menu-margin * 2 + @menu-button-size;
-  left: @menu-margin;
+  left: @gui-padding;
+  top: @gui-padding * 2 + @gui-button-height;
   min-width: 50px;
   min-height: 50px;
   z-index: 2;
