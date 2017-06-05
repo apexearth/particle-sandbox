@@ -2,7 +2,9 @@ import React from 'react'
 
 import EditMenu from './menus/EditMenu'
 import SettingsMenu from './menus/SettingsMenu'
+import ExploreMenu from './menus/ExploreMenu'
 import EditButton from './top-buttons/EditButton'
+import ExploreButton from './top-buttons/ExploreButton'
 import SettingsButton from './top-buttons/SettingsButton'
 import PlayPauseButton from './top-buttons/PlayPauseButton'
 import SelectionInfo from './SelectionInfo'
@@ -19,12 +21,14 @@ class Root extends React.Component {
                     <div id="gui-buttons">
                         <SettingsButton />
                         <EditButton/>
+                        <ExploreButton/>
                         <PlayPauseButton />
                         <ZoomMeter />
                     </div>
                     <div id="menu">
                         <EditMenu />
                         <SettingsMenu />
+                        <ExploreMenu />
                     </div>
                 </div>
                 <div id="top-right">

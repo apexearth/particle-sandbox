@@ -1,18 +1,21 @@
 import React from 'react'
-import {explore} from '../state'
+import state from '../state'
+const {explore} = state
 
 class EditButton extends React.Component {
 
     componentDidMount() {
         this.setState(explore)
-        explore.subscribe(explore => {
-            this.setState(explore)
-        })
+        explore.subscribe(explore => this.setState(explore))
     }
 
     render() {
+        let className = "square-button"
+        if (explore.visible()) {
+            className += " square-button-active"
+        }
         return (
-            <div className="square-button"
+            <div className={className}
                  onClick={explore.toggleVisible}>
                 <span className="glyphicon glyphicon-list"/>
             </div>

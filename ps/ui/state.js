@@ -7,10 +7,11 @@ state.subscribe = fn => state.on('state', fn)
 state.notify    = () => state.emit('state', state)
 
 state.menu       = 'edit'
+state.menus      = []
 state.toggleMenu = val => {
     if (state.menu === val) state.menu = null
     else state.menu = val
-    state.notify()
+    state.menus.forEach(menu => menu.notify())
 }
 
 state.initialize = instance => {
@@ -24,6 +25,7 @@ const createMenu = (name) => {
         visible      : () => state.menu === name,
         toggleVisible: () => state.toggleMenu(name),
     }
+    state.menus.push(menu)
     return menu
 }
 
@@ -46,7 +48,7 @@ const selectionInfo = state.selectionInfo = {
     notify   : () => state.emit('selectionInfo', selectionInfo),
     toggleFollowSelection() {
         ps.modes.followSelection = !ps.modes.followSelection
-        selectionInfo.notify()
+        state.selectionInfo.notify()
     },
     get followSelection() {
         return ps.modes.followSelection
