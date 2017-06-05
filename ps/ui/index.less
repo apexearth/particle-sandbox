@@ -139,14 +139,8 @@ a, a:visited, a:hover, a:active {
   width: 70px;
 }
 
-.zero-size {
-  height: 0;
-  overflow: visible;
-}
-
 #gui-buttons {
   .gui-flex-row;
-  .zero-size;
   position: relative;
   left: @gui-padding;
   top: @gui-padding;
@@ -168,6 +162,10 @@ a, a:visited, a:hover, a:active {
 
 .square-button-active {
   .gui-button(lighten(@base, 25%), @base2)
+}
+
+#root {
+  position: fixed;
 }
 
 #menu {
@@ -237,6 +235,10 @@ a, a:visited, a:hover, a:active {
   bottom: 0;
   right: 0;
   margin: 4px;
+}
+
+#top-left {
+  position: fixed;
 }
 
 #top-right {

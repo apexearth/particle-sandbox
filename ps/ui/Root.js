@@ -16,8 +16,8 @@ import Statistics from './Statistics'
 class Root extends React.Component {
     render() {
         return (
-            <div className="zero-size">
-                <div className="zero-size">
+            <div id="root">
+                <div id="top-left">
                     <div id="gui-buttons">
                         <SettingsButton />
                         <EditButton/>
@@ -34,11 +34,11 @@ class Root extends React.Component {
                 <div id="top-right">
                     <SelectionInfo />
                 </div>
-                <LinkOriginal />
                 <div id="bottom-left">
                     <ShareButtons />
                     <Statistics />
                 </div>
+                <LinkOriginal />
             </div>
         )
     }
