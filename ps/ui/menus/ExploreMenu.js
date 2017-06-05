@@ -1,8 +1,5 @@
 import React from 'react'
 import state from '../state'
-import config from '../../config'
-import TextButton from '../components/TextButton'
-import SettingsList from '../components/SettingsList'
 
 const {explore} = state
 class ExploreMenu extends React.Component {
