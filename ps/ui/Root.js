@@ -1,12 +1,12 @@
 import React from 'react'
 
-import EditMenu from './EditMenu'
-import SettingsMenu from './SettingsMenu'
-import MenuButton from './MenuButton'
-import SettingsButton from './SettingsButton'
-import PlayPauseButton from './PlayPauseButton'
+import EditMenu from './menus/EditMenu'
+import SettingsMenu from './menus/SettingsMenu'
+import EditButton from './top-buttons/EditButton'
+import SettingsButton from './top-buttons/SettingsButton'
+import PlayPauseButton from './top-buttons/PlayPauseButton'
 import SelectionInfo from './SelectionInfo'
-import ZoomMeter from './ZoomMeter'
+import ZoomMeter from './top-buttons/ZoomMeter'
 import LinkOriginal from './LinkOriginal'
 import ShareButtons from './ShareButtons'
 import Statistics from './Statistics'
@@ -18,12 +18,14 @@ class Root extends React.Component {
                 <div className="zero-size">
                     <div id="gui-buttons">
                         <SettingsButton />
-                        <MenuButton />
+                        <EditButton/>
                         <PlayPauseButton />
                         <ZoomMeter />
                     </div>
-                    <EditMenu />
-                    <SettingsMenu />
+                    <div id="menu">
+                        <EditMenu />
+                        <SettingsMenu />
+                    </div>
                 </div>
                 <div id="top-right">
                     <SelectionInfo />

@@ -1,5 +1,5 @@
 import React from 'react'
-import state from './state'
+import state from '../state'
 
 const zoomBarMax = 94
 
@@ -45,7 +45,7 @@ class ZoomMeter extends React.Component {
             <div id="zoom-meter">
                 <div onClick={() => {
                     ps.zoom -= .1
-                }} className="zoom-meter-button">
+                }} className="square-button">
                     <span className="glyphicon glyphicon-minus"/>
                 </div>
                 <div className="zoom-meter-center"
@@ -56,7 +56,7 @@ class ZoomMeter extends React.Component {
                 </div>
                 <div onClick={() => {
                     ps.zoom += .1
-                }} className="zoom-meter-button">
+                }} className="square-button">
                     <span className="glyphicon glyphicon-plus"/>
                 </div>
             </div>

@@ -153,35 +153,16 @@ a, a:visited, a:hover, a:active {
 }
 
 @menu-button-size: 25px;
-#settings-button {
-  .gui-rounded;
-  .gui-button;
-  .gui-button-span;
-  width: @menu-button-size;
-  height: @menu-button-size;
-}
-
-#menu-button {
+.square-button {
   .gui-rounded;
   .gui-button(@base, @base2);
   .gui-button-span;
   width: @menu-button-size;
   height: @menu-button-size;
   line-height: @menu-button-size;
-  z-index: 2;
 }
 
-#play-pause-button {
-  .gui-rounded;
-  .gui-button(@base, @base2);
-  .gui-button-span;
-  width: @menu-button-size;
-  height: @menu-button-size;
-  line-height: @menu-button-size;
-  z-index: 2;
-}
-
-#edit-menu {
+#menu {
   .gui-rounded;
   display: inline-block;
   position: fixed;
@@ -193,7 +174,7 @@ a, a:visited, a:hover, a:active {
   overflow: hidden; // To keep rounded edges.
 }
 
-#edit-menu-settings {
+#menu-settings {
   min-width: 150px;
 }
 
@@ -223,14 +204,6 @@ a, a:visited, a:hover, a:active {
 #zoom-meter .zoom-meter-center {
   display: flex;
   align-items: center;
-}
-
-#zoom-meter .zoom-meter-button {
-  .gui-rounded;
-  .gui-button;
-  .gui-button-span;
-  width: 25px;
-  height: 25px;
 }
 
 #zoom-meter .zoom-meter-hbar {

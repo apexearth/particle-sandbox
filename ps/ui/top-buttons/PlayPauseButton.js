@@ -1,5 +1,5 @@
 import React from 'react'
-import state from './state'
+import state from '../state'
 
 class PlayPauseButton extends React.Component {
 
@@ -13,7 +13,7 @@ class PlayPauseButton extends React.Component {
         const {ps} = state
         if (!ps) return null
         return (
-            <div id="play-pause-button" onClick={() => ps.togglePause()}>
+            <div className="square-button" onClick={() => ps.togglePause()}>
                 {
                     ps.paused
                         ? <span className="glyphicon glyphicon-play"></span>

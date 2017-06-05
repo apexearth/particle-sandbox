@@ -1,8 +1,8 @@
 import React from 'react'
-import state from './state'
-import UserInput from '../UserInput'
-import TextButton from './components/TextButton'
-import SettingsList from './components/SettingsList'
+import state from '../state'
+import UserInput from '../../UserInput'
+import TextButton from '../components/TextButton'
+import SettingsList from '../components/SettingsList'
 
 const {edit} = state
 class EditMenu extends React.Component {
@@ -31,11 +31,11 @@ class EditMenu extends React.Component {
         }
         const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={key}/>)
         return (
-            <div id="edit-menu">
-                <div id="edit-menu-buttons">
+            <div>
+                <div id="menu-buttons">
                     {buttons}
                 </div>
-                <SettingsList id="edit-menu-settings"
+                <SettingsList id="menu-settings"
                               title={`${currentMode}`}
                               settings={UserInput.modes[currentMode].settings}/>
             </div>

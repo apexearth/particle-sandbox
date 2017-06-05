@@ -1,5 +1,5 @@
 import React from 'react'
-import {settings} from './state'
+import {settings} from '../state'
 
 class SettingsButton extends React.Component {
 
@@ -12,7 +12,7 @@ class SettingsButton extends React.Component {
 
     render() {
         return (
-            <div id="settings-button"
+            <div className="square-button"
                  onClick={settings.toggleVisible}>
                 <span className="glyphicon glyphicon-cog"/>
             </div>
