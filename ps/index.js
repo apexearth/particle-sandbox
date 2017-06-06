@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') window.ps = ps
 
 const addParticles = () => {
     ps.addParticles(20)
-    if (ps.particles.length < 1000) {
+    if (ps.particles.length < 250) {
         setTimeout(addParticles, 10)
     }
 }

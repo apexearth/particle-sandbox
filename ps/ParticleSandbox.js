@@ -260,8 +260,8 @@ class ParticleSandbox extends EventEmitter {
             this.addParticle({
                 mass    : 20 + Math.random() * 10,
                 position: {
-                    x: 5000 * Math.random() - 2500,
-                    y: 5000 * Math.random() - 2500,
+                    x: 2500 * Math.random() - 1250,
+                    y: 2500 * Math.random() - 1250,
                 }
             })
         }
