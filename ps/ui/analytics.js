@@ -1,6 +1,8 @@
 export default {
     share: platform => {
         ga('send', 'event', 'Share', platform)
-        console.log('shared ' + platform)
+    },
+    event: (category, action, label) => {
+        ga('send', 'event', category, action, label)
     }
 }

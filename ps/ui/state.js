@@ -1,4 +1,6 @@
+import analytics from './analytics'
 const {EventEmitter} = require('events')
+
 
 const state = module.exports = new EventEmitter()
 let ps = state.ps = null
@@ -12,6 +14,7 @@ state.toggleMenu = val => {
     if (state.menu === val) state.menu = null
     else state.menu = val
     state.menus.forEach(menu => menu.notify())
+    analytics.event('state', 'toggleMenu', val)
 }
 
 state.initialize = instance => {
@@ -33,12 +36,14 @@ state.edit            = createMenu('edit')
 state.edit.changeTool = value => {
     state.ps.userInput.mode = value
     state.edit.notify()
+    analytics.event('state', 'edit.changeTool', value)
 }
 
 state.settings               = createMenu('settings')
 state.settings.changeSection = value => {
     state.settings.section = value
     state.settings.notify()
+    analytics.event('state', 'settings.changeSection', value)
 }
 
 state.explore = createMenu('explore')
