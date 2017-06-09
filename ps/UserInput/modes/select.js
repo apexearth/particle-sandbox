@@ -20,9 +20,6 @@ module.exports = {
             state.finish.y = inputs('mouseY')
             ps.select(state.start.x, state.start.y, state.finish.x, state.finish.y)
         }
-        if (inputs('delete')) {
-            ps.removeSelectedParticles()
-        }
     },
     draw (state, graphics)  {
         if (!state.stage)  return

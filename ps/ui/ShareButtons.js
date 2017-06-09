@@ -39,7 +39,7 @@ module.exports = () => (
         </GooglePlusShareButton>
 
         <TwitterShareButton url="http://particlesandbox.com"
-                            hashtags={['particlesandbox', 'gravity-simulator']}
+                            hashtags={['particlesandbox', 'gravity', 'simulator']}
                             beforeOnClick={() => analytics.share('Twitter')}>
             <TwitterIcon size={24} round={false}/>
         </TwitterShareButton>

@@ -52,12 +52,15 @@ class UserInput {
         if (inputs('right')) {
             container.position.x -= scrollSpeed
         }
-        let zoomSpeed = .02
+        let zoomSpeed = .005
         if (inputs('zoomOut')) {
-            ps.zoom(-zoomSpeed)
+            ps.zoom -= zoomSpeed
         }
         if (inputs('zoomIn')) {
-            ps.zoom(zoomSpeed)
+            ps.zoom += zoomSpeed
+        }
+        if (inputs('delete')) {
+            ps.removeSelected()
         }
 
         this.draw()

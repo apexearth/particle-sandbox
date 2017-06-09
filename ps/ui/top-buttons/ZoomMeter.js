@@ -10,7 +10,7 @@ class ZoomMeter extends React.Component {
         this.setState({
             mouseUp: () => this.mouseUp()
         })
-        document.addEventListener('wheel', event => ps.zoom += (event.deltaY < 0 ? .05 : -.05))
+        document.addEventListener('wheel', event => ps.zoom += (event.deltaY < 0 ? .05 : -.05) * Math.max(.2, ps.zoom))
     }
 
     mouseUp(e) {

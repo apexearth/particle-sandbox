@@ -15,7 +15,7 @@ class EditButton extends React.Component {
             className += " square-button-active"
         }
         return (
-            <div style={{display: 'none'}} className={className}
+            <div className={className}
                  onClick={explore.toggleVisible}>
                 <span className="glyphicon glyphicon-list"/>
             </div>

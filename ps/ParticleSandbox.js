@@ -267,6 +267,10 @@ class ParticleSandbox extends EventEmitter {
         }
     }
 
+    removeSelected() {
+        this.removeSelectedParticles()
+    }
+
     removeSelectedParticles() {
         this.removeParticles(this.selectedParticles)
     }
@@ -348,6 +352,16 @@ class ParticleSandbox extends EventEmitter {
 
     set zoom(val) {
         this.targetScale.x = this.targetScale.y = Math.max(view.zoomMin, Math.min(view.zoomMax, view.zoomMin + val * (view.zoomMax - view.zoomMin)))
+    }
+
+    selectParticle(particle, additive = false) {
+        if (!additive) {
+            while (this.selectedParticles.length >= 1) {
+                this.selectedParticles.pop().deselect()
+            }
+        }
+        particle.select()
+        this.selectedParticles.push(particle)
     }
 
     select(x1, y1, x2, y2, additive = false) {
