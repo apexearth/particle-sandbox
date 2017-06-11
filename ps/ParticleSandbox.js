@@ -276,7 +276,10 @@ class ParticleSandbox extends EventEmitter {
     }
 
     removeParticles(particles) {
-        particles.forEach(particle => this.removeParticle(particle))
+        let i = particles.length
+        while (i--) {
+            this.removeParticle(particles[i])
+        }
     }
 
     removeParticle(particle) {
@@ -356,12 +359,12 @@ class ParticleSandbox extends EventEmitter {
 
     selectParticle(particle, additive = false) {
         if (!additive) {
-            while (this.selectedParticles.length >= 1) {
-                this.selectedParticles.pop().deselect()
-            }
+            this.deselectAll()
         }
-        particle.select()
-        this.selectedParticles.push(particle)
+        if (!particle.selected) {
+            particle.select()
+            this.selectedParticles.push(particle)
+        }
     }
 
     select(x1, y1, x2, y2, additive = false) {
@@ -395,6 +398,20 @@ class ParticleSandbox extends EventEmitter {
                 }
             }
         })
+    }
+
+    selectAll() {
+        if (this.particles.length === this.selectedParticles.length) return
+        let i = this.particles.length
+        while (i--) {
+            this.selectParticle(this.particles[i], true)
+        }
+    }
+
+    deselectAll() {
+        while (this.selectedParticles.length >= 1) {
+            this.selectedParticles.pop().deselect()
+        }
     }
 }
 

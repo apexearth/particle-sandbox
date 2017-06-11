@@ -39,28 +39,35 @@ class UserInput {
             container.position.y += inputs('mouseY') - this.lastMouseY
         }
 
-        let scrollSpeed = 6
-        if (inputs('up')) {
-            container.position.y += scrollSpeed
-        }
-        if (inputs('down')) {
-            container.position.y -= scrollSpeed
-        }
-        if (inputs('left')) {
-            container.position.x += scrollSpeed
-        }
-        if (inputs('right')) {
-            container.position.x -= scrollSpeed
-        }
-        let zoomSpeed = .005
-        if (inputs('zoomOut')) {
-            ps.zoom -= zoomSpeed
-        }
-        if (inputs('zoomIn')) {
-            ps.zoom += zoomSpeed
-        }
-        if (inputs('delete')) {
-            ps.removeSelected()
+
+        if (inputs('control')) {
+            if (inputs('A')) {
+                ps.selectAll()
+            }
+        } else {
+            let scrollSpeed = 6
+            if (inputs('up')) {
+                container.position.y += scrollSpeed
+            }
+            if (inputs('down')) {
+                container.position.y -= scrollSpeed
+            }
+            if (inputs('left')) {
+                container.position.x += scrollSpeed
+            }
+            if (inputs('right')) {
+                container.position.x -= scrollSpeed
+            }
+            let zoomSpeed = .005
+            if (inputs('zoomOut')) {
+                ps.zoom -= zoomSpeed
+            }
+            if (inputs('zoomIn')) {
+                ps.zoom += zoomSpeed
+            }
+            if (inputs('delete')) {
+                ps.removeSelected()
+            }
         }
 
         this.draw()

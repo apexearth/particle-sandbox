@@ -4,7 +4,11 @@ const {view}    = require('./renderer')
 
 const inputs = userInput()
     .withMouse(view)
-    .withKeyboard()
+    .withKeyboard(document.body, {
+        afterEvent: (key, event) => {
+            event.preventDefault()
+        }
+    })
 
 const mapping = new Mapping(
     inputs,
@@ -18,7 +22,8 @@ const mapping = new Mapping(
             'zoomOut': ['-', '<num-->'],
             'delete' : ['<backspace>', '<delete>'],
             'shift'  : ['<shift>'],
-            'control'  : ['<control>'],
+            'control': ['<control>'],
+            'A'      : 'A'
         },
         mouse   : {
             'mouse0': 'mouse0',
