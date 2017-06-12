@@ -1,10 +1,12 @@
-const userInput = require('user-input')
-const Mapping   = require('user-input-mapping')
-const {view}    = require('./renderer')
+const userInput      = require('user-input')
+const Mapping        = require('user-input-mapping')
+const {view}         = require('./renderer')
+
+const keyboardTarget = typeof document !== 'undefined' ? document.body : undefined
 
 const inputs = userInput()
     .withMouse(view)
-    .withKeyboard(document.body, {
+    .withKeyboard(keyboardTarget, {
         afterEvent: (key, event) => {
             event.preventDefault()
         }
