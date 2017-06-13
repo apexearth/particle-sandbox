@@ -8,7 +8,7 @@ const inputs = userInput()
     .withMouse(view)
     .withKeyboard(keyboardTarget, {
         afterEvent: (key, event) => {
-            event.preventDefault()
+            // event.preventDefault()
         }
     })
 
@@ -16,16 +16,17 @@ const mapping = new Mapping(
     inputs,
     {
         keyboard: {
-            'up'     : ['<up>', 'W'],
-            'down'   : ['<down>', 'S'],
-            'left'   : ['<left>', 'A'],
-            'right'  : ['<right>', 'D'],
-            'zoomIn' : ['=', '<num-+>'],
-            'zoomOut': ['-', '<num-->'],
-            'delete' : ['<backspace>', '<delete>'],
-            'shift'  : ['<shift>'],
-            'control': ['<control>'],
-            'A'      : 'A'
+            'up'      : ['<up>', 'W'],
+            'down'    : ['<down>', 'S'],
+            'left'    : ['<left>', 'A'],
+            'right'   : ['<right>', 'D'],
+            'zoomIn'  : ['=', '<num-+>'],
+            'zoomOut' : ['-', '<num-->'],
+            'deselect': ['<escape>'],
+            'delete'  : ['<backspace>', '<delete>'],
+            'shift'   : ['<shift>'],
+            'control' : ['<control>'],
+            'A'       : 'A'
         },
         mouse   : {
             'mouse0': 'mouse0',

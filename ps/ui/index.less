@@ -62,7 +62,7 @@ a, a:visited, a:hover, a:active {
   border: solid 1px fade(@base, 30%);
 }
 
-.gui-rounded(@size: 2px) {
+.gui-rounded(@size: 3px) {
   border-radius: @size;
 }
 
@@ -124,10 +124,6 @@ a, a:visited, a:hover, a:active {
   display: flex;
 }
 
-.gui-list {
-
-}
-
 .gui-table {
   cursor: default;
   th {
@@ -151,11 +147,12 @@ a, a:visited, a:hover, a:active {
   & .row-selected {
     background-color: fade(@base3, 20%);
   }
-  & .prev, & .next {
+  & .button, & .prev, & .next {
     text-align: center;
+    background-color: fade(@base, 35%);
     &:hover {
       cursor: pointer;
-      background-color: fade(@base2, 20%);
+      background-color: fade(@base, 25%);
     }
   }
 }
@@ -215,6 +212,12 @@ a, a:visited, a:hover, a:active {
 
 #menu-settings {
   min-width: 150px;
+}
+
+#explore-menu {
+  table:nth-of-type(1) {
+    margin-bottom: 5px;
+  }
 }
 
 #selection-info {

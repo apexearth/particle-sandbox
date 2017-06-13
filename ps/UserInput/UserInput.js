@@ -68,6 +68,9 @@ class UserInput {
             if (inputs('delete')) {
                 ps.removeSelected()
             }
+            if (inputs('deselect')) {
+                ps.deselectAll()
+            }
         }
 
         this.draw()

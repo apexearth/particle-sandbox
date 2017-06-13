@@ -18,47 +18,97 @@ class ExploreMenu extends React.Component {
 
     render() {
         if (!explore.visible())  return null
+        if (!this.state) return null
         if (!this.state.particles) return null
 
-        let ps        = state.ps
+        const buttons = this.renderButtons()
+        const list    = this.renderList()
+        return (
+            <div id="explore-menu">
+                {buttons}
+                {list}
+            </div>
+        )
+    }
+
+    renderButtons() {
+        const ps      = state.ps
+        const mapping = {
+            "Select All": ps => {
+                ps.selectAll();
+                this.forceUpdate()
+            },
+            "Deselect"  : ps => {
+                ps.deselectAll();
+                this.forceUpdate()
+            },
+            "Delete"    : ps => {
+                ps.removeSelected();
+                this.forceUpdate()
+            },
+        }
+        const keys    = Object.keys(mapping)
+        return (
+            <table style={{width: "100%"}} className="gui-table">
+                <thead>
+                <tr>
+                    {keys.map(key => (
+                        <th className="button"
+                            key={`header-key-${key}`}
+                            onClick={() => mapping[key](ps)}
+                        >
+                            {key}
+                        </th>)
+                    )}
+                </tr>
+                </thead>
+            </table>
+        )
+    }
+
+    renderList() {
+        const ps      = state.ps
         let pageCount = Math.ceil(this.state.particles.length / this.state.pageSize)
 
+        // Ensure we're on the min or max page.
         if (this.state.page > pageCount) {
             this.state.page = pageCount
+        } else if (this.state.page <= 0) {
+            this.state.page = Math.min(1, pageCount)
         }
 
-        let start     = (this.state.page - 1) * this.state.pageSize
-        let end       = start + this.state.pageSize
-        let particles = this.state.particles.slice(start, end)
-        let mapping   = {
+        const start     = (this.state.page - 1) * this.state.pageSize
+        const end       = start + this.state.pageSize
+        const particles = this.state.particles.slice(start, end)
+        const mapping   = {
+            "type": p => 'particle',
             "id"  : p => p.id,
-            "Mass": p => p.mass.toFixed(2),
+            "mass": p => p.mass.toFixed(2),
             "x"   : p => p.position.x.toFixed(2),
             "y"   : p => p.position.y.toFixed(2),
             "vx"  : p => p.momentum.x.toFixed(2),
             "vy"  : p => p.momentum.y.toFixed(2),
         }
-        let header    = (
+        const keys      = Object.keys(mapping)
+        const header    = (
             <thead>
             <tr>
-                {Object.keys(mapping).map(key => <th key={`header-key-${key}`}>{key}</th>)}
+                {keys.map(key => <th key={`header-key-${key}`}>{key}</th>)}
             </tr>
             </thead>
         )
-        let rows      = (
+        const rows      = (
             <tbody>
             {particles.map((particle, i) => {
                     return (
                         <tr key={`body-row-${i}`}
                             onMouseDown={() => {
                                 ps.selectParticle(particle, inputs('shift') || inputs('control'))
-                                this.setState({
-                                    particles: ps.particles
-                                })
+                                this.setState({particles: ps.particles})
                             }}
                             className={particle.selected ? "row-selected" : "row"}
                         >
-                            {Object.keys(mapping).map(key => {
+                            {keys.map(key => {
                                 let value = mapping[key](particle, i)
                                 return (
                                     <td key={`body-row-${i}-${key}`}
@@ -73,10 +123,10 @@ class ExploreMenu extends React.Component {
             )}
             </tbody>
         )
-        let bottom    = (
+        const bottom    = (
             <tfoot>
             <tr>
-                <td colSpan="4" style={{textAlign: 'right'}}>{`${this.state.page} of ${pageCount}`}</td>
+                <td colSpan={keys.length - 2} style={{textAlign: 'right'}}>{`${this.state.page} of ${pageCount}`}</td>
                 <td className="prev" onClick={() => this.setState({page: Math.max(1, this.state.page - 1)})}>
                     prev
                 </td>
@@ -87,16 +137,13 @@ class ExploreMenu extends React.Component {
             </tfoot>
         )
         return (
-            <div className="gui-list">
-                <table className="gui-table">
-                    {header}
-                    {rows}
-                    {bottom}
-                </table>
-            </div>
+            <table className="gui-table">
+                {header}
+                {rows}
+                {bottom}
+            </table>
         )
     }
-
 }
 
 module.exports = ExploreMenu
