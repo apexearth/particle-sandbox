@@ -22,6 +22,7 @@ class ParticleSandbox extends EventEmitter {
     constructor(options) {
         super()
         this.options           = Object.assign(this.defaultOptions, options)
+        this.objects           = []
         this.particles         = []
         this.selectedParticles = []
         this.pairs             = [
@@ -45,7 +46,6 @@ class ParticleSandbox extends EventEmitter {
 
         this._paused    = false
         this._userInput = new UserInput({parent: this})
-        this.components = []
         this.modes      = {
             followSelection: true
         }
@@ -128,14 +128,10 @@ class ParticleSandbox extends EventEmitter {
         this.particles.forEach(particle => {
             if (particle.mass <= 0) {
                 this.removeParticle(particle)
-            } else {
-                particle.update(seconds)
             }
         })
+        this.particles.forEach(particle => particle.update(seconds))
         this.collisions = []
-        this.generators.forEach(generator => generator.update(seconds))
-
-        this.components.forEach(component => component.update(seconds))
 
         if (this.modes.followSelection && this.selectedParticles.length) {
             let position = {
@@ -239,6 +235,10 @@ class ParticleSandbox extends EventEmitter {
         this.container.removeChild(particle.container)
     }
 
+    removeSelected() {
+        this.removeSelectedParticles()
+    }
+
     addParticle(particle, options) {
         if (!particle || particle.constructor !== Particle) {
             options  = particle || {position: {x: Math.random() * 100, y: Math.random() * 100}}
@@ -267,14 +267,6 @@ class ParticleSandbox extends EventEmitter {
         }
     }
 
-    removeSelected() {
-        this.removeSelectedParticles()
-    }
-
-    removeSelectedParticles() {
-        this.removeParticles(this.selectedParticles)
-    }
-
     removeParticles(particles) {
         let i = particles.length
         while (i--) {
@@ -296,6 +288,10 @@ class ParticleSandbox extends EventEmitter {
         }
         this.removeObject(particle)
         stats.simulation.particleCount--
+    }
+
+    removeSelectedParticles() {
+        this.removeParticles(this.selectedParticles)
     }
 
     addGenerator(generator, options) {
@@ -323,6 +319,7 @@ class ParticleSandbox extends EventEmitter {
 
     addObject(object) {
         object.removed = false
+        this.objects.push(object)
         if (typeof window !== 'undefined') {
             this.container.addChild(object.container)
         }
@@ -330,6 +327,10 @@ class ParticleSandbox extends EventEmitter {
 
     removeObject(object) {
         object.removed = true
+        let index      = this.objects.indexOf(object)
+        if (index >= 0) {
+            this.objects.splice(index, 1)
+        }
         if (typeof window !== 'undefined') {
             this.container.removeChild(object.container)
         }

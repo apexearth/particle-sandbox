@@ -11,7 +11,6 @@ class Particle extends SandboxObject {
         this.id     = id++
         momentum    = momentum || {x: 0, y: 0}
 
-        this._selected = false
         this.color     = Color.rgb(50 + Math.random() * 200, 50 + Math.random() * 200, 50 + Math.random() * 200).rgbNumber()
         if (radius) {
             this.radius = radius
@@ -29,9 +28,6 @@ class Particle extends SandboxObject {
         this.draw()
     }
 
-    get selected() {
-        return this._selected
-    }
 
     set radius(val) {
         this.mass = val * val * Math.PI
@@ -66,20 +62,6 @@ class Particle extends SandboxObject {
 
     collisionRange(other, distance) {
         return distance < (this.radius + other.radius) * 50
-    }
-
-    select() {
-        if (!this._selected) {
-            this._selected = true
-            this.draw()
-        }
-    }
-
-    deselect() {
-        if (this._selected) {
-            this._selected = false
-            this.draw()
-        }
     }
 
 
