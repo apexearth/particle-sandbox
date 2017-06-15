@@ -39,7 +39,11 @@ class ParticleSandbox extends EventEmitter {
             this.fxcontainer = new PIXI.Container()
             this.container.addChild(this.fxcontainer)
         } else {
-            this.container = {position: {x: 0, y: 0}, scale: {x: 1, y: 1}}
+            this.container = {
+                position: {x: 0, y: 0},
+                scale   : {x: 1, y: 1},
+                addChild: () => undefined
+            }
         }
         this.container.position.x = this.screenWidth / 2
         this.container.position.y = this.screenHeight / 2
