@@ -42,13 +42,16 @@ module.exports = {
 
             state.particle.momentum = {x: 0, y: 0}
             // Adjust momentum per selected particles.
-            if (ps.selectedParticles.length) {
-                for (let particle of ps.selectedParticles) {
-                    state.particle.momentum.x += particle.momentum.x
-                    state.particle.momentum.y += particle.momentum.y
+            if (ps.selectedObjects.length) {
+                let count = 0
+                for (let object of ps.selectedObjects) {
+                    if (!object.momentum) continue
+                    count++
+                    state.particle.momentum.x += object.momentum.x
+                    state.particle.momentum.y += object.momentum.y
                 }
-                state.particle.momentum.x /= ps.selectedParticles.length
-                state.particle.momentum.y /= ps.selectedParticles.length
+                state.particle.momentum.x /= count
+                state.particle.momentum.y /= count
             }
             state.particle.momentum.x += (state.start.x - state.finish.x) / ps.scale.x
             state.particle.momentum.y += (state.start.y - state.finish.y) / ps.scale.x

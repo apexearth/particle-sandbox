@@ -1,7 +1,7 @@
 import React from 'react'
 import state from '../state'
 
-const zoomBarMax = 94
+const zoomBarMax = 92
 
 class ZoomMeter extends React.Component {
     componentWillMount() {
@@ -36,7 +36,7 @@ class ZoomMeter extends React.Component {
         const {ps}        = state
         let element       = e.target
         while (element.className !== "zoom-meter-center" && element.parentElement) element = element.parentElement
-        ps.zoom = (e.clientX - element.offsetLeft - element.parentElement.parentElement.offsetLeft) / element.offsetWidth
+        ps.zoom = (e.clientX - element.offsetLeft - element.parentElement.parentElement.offsetLeft) / (element.offsetWidth)
     }
 
     render() {

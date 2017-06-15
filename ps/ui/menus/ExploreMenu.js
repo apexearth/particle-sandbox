@@ -9,17 +9,21 @@ class ExploreMenu extends React.Component {
         this.setState(explore)
         explore.subscribe(settings => this.setState(settings))
         this.setState({
-            page     : 1,
-            pageSize : 15,
-            particles: state.ps.particles
+            page    : 1,
+            pageSize: 15,
+            objects : state.ps.objects
         })
-        setInterval(() => this.setState({particles: state.ps.particles}), 1000)
+        setInterval(() => this.updateState(), 1000)
+    }
+
+    updateState() {
+        this.setState({objects: state.ps.objects})
     }
 
     render() {
         if (!explore.visible())  return null
         if (!this.state) return null
-        if (!this.state.particles) return null
+        if (!this.state.objects) return null
 
         const buttons = this.renderButtons()
         const list    = this.renderList()
@@ -35,15 +39,15 @@ class ExploreMenu extends React.Component {
         const ps      = state.ps
         const mapping = {
             "Select All": ps => {
-                ps.selectAll();
+                ps.selectAll()
                 this.forceUpdate()
             },
             "Deselect"  : ps => {
-                ps.deselectAll();
+                ps.deselectAll()
                 this.forceUpdate()
             },
             "Delete"    : ps => {
-                ps.removeSelected();
+                ps.removeSelected()
                 this.forceUpdate()
             },
         }
@@ -68,7 +72,7 @@ class ExploreMenu extends React.Component {
 
     renderList() {
         const ps      = state.ps
-        let pageCount = Math.ceil(this.state.particles.length / this.state.pageSize)
+        let pageCount = Math.ceil(this.state.objects.length / this.state.pageSize)
 
         // Ensure we're on the min or max page.
         if (this.state.page > pageCount) {
@@ -77,39 +81,39 @@ class ExploreMenu extends React.Component {
             this.state.page = Math.min(1, pageCount)
         }
 
-        const start     = (this.state.page - 1) * this.state.pageSize
-        const end       = start + this.state.pageSize
-        const particles = this.state.particles.slice(start, end)
-        const mapping   = {
-            "type": p => 'particle',
+        const start   = (this.state.page - 1) * this.state.pageSize
+        const end     = start + this.state.pageSize
+        const objects = this.state.objects.slice(start, end)
+        const mapping = {
+            "type": p => p.type,
             "id"  : p => p.id,
-            "mass": p => p.mass.toFixed(2),
+            "mass": p => p.mass ? p.mass.toFixed(2) : 0,
             "x"   : p => p.position.x.toFixed(2),
             "y"   : p => p.position.y.toFixed(2),
             "vx"  : p => p.momentum.x.toFixed(2),
             "vy"  : p => p.momentum.y.toFixed(2),
         }
-        const keys      = Object.keys(mapping)
-        const header    = (
+        const keys    = Object.keys(mapping)
+        const header  = (
             <thead>
             <tr>
                 {keys.map(key => <th key={`header-key-${key}`}>{key}</th>)}
             </tr>
             </thead>
         )
-        const rows      = (
+        const rows    = (
             <tbody>
-            {particles.map((particle, i) => {
+            {objects.map((object, i) => {
                     return (
                         <tr key={`body-row-${i}`}
                             onMouseDown={() => {
-                                ps.selectParticle(particle, inputs('shift') || inputs('control'))
-                                this.setState({particles: ps.particles})
+                                ps.selectParticle(object, inputs('shift') || inputs('control'))
+                                this.updateState()
                             }}
-                            className={particle.selected ? "row-selected" : "row"}
+                            className={object.selected ? "row-selected" : "row"}
                         >
                             {keys.map(key => {
-                                let value = mapping[key](particle, i)
+                                let value = mapping[key](object, i)
                                 return (
                                     <td key={`body-row-${i}-${key}`}
                                         style={{textAlign: /[0-9.]+/.test(value) ? "right" : "left"}}>
@@ -123,7 +127,7 @@ class ExploreMenu extends React.Component {
             )}
             </tbody>
         )
-        const bottom    = (
+        const bottom  = (
             <tfoot>
             <tr>
                 <td colSpan={keys.length - 2} style={{textAlign: 'right'}}>{`${this.state.page} of ${pageCount}`}</td>

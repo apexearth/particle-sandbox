@@ -35,14 +35,17 @@ module.exports = {
                     radius  : settings.radius * Math.random() + settings.radius / 2
                 })
                 // Adjust momentum per selected particles.
-                if (ps.selectedParticles.length) {
+                if (ps.selectedObjects.length) {
                     let momentum = {x: 0, y: 0}
-                    for (let particle of ps.selectedParticles) {
-                        momentum.x += particle.momentum.x
-                        momentum.y += particle.momentum.y
+                    let count    = 0
+                    for (let object of ps.selectedObjects) {
+                        if (!object.momentum) continue
+                        count++
+                        momentum.x += object.momentum.x
+                        momentum.y += object.momentum.y
                     }
-                    momentum.x /= ps.selectedParticles.length
-                    momentum.y /= ps.selectedParticles.length
+                    momentum.x /= ps.selectedObjects.length
+                    momentum.y /= ps.selectedObjects.length
                     particle.momentum.x = momentum.x
                     particle.momentum.y = momentum.y
                 }

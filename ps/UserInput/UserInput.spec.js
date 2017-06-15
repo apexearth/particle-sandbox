@@ -48,7 +48,7 @@ describe('UserInput', () => {
         inputs('mouseX', 1000)
         inputs('mouseY', 1000)
         input.update(.01)
-        expect(input.ps.selectedParticles.length).to.equal(1)
+        expect(input.ps.selectedObjects.length).to.equal(1)
     })
     it('create', () => {
         input.mode = 'create'

@@ -5,7 +5,7 @@ import Button from './components/TextButton'
 class SelectionInfo extends React.Component {
     render() {
         setTimeout(() => this.forceUpdate(), 200)
-        if (!ps || ps.selectedParticles.length === 0) return null
+        if (!ps || ps.selectedObjects.length === 0) return null
         const stats = this.statistics()
         return (
             <div id="selection-info">
@@ -13,7 +13,7 @@ class SelectionInfo extends React.Component {
                     <tbody>
                     <tr>
                         <td>count:</td>
-                        <td>{ps.selectedParticles.length}</td>
+                        <td>{ps.selectedObjects.length}</td>
                     </tr>
                     <tr>
                         <td>position:</td>
@@ -36,7 +36,7 @@ class SelectionInfo extends React.Component {
     }
 
     statistics() {
-        let count   = ps.selectedParticles.length
+        let count   = ps.selectedObjects.length
         const stats = {
             count,
             position   : {
@@ -48,13 +48,15 @@ class SelectionInfo extends React.Component {
             mass       : 0,
             averageMass: 0
         }
-        for (let p of ps.selectedParticles) {
+        for (let p of ps.selectedObjects) {
             stats.position.x += p.position.x
             stats.position.y += p.position.y
-            stats.momentum.x += p.momentum.x
-            stats.momentum.y += p.momentum.y
-            stats.mass += p.mass
-            stats.averageMass += p.mass
+            if (p.type === 'particle') {
+                stats.momentum.x += p.momentum.x
+                stats.momentum.y += p.momentum.y
+                stats.mass += p.mass
+                stats.averageMass += p.mass
+            }
         }
         stats.position.x /= count
         stats.position.y /= count

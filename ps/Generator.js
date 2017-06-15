@@ -2,7 +2,7 @@ const angles        = require('./angles')
 const SandboxObject = require('./SandboxObject')
 
 const defaultSettings = {
-    delay       : .1,
+    delay       : 1,
     count       : 1,
     radius      : 1,
     speed       : 5,
@@ -18,6 +18,7 @@ const defaultState = {
 class Generator extends SandboxObject {
     constructor({parent, position, settings}) {
         super({parent, position})
+        this.type     = 'generator'
         this.settings = Object.assign({}, defaultSettings, settings)
         this.state    = Object.assign({}, defaultState)
         this.draw()
@@ -54,7 +55,7 @@ class Generator extends SandboxObject {
         if (typeof window !== 'undefined') {
             let size = Math.max(10, this.settings.range, this.settings.radius)
             this.graphics.clear()
-            this.graphics.alpha = .2
+            this.graphics.alpha = this.selected ? .5 : .2
             this.graphics.beginFill(0xffffff)
             this.graphics.drawRect(-size, -size, size * 2, size * 2)
             this.graphics.endFill()

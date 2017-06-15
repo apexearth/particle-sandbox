@@ -1,5 +1,5 @@
-@base: #67f95e;
-@base2: #9ba0f9;
+@base: #bbffbb;
+@base2: #aab2f9;
 @base3: #f9e8d1;
 @gui-bg-color: fade(@base, 15%);
 @gui-padding: 10px;
@@ -215,6 +215,16 @@ a, a:visited, a:hover, a:active {
 }
 
 #explore-menu {
+  table {
+    width: 500px;
+    height: 350px;
+  }
+  table td {
+    min-width: 100px;
+  }
+  table td:nth-of-type(2) {
+    min-width: 50px;
+  }
   table:nth-of-type(1) {
     margin-bottom: 5px;
   }
@@ -259,7 +269,7 @@ a, a:visited, a:hover, a:active {
 #zoom-meter .zoom-meter-vbar {
   line-height: 0;
   position: relative;
-  background-color: darken(@base, 40%);
+  background-color: fade(@base, 70%);
   width: 8px;
   height: @menu-button-size;
 }

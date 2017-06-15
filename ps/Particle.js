@@ -1,26 +1,19 @@
 const angles        = require('./angles')
 const Color         = require('color')
 const SandboxObject = require('./SandboxObject')
-const {simulation} = require('./config')
-
-let id = 0
+const {simulation}  = require('./config')
 
 class Particle extends SandboxObject {
     constructor({parent, position, momentum, mass, radius}) {
-        super({parent, position})
-        this.id     = id++
-        momentum    = momentum || {x: 0, y: 0}
+        super({parent, position, momentum})
+        this.type = 'particle'
 
-        this.color     = Color.rgb(50 + Math.random() * 200, 50 + Math.random() * 200, 50 + Math.random() * 200).rgbNumber()
+        this.color = Color.rgb(50 + Math.random() * 200, 50 + Math.random() * 200, 50 + Math.random() * 200).rgbNumber()
         if (radius) {
             this.radius = radius
         } else {
             this.mass      = mass || 4
             this.mass_prev = this.mass
-        }
-        this.momentum      = {
-            x: momentum.x,
-            y: momentum.y
         }
         this.position_prev = {}
         this.momentum_prev = {}

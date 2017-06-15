@@ -18,13 +18,13 @@ describe('ParticleSandbox', () => {
         let p1        = ps.addParticle({position: {x: 0, y: 0}})
         let p2        = ps.addParticle({position: {x: 10, y: 10}})
         let p3        = ps.addParticle({position: {x: -10, y: -10}})
-        ps.select(0, 0, 10, 10)
+        ps.select(0, 0, 10, 11)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
         expect(p3.selected).to.equal(false)
-        expect(ps.selectedParticles.indexOf(p1)).to.be.gte(0)
-        expect(ps.selectedParticles.indexOf(p2)).to.be.gte(0)
-        expect(ps.selectedParticles.indexOf(p3)).to.equal(-1)
+        expect(ps.selectedObjects.indexOf(p1)).to.be.gte(0)
+        expect(ps.selectedObjects.indexOf(p2)).to.be.gte(0)
+        expect(ps.selectedObjects.indexOf(p3)).to.equal(-1)
         ps.position.x = 5
         ps.position.y = 5
         ps.scale.x    = .5
@@ -33,9 +33,9 @@ describe('ParticleSandbox', () => {
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
         expect(p3.selected).to.equal(true)
-        expect(ps.selectedParticles.indexOf(p1)).to.be.gte(0)
-        expect(ps.selectedParticles.indexOf(p2)).to.be.gte(0)
-        expect(ps.selectedParticles.indexOf(p3)).to.be.gte(0)
+        expect(ps.selectedObjects.indexOf(p1)).to.be.gte(0)
+        expect(ps.selectedObjects.indexOf(p2)).to.be.gte(0)
+        expect(ps.selectedObjects.indexOf(p3)).to.be.gte(0)
 
         ps.position.x -= 5
         ps.position.y -= 5
@@ -45,17 +45,17 @@ describe('ParticleSandbox', () => {
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(false)
         expect(p3.selected).to.equal(false)
-        expect(ps.selectedParticles.indexOf(p1)).to.be.gte(0)
-        expect(ps.selectedParticles.indexOf(p2)).to.equal(-1)
-        expect(ps.selectedParticles.indexOf(p3)).to.equal(-1)
+        expect(ps.selectedObjects.indexOf(p1)).to.be.gte(0)
+        expect(ps.selectedObjects.indexOf(p2)).to.equal(-1)
+        expect(ps.selectedObjects.indexOf(p3)).to.equal(-1)
 
         ps.select(10, 10, 11, 11, true)
         expect(p1.selected).to.equal(true)
         expect(p2.selected).to.equal(true)
         expect(p3.selected).to.equal(false)
-        expect(ps.selectedParticles.indexOf(p1)).to.be.gte(0)
-        expect(ps.selectedParticles.indexOf(p2)).to.be.gte(0)
-        expect(ps.selectedParticles.indexOf(p3)).to.equal(-1)
+        expect(ps.selectedObjects.indexOf(p1)).to.be.gte(0)
+        expect(ps.selectedObjects.indexOf(p2)).to.be.gte(0)
+        expect(ps.selectedObjects.indexOf(p3)).to.equal(-1)
     })
 
     it('.zoom', () => {

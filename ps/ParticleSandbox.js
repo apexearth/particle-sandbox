@@ -21,17 +21,17 @@ const {
 class ParticleSandbox extends EventEmitter {
     constructor(options) {
         super()
-        this.options           = Object.assign(this.defaultOptions, options)
-        this.objects           = []
-        this.particles         = []
-        this.selectedParticles = []
-        this.pairs             = [
+        this.options         = Object.assign(this.defaultOptions, options)
+        this.objects         = []
+        this.selectedObjects = []
+        this.particles       = []
+        this.pairs           = [
             new ParticlePairLinkedList(),
             new ParticlePairLinkedList(),
             new ParticlePairLinkedList(),
         ]
-        this.collisions        = []
-        this.generators        = []
+        this.collisions      = []
+        this.generators      = []
         if (typeof window !== 'undefined') {
             this.root      = new PIXI.Container()
             this.container = new PIXI.Container()
@@ -130,20 +130,20 @@ class ParticleSandbox extends EventEmitter {
                 this.removeParticle(particle)
             }
         })
-        this.particles.forEach(particle => particle.update(seconds))
+        this.objects.forEach(object => object.update(seconds))
         this.collisions = []
 
-        if (this.modes.followSelection && this.selectedParticles.length) {
+        if (this.modes.followSelection && this.selectedObjects.length) {
             let position = {
                 x: 0,
                 y: 0
             }
-            this.selectedParticles.forEach(p => {
+            this.selectedObjects.forEach(p => {
                 position.x += p.position.x
                 position.y += p.position.y
             })
-            position.x /= this.selectedParticles.length
-            position.y /= this.selectedParticles.length
+            position.x /= this.selectedObjects.length
+            position.y /= this.selectedObjects.length
             this.position.x = ((this.screenWidth / 2) - position.x * this.scale.x)
             this.position.y = ((this.screenHeight / 2) - position.y * this.scale.y)
         }
@@ -235,10 +235,6 @@ class ParticleSandbox extends EventEmitter {
         this.container.removeChild(particle.container)
     }
 
-    removeSelected() {
-        this.removeSelectedParticles()
-    }
-
     addParticle(particle, options) {
         if (!particle || particle.constructor !== Particle) {
             options  = particle || {position: {x: Math.random() * 100, y: Math.random() * 100}}
@@ -267,31 +263,13 @@ class ParticleSandbox extends EventEmitter {
         }
     }
 
-    removeParticles(particles) {
-        let i = particles.length
-        while (i--) {
-            this.removeParticle(particles[i])
-        }
-    }
-
     removeParticle(particle) {
         let index = this.particles.indexOf(particle)
         if (index >= 0) {
             this.particles.splice(index, 1)
         }
-        if (particle.selected) {
-            particle.deselect()
-            let index = this.selectedParticles.indexOf(particle)
-            if (index >= 0) {
-                this.selectedParticles.splice(index, 1)
-            }
-        }
         this.removeObject(particle)
         stats.simulation.particleCount--
-    }
-
-    removeSelectedParticles() {
-        this.removeParticles(this.selectedParticles)
     }
 
     addGenerator(generator, options) {
@@ -303,6 +281,7 @@ class ParticleSandbox extends EventEmitter {
         }
 
         this.generators.push(generator)
+        this.addObject(generator)
         this.addFxObject(generator)
         stats.simulation.generatorCount++
         return generator
@@ -313,8 +292,26 @@ class ParticleSandbox extends EventEmitter {
         if (index >= 0) {
             this.generators.splice(index, 1)
         }
+        this.removeObject(generator)
         this.removeFxObject(generator)
         stats.simulation.generatorCount--
+    }
+
+    removeSelected() {
+        this.removeObjects(this.selectedObjects)
+    }
+
+    removeObjects(objects) {
+        let i = objects.length;
+        while (i--) {
+            let object = objects [i]
+            if (object.type === 'particle') {
+                this.removeParticle(object)
+            } else if (object.type === 'generator') {
+                this.removeGenerator(object)
+            }
+            this.removeObject(object)
+        }
     }
 
     addObject(object) {
@@ -327,7 +324,14 @@ class ParticleSandbox extends EventEmitter {
 
     removeObject(object) {
         object.removed = true
-        let index      = this.objects.indexOf(object)
+        if (object.selected) {
+            object.deselect()
+            let index = this.selectedObjects.indexOf(object)
+            if (index >= 0) {
+                this.selectedObjects.splice(index, 1)
+            }
+        }
+        let index = this.objects.indexOf(object)
         if (index >= 0) {
             this.objects.splice(index, 1)
         }
@@ -364,7 +368,7 @@ class ParticleSandbox extends EventEmitter {
         }
         if (!particle.selected) {
             particle.select()
-            this.selectedParticles.push(particle)
+            this.selectedObjects.push(particle)
         }
     }
 
@@ -378,23 +382,18 @@ class ParticleSandbox extends EventEmitter {
         maxX     = (maxX - this.position.x) / this.scale.x
         maxY     = (maxY - this.position.y) / this.scale.y
         if (!additive) {
-            this.selectedParticles.splice(0)
+            this.selectedObjects.splice(0)
         }
-        this.particles.forEach(particle => {
-            if (!(
-                    particle.position.x < minX ||
-                    particle.position.x > maxX ||
-                    particle.position.y < minY ||
-                    particle.position.y > maxY
-                )) {
-                particle.select()
-                this.selectedParticles.push(particle)
+        this.objects.forEach(object => {
+            if (object.selectionHitTest(minX, minY, maxX, maxY)) {
+                object.select()
+                this.selectedObjects.push(object)
             } else if (!additive) {
-                if (particle.selected) {
-                    particle.deselect()
-                    let index = this.selectedParticles.indexOf(particle)
+                if (object.selected) {
+                    object.deselect()
+                    let index = this.selectedObjects.indexOf(object)
                     if (index >= 0) {
-                        this.selectedParticles.splice(index, 1)
+                        this.selectedObjects.splice(index, 1)
                     }
                 }
             }
@@ -402,7 +401,7 @@ class ParticleSandbox extends EventEmitter {
     }
 
     selectAll() {
-        if (this.particles.length === this.selectedParticles.length) return
+        if (this.particles.length === this.selectedObjects.length) return
         let i = this.particles.length
         while (i--) {
             this.selectParticle(this.particles[i], true)
@@ -410,8 +409,8 @@ class ParticleSandbox extends EventEmitter {
     }
 
     deselectAll() {
-        while (this.selectedParticles.length >= 1) {
-            this.selectedParticles.pop().deselect()
+        while (this.selectedObjects.length >= 1) {
+            this.selectedObjects.pop().deselect()
         }
     }
 }
