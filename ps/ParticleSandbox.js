@@ -306,7 +306,7 @@ class ParticleSandbox extends EventEmitter {
     }
 
     removeObjects(objects) {
-        let i = objects.length;
+        let i = objects.length
         while (i--) {
             let object = objects [i]
             if (object.type === 'particle') {
