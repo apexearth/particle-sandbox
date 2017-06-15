@@ -107,7 +107,7 @@ class ExploreMenu extends React.Component {
                     return (
                         <tr key={`body-row-${i}`}
                             onMouseDown={() => {
-                                ps.selectParticle(object, inputs('shift') || inputs('control'))
+                                ps.selectObject(object, inputs('shift') || inputs('control'))
                                 this.updateState()
                             }}
                             className={object.selected ? "row-selected" : "row"}

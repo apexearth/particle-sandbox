@@ -227,7 +227,7 @@ class ParticleSandbox extends EventEmitter {
         let particle = new Particle(Object.assign({
             parent: this
         }, options))
-        this.addObject(particle)
+        this.container.addChild(particle.container)
         return particle
     }
 
@@ -362,13 +362,13 @@ class ParticleSandbox extends EventEmitter {
         this.targetScale.x = this.targetScale.y = Math.max(view.zoomMin, Math.min(view.zoomMax, view.zoomMin + val * (view.zoomMax - view.zoomMin)))
     }
 
-    selectParticle(particle, additive = false) {
+    selectObject(object, additive = false) {
         if (!additive) {
             this.deselectAll()
         }
-        if (!particle.selected) {
-            particle.select()
-            this.selectedObjects.push(particle)
+        if (!object.selected) {
+            object.select()
+            this.selectedObjects.push(object)
         }
     }
 
@@ -401,10 +401,10 @@ class ParticleSandbox extends EventEmitter {
     }
 
     selectAll() {
-        if (this.particles.length === this.selectedObjects.length) return
-        let i = this.particles.length
+        if (this.objects.length === this.selectedObjects.length) return
+        let i = this.objects.length
         while (i--) {
-            this.selectParticle(this.particles[i], true)
+            this.selectObject(this.objects[i], true)
         }
     }
 
