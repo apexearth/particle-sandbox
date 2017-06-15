@@ -53,7 +53,7 @@ class ExploreMenu extends React.Component {
         }
         const keys    = Object.keys(mapping)
         return (
-            <table style={{width: "100%"}} className="gui-table">
+            <table style={{width: "100%", height: "21px"}} className="gui-table">
                 <thead>
                 <tr>
                     {keys.map(key => (
