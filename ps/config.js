@@ -7,4 +7,11 @@ module.exports = {
         gravityStrength: 200,
         gravityExponent: 2,
     },
+    performance: {
+        updateFrequency1: 1,
+        updateFrequency2: .25,
+        updateFrequency3: .1,
+        distanceThreshold2: 25,
+        distanceThreshold3: 75
+    }
 }

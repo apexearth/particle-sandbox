@@ -9,6 +9,7 @@ const Particle               = require('./Particle')
 const ParticlePair           = require('./ParticlePair')
 const ParticlePairLinkedList = require('./ParticlePairLinkedList')
 const stats                  = require('./stats')
+const {performance}          = require('./config')
 const {EventEmitter}         = require('events')
 
 const UserInput = require('./UserInput')
@@ -115,9 +116,9 @@ class ParticleSandbox extends EventEmitter {
 
         if (this.paused) return
 
-        this.updatePairs(this.pairs[0], seconds, this.pairs[0].count)
-        this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * .25)
-        this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * .1)
+        this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1)
+        this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
+        this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3)
         this.particles.forEach(particle => particle.updateMovement(seconds))
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
@@ -199,7 +200,7 @@ class ParticleSandbox extends EventEmitter {
 
     updatePairLocation(pair, root) {
         const combinedRadii = pair.particle1.radius + pair.particle2.radius
-        if (pair.distance > (combinedRadii * 75)) {
+        if (pair.distance > (combinedRadii * performance.distanceThreshold3)) {
             if (root !== this.pairs[2]) {
                 if (root) {
                     // console.log('removing pair 2 - relocation ' + pair.particle1.id + ' ' + pair.particle2.id)
@@ -207,7 +208,7 @@ class ParticleSandbox extends EventEmitter {
                 }
                 this.pairs[2].add(pair)
             }
-        } else if (pair.distance > (combinedRadii * 25)) {
+        } else if (pair.distance > (combinedRadii * performance.distanceThreshold2)) {
             if (root !== this.pairs[1]) {
                 if (root) {
                     // console.log('removing pair 1 - relocation ' + pair.particle1.id + ' ' + pair.particle2.id)
