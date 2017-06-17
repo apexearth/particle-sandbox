@@ -57,6 +57,7 @@ class ParticleSandbox extends App {
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1)
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
         this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3)
+        this.objects.forEach(object => object.update(seconds))
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
             if (collision.particle2.mass <= 0) return
@@ -72,7 +73,6 @@ class ParticleSandbox extends App {
                 this.removeParticle(particle)
             }
         })
-        this.objects.forEach(object => object.update(seconds))
         this.collisions = []
 
         if (this.modes.followSelection && this.selectedObjects.length) {
