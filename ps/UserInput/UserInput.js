@@ -1,4 +1,4 @@
-const PIXI   = typeof window !== 'undefined' ? require('pixi.js') : null
+const {PIXI} = require('apex-app')
 const inputs = require('../inputs')
 const modes  = require('./modes')
 

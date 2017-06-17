@@ -1,5 +1,5 @@
 const angles        = require('./angles')
-const SandboxObject = require('./SandboxObject')
+const {AppObject}   = require('apex-app')
 
 const defaultSettings = {
     delay       : 1,
@@ -15,7 +15,7 @@ const defaultState = {
     delay: 0
 }
 
-class Generator extends SandboxObject {
+class Generator extends AppObject {
     constructor({parent, position, settings}) {
         super({parent, position})
         this.type     = 'generator'

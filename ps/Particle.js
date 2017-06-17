@@ -1,9 +1,9 @@
-const angles        = require('./angles')
 const Color         = require('color')
-const SandboxObject = require('./SandboxObject')
+const {AppObject}   = require('apex-app')
+const angles        = require('./angles')
 const {simulation}  = require('./config')
 
-class Particle extends SandboxObject {
+class Particle extends AppObject {
     constructor({parent, position, momentum, mass, radius}) {
         super({parent, position, momentum})
         this.type = 'particle'
@@ -59,19 +59,7 @@ class Particle extends SandboxObject {
 
 
     update(seconds) {
-        this.updatePrevious()
-    }
-
-    updateMovement(seconds) {
-        this.position.x += this.momentum.x * seconds
-        this.position.y += this.momentum.y * seconds
-    }
-
-    updatePrevious() {
-        this.position_prev.x = this.position.x
-        this.position_prev.y = this.position.y
-        this.momentum_prev.x = this.momentum.x
-        this.momentum_prev.y = this.momentum.y
+        super.update(seconds)
     }
 
     /**

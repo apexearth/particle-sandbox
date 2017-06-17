@@ -1,6 +1,6 @@
 const userInput      = require('user-input')
 const Mapping        = require('user-input-mapping')
-const {view}         = require('./renderer')
+const {view}         = require('apex-app').renderer
 
 const keyboardTarget = typeof document !== 'undefined' ? document.body : undefined
 

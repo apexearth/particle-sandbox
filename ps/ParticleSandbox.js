@@ -1,16 +1,14 @@
-if (typeof window !== 'undefined') {
-    const PIXI = require('pixi.js')
-}
-
 const _window = require('./window')
 
+const {
+          App
+      }                      = require('apex-app')
 const Generator              = require('./Generator')
 const Particle               = require('./Particle')
 const ParticlePair           = require('./ParticlePair')
 const ParticlePairLinkedList = require('./ParticlePairLinkedList')
 const stats                  = require('./stats')
 const {performance}          = require('./config')
-const {EventEmitter}         = require('events')
 
 const UserInput = require('./UserInput')
 const {
@@ -19,33 +17,18 @@ const {
       }         = require('./config')
 
 
-class ParticleSandbox extends EventEmitter {
+class ParticleSandbox extends App {
     constructor(options) {
-        super()
-        this.options         = Object.assign(this.defaultOptions, options)
-        this.objects         = []
-        this.selectedObjects = []
-        this.particles       = []
-        this.pairs           = [
+        super(Object.assign({view}, options))
+
+        this.particles            = []
+        this.pairs                = [
             new ParticlePairLinkedList(),
             new ParticlePairLinkedList(),
             new ParticlePairLinkedList(),
         ]
-        this.collisions      = []
-        this.generators      = []
-        if (typeof window !== 'undefined') {
-            this.root      = new PIXI.Container()
-            this.container = new PIXI.Container()
-            this.root.addChild(this.container)
-            this.fxcontainer = new PIXI.Container()
-            this.container.addChild(this.fxcontainer)
-        } else {
-            this.container = {
-                position: {x: 0, y: 0},
-                scale   : {x: 1, y: 1},
-                addChild: () => undefined
-            }
-        }
+        this.collisions           = []
+        this.generators           = []
         this.container.position.x = this.screenWidth / 2
         this.container.position.y = this.screenHeight / 2
 
@@ -60,53 +43,8 @@ class ParticleSandbox extends EventEmitter {
         return stats
     }
 
-    get position() {
-        return this.container.position
-    }
-
-    get scale() {
-        return this.container.scale
-    }
-
-    get targetScale() {
-        return this._targetScale || (this._targetScale = {x: this.scale.x, y: this.scale.y})
-    }
-
-    get paused() {
-        return this._paused
-    }
-
-    set paused(val) {
-        this._paused = val
-        if (this._paused) this.emit('pause', this)
-        else if (!this._paused) this.emit('play', this)
-    }
-
     get userInput() {
         return this._userInput
-    }
-
-    get defaultOptions() {
-        return {}
-    }
-
-    get screenWidth() {
-        return typeof window !== 'undefined' ? window.innerWidth : 500
-    }
-
-    get screenHeight() {
-        return typeof window !== 'undefined' ? window.innerHeight : 500
-    }
-
-    translatePosition(position) {
-        return {
-            x: (position.x - this.position.x) / this.scale.x,
-            y: (position.y - this.position.y) / this.scale.y
-        }
-    }
-
-    togglePause() {
-        this.paused = !this.paused
     }
 
     update(seconds) {
@@ -119,7 +57,6 @@ class ParticleSandbox extends EventEmitter {
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1)
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
         this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3)
-        this.particles.forEach(particle => particle.updateMovement(seconds))
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
             if (collision.particle2.mass <= 0) return

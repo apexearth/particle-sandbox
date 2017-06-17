@@ -1,13 +1,13 @@
-const renderer        = require('./renderer')
-const ui              = require('./ui')
-const ParticleSandbox = require('./ParticleSandbox')
-const input           = require('./inputs')
-const ps              = new ParticleSandbox()
+const {renderer}       = require('apex-app')
+const ui               = require('./ui')
+const ParticleSandbox  = require('./ParticleSandbox')
+const input            = require('./inputs')
+const ps               = new ParticleSandbox()
+
 ui.initialize(ps)
 renderer.initialize(ps, input)
 
 if (typeof window !== 'undefined') window.ps = ps
-
 
 const addParticles = () => {
     ps.addParticles(20)
@@ -16,5 +16,3 @@ const addParticles = () => {
     }
 }
 addParticles()
-
-
