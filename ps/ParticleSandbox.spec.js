@@ -8,7 +8,7 @@ describe('ParticleSandbox', () => {
 
     it('run', () => {
         ps.addParticles(100)
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < 100; i++) {
             ps.update(1 / 60)
         }
     })
