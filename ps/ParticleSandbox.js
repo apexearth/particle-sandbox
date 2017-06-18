@@ -32,7 +32,6 @@ class ParticleSandbox extends App {
         this.container.position.x = this.screenWidth / 2
         this.container.position.y = this.screenHeight / 2
 
-        this._paused    = false
         this._userInput = new UserInput({parent: this})
         this.modes      = {
             followSelection: true
@@ -48,6 +47,7 @@ class ParticleSandbox extends App {
     }
 
     update(seconds) {
+        super.update(seconds)
         this._userInput.update(seconds)
 
         this.updateZoom(seconds)
@@ -91,16 +91,6 @@ class ParticleSandbox extends App {
         }
         if (typeof window !== 'undefined') {
             this.container.addChild(this.fxcontainer)
-        }
-    }
-
-    updateZoom(seconds) {
-        if (Math.abs(this.scale.x - this.targetScale.x) > .01) {
-            let amount   = (this.targetScale.x - this.scale.x) * seconds * 10
-            this.scale.x = this.scale.y += amount
-            this.position.x += (this.position.x - _window.innerWidth / 2) * amount / (this.scale.x - amount)
-            this.position.y += (this.position.y - _window.innerHeight / 2) * amount / (this.scale.y - amount)
-            this.emit('zoom')
         }
     }
 
@@ -173,10 +163,6 @@ class ParticleSandbox extends App {
         return particle
     }
 
-    cancelPreview(particle) {
-        this.container.removeChild(particle.container)
-    }
-
     addParticle(particle, options) {
         if (!particle || particle.constructor !== Particle) {
             options  = particle || {position: {x: Math.random() * 100, y: Math.random() * 100}}
@@ -239,23 +225,6 @@ class ParticleSandbox extends App {
         stats.simulation.generatorCount--
     }
 
-    removeSelected() {
-        this.removeObjects(this.selectedObjects)
-    }
-
-    removeObjects(objects) {
-        let i = objects.length
-        while (i--) {
-            let object = objects [i]
-            if (object.type === 'particle') {
-                this.removeParticle(object)
-            } else if (object.type === 'generator') {
-                this.removeGenerator(object)
-            }
-            this.removeObject(object)
-        }
-    }
-
     addObject(object) {
         object.removed = false
         this.objects.push(object)
@@ -293,66 +262,6 @@ class ParticleSandbox extends App {
         object.removed = true
         if (typeof window !== 'undefined') {
             this.fxcontainer.removeChild(object.container)
-        }
-    }
-
-    get zoom() {
-        return Math.max(0, Math.min(1, (this.targetScale.x - view.zoomMin) / (view.zoomMax - view.zoomMin)))
-    }
-
-    set zoom(val) {
-        this.targetScale.x = this.targetScale.y = Math.max(view.zoomMin, Math.min(view.zoomMax, view.zoomMin + val * (view.zoomMax - view.zoomMin)))
-    }
-
-    selectObject(object, additive = false) {
-        if (!additive) {
-            this.deselectAll()
-        }
-        if (!object.selected) {
-            object.select()
-            this.selectedObjects.push(object)
-        }
-    }
-
-    select(x1, y1, x2, y2, additive = false) {
-        let minX = Math.min(x1, x2)
-        let minY = Math.min(y1, y2)
-        let maxX = Math.max(x1, x2)
-        let maxY = Math.max(y1, y2)
-        minX     = (minX - this.position.x) / this.scale.x
-        minY     = (minY - this.position.y) / this.scale.y
-        maxX     = (maxX - this.position.x) / this.scale.x
-        maxY     = (maxY - this.position.y) / this.scale.y
-        if (!additive) {
-            this.selectedObjects.splice(0)
-        }
-        this.objects.forEach(object => {
-            if (object.selectionHitTest(minX, minY, maxX, maxY)) {
-                object.select()
-                this.selectedObjects.push(object)
-            } else if (!additive) {
-                if (object.selected) {
-                    object.deselect()
-                    let index = this.selectedObjects.indexOf(object)
-                    if (index >= 0) {
-                        this.selectedObjects.splice(index, 1)
-                    }
-                }
-            }
-        })
-    }
-
-    selectAll() {
-        if (this.objects.length === this.selectedObjects.length) return
-        let i = this.objects.length
-        while (i--) {
-            this.selectObject(this.objects[i], true)
-        }
-    }
-
-    deselectAll() {
-        while (this.selectedObjects.length >= 1) {
-            this.selectedObjects.pop().deselect()
         }
     }
 }

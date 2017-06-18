@@ -6,11 +6,8 @@ const keyboardTarget = typeof document !== 'undefined' ? document.body : undefin
 
 const inputs = userInput()
     .withMouse(view)
-    .withKeyboard(keyboardTarget, {
-        afterEvent: (key, event) => {
-            // event.preventDefault()
-        }
-    })
+    .withKeyboard(keyboardTarget)
+    .withTouch(keyboardTarget)
 
 const mapping = new Mapping(
     inputs,
@@ -43,4 +40,5 @@ const update   = mapping.update.bind(mapping)
 value.clear    = clear
 value.update   = update
 value.mapping  = mapping
+value.inputs   = inputs
 module.exports = value
