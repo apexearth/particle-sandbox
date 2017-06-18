@@ -10,12 +10,15 @@ module.exports = {
     update (seconds, state, ps)  {
         let {touchState} = state
         if (inputs('mouse2') || touchState.current.count > 1) {
-            state.stage = 0
+            state.stage     = 0
+            state.cancelled = true
             if (state.particle) {
                 ps.cancelPreview(state.particle)
                 state.particle = null
             }
-        } else if (inputs('mouse0') || touchState.current.count === 1) {
+        } else if (state.stage === 0 && !inputs('mouse0') && !touchState.current.count) {
+            state.cancelled = false
+        } else if (!state.cancelled && (inputs('mouse0') || touchState.current.count === 1)) {
             let x, y
             if (inputs('mouse0')) {
                 state.inputType = 'mouse'

@@ -7,7 +7,7 @@ const keyboardTarget = typeof document !== 'undefined' ? document.body : undefin
 const inputs = userInput()
     .withMouse(view)
     .withKeyboard(keyboardTarget)
-    .withTouch(keyboardTarget)
+    .withTouch(view)
 
 const mapping = new Mapping(
     inputs,

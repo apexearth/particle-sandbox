@@ -32,15 +32,15 @@ class UserInput {
             // Initialize the state for the current mode.
             this.state = {mode: this.mode}
         }
-        this.state.touchState = this.processTouchState(inputs.inputs, this.state.touchState)
+        const touchState = this.state.touchState = this.processTouchState(inputs.inputs, this.state.touchState)
 
-        UserInput.modes[this.mode].update(seconds, this.state, this.ps)
+        UserInput.modes[this.mode].update(seconds, this.state, ps)
 
         // Scrolling
-        if (this.touchState.previous.count == 2 && this.touchState.current.count == 2) {
-            container.position.x -= this.touchState.difference.midpointX
-            container.position.y -= this.touchState.difference.midpointY
-            ps.zoom -= (this.touchState.difference.distance / (this.ps.screenWidth + this.ps.screenHeight) / 2) / (1 / (ps.zoom || .1)) * 10
+        if (touchState.previous.count == 2 && touchState.current.count == 2) {
+            container.position.x -= touchState.difference.midpointX
+            container.position.y -= touchState.difference.midpointY
+            ps.zoom -= (touchState.difference.distance / (ps.screenWidth + ps.screenHeight) / 2) / (1 / (ps.zoom || .1)) * 10
         }
 
         if (inputs('mouse2')) {
