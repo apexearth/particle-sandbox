@@ -10,18 +10,29 @@ const settings = {
 module.exports = {
     settings,
     update (seconds, state, ps)  {
-        if (inputs('mouse2')) {
+        let {touchState} = state
+        if (inputs('mouse2') || touchState.current.count > 1) {
             state.stage               = 0
             state.secondsSinceLastAdd = settings.delay
-        } else if (inputs('mouse0')) {
+        } else if (inputs('mouse0') || touchState.current.count === 1) {
+            let x, y
+            if (inputs('mouse0')) {
+                state.inputType = 'mouse'
+                x               = inputs('mouseX')
+                y               = inputs('mouseY')
+            } else {
+                state.inputType = 'touch'
+                x               = touchState.current.midpointX
+                y               = touchState.current.midpointY
+            }
             state.secondsSinceLastAdd = (state.secondsSinceLastAdd + seconds) || seconds
             if (state.secondsSinceLastAdd >= settings.delay) {
                 state.secondsSinceLastAdd = 0
                 state.stage               = 1
                 let particle              = ps.addParticle({
                     position: {
-                        x: (inputs('mouseX') - ps.position.x) / ps.scale.x,
-                        y: (inputs('mouseY') - ps.position.y) / ps.scale.y
+                        x: (x - ps.position.x) / ps.scale.x,
+                        y: (y - ps.position.y) / ps.scale.y
                     },
                     momentum: {
                         x: settings.momentumX,

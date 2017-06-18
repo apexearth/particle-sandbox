@@ -8,24 +8,35 @@ const settings = {
 module.exports = {
     settings,
     update (seconds, state, ps)  {
-        if (inputs('mouse2')) {
+        let {touchState} = state
+        if (inputs('mouse2') || touchState.current.count > 1) {
             state.stage = 0
             if (state.particle) {
                 ps.cancelPreview(state.particle)
                 state.particle = null
             }
-        } else if (inputs('mouse0')) {
+        } else if (inputs('mouse0') || touchState.current.count === 1) {
+            let x, y
+            if (inputs('mouse0')) {
+                state.inputType = 'mouse'
+                x               = inputs('mouseX')
+                y               = inputs('mouseY')
+            } else {
+                state.inputType = 'touch'
+                x               = touchState.current.midpointX
+                y               = touchState.current.midpointY
+            }
             if (!state.stage) {
                 state.stage    = 1
                 state.timeHeld = 0
                 state.start    = {}
-                state.start.x  = inputs('mouseX')
-                state.start.y  = inputs('mouseY')
+                state.start.x  = x
+                state.start.y  = y
                 state.finish   = {}
                 state.particle = ps.previewParticle()
             }
-            state.finish.x = inputs('mouseX')
-            state.finish.y = inputs('mouseY')
+            state.finish.x = x
+            state.finish.y = y
 
             if (Math.sqrt(Math.pow(state.finish.x - state.start.x, 2) + Math.pow(state.finish.y - state.start.y, 2)) < 10) {
                 state.timeHeld += seconds
@@ -36,9 +47,17 @@ module.exports = {
             state.particle.draw()
 
         } else if (state.stage) {
-            state.stage    = 0
-            state.finish.x = inputs('mouseX')
-            state.finish.y = inputs('mouseY')
+            state.stage = 0
+            let x, y
+            if (state.inputType === 'mouse') {
+                x = inputs('mouseX')
+                y = inputs('mouseY')
+            } else {
+                x = touchState.previous.midpointX
+                y = touchState.previous.midpointY
+            }
+            state.finish.x = x
+            state.finish.y = y
 
             state.particle.momentum = {x: 0, y: 0}
             // Adjust momentum per selected particles.

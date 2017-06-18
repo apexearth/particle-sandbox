@@ -13,10 +13,21 @@ const settings = {
 module.exports = {
     settings,
     update (seconds, state, ps)  {
-        if (inputs('mouse2')) {
+        let {touchState} = state
+        if (inputs('mouse2') || touchState.current.count > 1) {
             state.stage               = 0
             state.secondsSinceLastAdd = settings.delay
-        } else if (inputs('mouse0')) {
+        } else if (inputs('mouse0') || touchState.current.count === 1) {
+            let x, y
+            if (inputs('mouse0')) {
+                state.inputType = 'mouse'
+                x               = inputs('mouseX')
+                y               = inputs('mouseY')
+            } else {
+                state.inputType = 'touch'
+                x               = touchState.current.midpointX
+                y               = touchState.current.midpointY
+            }
             state.secondsSinceLastAdd = (state.secondsSinceLastAdd + seconds) || seconds
             if (state.secondsSinceLastAdd >= settings.delay) {
                 state.secondsSinceLastAdd = 0
@@ -25,8 +36,8 @@ module.exports = {
                 let randomDistance        = Math.random()
                 let particle              = ps.addParticle({
                     position: {
-                        x: (inputs('mouseX') - ps.position.x + Math.cos(randomAngle) * settings.range * randomDistance) / ps.scale.x,
-                        y: (inputs('mouseY') - ps.position.y + Math.sin(randomAngle) * settings.range * randomDistance) / ps.scale.y
+                        x: (x - ps.position.x + Math.cos(randomAngle) * settings.range * randomDistance) / ps.scale.x,
+                        y: (y - ps.position.y + Math.sin(randomAngle) * settings.range * randomDistance) / ps.scale.y
                     },
                     momentum: {
                         x: settings.momentumMinX + Math.random() * (settings.momentumMaxX - settings.momentumMinX),

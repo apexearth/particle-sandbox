@@ -6,7 +6,8 @@ const settings = Generator.defaultSettings
 module.exports = {
     settings,
     update (seconds, state, ps)  {
-        if (inputs('mouse0')) {
+        let {touchState} = state
+        if (inputs('mouse0') || touchState.current.count === 1) {
             if (!state.stage) {
                 state.stage    = 1
                 state.timeHeld = 0

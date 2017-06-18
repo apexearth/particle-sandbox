@@ -32,10 +32,9 @@ class UserInput {
             // Initialize the state for the current mode.
             this.state = {mode: this.mode}
         }
+        this.state.touchState = this.processTouchState(inputs.inputs, this.state.touchState)
 
         UserInput.modes[this.mode].update(seconds, this.state, this.ps)
-
-        this.touchState = this.processTouchState(inputs.inputs, this.touchState)
 
         // Scrolling
         if (this.touchState.previous.count == 2 && this.touchState.current.count == 2) {
