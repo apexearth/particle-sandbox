@@ -19,7 +19,7 @@ describe("Particle", function () {
         expect(p2.position.x).to.gt(-10)
         expect(p2.position.y).to.equal(0)
 
-        let limit = 10000
+        let limit = 100
         while (ps.particles.length > 1 && limit !== 0) {
             ps.update(.01)
             for (let particle of ps.particles) {
@@ -31,15 +31,15 @@ describe("Particle", function () {
             limit--
         }
 
-        expect(p1.mass).to.equal(25.132741228718338)
-        expect(p1.position.x).to.equal(-13.315213431817622)
-        expect(p1.position.y).to.equal(8.521215702289746e-15)
-        expect(p1.momentum.x).to.equal(-4.246259699602248)
-        expect(p1.momentum.y).to.equal(1.5949348092289836e-14)
-        expect(p2.position.x).to.equal(-16.14364055656381)
-        expect(p2.position.y).to.equal(3.010333547787671e-14)
-        expect(p2.momentum.x).to.equal(-17.364922590974615)
-        expect(p2.momentum.y).to.equal(1.2394972875410275e-13)
+        expect(p1.mass).to.equal(12.692034320502763)
+        expect(p1.position.x).to.equal(3.2757597654534694)
+        expect(p1.position.y).to.equal(1.8968843338174762e-16)
+        expect(p1.momentum.x).to.equal(10.857725609556583)
+        expect(p1.momentum.y).to.equal(1.8595598436272682e-15)
+        expect(p2.position.x).to.equal(-3.3362401344190125)
+        expect(p2.position.y).to.equal(2.8310475525999006e-18)
+        expect(p2.momentum.x).to.equal(-11.394565135844319)
+        expect(p2.momentum.y).to.equal(6.638899582105955e-17)
     })
 
     it('.select() & .deselect()', function () {
@@ -64,16 +64,16 @@ describe("Particle", function () {
         let p3 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 0, y: 10}})
         ps.update(.1)
         expect(p1.momentum).to.deep.equal({
-            "x": 2.1559625868289225,
-            "y": 0.8969907576052748
+            "x": 2.166836767762864,
+            "y": 0.9054842629776932
         })
         expect(p2.momentum).to.deep.equal({
-            "x": -2.1559625868289225,
-            "y": 0.8969907576052748
+            "x": -2.166836767762864,
+            "y": 0.9054842629776932
         })
         expect(p3.momentum).to.deep.equal({
             "x": 0,
-            "y": -1.7939815152105496
+            "y": -1.8109685259553865
         })
     })
 

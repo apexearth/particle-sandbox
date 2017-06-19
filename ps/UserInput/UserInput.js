@@ -116,26 +116,30 @@ class UserInput {
                 distance : 0,
             }
         }
-        for (let i = 0; i < state.current.count; i++) {
-            state.current.midpointX += touches[i].pageX
-            state.current.midpointY += touches[i].pageY
-            state.current.minX = Math.min(state.current.minX, touches[i].pageX)
-            state.current.minY = Math.min(state.current.minY, touches[i].pageY)
-            state.current.maxX = Math.max(state.current.maxX, touches[i].pageX)
-            state.current.maxY = Math.max(state.current.maxY, touches[i].pageY)
-        }
-        state.current.midpointX /= state.current.count
-        state.current.midpointY /= state.current.count
-        state.current.distanceX = state.current.maxX - state.current.minX
-        state.current.distanceY = state.current.maxY - state.current.minY
-        state.current.distance  = Math.sqrt(state.current.distanceX * state.current.distanceX + state.current.distanceY * state.current.distanceY)
+        if (state.current.count) {
+            for (let i = 0; i < state.current.count; i++) {
+                state.current.midpointX += touches[i].pageX
+                state.current.midpointY += touches[i].pageY
+                state.current.minX = Math.min(state.current.minX, touches[i].pageX)
+                state.current.minY = Math.min(state.current.minY, touches[i].pageY)
+                state.current.maxX = Math.max(state.current.maxX, touches[i].pageX)
+                state.current.maxY = Math.max(state.current.maxY, touches[i].pageY)
+            }
+            state.current.midpointX /= state.current.count
+            state.current.midpointY /= state.current.count
+            state.current.distanceX = state.current.maxX - state.current.minX
+            state.current.distanceY = state.current.maxY - state.current.minY
+            state.current.distance  = Math.sqrt(state.current.distanceX * state.current.distanceX + state.current.distanceY * state.current.distanceY)
 
-        state.previous = state.previous || state.current
-
-        // Fill state.difference
-        for (let key in state.current) {
-            if (state.current.hasOwnProperty(key))
-                state.difference[key] = state.previous[key] - state.current[key]
+            state.previous = state.previous || state.current
+            // Fill state.difference
+            for (let key in state.current) {
+                if (state.current.hasOwnProperty(key))
+                    state.difference[key] = state.previous[key] - state.current[key]
+            }
+        } else {
+            state.current  = state.difference
+            state.previous = state.previous || state.current
         }
 
         return state

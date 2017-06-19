@@ -16,33 +16,27 @@ describe('UserInput', () => {
     it('select', () => {
         input.ps.addParticle({position: {x: 0, y: 0}})
         input.mode = 'select'
-        expect(input.state).to.deep.equal({})
+        expect(input.state.mode).to.equal('create')
 
         input.update(.01)
-        expect(input.state).to.deep.equal({
-            mode: 'select',
-        })
+        expect(input.state.mode).to.equal('select')
 
         inputs('mouseX', 1)
         inputs('mouseY', 2)
         inputs('mouse0', 1)
         input.update(.01)
-        expect(input.state).to.deep.equal({
-            mode  : 'select',
-            stage : 1,
-            start : {x: 1, y: 2},
-            finish: {x: 1, y: 2}
-        })
+        expect(input.state.mode).to.equal('select')
+        expect(input.state.stage).to.equal(1)
+        expect(input.state.start).to.deep.equal({x: 1, y: 2})
+        expect(input.state.finish).to.deep.equal({x: 1, y: 2})
 
         inputs('mouseX', 11)
         inputs('mouseY', 12)
         input.update(.01)
-        expect(input.state).to.deep.equal({
-            mode  : 'select',
-            stage : 1,
-            start : {x: 1, y: 2},
-            finish: {x: 11, y: 12}
-        })
+        expect(input.state.mode).to.equal('select')
+        expect(input.state.stage).to.equal(1)
+        expect(input.state.start).to.deep.equal({x: 1, y: 2})
+        expect(input.state.finish).to.deep.equal({x: 11, y: 12})
 
         inputs('mouse0', 0)
         inputs('mouseX', 1000)
@@ -53,12 +47,11 @@ describe('UserInput', () => {
     it('create', () => {
         input.mode = 'create'
         expect(input.mode).to.equal('create')
-        expect(input.state).to.deep.equal({})
+        expect(input.state.mode).to.deep.equal('create')
 
         input.update(.01)
-        expect(input.state).to.deep.equal({
-            mode: 'create',
-        })
+        expect(input.state.mode).to.deep.equal('create')
+
 
         inputs('mouseX', 1)
         inputs('mouseY', 2)
@@ -116,27 +109,20 @@ describe('UserInput', () => {
     it('rapidCreate', () => {
         input.mode = 'rapidCreate'
         expect(input.mode).to.equal('rapidCreate')
-        expect(input.state).to.deep.equal({})
+        expect(input.state.mode).to.deep.equal('create')
 
         input.update(.01)
-        expect(input.state).to.deep.equal({
-            mode: 'rapidCreate',
-        })
+        expect(input.state.mode).to.deep.equal('rapidCreate')
+
 
         inputs('mouseX', 1)
         inputs('mouseY', 2)
         inputs('mouse0', 1)
         input.update(.005)
-        expect(input.state).to.deep.equal({
-            mode               : 'rapidCreate',
-            secondsSinceLastAdd: .005,
-        })
+        expect(input.state.secondsSinceLastAdd).to.equal(.005)
         input.update(.005)
-        expect(input.state).to.deep.equal({
-            mode               : 'rapidCreate',
-            secondsSinceLastAdd: 0,
-            stage              : 1,
-        })
+        expect(input.state.secondsSinceLastAdd).to.equal(0)
+        expect(input.state.stage).to.equal(1)
     })
     it('generator', () => {
         input.mode = 'generator'
