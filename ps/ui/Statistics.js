@@ -4,6 +4,7 @@ import state from './state'
 module.exports = class Statistics extends React.Component {
     render() {
         setTimeout(() => this.forceUpdate(), 1000)
+        let {ps}       =state
         let stats      = state.ps.stats
         let simulation = stats.simulation
 

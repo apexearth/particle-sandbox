@@ -313,12 +313,19 @@ a, a:visited, a:hover, a:active {
 }
 
 #link-original {
-  color: fade(@base, 70%);
-  font-size: smaller;
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  margin: 4px;
+  display: none;
+}
+
+@media (min-width: 750px) {
+  #link-original {
+    display: block;
+    color: fade(@base, 70%);
+    font-size: smaller;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 4px;
+  }
 }
 
 #top-left {
@@ -355,8 +362,13 @@ a, a:visited, a:hover, a:active {
   display: flex;
   filter: opacity(.75);
   margin-bottom: -2px;
+  div {
+    padding: 2px 5px 2px 5px;
+  }
+  @media (max-width: 600px) {
+    div:nth-of-type(3), div:nth-of-type(4), div:nth-of-type(5), div:nth-of-type(6) {
+      display: none;
+    }
+  }
 }
 
-#statistics > div {
-  padding: 2px 5px 2px 5px;
-}
