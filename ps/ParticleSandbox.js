@@ -174,7 +174,7 @@ class ParticleSandbox extends App {
             this.updatePairLocation(new ParticlePair(particle, other))
         })
         this.particles.push(particle)
-        this.addObject(particle)
+        this.add(particle)
         stats.simulation.particleCount++
         return particle
     }
@@ -196,7 +196,6 @@ class ParticleSandbox extends App {
         if (index >= 0) {
             this.particles.splice(index, 1)
         }
-        this.removeObject(particle)
         stats.simulation.particleCount--
     }
 
@@ -209,8 +208,8 @@ class ParticleSandbox extends App {
         }
 
         this.generators.push(generator)
-        this.addObject(generator)
-        this.addFxObject(generator)
+        this.add(generator)
+        this.addFx(generator)
         stats.simulation.generatorCount++
         return generator
     }
@@ -220,48 +219,16 @@ class ParticleSandbox extends App {
         if (index >= 0) {
             this.generators.splice(index, 1)
         }
-        this.removeObject(generator)
-        this.removeFxObject(generator)
+        this.removeFx(generator)
         stats.simulation.generatorCount--
     }
 
-    addObject(object) {
-        object.removed = false
-        this.objects.push(object)
-        if (typeof window !== 'undefined') {
-            this.container.addChild(object.container)
-        }
-    }
-
-    removeObject(object) {
-        object.removed = true
-        if (object.selected) {
-            object.deselect()
-            let index = this.selectedObjects.indexOf(object)
-            if (index >= 0) {
-                this.selectedObjects.splice(index, 1)
-            }
-        }
-        let index = this.objects.indexOf(object)
-        if (index >= 0) {
-            this.objects.splice(index, 1)
-        }
-        if (typeof window !== 'undefined') {
-            this.container.removeChild(object.container)
-        }
-    }
-
-    addFxObject(object) {
-        object.removed = false
-        if (typeof window !== 'undefined') {
-            this.fxcontainer.addChild(object.container)
-        }
-    }
-
-    removeFxObject(object) {
-        object.removed = true
-        if (typeof window !== 'undefined') {
-            this.fxcontainer.removeChild(object.container)
+    remove(object) {
+        super.remove(object)
+        if (object.type === 'particle') {
+            this.removeParticle(object)
+        } else if (object.type === 'generator') {
+            this.removeGenerator(object)
         }
     }
 }
