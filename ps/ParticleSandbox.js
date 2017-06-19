@@ -70,7 +70,7 @@ class ParticleSandbox extends App {
         })
         this.particles.forEach(particle => {
             if (particle.mass <= 0) {
-                this.removeParticle(particle)
+                this.remove(particle)
             }
         })
         this.collisions = []

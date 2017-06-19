@@ -8,6 +8,30 @@
 @font-base: fade(lighten(@base, 10%), 80%);
 @font-family: "Courier New", Courier, monospace;
 
+@media (min-width: 320px) {
+  /* smartphones, iPhone, portrait 480x320 phones */
+}
+
+@media (min-width: 481px) {
+  /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+}
+
+@media (min-width: 641px) {
+  /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+}
+
+@media (min-width: 961px) {
+  /* tablet, landscape iPad, lo-res laptops ands desktops */
+}
+
+@media (min-width: 1025px) {
+  /* big landscape tablets, laptops, and desktops */
+}
+
+@media (min-width: 1281px) {
+  /* hi-res laptops and desktops */
+}
+
 .no-text-select {
   user-select: none;
 }
@@ -220,11 +244,13 @@ a, a:visited, a:hover, a:active {
 
 #explore-menu {
   table {
-    width: 500px;
-    height: 350px;
+    width: 90%;
+    height: 80%;
   }
   table td {
-    min-width: 100px;
+    min-width: 70px;
+    line-height: 18px;
+    height: 18px;
   }
   table td:nth-of-type(2) {
     min-width: 50px;
@@ -234,19 +260,27 @@ a, a:visited, a:hover, a:active {
   }
 }
 
+// Currently doesn't display well on narrow widths.
 #selection-info {
-  position: fixed;
-  right: 0;
-  min-width: 100px;
-  padding: 10px;
-  border-left: solid 1px fade(@base, 40%);
-  border-bottom: solid 1px fade(@base, 40%);
-  border-bottom-left-radius: 4px;
-  z-index: 2;
+  display: none;
 }
 
-#selection-info > table > tr > td:nth-of-type(1) {
-  padding-right: 5px;
+@media (min-width: 750px) {
+  #selection-info {
+    display: block;
+    position: fixed;
+    right: 0;
+    min-width: 100px;
+    padding: 10px;
+    border-left: solid 1px fade(@base, 40%);
+    border-bottom: solid 1px fade(@base, 40%);
+    border-bottom-left-radius: 4px;
+    z-index: 2;
+  }
+
+  #selection-info > table > tr > td:nth-of-type(1) {
+    padding-right: 5px;
+  }
 }
 
 #zoom-meter {

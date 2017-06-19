@@ -9,9 +9,8 @@ class ExploreMenu extends React.Component {
         this.setState(explore)
         explore.subscribe(settings => this.setState(settings))
         this.setState({
-            page    : 1,
-            pageSize: 15,
-            objects : state.ps.objects
+            page   : 1,
+            objects: state.ps.objects
         })
         setInterval(() => this.updateState(), 1000)
     }
@@ -71,8 +70,9 @@ class ExploreMenu extends React.Component {
     }
 
     renderList() {
-        const ps      = state.ps
-        let pageCount = Math.ceil(this.state.objects.length / this.state.pageSize)
+        const ps       = state.ps
+        const pageSize = Math.floor((ps.screenHeight - 150) / 20)
+        let pageCount  = Math.ceil(this.state.objects.length / pageSize)
 
         // Ensure we're on the min or max page.
         if (this.state.page > pageCount) {
@@ -81,8 +81,8 @@ class ExploreMenu extends React.Component {
             this.state.page = Math.min(1, pageCount)
         }
 
-        const start   = (this.state.page - 1) * this.state.pageSize
-        const end     = start + this.state.pageSize
+        const start   = (this.state.page - 1) * pageSize
+        const end     = start + pageSize
         const objects = this.state.objects.slice(start, end)
         const mapping = {
             "type": p => p.type,
@@ -93,15 +93,21 @@ class ExploreMenu extends React.Component {
             "vx"  : p => p.momentum.x.toFixed(2),
             "vy"  : p => p.momentum.y.toFixed(2),
         }
-        const keys    = Object.keys(mapping)
-        const header  = (
+        if (ps.screenWidth < 450) {
+            delete mapping.id
+            delete mapping.vx
+            delete mapping.vy
+        }
+
+        const keys   = Object.keys(mapping)
+        const header = (
             <thead>
             <tr>
                 {keys.map(key => <th key={`header-key-${key}`}>{key}</th>)}
             </tr>
             </thead>
         )
-        const rows    = (
+        const rows   = (
             <tbody>
             {objects.map((object, i) => {
                     return (
@@ -127,7 +133,7 @@ class ExploreMenu extends React.Component {
             )}
             </tbody>
         )
-        const bottom  = (
+        const bottom = (
             <tfoot>
             <tr>
                 <td colSpan={keys.length - 2} style={{textAlign: 'right'}}>{`${this.state.page} of ${pageCount}`}</td>
