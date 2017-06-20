@@ -85,7 +85,7 @@ describe('UserInput', () => {
             stage   : 1,
             start   : {x: 1, y: 2},
             finish  : {x: 11, y: 12},
-            timeHeld: .01
+            timeHeld: .02
         })
 
         expect(input.ps.particles.length).to.equal(0)
@@ -102,7 +102,7 @@ describe('UserInput', () => {
             stage   : 0,
             start   : {x: 1, y: 2},
             finish  : {x: 11, y: 12},
-            timeHeld: .01
+            timeHeld: .02
         })
         expect(input.ps.particles.length).to.equal(1)
     })
@@ -133,7 +133,9 @@ describe('UserInput', () => {
 
         expect(input.ps.generators.length).to.equal(0)
         input.update(.01)
-        expect(input.ps.generators.length).to.equal(1)
+        expect(input.ps.generators.length).to.equal(0)
+        inputs('mouse0', 0)
+        input.update(.01)
         expect(input.ps.generators[0].position).to.deep.equal(input.ps.translatePosition({x: 1, y: 2}))
         input.update(.01)
         expect(input.ps.generators.length).to.equal(1)
