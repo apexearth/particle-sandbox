@@ -21,7 +21,7 @@ module.exports = {
                 state.finish.x = x
                 state.finish.y = y
 
-                if (Math.sqrt(Math.pow(state.finish.x - state.start.x, 2) + Math.pow(state.finish.y - state.start.y, 2)) < 10) {
+                if (Math.sqrt(Math.pow(state.finish.x - state.start.x, 2) + Math.pow(state.finish.y - state.start.y, 2)) < 20) {
                     state.timeHeld += seconds
                 }
                 state.particle.position.x = (state.start.x - ps.position.x) / ps.scale.x
