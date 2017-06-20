@@ -1,6 +1,7 @@
 {
   "name": "particle-sandbox",
   "version": "2.0.0",
+  "main": "main.js",
   "scripts": {
     "travis-develop": "npm test",
     "travis-master": "npm run publish",
@@ -10,6 +11,11 @@
     "watch": "webpack --watch",
     "build": "webpack -p",
     "upload": "gulp upload",
+    "package-standalones": "npm-run-all package-standalone-win32-x64 package-standalone-darwin-x64 package-standalone-win32-ia32 package-standalone-darwin-ia32",
+    "package-standalone-win32-x64":  "electron-packager . --out standalones --platform=win32 --arch=x64",
+    "package-standalone-darwin-x64": "electron-packager . --out standalones --platform=darwin --arch=x64",
+    "package-standalone-win32-ia32":  "electron-packager . --out standalones --platform=win32 --arch=ia32",
+    "package-standalone-darwin-ia32": "electron-packager . --out standalones --platform=darwin --arch=ia32",
     "publish": "npm-run-all test build upload"
   },
   "eslintConfig": {
@@ -37,6 +43,8 @@
     "chai": "^3.5.0",
     "color": "^1.0.3",
     "css-loader": "^0.27.3",
+    "electron": "^1.6.11",
+    "electron-packager": "^8.7.1",
     "eslint": "^3.19.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "gulp": "^3.9.1",
@@ -57,6 +65,7 @@
   },
   "dependencies": {
     "apex-app": "^1.0.1",
+    "open": "0.0.5",
     "user-input": "^1.5.0"
   }
 }
