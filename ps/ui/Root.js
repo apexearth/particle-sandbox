@@ -40,7 +40,6 @@ class Root extends React.Component {
                     <ShareButtons />
                     <Statistics />
                 </div>
-                <LinkOriginal />
             </div>
         )
     }
