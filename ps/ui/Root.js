@@ -8,6 +8,7 @@ import ExploreButton from './top-buttons/ExploreButton'
 import SettingsButton from './top-buttons/SettingsButton'
 import PlayPauseButton from './top-buttons/PlayPauseButton'
 import SelectionInfo from './SelectionInfo'
+import FullScreenButton from './top-buttons/FullScreenButton'
 import ZoomMeter from './top-buttons/ZoomMeter'
 import LinkOriginal from './LinkOriginal'
 import ShareButtons from './ShareButtons'
@@ -24,6 +25,7 @@ class Root extends React.Component {
                         <ExploreButton/>
                         <PlayPauseButton />
                         <ZoomMeter />
+                        <FullScreenButton />
                     </div>
                     <div id="menu">
                         <EditMenu />
