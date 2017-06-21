@@ -1,5 +1,6 @@
 {
   "name": "particle-sandbox",
+  "productName": "particle-sandbox",
   "version": "2.0.0",
   "main": "main.js",
   "scripts": {
@@ -12,10 +13,10 @@
     "build": "webpack -p",
     "upload": "gulp upload",
     "package-standalones": "npm-run-all package-standalone-win32-x64 package-standalone-darwin-x64 package-standalone-win32-ia32 package-standalone-darwin-ia32",
-    "package-standalone-win32-x64":  "electron-packager . --out standalones --platform=win32 --arch=x64",
-    "package-standalone-darwin-x64": "electron-packager . --out standalones --platform=darwin --arch=x64",
-    "package-standalone-win32-ia32":  "electron-packager . --out standalones --platform=win32 --arch=ia32",
-    "package-standalone-darwin-ia32": "electron-packager . --out standalones --platform=darwin --arch=ia32",
+    "package-standalone-win32-x64": "electron-packager   . --out standalones --platform=win32  --arch=x64  --ignore=ps/",
+    "package-standalone-darwin-x64": "electron-packager  . --out standalones --platform=darwin --arch=x64  --ignore=ps/",
+    "package-standalone-win32-ia32": "electron-packager  . --out standalones --platform=win32  --arch=ia32 --ignore=ps/",
+    "package-standalone-darwin-ia32": "electron-packager . --out standalones --platform=darwin --arch=ia32 --ignore=ps/",
     "publish": "npm-run-all test build upload"
   },
   "eslintConfig": {
@@ -35,6 +36,7 @@
     }
   },
   "devDependencies": {
+    "apex-app": "^1.0.1",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-polyfill": "^6.23.0",
@@ -45,6 +47,7 @@
     "css-loader": "^0.27.3",
     "electron": "^1.6.11",
     "electron-packager": "^8.7.1",
+    "electron-winstaller": "^2.6.3",
     "eslint": "^3.19.0",
     "extract-text-webpack-plugin": "^2.1.0",
     "gulp": "^3.9.1",
@@ -59,13 +62,12 @@
     "react-share": "^1.14.1",
     "style-loader": "^0.16.0",
     "url-loader": "^0.5.8",
+    "user-input": "^1.5.0",
     "user-input-mapping": "^1.3.0",
     "webpack": "^2.3.2",
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "apex-app": "^1.0.1",
-    "open": "0.0.5",
-    "user-input": "^1.5.0"
+    "open": "0.0.5"
   }
 }
