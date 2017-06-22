@@ -61,7 +61,8 @@ class ParticleSandbox extends App {
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
             if (collision.particle2.mass <= 0) return
-            Particle.exchangeMass(collision)
+            Particle.exchangeMass(collision, seconds)
+            collision.particle1.distributeVelocity(collision.particle2, seconds / 1000)
             if (!collision.pair.previouslyCollided) {
                 collision.particle1.bounce(collision.particle2)
                 collision.particle1.uncollide(collision.particle2)
@@ -182,7 +183,7 @@ class ParticleSandbox extends App {
     addParticles(count) {
         for (let i = 0; i < count; i++) {
             this.addParticle({
-                mass    : 20 + Math.random() * 10,
+                radius  : 2 + Math.random() * 4,
                 position: {
                     x: 2500 * Math.random() - 1250,
                     y: 2500 * Math.random() - 1250,

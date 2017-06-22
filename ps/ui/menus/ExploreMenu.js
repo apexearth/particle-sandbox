@@ -85,13 +85,14 @@ class ExploreMenu extends React.Component {
         const end     = start + pageSize
         const objects = this.state.objects.slice(start, end)
         const mapping = {
-            "type": p => p.type,
-            "id"  : p => p.id,
-            "mass": p => p.mass ? p.mass.toFixed(2) : 0,
-            "x"   : p => p.position.x.toFixed(2),
-            "y"   : p => p.position.y.toFixed(2),
-            "vx"  : p => p.momentum.x.toFixed(2),
-            "vy"  : p => p.momentum.y.toFixed(2),
+            "type"   : p => p.type,
+            "id"     : p => p.id,
+            "mass"   : p => p.mass ? p.mass.toFixed(2) : 0,
+            "density": p => p.density ? p.density.toFixed(2) : 0,
+            "x"      : p => p.position.x.toFixed(2),
+            "y"      : p => p.position.y.toFixed(2),
+            "vx"     : p => p.momentum.x.toFixed(2),
+            "vy"     : p => p.momentum.y.toFixed(2),
         }
         if (ps.screenWidth < 450) {
             delete mapping.id

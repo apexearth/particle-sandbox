@@ -8,28 +8,53 @@ class Particle extends AppObject {
         super({parent, position, momentum})
         this.type = 'particle'
 
-        this.color = Color.rgb(50 + Math.random() * 200, 50 + Math.random() * 200, 50 + Math.random() * 200).rgbNumber()
+        this.color   = Particle.particleColor
+        this.density = Math.max(.1, Math.random() * Math.random())
         if (radius) {
             this.radius = radius
         } else {
             this.mass      = mass || 4
             this.mass_prev = this.mass
         }
-        this.position_prev = {}
-        this.momentum_prev = {}
+
+
         this.updatePrevious()
         this.draw()
     }
 
+    static get particleColor() {
+        let colorTotal = 255 * 2.5
+        let colorR     = Math.min(255, Math.random() * colorTotal)
+        colorTotal -= colorR
+        let colorG     = Math.min(255, Math.random() * colorTotal)
+        colorTotal -= colorG
+        let colorB     = Math.min(255, Math.random() * colorTotal)
+        if (Math.random() > .5) {
+            let temp = colorR
+            colorR   = colorB
+            colorB   = temp
+        }
+        return Color.rgb(colorR, colorG, colorB).rgbNumber()
+    }
+
+    set density(val) {
+        this.density_prev    = this._density
+        this._density        = val
+        this.container.alpha = Math.sqrt(this.density)
+    }
+
+    get density() {
+        return this._density
+    }
 
     set radius(val) {
-        this.mass = val * val * Math.PI
+        this.mass = val * val * Math.PI * this.density
     }
 
     get radius() {
-        if (!this._radius || this.mass_prev !== this.mass) {
+        if (!this._radius || this.mass_prev !== this.mass || this.density_prev !== this.density) {
             this.mass_prev = this.mass
-            this._radius   = Math.sqrt(this.mass / Math.PI)
+            this._radius   = Math.sqrt(this.mass / Math.PI / this.density)
             this.scale.x   = this.scale.y = this._radius
         }
         return this._radius
@@ -60,6 +85,12 @@ class Particle extends AppObject {
 
     update(seconds) {
         super.update(seconds)
+        if (this.density < 1) {
+            this.density += this.density * seconds * this.mass / 100000
+        }
+        if (this.mass <= 1) {
+            this.mass -= seconds
+        }
     }
 
     /**
@@ -137,27 +168,28 @@ class Particle extends AppObject {
         other.position.y = collisionPointY + Math.sin(angle) * this.radius
     }
 
-    static exchangeMass({particle1, particle2}) {
-        if (particle1.mass > particle2.mass) {
-            let transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) / 100, 0.1))
+    static exchangeMass({particle1, particle2}, seconds) {
+        if (particle1.density > particle2.density) {
+            let transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) * particle2.density, 0.1)) * seconds
             particle1.mass += transferAmount
             particle2.mass -= transferAmount
         } else {
-            let transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) / 100, 0.1))
+            let transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) * particle1.density, 0.1)) * seconds
             particle1.mass -= transferAmount
             particle2.mass += transferAmount
         }
     }
 
     distributeVelocity(other, percentage = 1) {
-        let meProportion    = this.mass / (this.mass + other.mass)
-        let otherProportion = 1 - meProportion
+        percentage *= this.density * other.density
+        let meProportion    = this.mass / (this.mass + other.mass * percentage)
+        let otherProportion = other.mass / (other.mass + this.mass * percentage)
         let xm              = this.momentum.x
         let ym              = this.momentum.y
-        this.momentum.x     = xm * meProportion + (other.momentum.x * otherProportion) * percentage
-        this.momentum.y     = ym * meProportion + (other.momentum.y * otherProportion) * percentage
-        other.momentum.x    = other.momentum.x * otherProportion + (xm * meProportion) * percentage
-        other.momentum.y    = other.momentum.y * otherProportion + (ym * meProportion) * percentage
+        this.momentum.x     = this.momentum.x * meProportion + (other.momentum.x * (1 - meProportion))
+        this.momentum.y     = this.momentum.y * meProportion + (other.momentum.y * (1 - meProportion))
+        other.momentum.x    = other.momentum.x * otherProportion + (xm * (1 - otherProportion))
+        other.momentum.y    = other.momentum.y * otherProportion + (ym * (1 - otherProportion))
     }
 
     // TODO: Look through this again, might have some small bugs in it.

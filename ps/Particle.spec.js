@@ -134,7 +134,7 @@ describe("Particle", function () {
         let initialMass = 10
         let p1          = ps.addParticle({mass: initialMass, position: {x: -1, y: 0}})
         let p2          = ps.addParticle({mass: initialMass * 2, position: {x: 1, y: 0}})
-        Particle.exchangeMass({particle1: p1, particle2: p2})
+        Particle.exchangeMass({particle1: p1, particle2: p2}, 1)
         expect(p1.mass).to.equal(9.8)
         expect(p2.mass).to.equal(20.2)
     })
