@@ -3,6 +3,7 @@ const processor = require('./processor')
 const settings = {
     initialRadius: 2,
     growthRate   : 10,
+    density      : .75
 }
 
 module.exports = {
@@ -15,7 +16,7 @@ module.exports = {
                 state.start.x  = x
                 state.start.y  = y
                 state.finish   = {}
-                state.particle = ps.previewParticle()
+                state.particle = ps.previewParticle({density: settings.density})
             },
             onUpdate  : (seconds, state, ps, {x, y}) => {
                 state.finish.x = x

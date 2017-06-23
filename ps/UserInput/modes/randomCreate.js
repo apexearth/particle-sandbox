@@ -8,6 +8,8 @@ const settings = {
     momentumMinY: -30,
     momentumMaxX: 30,
     momentumMaxY: 30,
+    minDensity  : .5,
+    maxDensity  : 1,
 }
 
 module.exports = {
@@ -22,6 +24,7 @@ module.exports = {
                     let randomAngle           = Math.PI * Math.random() * 2
                     let randomDistance        = Math.random()
                     let particle              = ps.addParticle({
+                        density : settings.minDensity + Math.random() * (settings.maxDensity - settings.minDensity),
                         position: {
                             x: (x - ps.position.x + Math.cos(randomAngle) * settings.range * randomDistance) / ps.scale.x,
                             y: (y - ps.position.y + Math.sin(randomAngle) * settings.range * randomDistance) / ps.scale.y

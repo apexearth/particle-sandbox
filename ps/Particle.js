@@ -4,12 +4,12 @@ const angles        = require('./angles')
 const {simulation}  = require('./config')
 
 class Particle extends AppObject {
-    constructor({parent, position, momentum, mass, radius}) {
+    constructor({parent, position, momentum, mass, radius, density}) {
         super({parent, position, momentum})
         this.type = 'particle'
 
         this.color   = Particle.particleColor
-        this.density = Math.max(.1, Math.random() * Math.random())
+        this.density = density || Math.max(.1, Math.random() * Math.random())
         if (radius) {
             this.radius = radius
         } else {
