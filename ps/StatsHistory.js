@@ -17,6 +17,7 @@ class StatsHistory {
     }
 
     update(seconds) {
+        return // Disabled, for now...
         this.updateAverage(this.stats, seconds)
     }
 
