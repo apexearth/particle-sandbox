@@ -6,8 +6,16 @@ describe("Particle", function () {
     it("2 particle interaction", function () {
         let ps = new ParticleSandbox()
 
-        let p1 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 10, y: 0}})
-        let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -10, y: 0}})
+        let p1 = ps.addParticle({
+            density : 1,
+            mass    : 2 * 2 * Math.PI,
+            position: {x: 10, y: 0}
+        })
+        let p2 = ps.addParticle({
+            density : 1,
+            mass    : 2 * 2 * Math.PI,
+            position: {x: -10, y: 0}
+        })
         expect(p1.position.x).to.equal(10)
         expect(p1.position.y).to.equal(0)
         expect(p2.position.x).to.equal(-10)
@@ -31,15 +39,15 @@ describe("Particle", function () {
             limit--
         }
 
-        expect(p1.mass).to.equal(12.692034320502763)
-        expect(p1.position.x).to.equal(3.2757597654534694)
-        expect(p1.position.y).to.equal(1.8968843338174762e-16)
-        expect(p1.momentum.x).to.equal(10.857725609556583)
-        expect(p1.momentum.y).to.equal(1.8595598436272682e-15)
-        expect(p2.position.x).to.equal(-3.3362401344190125)
-        expect(p2.position.y).to.equal(2.8310475525999006e-18)
-        expect(p2.momentum.x).to.equal(-11.394565135844319)
-        expect(p2.momentum.y).to.equal(6.638899582105955e-17)
+        expect(p1.mass).to.equal(12.567627251420609)
+        expect(p1.position.x).to.equal(3.3056949604978207)
+        expect(p1.position.y).to.equal(1.8965693559972556e-16)
+        expect(p1.momentum.x).to.equal(11.123197405200104)
+        expect(p1.momentum.y).to.equal(1.8588726032255967e-15)
+        expect(p2.position.x).to.equal(-3.3062997667245293)
+        expect(p2.position.y).to.equal(2.803197110251344e-18)
+        expect(p2.momentum.x).to.equal(-11.128565810571452)
+        expect(p2.momentum.y).to.equal(6.573626397873676e-17)
     })
 
     it('.select() & .deselect()', function () {
@@ -79,8 +87,8 @@ describe("Particle", function () {
 
     it('.uncollide()', function () {
         let ps = new ParticleSandbox()
-        let p1 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: -1, y: 0}})
-        let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 1, y: 0}})
+        let p1 = ps.addParticle({density: 1, mass: 2 * 2 * Math.PI, position: {x: -1, y: 0}})
+        let p2 = ps.addParticle({density: 1, mass: 2 * 2 * Math.PI, position: {x: 1, y: 0}})
         p1.uncollide(p2)
         expect(p1.position.x).to.equal(-2)
         expect(p1.position.y).to.equal(0)
@@ -132,8 +140,8 @@ describe("Particle", function () {
     it('.exchangeMass()', function () {
         let ps          = new ParticleSandbox()
         let initialMass = 10
-        let p1          = ps.addParticle({mass: initialMass, position: {x: -1, y: 0}})
-        let p2          = ps.addParticle({mass: initialMass * 2, position: {x: 1, y: 0}})
+        let p1          = ps.addParticle({density: 1, mass: initialMass, position: {x: -1, y: 0}})
+        let p2          = ps.addParticle({density: 1, mass: initialMass * 2, position: {x: 1, y: 0}})
         Particle.exchangeMass({particle1: p1, particle2: p2}, 1)
         expect(p1.mass).to.equal(9.8)
         expect(p2.mass).to.equal(20.2)
@@ -143,10 +151,12 @@ describe("Particle", function () {
         let ps = new ParticleSandbox()
 
         let p1 = ps.addParticle({
+            density : 1,
             mass    : 6,
             momentum: {x: 0, y: 0}
         })
         let p2 = ps.addParticle({
+            density : 1,
             mass    : 2,
             momentum: {x: 8, y: 8}
         })
@@ -164,11 +174,13 @@ describe("Particle", function () {
         it('x, same size', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 0, y: 0},
                 momentum: {x: 1, y: 0}
             })
             let p2 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 2, y: 0},
                 momentum: {x: -1, y: 0}
@@ -181,11 +193,13 @@ describe("Particle", function () {
         it('x, different size', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({
+                density : 1,
                 mass    : 1,
                 position: {x: 0, y: 0},
                 momentum: {x: 1, y: 0}
             })
             let p2 = ps.addParticle({
+                density : 1,
                 mass    : 2,
                 position: {x: 2, y: 0},
                 momentum: {x: -1, y: 0}
@@ -198,11 +212,13 @@ describe("Particle", function () {
         it('x2, same size', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 0, y: 0},
                 momentum: {x: 1, y: 0}
             })
             let p2 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 2, y: 0},
                 momentum: {x: -3, y: 0}
@@ -215,11 +231,13 @@ describe("Particle", function () {
         it('y, same size', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 0, y: 0},
                 momentum: {x: 0, y: 1}
             })
             let p2 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 0, y: 2},
                 momentum: {x: 0, y: -1}
@@ -232,11 +250,13 @@ describe("Particle", function () {
         it('xy, same size', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 0, y: 0},
                 momentum: {x: 1, y: 1}
             })
             let p2 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 2, y: 2},
                 momentum: {x: -1, y: -1}
@@ -251,11 +271,13 @@ describe("Particle", function () {
         it('xy2, same size', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 0, y: 0},
                 momentum: {x: 1, y: 1}
             })
             let p2 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 0, y: 2},
                 momentum: {x: -1, y: -1}
@@ -270,11 +292,13 @@ describe("Particle", function () {
         it('xy3, same size', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 0, y: 0},
                 momentum: {x: 1, y: 1}
             })
             let p2 = ps.addParticle({
+                density : 1,
                 radius  : 1,
                 position: {x: 2, y: 0},
                 momentum: {x: -1, y: -1}

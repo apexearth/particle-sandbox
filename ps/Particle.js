@@ -2,6 +2,7 @@ const Color         = require('color')
 const {AppObject}   = require('apex-app')
 const angles        = require('./angles')
 const {simulation}  = require('./config')
+const stats         = require('./stats')
 
 class Particle extends AppObject {
     constructor({parent, position, momentum, mass, radius, density}) {
@@ -93,6 +94,12 @@ class Particle extends AppObject {
         }
     }
 
+    updateStats(seconds) {
+        stats.simulation.centerMass.x += this.position.x * this.mass
+        stats.simulation.centerMass.x += this.position.y * this.mass
+        stats.simulation.totalMass += this.mass
+    }
+
     /**
      * High Run Rate
      */
@@ -170,11 +177,11 @@ class Particle extends AppObject {
 
     static exchangeMass({particle1, particle2}, seconds) {
         if (particle1.density > particle2.density) {
-            let transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) * particle2.density, 0.1)) * seconds
+            let transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) * particle2.density / 100, 0.1)) * seconds
             particle1.mass += transferAmount
             particle2.mass -= transferAmount
         } else {
-            let transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) * particle1.density, 0.1)) * seconds
+            let transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) * particle1.density / 100, 0.1)) * seconds
             particle1.mass -= transferAmount
             particle2.mass += transferAmount
         }

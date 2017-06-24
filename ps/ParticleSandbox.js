@@ -7,6 +7,8 @@ const Generator              = require('./Generator')
 const Particle               = require('./Particle')
 const ParticlePair           = require('./ParticlePair')
 const ParticlePairLinkedList = require('./ParticlePairLinkedList')
+const StatsHistory           = require('./StatsHistory')
+const PopulationManager      = require('./PopulationManager')
 const stats                  = require('./stats')
 const {performance}          = require('./config')
 
@@ -36,6 +38,9 @@ class ParticleSandbox extends App {
         this.modes      = {
             followSelection: true
         }
+
+        this.statsHistory      = new StatsHistory(stats)
+        this.populationManager = new PopulationManager(this, stats)
     }
 
     get stats() {
@@ -57,7 +62,14 @@ class ParticleSandbox extends App {
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1)
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
         this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3)
+
+
         this.objects.forEach(object => object.update(seconds))
+
+        this.updateStats(seconds)
+        this.statsHistory.update(seconds)
+        this.populationManager.update(seconds)
+
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
             if (collision.particle2.mass <= 0) return
@@ -93,6 +105,15 @@ class ParticleSandbox extends App {
         if (typeof window !== 'undefined') {
             this.container.addChild(this.fxcontainer)
         }
+    }
+
+    updateStats(seconds) {
+        stats.simulation.centerMass.x = 0
+        stats.simulation.centerMass.y = 0
+        stats.simulation.totalMass    = 0
+        this.particles.forEach(particle => particle.updateStats(seconds))
+        stats.simulation.centerMass.x /= stats.simulation.totalMass
+        stats.simulation.centerMass.y /= stats.simulation.totalMass
     }
 
     updatePairs(root, seconds, count) {
