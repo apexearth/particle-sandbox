@@ -40,7 +40,7 @@ class ParticleSandbox extends App {
         }
 
         this.statsHistory      = new StatsHistory(stats)
-        this.populationManager = new PopulationManager(this, stats)
+        this.populationManager = new PopulationManager(this, stats, this.statsHistory)
     }
 
     get stats() {
@@ -66,10 +66,6 @@ class ParticleSandbox extends App {
 
         this.objects.forEach(object => object.update(seconds))
 
-        this.updateStats(seconds)
-        this.statsHistory.update(seconds)
-        this.populationManager.update(seconds)
-
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
             if (collision.particle2.mass <= 0) return
@@ -88,6 +84,10 @@ class ParticleSandbox extends App {
         })
         this.collisions = []
 
+        stats.update(seconds, this)
+        this.statsHistory.update(seconds)
+        this.populationManager.update(seconds)
+
         if (this.modes.followSelection && this.selectedObjects.length) {
             let position = {
                 x: 0,
@@ -105,15 +105,6 @@ class ParticleSandbox extends App {
         if (typeof window !== 'undefined') {
             this.container.addChild(this.fxcontainer)
         }
-    }
-
-    updateStats(seconds) {
-        stats.simulation.centerMass.x = 0
-        stats.simulation.centerMass.y = 0
-        stats.simulation.totalMass    = 0
-        this.particles.forEach(particle => particle.updateStats(seconds))
-        stats.simulation.centerMass.x /= stats.simulation.totalMass
-        stats.simulation.centerMass.y /= stats.simulation.totalMass
     }
 
     updatePairs(root, seconds, count) {
@@ -213,7 +204,7 @@ class ParticleSandbox extends App {
         }
     }
 
-    removeParticle(particle) {
+    _removeParticle(particle) {
         let index = this.particles.indexOf(particle)
         if (index >= 0) {
             this.particles.splice(index, 1)
@@ -222,7 +213,7 @@ class ParticleSandbox extends App {
     }
 
     addGenerator(generator, options) {
-        if (!generator || generator.constructor !== Particle) {
+        if (!generator || generator.constructor !== Generator) {
             options   = generator || {position: {x: Math.random() * 100, y: Math.random() * 100}}
             generator = new Generator(Object.assign({
                 parent: this
@@ -248,7 +239,7 @@ class ParticleSandbox extends App {
     remove(object) {
         super.remove(object)
         if (object.type === 'particle') {
-            this.removeParticle(object)
+            this._removeParticle(object)
         } else if (object.type === 'generator') {
             this.removeGenerator(object)
         }

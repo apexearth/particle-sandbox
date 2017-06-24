@@ -20,7 +20,7 @@ describe('ParticleSandbox', () => {
     })
     it('.removeParticle()', () => {
         ps.addParticle({position: {x: 1, y: 2}})
-        ps.removeParticle(ps.particles[0])
+        ps._removeParticle(ps.particles[0])
         expect(ps.particles.length).to.equal(0)
     })
 

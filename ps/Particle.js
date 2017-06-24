@@ -177,11 +177,11 @@ class Particle extends AppObject {
 
     static exchangeMass({particle1, particle2}, seconds) {
         if (particle1.density > particle2.density) {
-            let transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) * particle2.density / 100, 0.1)) * seconds
+            let transferAmount = Math.min(particle2.mass, Math.max(particle2.mass * (particle1.mass / particle2.mass) * particle2.density / 100, 0.1))
             particle1.mass += transferAmount
             particle2.mass -= transferAmount
         } else {
-            let transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) * particle1.density / 100, 0.1)) * seconds
+            let transferAmount = Math.min(particle1.mass, Math.max(particle1.mass * (particle2.mass / particle1.mass) * particle1.density / 100, 0.1))
             particle1.mass -= transferAmount
             particle2.mass += transferAmount
         }
