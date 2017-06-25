@@ -10,7 +10,7 @@ import PlayPauseButton from './top-buttons/PlayPauseButton'
 import SelectionInfo from './SelectionInfo'
 import FullScreenButton from './top-buttons/FullScreenButton'
 import ZoomMeter from './top-buttons/ZoomMeter'
-import LinkOriginal from './LinkOriginal'
+import Version from './Version'
 import ShareButtons from './ShareButtons'
 import Statistics from './Statistics'
 
@@ -39,6 +39,9 @@ class Root extends React.Component {
                 <div id="bottom-left">
                     <ShareButtons />
                     <Statistics />
+                </div>
+                <div id="bottom-right">
+                    <Version />
                 </div>
             </div>
         )
