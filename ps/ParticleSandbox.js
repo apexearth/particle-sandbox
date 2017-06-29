@@ -10,12 +10,12 @@ const ParticlePairLinkedList = require('./ParticlePairLinkedList')
 const StatsHistory           = require('./StatsHistory')
 const PopulationManager      = require('./PopulationManager')
 const stats                  = require('./stats')
-const {performance}          = require('./config')
 
 const UserInput = require('./UserInput')
 const {
           view,
-          simulation
+          simulation,
+          performance
       }         = require('./config')
 
 
@@ -63,19 +63,18 @@ class ParticleSandbox extends App {
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
         this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3)
 
-
         this.objects.forEach(object => object.update(seconds))
 
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
             if (collision.particle2.mass <= 0) return
-            Particle.exchangeMass(collision, seconds)
-            collision.particle1.distributeVelocity(collision.particle2, seconds / 1000)
+
+            Particle.exchangeMass(collision)
             if (!collision.pair.previouslyCollided) {
                 collision.particle1.bounce(collision.particle2)
-                collision.particle1.uncollide(collision.particle2)
-                collision.pair.previouslyCollided = true
             }
+            Particle.uncollide(collision)
+            collision.pair.previouslyCollided = true
         })
         this.particles.forEach(particle => {
             if (particle.mass <= 0) {

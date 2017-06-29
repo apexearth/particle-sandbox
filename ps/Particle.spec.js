@@ -1,6 +1,7 @@
 const expect          = require('chai').expect
 const ParticleSandbox = require('./ParticleSandbox')
 const Particle        = require('./Particle')
+const {simulation}    = require('./config')
 
 describe("Particle", function () {
     it("2 particle interaction", function () {
@@ -87,12 +88,12 @@ describe("Particle", function () {
 
     it('.uncollide()', function () {
         let ps = new ParticleSandbox()
-        let p1 = ps.addParticle({density: 1, mass: 2 * 2 * Math.PI, position: {x: -1, y: 0}})
-        let p2 = ps.addParticle({density: 1, mass: 2 * 2 * Math.PI, position: {x: 1, y: 0}})
-        p1.uncollide(p2)
-        expect(p1.position.x).to.equal(-2)
+        let p1 = ps.addParticle({density: 1, radius: 2, position: {x: -1, y: 0}})
+        let p2 = ps.addParticle({density: 1, radius: 2, position: {x: 1, y: 0}})
+        Particle.uncollide({particle1: p1, particle2: p2})
+        expect(p1.position.x).to.equal(-3)
         expect(p1.position.y).to.equal(0)
-        expect(p2.position.x).to.equal(2)
+        expect(p2.position.x).to.equal(1)
         expect(p2.position.y).to.equal(0)
 
         p1.position.x = 0
@@ -102,11 +103,11 @@ describe("Particle", function () {
         p1.updatePrevious()
         p2.updatePrevious()
 
-        p1.uncollide(p2)
+        Particle.uncollide({particle1: p1, particle2: p2})
         assertAlmostEqual(p1.position.x, 0)
-        expect(p1.position.y).to.equal(-2)
+        expect(p1.position.y).to.equal(-3)
         assertAlmostEqual(p2.position.x, 0)
-        expect(p2.position.y).to.equal(2)
+        expect(p2.position.y).to.equal(1)
 
         p1.position.x = 0
         p1.position.y = 0
@@ -115,9 +116,9 @@ describe("Particle", function () {
         p1.updatePrevious()
         p2.updatePrevious()
 
-        p1.uncollide(p2)
-        assertAlmostEqual(p1.position.x, -0.9142135623730949)
-        assertAlmostEqual(p1.position.y, -0.9142135623730949)
+        Particle.uncollide({particle1: p1, particle2: p2})
+        assertAlmostEqual(p1.position.x, -0.9142135623730951)
+        assertAlmostEqual(p1.position.y, -0.9142135623730951)
         assertAlmostEqual(p2.position.x, 1.9142135623730951)
         assertAlmostEqual(p2.position.y, 1.9142135623730951)
 
@@ -130,11 +131,20 @@ describe("Particle", function () {
         p1.updatePrevious()
         p2.updatePrevious()
 
-        p1.uncollide(p2)
+        Particle.uncollide({particle1: p1, particle2: p2})
         assertAlmostEqual(p1.position.x, 0)
         assertAlmostEqual(p1.position.y, -2.3333333333333335)
         assertAlmostEqual(p2.position.x, 0)
         assertAlmostEqual(p2.position.y, 3.6666666666666665)
+
+        p1 = ps.addParticle({density: 1, radius: 2, position: {x: -3, y: 0}})
+        p2 = ps.addParticle({density: 1, radius: 2, position: {x: 1, y: 0}})
+        Particle.exchangeMass({particle1: p1, particle2: p2})
+        Particle.uncollide({particle1: p1, particle2: p2})
+        expect(p1.position.x).to.equal(-2.999974874211677)
+        expect(p1.position.y).to.equal(0)
+        expect(p2.position.x).to.equal(0.9999751242257406)
+        expect(p2.position.y).to.equal(0)
     })
 
     it('.exchangeMass()', function () {
@@ -142,9 +152,13 @@ describe("Particle", function () {
         let initialMass = 10
         let p1          = ps.addParticle({density: 1, mass: initialMass, position: {x: -1, y: 0}})
         let p2          = ps.addParticle({density: 1, mass: initialMass * 2, position: {x: 1, y: 0}})
-        Particle.exchangeMass({particle1: p1, particle2: p2}, 1)
+        Particle.exchangeMass({particle1: p1, particle2: p2})
         expect(p1.mass).to.equal(9.8)
         expect(p2.mass).to.equal(20.2)
+        expect(p1.position.x).to.equal(-1)
+        expect(p1.position.y).to.equal(0)
+        expect(p2.position.x).to.equal(1)
+        expect(p2.position.y).to.equal(0)
     })
 
     it('.distributeVelocity()', function () {
@@ -186,9 +200,9 @@ describe("Particle", function () {
                 momentum: {x: -1, y: 0}
             })
 
-            p1.bounce(p2, 2)
-            expect(p1.momentum.x).to.equal(-1)
-            expect(p2.momentum.x).to.equal(1)
+            p1.bounce(p2)
+            expect(p1.momentum.x).to.equal(-1 * simulation.bouncePercentage)
+            expect(p2.momentum.x).to.equal(1 * simulation.bouncePercentage)
         })
         it('x, different size', function () {
             let ps = new ParticleSandbox()
@@ -205,9 +219,9 @@ describe("Particle", function () {
                 momentum: {x: -1, y: 0}
             })
 
-            p1.bounce(p2, 2)
-            expect(p1.momentum.x).to.equal(-1.6666666666666667)
-            expect(p2.momentum.x).to.equal(0.3333333333333333)
+            p1.bounce(p2)
+            expect(p1.momentum.x).to.equal(-1)
+            expect(p2.momentum.x).to.equal(0)
         })
         it('x2, same size', function () {
             let ps = new ParticleSandbox()
@@ -224,9 +238,9 @@ describe("Particle", function () {
                 momentum: {x: -3, y: 0}
             })
 
-            p1.bounce(p2, 2)
-            expect(p1.momentum.x).to.equal(-3)
-            expect(p2.momentum.x).to.equal(1)
+            p1.bounce(p2)
+            expect(p1.momentum.x).to.equal(-2)
+            expect(p2.momentum.x).to.equal(0)
         })
         it('y, same size', function () {
             let ps = new ParticleSandbox()
@@ -243,9 +257,9 @@ describe("Particle", function () {
                 momentum: {x: 0, y: -1}
             })
 
-            p1.bounce(p2, 2)
-            expect(p1.momentum.y).to.equal(-1)
-            expect(p2.momentum.y).to.equal(1)
+            p1.bounce(p2)
+            expect(p1.momentum.y).to.equal(-1 * simulation.bouncePercentage)
+            expect(p2.momentum.y).to.equal(1 * simulation.bouncePercentage)
         })
         it('xy, same size', function () {
             let ps = new ParticleSandbox()
@@ -262,11 +276,11 @@ describe("Particle", function () {
                 momentum: {x: -1, y: -1}
             })
 
-            p1.bounce(p2, 2)
-            expect(p1.momentum.x).to.equal(-1.0000000000000002)
-            expect(p1.momentum.y).to.equal(-1)
-            expect(p2.momentum.x).to.equal(1.0000000000000004)
-            expect(p2.momentum.y).to.equal(0.9999999999999999)
+            p1.bounce(p2)
+            expect(p1.momentum.x).to.equal(-.5)
+            expect(p1.momentum.y).to.equal(-.5)
+            expect(p2.momentum.x).to.be.lte(0.5000000000000004)
+            expect(p2.momentum.y).to.equal(.5)
         })
         it('xy2, same size', function () {
             let ps = new ParticleSandbox()
@@ -283,11 +297,11 @@ describe("Particle", function () {
                 momentum: {x: -1, y: -1}
             })
 
-            p1.bounce(p2, 2)
+            p1.bounce(p2)
             expect(p1.momentum.x).to.equal(0.9999999999999999)
-            expect(p1.momentum.y).to.equal(-1.0000000000000004)
+            expect(p1.momentum.y).to.equal(-0.5000000000000004)
             expect(p2.momentum.x).to.equal(-0.9999999999999999)
-            expect(p2.momentum.y).to.equal(1.0000000000000004)
+            expect(p2.momentum.y).to.equal(0.5000000000000004)
         })
         it('xy3, same size', function () {
             let ps = new ParticleSandbox()
@@ -304,10 +318,10 @@ describe("Particle", function () {
                 momentum: {x: -1, y: -1}
             })
 
-            p1.bounce(p2, 2)
-            expect(p1.momentum.x).to.equal(-0.9999999999999998)
+            p1.bounce(p2)
+            expect(p1.momentum.x).to.equal(-0.4999999999999998)
             expect(p1.momentum.y).to.equal(1)
-            expect(p2.momentum.x).to.equal(1.0000000000000002)
+            expect(p2.momentum.x).to.equal(.5)
             expect(p2.momentum.y).to.equal(-1.0000000000000002)
         })
     })

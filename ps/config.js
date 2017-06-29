@@ -4,8 +4,10 @@ module.exports = {
         zoomMax: 2,
     },
     simulation : {
-        gravityStrength: 200,
-        gravityExponent: 2,
+        gravityStrength : 200,
+        gravityExponent : 2,
+        bouncePercentage: .5,
+        absorbRate      : .01
     },
     performance: {
         updateFrequency1  : 1,
