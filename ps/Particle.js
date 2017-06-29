@@ -169,7 +169,7 @@ class Particle extends AppObject {
      */
     static uncollide({particle1, particle2, angle}) {
         angle = angle || angles.angle(particle1.position.x, particle1.position.y, particle2.position.x, particle2.position.y)
-        if (particle1.density > particle2.density) {
+        if (particle1.mass > particle2.mass) {
             particle2.position.x = particle1.position.x + Math.cos(angle) * (particle1.radius + particle2.radius)
             particle2.position.y = particle1.position.y + Math.sin(angle) * (particle1.radius + particle2.radius)
         } else {
@@ -206,18 +206,18 @@ class Particle extends AppObject {
 
     // TODO: Look through this again, might have some small bugs in it.
     // https://en.wikipedia.org/wiki/Elastic_collision#Two-_and_three-dimensional
-    bounce(other) {
-        let totalMass = this.mass + other.mass
+    static bounce({particle1, particle2}) {
+        let totalMass = particle1.mass + particle2.mass
 
-        let a1 = Particle.calculateAngle({x: 0, y: 0}, this.momentum)
-        let m1 = this.mass
-        let v1 = Particle.calculateSpeed(this.momentum.x, this.momentum.y)
+        let a1 = Particle.calculateAngle({x: 0, y: 0}, particle1.momentum)
+        let m1 = particle1.mass
+        let v1 = Particle.calculateSpeed(particle1.momentum.x, particle1.momentum.y)
 
-        let a2 = Particle.calculateAngle({x: 0, y: 0}, other.momentum)
-        let m2 = other.mass
-        let v2 = Particle.calculateSpeed(other.momentum.x, other.momentum.y)
+        let a2 = Particle.calculateAngle({x: 0, y: 0}, particle2.momentum)
+        let m2 = particle2.mass
+        let v2 = Particle.calculateSpeed(particle2.momentum.x, particle2.momentum.y)
 
-        let contactAngle = Particle.calculateAngle(this.position, other.position)
+        let contactAngle = Particle.calculateAngle(particle1.position, particle2.position)
 
         const calcX = (a1, m1, v1, a2, m2, v2) => {
             return ((v1 * Math.cos(a1 - contactAngle) * (m1 - m2) +
@@ -236,15 +236,15 @@ class Particle extends AppObject {
         let v2y = calcY(a2, m2, v2, a1, m1, v1)
 
 
-        let change1x = (v1x - this.momentum.x)
-        let change1y = (v1y - this.momentum.y)
-        let change2x = (v2x - other.momentum.x)
-        let change2y = (v2y - other.momentum.y)
+        let change1x = (v1x - particle1.momentum.x)
+        let change1y = (v1y - particle1.momentum.y)
+        let change2x = (v2x - particle2.momentum.x)
+        let change2y = (v2y - particle2.momentum.y)
 
-        this.momentum.x += change1x * (simulation.bouncePercentage * .5)
-        this.momentum.y += change1y * (simulation.bouncePercentage * .5)
-        other.momentum.x += change2x * (simulation.bouncePercentage * .5)
-        other.momentum.y += change2y * (simulation.bouncePercentage * .5)
+        particle1.momentum.x += change1x * ((simulation.bouncePercentage / 2) + .5)
+        particle1.momentum.y += change1y * ((simulation.bouncePercentage / 2) + .5)
+        particle2.momentum.x += change2x * ((simulation.bouncePercentage / 2) + .5)
+        particle2.momentum.y += change2y * ((simulation.bouncePercentage / 2) + .5)
     }
 
 }

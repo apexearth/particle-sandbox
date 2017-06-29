@@ -13,18 +13,6 @@ describe('ParticleSandbox', () => {
         }
     })
 
-    it('two particles, dominant particle should not move', () => {
-        let p1 = ps.addParticle({density: 1, radius: 2, position: {x: -2, y: 0}})
-        let p2 = ps.addParticle({density: 1, radius: 2, position: {x: 2, y: 0}})
-        ps.update(1 / 60)
-        let i  = 1000
-        while (i--) {
-            ps.update(1 / 60)
-            expect(Math.abs(p2.position.x - 2)).to.be.lt(.00001)
-            expect(p2.position.y).to.be.lt(.00001)
-        }
-    })
-
     it('.addParticle()', () => {
         ps.addParticle({position: {x: 1, y: 2}})
         let p1 = ps.particles[0]

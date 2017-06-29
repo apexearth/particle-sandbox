@@ -71,9 +71,9 @@ class ParticleSandbox extends App {
 
             Particle.exchangeMass(collision)
             if (!collision.pair.previouslyCollided) {
-                collision.particle1.bounce(collision.particle2)
+                Particle.bounce(collision)
+                Particle.uncollide(collision)
             }
-            Particle.uncollide(collision)
             collision.pair.previouslyCollided = true
         })
         this.particles.forEach(particle => {
