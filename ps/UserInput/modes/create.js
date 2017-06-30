@@ -3,6 +3,7 @@ const processor = require('./processor')
 const settings = {
     initialRadius: 2,
     growthRate   : 10,
+    density      : .75
 }
 
 module.exports = {
@@ -15,13 +16,13 @@ module.exports = {
                 state.start.x  = x
                 state.start.y  = y
                 state.finish   = {}
-                state.particle = ps.previewParticle()
+                state.particle = ps.previewParticle({density: settings.density})
             },
             onUpdate  : (seconds, state, ps, {x, y}) => {
                 state.finish.x = x
                 state.finish.y = y
 
-                if (Math.sqrt(Math.pow(state.finish.x - state.start.x, 2) + Math.pow(state.finish.y - state.start.y, 2)) < 10) {
+                if (Math.sqrt(Math.pow(state.finish.x - state.start.x, 2) + Math.pow(state.finish.y - state.start.y, 2)) < 20) {
                     state.timeHeld += seconds
                 }
                 state.particle.position.x = (state.start.x - ps.position.x) / ps.scale.x

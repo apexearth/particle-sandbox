@@ -7,13 +7,15 @@ const Generator              = require('./Generator')
 const Particle               = require('./Particle')
 const ParticlePair           = require('./ParticlePair')
 const ParticlePairLinkedList = require('./ParticlePairLinkedList')
+const StatsHistory           = require('./StatsHistory')
+const PopulationManager      = require('./PopulationManager')
 const stats                  = require('./stats')
-const {performance}          = require('./config')
 
 const UserInput = require('./UserInput')
 const {
           view,
-          simulation
+          simulation,
+          performance
       }         = require('./config')
 
 
@@ -36,6 +38,9 @@ class ParticleSandbox extends App {
         this.modes      = {
             followSelection: true
         }
+
+        this.statsHistory      = new StatsHistory(stats)
+        this.populationManager = new PopulationManager(this, stats, this.statsHistory)
     }
 
     get stats() {
@@ -57,16 +62,19 @@ class ParticleSandbox extends App {
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1)
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
         this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3)
+
         this.objects.forEach(object => object.update(seconds))
+
         this.collisions.forEach(collision => {
             if (collision.particle1.mass <= 0) return
             if (collision.particle2.mass <= 0) return
+
             Particle.exchangeMass(collision)
             if (!collision.pair.previouslyCollided) {
-                collision.particle1.bounce(collision.particle2)
-                collision.particle1.uncollide(collision.particle2)
-                collision.pair.previouslyCollided = true
+                Particle.bounce(collision)
+                Particle.uncollide(collision)
             }
+            collision.pair.previouslyCollided = true
         })
         this.particles.forEach(particle => {
             if (particle.mass <= 0) {
@@ -74,6 +82,10 @@ class ParticleSandbox extends App {
             }
         })
         this.collisions = []
+
+        stats.update(seconds, this)
+        this.statsHistory.update(seconds)
+        this.populationManager.update(seconds)
 
         if (this.modes.followSelection && this.selectedObjects.length) {
             let position = {
@@ -182,7 +194,7 @@ class ParticleSandbox extends App {
     addParticles(count) {
         for (let i = 0; i < count; i++) {
             this.addParticle({
-                mass    : 20 + Math.random() * 10,
+                radius  : 2 + Math.random() * 4,
                 position: {
                     x: 2500 * Math.random() - 1250,
                     y: 2500 * Math.random() - 1250,
@@ -191,7 +203,7 @@ class ParticleSandbox extends App {
         }
     }
 
-    removeParticle(particle) {
+    _removeParticle(particle) {
         let index = this.particles.indexOf(particle)
         if (index >= 0) {
             this.particles.splice(index, 1)
@@ -200,7 +212,7 @@ class ParticleSandbox extends App {
     }
 
     addGenerator(generator, options) {
-        if (!generator || generator.constructor !== Particle) {
+        if (!generator || generator.constructor !== Generator) {
             options   = generator || {position: {x: Math.random() * 100, y: Math.random() * 100}}
             generator = new Generator(Object.assign({
                 parent: this
@@ -226,7 +238,7 @@ class ParticleSandbox extends App {
     remove(object) {
         super.remove(object)
         if (object.type === 'particle') {
-            this.removeParticle(object)
+            this._removeParticle(object)
         } else if (object.type === 'generator') {
             this.removeGenerator(object)
         }

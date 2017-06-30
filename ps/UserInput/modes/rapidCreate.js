@@ -5,6 +5,7 @@ const settings = {
     delay    : .01,
     momentumX: 0,
     momentumY: 0,
+    density  : .75,
 }
 
 module.exports = {
@@ -17,6 +18,7 @@ module.exports = {
                     state.secondsSinceLastAdd = 0
                     state.stage               = 1
                     let particle              = ps.addParticle({
+                        density : settings.density,
                         position: {
                             x: (x - ps.position.x) / ps.scale.x,
                             y: (y - ps.position.y) / ps.scale.y

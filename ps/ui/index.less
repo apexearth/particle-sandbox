@@ -312,22 +312,6 @@ a, a:visited, a:hover, a:active {
   height: @menu-button-size;
 }
 
-#link-original {
-  display: none;
-}
-
-@media (min-width: 750px) {
-  #link-original {
-    display: block;
-    color: fade(@base, 70%);
-    font-size: smaller;
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin: 4px;
-  }
-}
-
 #top-left {
   position: fixed;
 }
@@ -343,6 +327,13 @@ a, a:visited, a:hover, a:active {
   position: fixed;
   display: flex;
   bottom: 0;
+}
+
+#bottom-right {
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  right: 0;
 }
 
 #share-buttons {
@@ -372,3 +363,15 @@ a, a:visited, a:hover, a:active {
   }
 }
 
+#ad-space {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  z-index: 10000;
+}
+
+#version {
+  cursor: default;
+  padding-right: 5px;
+}

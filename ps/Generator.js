@@ -8,6 +8,8 @@ const defaultSettings = {
     speed       : 5,
     minDirection: 0,
     maxDirection: 360,
+    minDensity  : .5,
+    maxDensity  : 1,
     range       : 0
 }
 
@@ -38,6 +40,7 @@ class Generator extends AppObject {
             this.state.delay = 0
             for (let i = 0; i < this.settings.count; i++) {
                 this.parent.addParticle({
+                    density : this.settings.minDensity + Math.random() * (this.settings.maxDensity - this.settings.minDensity),
                     position: {
                         x: this.position.x - this.settings.range + (Math.random() * this.settings.range * 2),
                         y: this.position.y - this.settings.range + (Math.random() * this.settings.range * 2)
