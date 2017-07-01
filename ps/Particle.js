@@ -106,10 +106,19 @@ class Particle extends AppObject {
         if (pair.distance === 0) return
         let pull   = Math.pow(pair.distance, simulation.gravityExponent) / simulation.gravityStrength
         let {x, y} = Particle.calculateDirection(pair.particle1.position, pair.particle2.position)
-        pair.particle1.momentum.x -= pair.particle2.mass * x / pull * pair.age
-        pair.particle1.momentum.y -= pair.particle2.mass * y / pull * pair.age
-        pair.particle2.momentum.x -= -pair.particle1.mass * x / pull * pair.age
-        pair.particle2.momentum.y -= -pair.particle1.mass * y / pull * pair.age
+        x *= pair.age
+        y *= pair.age
+        pair.particle1.momentum.x -= pair.particle2.mass * x / pull
+        pair.particle1.momentum.y -= pair.particle2.mass * y / pull
+        pair.particle2.momentum.x -= -pair.particle1.mass * x / pull
+        pair.particle2.momentum.y -= -pair.particle1.mass * y / pull
+        if (simulation.gravityStrength2) {
+            let pull2 = Math.pow(pair.distance, simulation.gravityExponent2) / simulation.gravityStrength2
+            pair.particle1.momentum.x -= pair.particle2.mass * x / pull2
+            pair.particle1.momentum.y -= pair.particle2.mass * y / pull2
+            pair.particle2.momentum.x -= -pair.particle1.mass * x / pull2
+            pair.particle2.momentum.y -= -pair.particle1.mass * y / pull2
+        }
     }
 
     updateCollisions(pair) {

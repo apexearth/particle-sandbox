@@ -6,6 +6,8 @@ module.exports = {
     simulation : {
         gravityStrength : 200,
         gravityExponent : 2,
+        gravityStrength2: 0,
+        gravityExponent2: 3,
         bouncePercentage: .5,
         absorbRate      : .01
     },
