@@ -7,7 +7,7 @@ const inputs          = require('./inputs')
 const ps    = new ParticleSandbox()
 ui.initialize(ps)
 
-const renderer = apex.createRenderer(ps, {rendererOptions: {preserveDrawingBuffer: true, clearBeforeRender: false}})
+const renderer = apex.createRenderer(ps)
 inputs.initialize(renderer.view)
 
 ps.renderer = renderer

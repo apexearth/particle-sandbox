@@ -1,7 +1,6 @@
 const _window = require('./window')
 
 const {
-          PIXI,
           App
       }                      = require('apex-app')
 const Generator              = require('./Generator')
@@ -24,7 +23,6 @@ class ParticleSandbox extends App {
     constructor(options) {
         super(Object.assign({view}, options))
 
-        this.renderer             = {clear: () => undefined} // Mock, replaced in ./index.js
         this.particles            = []
         this.pairs                = [
             new ParticlePairLinkedList(),
@@ -43,7 +41,6 @@ class ParticleSandbox extends App {
 
         this.statsHistory      = new StatsHistory(stats)
         this.populationManager = new PopulationManager(this, stats, this.statsHistory)
-        this.initializeFade()
     }
 
     get stats() {
@@ -61,8 +58,6 @@ class ParticleSandbox extends App {
         this.updateZoom(seconds)
 
         if (this.paused) return
-
-        this.updateFade(seconds)
 
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1)
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
@@ -247,44 +242,6 @@ class ParticleSandbox extends App {
         } else if (object.type === 'generator') {
             this.removeGenerator(object)
         }
-    }
-
-    initializeFade() {
-        this.fadeState              = {
-            count: 0
-        }
-        this.fadeGraphics           = new PIXI.Graphics()
-        this.fadeGraphics.blendMode = PIXI.BLEND_MODES.EXCLUSION
-        this.root.addChild(this.fadeGraphics)
-        this.fadeGraphics.beginFill(0x000000, 0.1)
-        this.fadeGraphics.drawRect(0, 0, this.screenWidth, this.screenHeight)
-        this.fadeGraphics.endFill()
-        this.on('zoom', () => this.renderer.clear())
-    }
-
-    updateFade(seconds) {
-        this.fadeState.count += seconds
-        if (this.fadeState.count >= view.fadeRate) {
-            this.fadeState.count      = 0
-            this.fadeGraphics.visible = true
-        } else {
-            this.fadeGraphics.visible = false
-        }
-    }
-
-    select(x1, y1, x2, y2, additive = false) {
-        super.select(x1, y1, x2, y2, additive)
-        ps.renderer.clear()
-    }
-
-    selectAll() {
-        super.selectAll()
-        ps.renderer.clear()
-    }
-
-    deselectAll() {
-        super.deselectAll()
-        ps.renderer.clear()
     }
 }
 
