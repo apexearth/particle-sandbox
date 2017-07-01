@@ -1,14 +1,21 @@
-const {version}          = require('../package.json')
-const {renderer}         = require('apex-app')
-const ui                 = require('./ui')
-const ParticleSandbox    = require('./ParticleSandbox')
-const input              = require('./inputs')
-const ps                 = new ParticleSandbox()
+const {version}       = require('../package.json')
+const apex            = require('apex-app')
+const ui              = require('./ui')
+const ParticleSandbox = require('./ParticleSandbox')
+const inputs          = require('./inputs')
 
+const ps    = new ParticleSandbox()
 ui.initialize(ps)
-renderer.initialize(ps, input)
 
-if (typeof window !== 'undefined') window.ps = ps
+const renderer = apex.createRenderer(ps, {rendererOptions: {preserveDrawingBuffer: true, clearBeforeRender: false}})
+inputs.initialize(renderer.view)
+
+ps.renderer = renderer
+
+if (typeof window !== 'undefined') {
+    window.ps       = ps
+    window.renderer = renderer
+}
 
 const addParticles = () => {
     ps.addParticles(20)

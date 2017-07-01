@@ -37,13 +37,16 @@ class UserInput {
         UserInput.modes[this.mode].update(seconds, this.state, ps)
 
         // Scrolling
-        if (touchState.previous.count == 2 && touchState.current.count == 2) {
+        if (touchState.previous.count === 2 && touchState.current.count === 2) {
             container.position.x -= touchState.difference.midpointX
             container.position.y -= touchState.difference.midpointY
             ps.zoom -= (touchState.difference.distance / (ps.screenWidth + ps.screenHeight) / 2) / (1 / (ps.zoom || .1)) * 10
         }
 
         if (inputs('mouse2')) {
+            if (Math.abs(inputs('mouseX') - this.lastMouseX) + Math.abs(inputs('mouseY') - this.lastMouseY) > 2) {
+                ps.renderer.clear()
+            }
             container.position.x += inputs('mouseX') - this.lastMouseX
             container.position.y += inputs('mouseY') - this.lastMouseY
         }
@@ -57,15 +60,19 @@ class UserInput {
             let scrollSpeed = 6
             if (inputs('up')) {
                 container.position.y += scrollSpeed
+                ps.renderer.clear()
             }
             if (inputs('down')) {
                 container.position.y -= scrollSpeed
+                ps.renderer.clear()
             }
             if (inputs('left')) {
                 container.position.x += scrollSpeed
+                ps.renderer.clear()
             }
             if (inputs('right')) {
                 container.position.x -= scrollSpeed
+                ps.renderer.clear()
             }
             let zoomSpeed = .005
             if (inputs('zoomOut')) {

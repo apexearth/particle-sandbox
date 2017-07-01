@@ -1,13 +1,8 @@
-const userInput      = require('user-input')
-const Mapping        = require('user-input-mapping')
-const {view}         = require('apex-app').renderer
-
-const keyboardTarget = typeof document !== 'undefined' ? document.body : undefined
+const userInput = require('user-input')
+const Mapping   = require('user-input-mapping')
 
 const inputs = userInput()
-    .withMouse(view)
-    .withKeyboard(keyboardTarget)
-    .withTouch(view)
+
 
 const mapping = new Mapping(
     inputs,
@@ -34,11 +29,18 @@ const mapping = new Mapping(
         }
     }, false)
 
-const value    = mapping.value.bind(mapping)
-const clear    = mapping.clear.bind(mapping)
-const update   = mapping.update.bind(mapping)
-value.clear    = clear
-value.update   = update
-value.mapping  = mapping
-value.inputs   = inputs
-module.exports = value
+const value               = mapping.value.bind(mapping)
+const clear               = mapping.clear.bind(mapping)
+const update              = mapping.update.bind(mapping)
+module.exports            = value
+module.exports.clear      = clear
+module.exports.update     = update
+module.exports.mapping    = mapping
+module.exports.inputs     = inputs
+module.exports.initialize = (view) => {
+    const keyboardTarget = typeof document !== 'undefined' ? document.body : undefined
+    inputs
+        .withMouse(view)
+        .withKeyboard(keyboardTarget)
+        .withTouch(view)
+}
