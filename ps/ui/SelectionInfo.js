@@ -27,6 +27,14 @@ class SelectionInfo extends React.Component {
                         <td>mass:</td>
                         <td>{stats.mass.toFixed(2)} ({stats.averageMass.toFixed(2)} avg)</td>
                     </tr>
+                    <tr>
+                        <td>density:</td>
+                        <td>{stats.averageDensity.toFixed(2)} avg</td>
+                    </tr>
+                    <tr>
+                        <td>heat:</td>
+                        <td>{stats.heat.toFixed(2)} ({stats.averageHeat.toFixed(2)} avg)</td>
+                    </tr>
                     </tbody>
                 </table>
                 <Button onClick={selectionInfo.toggleFollowSelection}
@@ -46,7 +54,10 @@ class SelectionInfo extends React.Component {
                 x: 0, y: 0
             },
             mass       : 0,
-            averageMass: 0
+            averageMass: 0,
+            averageDensity: 0,
+            heat       : 0,
+            averageHeat: 0,
         }
         for (let p of ps.selectedObjects) {
             stats.position.x += p.position.x
@@ -56,6 +67,9 @@ class SelectionInfo extends React.Component {
                 stats.momentum.y += p.momentum.y
                 stats.mass += p.mass
                 stats.averageMass += p.mass
+                stats.averageDensity += p.density
+                stats.heat += p.heat
+                stats.averageHeat += p.heat
             }
         }
         stats.position.x /= count
@@ -63,6 +77,8 @@ class SelectionInfo extends React.Component {
         stats.momentum.x /= count
         stats.momentum.y /= count
         stats.averageMass /= count
+        stats.averageDensity /= count
+        stats.averageHeat /= count
         return stats
     }
 }

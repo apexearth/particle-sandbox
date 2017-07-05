@@ -59,6 +59,7 @@ class ParticleSandbox extends App {
 
         if (this.paused) return
 
+
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1)
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
         this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3)

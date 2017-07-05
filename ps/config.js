@@ -9,7 +9,8 @@ module.exports = {
         gravityStrength2: 0,
         gravityExponent2: 3,
         bouncePercentage: .5,
-        absorbRate      : .01
+        absorbRate      : .01,
+        heatRate        : 1,
     },
     performance: {
         updateFrequency1  : 1,
@@ -19,6 +20,6 @@ module.exports = {
         distanceThreshold3: 75
     },
     limits     : {
-        minFpsBeforeAutoRemoval: 30
+        minFpsBeforeAutoRemoval: 10
     }
 }

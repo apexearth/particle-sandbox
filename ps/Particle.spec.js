@@ -41,14 +41,14 @@ describe("Particle", function () {
         }
 
         expect(p1.mass).to.equal(12.692034320502763)
-        expect(p1.position.x).to.equal(2.984410383408466)
-        expect(p1.position.y).to.equal(1.8968843338174762e-16)
-        expect(p1.momentum.x).to.equal(10.857725609556585)
-        expect(p1.momentum.y).to.equal(1.8595598436272682e-15)
-        expect(p2.position.x).to.equal(-3.6275895164640173)
-        expect(p2.position.y).to.equal(2.831047552599899e-18)
-        expect(p2.momentum.x).to.equal(-11.39456513584432)
-        expect(p2.momentum.y).to.equal(6.638899582105951e-17)
+        expect(p1.position.x).to.equal(2.9844103834084637)
+        expect(p1.position.y).to.equal(1.8968843338174784e-16)
+        expect(p1.momentum.x).to.equal(10.857725609556603)
+        expect(p1.momentum.y).to.equal(1.85955984362727e-15)
+        expect(p2.position.x).to.equal(-3.6275895164640235)
+        expect(p2.position.y).to.equal(2.8310475525998994e-18)
+        expect(p2.momentum.x).to.equal(-11.394565135844337)
+        expect(p2.momentum.y).to.equal(6.63889958210595e-17)
     })
 
     it('.select() & .deselect()', function () {
@@ -325,6 +325,22 @@ describe("Particle", function () {
             expect(p2.momentum.x).to.equal(1)
             expect(p2.momentum.y).to.equal(-1.0000000000000002)
         })
+    })
+
+    describe('heat', function () {
+        it("self generated", function () {
+            let ps = new ParticleSandbox()
+
+            let p = ps.addParticle({
+                density : 1,
+                mass    : 1000,
+                momentum: {x: 0, y: 0}
+            })
+            expect(p.heat).to.equal(0)
+            ps.update(.01)
+            expect(p.heat).to.equal(.01)
+        })
+
     })
 })
 

@@ -4,10 +4,10 @@ const ui              = require('./ui')
 const ParticleSandbox = require('./ParticleSandbox')
 const inputs          = require('./inputs')
 
-const ps    = new ParticleSandbox()
+const ps = new ParticleSandbox()
 ui.initialize(ps)
 
-const renderer = apex.createRenderer(ps)
+const renderer = apex.createRenderer(ps, {})
 inputs.initialize(renderer.view)
 
 ps.renderer = renderer
