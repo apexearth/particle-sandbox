@@ -18,7 +18,7 @@
     "package-standalone-darwin-x64": "electron-packager  . --out standalones --platform=darwin --arch=x64  --ignore=ps/",
     "package-standalone-win32-ia32": "electron-packager  . --out standalones --platform=win32  --arch=ia32 --ignore=ps/",
     "package-standalone-darwin-ia32": "electron-packager . --out standalones --platform=darwin --arch=ia32 --ignore=ps/",
-    "publish": "npm-run-all test build upload",
+    "publish": "npm-run-all test build upload upload-version",
     "publish-develop": "npm-run-all test build upload-develop"
   },
   "eslintConfig": {
