@@ -103,21 +103,33 @@ class Particle extends AppObject {
 
     updateHeat(seconds) {
         this.heat += this.mass * (this.density - this.density_prev) * seconds * simulation.heatRate
-        this.heat *= (1 - .01 * seconds * simulation.heatRate)
+        this.heat *= 1 - ((this.heat / this.mass) * (simulation.heatRate / 1000) * seconds)
         if (this.heat > 250) {
             if (!this.heatFilter) {
-                this.heatFilter        = new PIXI.filters.BlurFilter()
-                this.heatFilter2       = new PIXI.filters.ColorMatrixFilter()
+                if (typeof window !== 'undefined') {
+                    this.voidFilter  = new PIXI.filters.VoidFilter()
+                    this.heatFilter  = new PIXI.filters.BlurFilter()
+                    this.heatFilter2 = new PIXI.filters.ColorMatrixFilter()
+                } else {
+                    this.voidFilter  = {}
+                    this.heatFilter  = {}
+                    this.heatFilter2 = {saturate: () => undefined, brightness: () => undefined}
+                }
                 this.container.filters = [
+                    this.voidFilter,
                     this.heatFilter,
                     this.heatFilter2,
                 ]
             }
             this.heatFilter.blur    = Math.min(this.radius / 2, this.heat / 250 - 1) * this.parent.scale.x
-            this.heatFilter.quality = this.heatFilter.blur
-            this.heatFilter.padding = Math.ceil(this.heatFilter.blur * 20)
+            this.heatFilter.quality = this.heatFilter.blur * 3
+            this.voidFilter.padding = Math.ceil(this.heatFilter.blur * 3)
             this.heatFilter2.saturate(this.heat / 500 - .5)
             this.heatFilter2.brightness(.75 + this.heat / 1000)
+        } else if (this.heatFilter) {
+            this.container.filters = null
+            this.heatFilter        = null
+            this.heatFilter2       = null
         }
     }
 
@@ -225,13 +237,13 @@ class Particle extends AppObject {
         if (particle1.density > particle2.density) {
             let transferPercentage = Math.min(1, (particle1.mass / particle2.mass) * particle2.density * amount * simulation.absorbRate)
             let transferAmount     = Math.min(particle2.mass, Math.max(particle2.mass * transferPercentage, 0.1))
-            particle1.heat += (particle2.heat - particle1.heat) * (transferAmount / particle1.mass)
+            particle1.heat += (particle2.heat - particle1.heat) * (transferAmount / particle1.mass) * particle2.mass / 1000
             particle1.mass += transferAmount
             particle2.mass -= transferAmount
         } else {
             let transferPercentage = Math.min(1, (particle2.mass / particle1.mass) * particle1.density * amount * simulation.absorbRate)
             let transferAmount     = Math.min(particle1.mass, Math.max(particle1.mass * transferPercentage, 0.1))
-            particle2.heat += (particle1.heat - particle2.heat) * (transferAmount / particle2.mass)
+            particle2.heat += (particle1.heat - particle2.heat) * (transferAmount / particle2.mass) * particle1.mass / 1000
             particle1.mass -= transferAmount
             particle2.mass += transferAmount
         }
@@ -286,8 +298,8 @@ class Particle extends AppObject {
         let change2x = (v2x - particle2.momentum.x)
         let change2y = (v2y - particle2.momentum.y)
 
-        particle1.heat += Math.abs(Math.sqrt(change1x * change1x + change1y * change1y)) * simulation.heatRate
-        particle2.heat += Math.abs(Math.sqrt(change2x * change2x + change2y * change2y)) * simulation.heatRate
+        particle1.heat += Math.abs(Math.sqrt(change1x * change1x + change1y * change1y)) / 100 * simulation.heatRate
+        particle2.heat += Math.abs(Math.sqrt(change2x * change2x + change2y * change2y)) / 100 * simulation.heatRate
 
         particle1.momentum.x += change1x * ((simulation.bouncePercentage / 2) + .5)
         particle1.momentum.y += change1y * ((simulation.bouncePercentage / 2) + .5)

@@ -335,10 +335,13 @@ describe("Particle", function () {
                 momentum: {x: 0, y: 0}
             })
             expect(p.heat).to.equal(0)
-            ps.update(.01)
-            expect(p.heat).to.equal(.01)
+            p.density_prev = p.density - .01
+            let i          = 100
+            while (i--) {
+                p.updateHeat(1)
+            }
+            expect(p.heat).to.be.gt(1)
         })
-
     })
 })
 
