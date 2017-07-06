@@ -9,9 +9,10 @@ class Particle extends AppObject {
         super({parent, position, momentum})
         this.type = 'particle'
 
-        this.color   = Particle.particleColor
-        this.density = density || Math.max(.1, Math.random() * Math.random())
-        this.heat    = 0
+        this.color        = Particle.particleColor
+        this.density      = density || Math.max(.1, Math.random() * Math.random())
+        this.density_prev = this.density
+        this.heat         = 0
         if (radius) {
             this.radius = radius
         } else {
@@ -87,9 +88,8 @@ class Particle extends AppObject {
     update(seconds) {
         this.updateHeat(seconds)
         super.update(seconds)
-        if (this.density < 1) {
-            this.density += this.density * seconds * this.mass / 100000
-        }
+        this.density_prev = this.density
+        this.density += seconds * Math.sqrt(this.mass) / 100000
         if (this.mass <= 1) {
             this.mass -= seconds
         }
@@ -102,22 +102,20 @@ class Particle extends AppObject {
     }
 
     updateHeat(seconds) {
-        this.heat += this.mass * seconds / 1000 * simulation.heatRate
+        this.heat += this.mass * (this.density - this.density_prev) * seconds * simulation.heatRate
         this.heat *= (1 - .01 * seconds * simulation.heatRate)
         if (this.heat > 250) {
             if (!this.heatFilter) {
-                this.heatFilter         = new PIXI.filters.BlurFilter()
-                this.heatFilter.quality = 5
-                this.heatFilter2        = new PIXI.filters.ColorMatrixFilter()
-                this.voidFilter         = new PIXI.filters.VoidFilter()
-                this.container.filters  = [
-                    this.voidFilter,
+                this.heatFilter        = new PIXI.filters.BlurFilter()
+                this.heatFilter2       = new PIXI.filters.ColorMatrixFilter()
+                this.container.filters = [
                     this.heatFilter,
-                    this.heatFilter2
+                    this.heatFilter2,
                 ]
             }
             this.heatFilter.blur    = Math.min(this.radius / 2, this.heat / 250 - 1) * this.parent.scale.x
-            this.voidFilter.padding = Math.ceil(this.heatFilter.blur * 2)
+            this.heatFilter.quality = this.heatFilter.blur
+            this.heatFilter.padding = Math.ceil(this.heatFilter.blur * 20)
             this.heatFilter2.saturate(this.heat / 500 - .5)
             this.heatFilter2.brightness(.75 + this.heat / 1000)
         }

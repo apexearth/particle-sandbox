@@ -40,15 +40,13 @@ describe("Particle", function () {
             limit--
         }
 
-        expect(p1.mass).to.equal(12.692034320502763)
-        expect(p1.position.x).to.equal(2.9844103834084637)
-        expect(p1.position.y).to.equal(1.8968843338174784e-16)
-        expect(p1.momentum.x).to.equal(10.857725609556603)
-        expect(p1.momentum.y).to.equal(1.85955984362727e-15)
-        expect(p2.position.x).to.equal(-3.6275895164640235)
-        expect(p2.position.y).to.equal(2.8310475525998994e-18)
-        expect(p2.momentum.x).to.equal(-11.394565135844337)
-        expect(p2.momentum.y).to.equal(6.63889958210595e-17)
+        expect(p1.mass).to.be.gt(12)
+        expect(p1.position.x).to.gt(2)
+        expect(p1.position.x).to.lt(3)
+        expect(p1.momentum.x).to.gt(10)
+        expect(p2.position.x).to.gt(-4)
+        expect(p2.position.x).to.lt(-3)
+        expect(p2.momentum.x).to.lt(-11)
     })
 
     it('.select() & .deselect()', function () {
