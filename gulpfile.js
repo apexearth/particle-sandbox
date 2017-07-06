@@ -1,18 +1,25 @@
 const gulp = require('gulp')
 const s3   = require('gulp-s3-upload')({useIAM: true})
 
-gulp.task("upload", function () {
-    gulp.src([
-        "./build/**",
-        "./css/**",
-        "./fonts/**",
-        "./index.html",
-    ], {base: './'})
-        .pipe(s3({
-            Bucket: 'particlesandbox.com',
-            ACL   : 'public-read'
-        }, {
-            // S3 Constructor Options, ie:
-            maxRetries: 5
-        }))
-})
+uploadTask("upload", "")
+uploadTask("upload-develop", "develop/")
+
+function uploadTask(name, prefix) {
+    gulp.task(name, function () {
+        gulp.src([
+            "./build/**",
+            "./css/**",
+            "./fonts/**",
+            "./index.html",
+        ], {base: './'})
+            .pipe(s3({
+                Bucket      : 'particlesandbox.com',
+                ACL         : 'public-read',
+                keyTransform: file => prefix + file
+            }, {
+                // S3 Constructor Options, ie:
+                maxRetries: 5
+            }))
+    })
+
+}
