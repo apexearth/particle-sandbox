@@ -342,6 +342,27 @@ describe("Particle", function () {
             }
             expect(p.heat).to.be.gt(1)
         })
+        it('bounce generates heat', function () {
+            let ps = new ParticleSandbox()
+            let p1 = ps.addParticle({
+                density : 1,
+                radius  : 1,
+                position: {x: 0, y: 0},
+                momentum: {x: 1, y: 0}
+            })
+            let p2 = ps.addParticle({
+                density : 1,
+                radius  : 1,
+                position: {x: 2, y: 0},
+                momentum: {x: -1, y: 0}
+            })
+
+            expect(p1.heat).to.equal(0)
+            expect(p2.heat).to.equal(0)
+            Particle.bounce({particle1: p1, particle2: p2})
+            expect(p1.heat).to.be.gt(0)
+            expect(p2.heat).to.be.gt(0)
+        })
     })
 })
 
