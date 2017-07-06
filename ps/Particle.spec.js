@@ -341,6 +341,7 @@ describe("Particle", function () {
                 p.updateHeat(1)
             }
             expect(p.heat).to.be.gt(1)
+            expect(p.heatEmission).to.be.gt(0)
         })
         it('bounce generates heat', function () {
             let ps = new ParticleSandbox()

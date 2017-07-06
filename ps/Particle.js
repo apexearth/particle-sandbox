@@ -103,7 +103,9 @@ class Particle extends AppObject {
 
     updateHeat(seconds) {
         this.heat += this.mass * (this.density - this.density_prev) * seconds * simulation.heatRate
+        this.heatEmission = this.heat
         this.heat *= 1 - ((this.heat / this.mass) * (simulation.heatRate / 1000) * seconds)
+        this.heatEmission = (this.heatEmission - this.heat) / seconds
         if (this.heat > 250) {
             if (!this.heatFilter) {
                 if (typeof window !== 'undefined') {
