@@ -13,6 +13,7 @@ class Particle extends AppObject {
         this.density      = density || Math.max(.1, Math.random() * Math.random())
         this.density_prev = this.density
         this.heat         = 0
+        this.heatEmission = 0
         if (radius) {
             this.radius = radius
         } else {
@@ -36,7 +37,7 @@ class Particle extends AppObject {
             colorR   = colorB
             colorB   = temp
         }
-        return Color.rgb(colorR, colorG, colorB).rgbNumber()
+        return Color.rgb(colorR, colorG, colorB)
     }
 
     set density(val) {
@@ -67,13 +68,29 @@ class Particle extends AppObject {
     }
 
     draw() {
+        if (this.mass < 0) return
         if (typeof window !== 'undefined') {
             this.graphics.clear()
-            this.graphics.beginFill(this._selected ? 0xffffff : this.color)
+            this.drawHeat()
+            this.graphics.beginFill(this.color.rgbNumber())
+            if (this._selected) {
+                this.graphics.lineStyle(.1, 0xffffff, 1)
+            }
             this.graphics.drawCircle(0, 0, 1)
             this.graphics.endFill()
             this.scale.x = this.scale.y = this.radius
         }
+    }
+
+    drawHeat() {
+        if (this.heat < 250) return
+        let heatLevel = Math.log(this.heat)
+        let heatColor = this.color.lighten(.05).rgbNumber()
+        this.graphics.beginFill(heatColor, .1)
+        while (heatLevel-- > 0) {
+            this.graphics.drawCircle(0, 0, (1 + heatLevel * .035))
+        }
+        this.graphics.endFill()
     }
 
     distance(other) {
@@ -109,29 +126,21 @@ class Particle extends AppObject {
         if (this.heat > 250) {
             if (!this.heatFilter) {
                 if (typeof window !== 'undefined') {
-                    this.voidFilter  = new PIXI.filters.VoidFilter()
-                    this.heatFilter  = new PIXI.filters.BlurFilter()
-                    this.heatFilter2 = new PIXI.filters.ColorMatrixFilter()
+                    this.heatFilter = new PIXI.filters.ColorMatrixFilter()
                 } else {
-                    this.voidFilter  = {}
-                    this.heatFilter  = {}
-                    this.heatFilter2 = {saturate: () => undefined, brightness: () => undefined}
+                    this.heatFilter = {saturate: () => undefined, brightness: () => undefined}
                 }
                 this.container.filters = [
-                    this.voidFilter,
                     this.heatFilter,
-                    this.heatFilter2,
                 ]
             }
-            this.heatFilter.blur    = Math.min(this.radius / 2, this.heat / 250 - 1) * this.parent.scale.x
-            this.heatFilter.quality = this.heatFilter.blur * 3
-            this.voidFilter.padding = Math.ceil(this.heatFilter.blur * 3)
-            this.heatFilter2.saturate(this.heat / 500 - .5)
-            this.heatFilter2.brightness(.75 + this.heat / 1000)
+            this.heatFilter.saturate(this.heat / 5000 + (1 - .05))
+            this.heatFilter.brightness((1 - .075) + this.heat / 10000)
+            this.draw()
         } else if (this.heatFilter) {
             this.container.filters = null
             this.heatFilter        = null
-            this.heatFilter2       = null
+            this.draw()
         }
     }
 
@@ -252,6 +261,7 @@ class Particle extends AppObject {
     }
 
     static exchangeHeatEmission({particle1, particle2, distance, age}) {
+        if (age === 0 || particle1.mass <= 0 || particle2.mass <= 0) return
         let quarter1 = Math.sqrt(particle1.radius * particle1.radius * 2)
         let quarter2 = Math.sqrt(particle2.radius * particle2.radius * 2)
         particle1.heat += particle2.heatEmission * quarter2 / (distance - particle1.radius) * age / 2

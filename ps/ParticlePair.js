@@ -11,16 +11,14 @@ class ParticlePair extends LinkedListNode {
 
         this.particle1 = particle1
         this.particle2 = particle2
+        this.age       = 0
         this.update()
-        this.age = 0
     }
 
     update() {
         this.distance       = this.particle1.distance(this.particle2)
         this.checkCollision = this.particle1.collisionRange(this.particle2, this.distance)
-        if (this.age > 0) {
-            Particle.exchangeHeatEmission(this)
-        }
+        Particle.exchangeHeatEmission(this)
         this.ageUntilUpdate = this.distance / 10000
     }
 
