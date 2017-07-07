@@ -364,6 +364,37 @@ describe("Particle", function () {
             expect(p1.heat).to.be.gt(0)
             expect(p2.heat).to.be.gt(0)
         })
+        it('static exchangeHeatEmission()', function () {
+            let pair = {
+                particle1: {radius: 1, heatEmission: 1, heat: 0},
+                particle2: {radius: 2, heatEmission: 2, heat: 0},
+                distance : 3,
+                age      : .1
+            }
+            Particle.exchangeHeatEmission(pair)
+            expect(pair.particle1.heat).to.equal(0.14142135623730953)
+            expect(pair.particle2.heat).to.equal(0.07071067811865477)
+
+            pair = {
+                particle1: {radius: 1, heatEmission: 1, heat: 0},
+                particle2: {radius: 2, heatEmission: 2, heat: 0},
+                distance : 6,
+                age      : .1
+            }
+            Particle.exchangeHeatEmission(pair)
+            expect(pair.particle1.heat).to.equal(0.0565685424949238)
+            expect(pair.particle2.heat).to.equal(0.01767766952966369)
+
+            pair = {
+                particle1: {radius: 1, heatEmission: 1, heat: 0},
+                particle2: {radius: 2, heatEmission: 2, heat: 0},
+                distance : 200,
+                age      : .1
+            }
+            Particle.exchangeHeatEmission(pair)
+            expect(pair.particle1.heat).to.equal(0.0014213201631890404)
+            expect(pair.particle2.heat).to.equal(0.00035712463696290284)
+        })
     })
 })
 

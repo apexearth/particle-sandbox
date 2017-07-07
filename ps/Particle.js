@@ -251,6 +251,13 @@ class Particle extends AppObject {
         }
     }
 
+    static exchangeHeatEmission({particle1, particle2, distance, age}) {
+        let quarter1 = Math.sqrt(particle1.radius * particle1.radius * 2)
+        let quarter2 = Math.sqrt(particle2.radius * particle2.radius * 2)
+        particle1.heat += particle2.heatEmission * quarter2 / (distance - particle1.radius) * age / 2
+        particle2.heat += particle1.heatEmission * quarter1 / (distance - particle2.radius) * age / 2
+    }
+
     distributeVelocity(other, percentage = 1) {
         if (percentage === 0) return
         let xm              = this.momentum.x

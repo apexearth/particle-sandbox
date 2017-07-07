@@ -1,4 +1,5 @@
 const LinkedListNode = require('./LinkedListNode')
+const Particle       = require('./Particle')
 
 /**
  * I'm a linked list!
@@ -17,6 +18,9 @@ class ParticlePair extends LinkedListNode {
     update() {
         this.distance       = this.particle1.distance(this.particle2)
         this.checkCollision = this.particle1.collisionRange(this.particle2, this.distance)
+        if (this.age > 0) {
+            Particle.exchangeHeatEmission(this)
+        }
         this.ageUntilUpdate = this.distance / 10000
     }
 
