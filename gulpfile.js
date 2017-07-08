@@ -2,18 +2,20 @@ const pkg  = require('./package.json')
 const gulp = require('gulp')
 const s3   = require('gulp-s3-upload')({useIAM: true})
 
+let files = [
+    "./build/**",
+    "./css/**",
+    "./fonts/**",
+    "./index.html",
+]
+
 uploadTask("upload", "")
 uploadTask("upload-develop", "develop/")
 uploadTask("upload-version", `version/${pkg.version}/`)
 
 function uploadTask(name, prefix) {
     gulp.task(name, function () {
-        gulp.src([
-            "./build/**",
-            "./css/**",
-            "./fonts/**",
-            "./index.html",
-        ], {base: './'})
+        gulp.src(files, {base: './'})
             .pipe(s3({
                 Bucket      : 'particlesandbox.com',
                 ACL         : 'public-read',
@@ -23,5 +25,9 @@ function uploadTask(name, prefix) {
                 maxRetries: 5
             }))
     })
-
 }
+
+gulp.task('copy-www', function () {
+    gulp.src(files, {base: './'})
+        .pipe(gulp.dest('./standalones/www'))
+})
