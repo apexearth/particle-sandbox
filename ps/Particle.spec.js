@@ -343,6 +343,36 @@ describe("Particle", function () {
             expect(p.heat).to.be.gt(1)
             expect(p.heatEmission).to.be.gt(0)
         })
+        it('triggers redraw at intervals of 250 heat', function () {
+            let ps      = new ParticleSandbox()
+            let p       = ps.addParticle({
+                density : 1,
+                mass    : 1000,
+                momentum: {x: 0, y: 0}
+            })
+            let redraws = 0
+            p.draw     = () => redraws++
+            p.heat      = 251
+            p.updateHeat(.1)
+            expect(redraws).to.equal(1)
+            p.updateHeat(.1)
+            expect(redraws).to.equal(1)
+            p.heat      = 501
+            p.updateHeat(.1)
+            expect(redraws).to.equal(2)
+            p.heat      = 499
+            p.updateHeat(.1)
+            expect(redraws).to.equal(3)
+            p.heat      = 300
+            p.updateHeat(.1)
+            expect(redraws).to.equal(3)
+            p.heat      = 249
+            p.updateHeat(.1)
+            expect(redraws).to.equal(4)
+            p.heat      = 1001
+            p.updateHeat(.1)
+            expect(redraws).to.equal(5)
+        })
         it('bounce generates heat', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({

@@ -74,7 +74,7 @@ class Particle extends AppObject {
             this.drawHeat()
             this.graphics.beginFill(this.color.rgbNumber())
             if (this._selected) {
-                this.graphics.lineStyle(.1, 0xffffff, 1)
+                this.graphics.lineStyle(1 / this.radius, 0xffffff, 1)
             }
             this.graphics.drawCircle(0, 0, 1)
             this.graphics.endFill()
@@ -123,7 +123,7 @@ class Particle extends AppObject {
         this.heatEmission = this.heat
         this.heat *= 1 - ((this.heat / this.mass) * (simulation.heatRate / 1000) * seconds)
         this.heatEmission = (this.heatEmission - this.heat) / seconds
-        if (this.heat > 250) {
+        if (this.heat >= 250) {
             if (!this.heatFilter) {
                 if (typeof window !== 'undefined') {
                     this.heatFilter = new PIXI.filters.ColorMatrixFilter()
@@ -136,10 +136,14 @@ class Particle extends AppObject {
             }
             this.heatFilter.saturate(this.heat / 5000 + (1 - .05))
             this.heatFilter.brightness((1 - .075) + this.heat / 10000)
-            this.draw()
+            if (Math.floor(this.heat / 250) !== this.heatDrawn) {
+                this.heatDrawn = Math.floor(this.heat / 250)
+                this.draw()
+            }
         } else if (this.heatFilter) {
             this.container.filters = null
             this.heatFilter        = null
+            this.heatDrawn         = 0
             this.draw()
         }
     }

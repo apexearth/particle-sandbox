@@ -5,6 +5,7 @@ import TextButton from '../components/TextButton'
 import SettingsList from '../components/SettingsList'
 
 const {edit} = state
+
 class EditMenu extends React.Component {
 
     componentDidMount() {
@@ -14,7 +15,7 @@ class EditMenu extends React.Component {
     }
 
     render() {
-        if (!edit.visible())  return null
+        if (!edit.visible()) return null
 
         const {ps} = state
         if (!ps) return null
@@ -31,7 +32,7 @@ class EditMenu extends React.Component {
         }
         const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={key}/>)
         return (
-            <div>
+            <div className="gui-flex-row">
                 <div id="menu-buttons">
                     {buttons}
                 </div>

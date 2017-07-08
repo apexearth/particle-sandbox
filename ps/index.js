@@ -7,7 +7,7 @@ const inputs          = require('./inputs')
 const ps = new ParticleSandbox()
 ui.initialize(ps)
 
-const renderer = apex.createRenderer(ps, {})
+const renderer = apex.createRenderer(ps, {resolution: window.devicePixelRatio || 1})
 inputs.initialize(renderer.view)
 
 ps.renderer = renderer

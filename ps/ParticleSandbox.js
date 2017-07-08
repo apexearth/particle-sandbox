@@ -244,6 +244,13 @@ class ParticleSandbox extends App {
             this.removeGenerator(object)
         }
     }
+
+    removeAll() {
+        let i = this.objects.length
+        while(i-->0) {
+            this.remove(this.objects[i])
+        }
+    }
 }
 
 module.exports = ParticleSandbox

@@ -96,6 +96,7 @@ class ExploreMenu extends React.Component {
         }
         if (ps.screenWidth < 450) {
             delete mapping.id
+            delete mapping.density
             delete mapping.vx
             delete mapping.vy
         }

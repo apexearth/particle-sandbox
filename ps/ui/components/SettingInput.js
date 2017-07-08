@@ -2,10 +2,10 @@ import React from 'react'
 
 const SettingInput = ({settings, settingsKey}) => {
     return (
-        <div className="settings-input" style={{display: 'flex'}}>
+        <div className="settings-input">
             <div>{settingsKey}</div>
             <input
-                type="text"
+                type="number"
                 defaultValue={settings[settingsKey]}
                 onChange={event => settings[settingsKey] = Number(event.target.value)}
             />
