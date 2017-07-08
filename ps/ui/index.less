@@ -1,6 +1,7 @@
 @base: #bbffbb;
 @base2: #aab2f9;
 @base3: #f9e8d1;
+@base4: #f99689;
 @gui-bg-color: fade(@base, 15%);
 @gui-padding: 10px;
 @gui-padding-half: 5px;
@@ -227,6 +228,10 @@ a, a:visited, a:hover, a:active {
 
 .square-button-active {
   .gui-button(lighten(@base, 25%), @base2)
+}
+
+.square-button-warning {
+  .gui-button(@base4, @base2)
 }
 
 #root {
