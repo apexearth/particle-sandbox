@@ -1,7 +1,8 @@
 require('./index.less')
 
-import React from 'react'
 import ReactDOM from 'react-dom'
+import React from 'react'
+import {BrowserRouter, Route} from 'react-router-dom'
 import Root from './Root'
 
 module.exports = {
@@ -10,8 +11,11 @@ module.exports = {
         if (typeof document !== 'undefined') {
             let root = document.createElement('div')
             document.body.appendChild(root)
-            ReactDOM.render(
-                <Root instance={ps}/>,
+            ReactDOM.render((
+                    <BrowserRouter>
+                        <Route path="/" render={({location}) => <Root location={location} instance={ps}/>}/>
+                    </BrowserRouter>
+                ),
                 root
             )
         }

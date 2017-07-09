@@ -17,33 +17,39 @@ import Statistics from './Statistics'
 
 class Root extends React.Component {
     render() {
+        let {instance, location} = this.props
+        if (location.hash === '#paused') {
+            instance.paused = true
+        } else {
+            instance.paused = false
+        }
         return (
             <div id="root">
                 <div id="top-left">
                     <div id="gui-buttons">
-                        <SettingsButton />
+                        <SettingsButton/>
                         <EditButton/>
                         <ExploreButton/>
-                        <PlayPauseButton />
-                        <ZoomMeter />
-                        <FullScreenButton />
-                        <ClearButton />
+                        <PlayPauseButton/>
+                        <ZoomMeter/>
+                        <FullScreenButton/>
+                        <ClearButton/>
                     </div>
-                    <div id="menu">
-                        <EditMenu />
-                        <SettingsMenu />
-                        <ExploreMenu />
+                    <div id="menu" onClick={() => true}>
+                        <EditMenu/>
+                        <SettingsMenu/>
+                        <ExploreMenu/>
                     </div>
                 </div>
                 <div id="top-right">
-                    <SelectionInfo />
+                    <SelectionInfo/>
                 </div>
                 <div id="bottom-left">
-                    <ShareButtons />
-                    <Statistics />
+                    <ShareButtons/>
+                    <Statistics/>
                 </div>
                 <div id="bottom-right">
-                    <Version />
+                    <Version/>
                 </div>
             </div>
         )
