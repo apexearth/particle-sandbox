@@ -1,8 +1,12 @@
 import analytics from './analytics'
+
 const {EventEmitter} = require('events')
 
 
 const state = module.exports = new EventEmitter()
+
+state.deploymentType = "web"
+
 let ps = state.ps = null
 
 state.subscribe = fn => state.on('state', fn)

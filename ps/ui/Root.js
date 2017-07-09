@@ -15,14 +15,12 @@ import Version from './Version'
 import ShareButtons from './ShareButtons'
 import Statistics from './Statistics'
 
+import state from './state'
+
 class Root extends React.Component {
     render() {
         let {instance, location} = this.props
-        if (location.hash === '#paused') {
-            instance.paused = true
-        } else {
-            instance.paused = false
-        }
+        instance.paused          = location.hash === '#paused'
         return (
             <div id="root">
                 <div id="top-left">
@@ -32,7 +30,7 @@ class Root extends React.Component {
                         <ExploreButton/>
                         <PlayPauseButton/>
                         <ZoomMeter/>
-                        <FullScreenButton/>
+                        {() => state.deploymentType === "standalone" ? null : <FullScreenButton/>}
                         <ClearButton/>
                     </div>
                     <div id="menu" onClick={() => true}>
@@ -45,7 +43,7 @@ class Root extends React.Component {
                     <SelectionInfo/>
                 </div>
                 <div id="bottom-left">
-                    <ShareButtons/>
+                    {() => state.deploymentType === "standalone" ? null : <ShareButtons/>}
                     <Statistics/>
                 </div>
                 <div id="bottom-right">
