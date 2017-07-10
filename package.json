@@ -1,7 +1,7 @@
 {
   "name": "particle-sandbox",
   "productName": "particle-sandbox",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "main": "main.js",
   "scripts": {
     "travis-develop": "npm run publish-develop",
@@ -24,7 +24,7 @@
     "publish": "npm-run-all test build upload upload-version",
     "publish-develop": "npm-run-all test build upload-develop",
     "copy-www": "gulp copy-www",
-    "publish-www": "npm-run-all build copy-www"
+    "publish-www": "npm-run-all build-standalone copy-www"
   },
   "eslintConfig": {
     "parserOptions": {
