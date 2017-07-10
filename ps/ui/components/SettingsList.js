@@ -9,7 +9,7 @@ const SettingsList = ({id, title, settings}) => {
     const array = keys
         .map(key => <SettingInput settings={settings} settingsKey={key} key={key}/>)
     return (
-        <div id={id} className="settings-list gui-window">
+        <div id={id} className="settings-list gui-window events">
             <Title>{title}</Title>
             {array}
         </div>

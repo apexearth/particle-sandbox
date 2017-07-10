@@ -31,7 +31,7 @@ class SettingsMenu extends React.Component {
         const buttons       = Object.keys(config).map(key => <SectionButton key={key} mode={key}/>)
         return (
             <div className="gui-flex-row">
-                <div id="menu-buttons">
+                <div id="menu-buttons" className="events">
                     {buttons}
                 </div>
                 <SettingsList id="menu-settings"

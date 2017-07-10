@@ -33,7 +33,7 @@ class Root extends React.Component {
                         {() => state.deploymentType === "standalone" ? null : <FullScreenButton/>}
                         <ClearButton/>
                     </div>
-                    <div id="menu" onClick={() => true}>
+                    <div id="menu">
                         <EditMenu/>
                         <SettingsMenu/>
                         <ExploreMenu/>

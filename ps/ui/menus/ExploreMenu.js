@@ -27,7 +27,7 @@ class ExploreMenu extends React.Component {
         const buttons = this.renderButtons()
         const list    = this.renderList()
         return (
-            <div id="explore-menu">
+            <div id="explore-menu" className="events">
                 {buttons}
                 {list}
             </div>

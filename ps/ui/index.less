@@ -234,6 +234,10 @@ a, a:visited, a:hover, a:active {
   .gui-button(@base4, @base2)
 }
 
+.events {
+  pointer-events: all;
+}
+
 #root {
   position: fixed;
 }
@@ -247,7 +251,13 @@ a, a:visited, a:hover, a:active {
   min-width: 50px;
   min-height: 50px;
   z-index: 2;
-  overflow: hidden; // To keep rounded edges.
+  overflow: visible; // To keep rounded edges.
+  pointer-events: none;
+}
+
+#menu-buttons {
+  height: 0;
+  overflow: visible;
 }
 
 #menu-settings {

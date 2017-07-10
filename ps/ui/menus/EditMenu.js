@@ -33,7 +33,7 @@ class EditMenu extends React.Component {
         const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={key}/>)
         return (
             <div className="gui-flex-row">
-                <div id="menu-buttons">
+                <div id="menu-buttons" className="events">
                     {buttons}
                 </div>
                 <SettingsList id="menu-settings"
