@@ -11,7 +11,7 @@
     "test-mocha": "mocha ps/**.spec.js",
     "watch": "webpack --watch",
     "watch-standalone": "webpack --watch --config webpack.config.standalone.js",
-    "build": "webpack -p",
+    "build": "webpack -p --config webpack.config.js",
     "build-standalone": "webpack -p --config webpack.config.standalone.js",
     "upload": "gulp upload",
     "upload-develop": "gulp upload-develop",

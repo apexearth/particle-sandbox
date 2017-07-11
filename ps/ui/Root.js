@@ -30,7 +30,7 @@ class Root extends React.Component {
                         <ExploreButton/>
                         <PlayPauseButton/>
                         <ZoomMeter/>
-                        {() => state.deploymentType === "standalone" ? null : <FullScreenButton/>}
+                        {state.deploymentType === "standalone" ? null : <FullScreenButton/>}
                         <ClearButton/>
                     </div>
                     <div id="menu">
@@ -43,7 +43,7 @@ class Root extends React.Component {
                     <SelectionInfo/>
                 </div>
                 <div id="bottom-left">
-                    {() => state.deploymentType === "standalone" ? null : <ShareButtons/>}
+                    {state.deploymentType === "standalone" ? null : <ShareButtons/>}
                     <Statistics/>
                 </div>
                 <div id="bottom-right">
