@@ -11,6 +11,7 @@ const renderer = apex.createRenderer(ps, {resolution: window.devicePixelRatio ||
 inputs.initialize(renderer.view)
 
 ps.renderer = renderer
+renderer.plugins.accessibility.destroy()
 
 if (typeof window !== 'undefined') {
     window.ps       = ps
