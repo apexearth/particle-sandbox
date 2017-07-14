@@ -71,6 +71,9 @@ class ParticleSandbox extends App {
             if (collision.particle2.mass <= 0) return
 
             Particle.exchangeMass(collision)
+            if (collision.particle1.mass <= 0) return
+            if (collision.particle2.mass <= 0) return
+
             if (!collision.pair.previouslyCollided) {
                 Particle.bounce(collision)
                 Particle.uncollide(collision)

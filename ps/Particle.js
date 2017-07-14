@@ -103,6 +103,7 @@ class Particle extends AppObject {
 
 
     update(seconds) {
+        if (this.mass <= 0) return
         this.updateHeat(seconds)
         super.update(seconds)
         this.density_prev = this.density
@@ -259,18 +260,21 @@ class Particle extends AppObject {
     }
 
     static exchangeMass({particle1, particle2}, amount = 1) {
+        let averageHeat        = (particle2.heat + particle1.heat) / 2
         if (particle1.density > particle2.density) {
             let transferPercentage = Math.min(1, (particle1.mass / particle2.mass) * particle2.density * amount * simulation.absorbRate)
             let transferAmount     = Math.min(particle2.mass, Math.max(particle2.mass * transferPercentage, 0.1))
-            particle1.heat += (particle2.heat - particle1.heat) * (transferAmount / particle1.mass) * particle2.mass / 1000
+            let heatDifference = averageHeat - particle1.heat
+            particle1.heat += heatDifference * (transferPercentage * particle2.mass) / particle1.mass
             particle1.mass += transferAmount
             particle2.mass -= transferAmount
         } else {
             let transferPercentage = Math.min(1, (particle2.mass / particle1.mass) * particle1.density * amount * simulation.absorbRate)
             let transferAmount     = Math.min(particle1.mass, Math.max(particle1.mass * transferPercentage, 0.1))
-            particle2.heat += (particle1.heat - particle2.heat) * (transferAmount / particle2.mass) * particle1.mass / 1000
-            particle1.mass -= transferAmount
+            let heatDifference = averageHeat - particle2.heat
+            particle2.heat += heatDifference * (transferPercentage * particle1.mass) / particle2.mass
             particle2.mass += transferAmount
+            particle1.mass -= transferAmount
         }
     }
 
