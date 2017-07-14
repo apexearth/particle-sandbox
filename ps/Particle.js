@@ -78,7 +78,7 @@ class Particle extends AppObject {
             }
             this.graphics.drawCircle(0, 0, 1)
             this.graphics.endFill()
-            this.scale.x = this.scale.y = this.radius
+            this.updateScale()
         }
     }
 
@@ -109,6 +109,16 @@ class Particle extends AppObject {
         this.density += seconds * Math.sqrt(this.mass) / 100000
         if (this.mass <= 1) {
             this.mass -= seconds
+        }
+        this.updateScale()
+    }
+
+    updateScale() {
+        if (!this.container.parent) {
+            this.scale.x = this.scale.y = this.radius
+        } else {
+            // Update scale based on radius and ensure we are always at least 1 pixel large regardless of zoom.
+            this.scale.x = this.scale.y = (this.radius * this.container.parent.scale.x >= 1) ? this.radius : 1 / this.container.parent.scale.x
         }
     }
 

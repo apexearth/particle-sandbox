@@ -14,6 +14,7 @@ class ClearButton extends React.Component {
                  onClick={() => {
                      if (this.state.count === 1) {
                          ps.removeAll()
+                         ps.zoom = 1
                          clearTimeout(this.state.timeoutId)
                          this.setState({count: 0, timeout: null})
                      } else {

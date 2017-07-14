@@ -1,7 +1,7 @@
 module.exports = {
     view       : {
-        zoomMin: .1,
-        zoomMax: 2,
+        zoomMin: .0001,
+        zoomMax: 1000,
     },
     simulation : {
         gravityStrength : 200,

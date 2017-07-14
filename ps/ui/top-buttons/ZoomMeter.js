@@ -1,61 +1,27 @@
 import React from 'react'
 import state from '../state'
 
-const zoomBarMax = 92
-
 class ZoomMeter extends React.Component {
     componentWillMount() {
-        const {ps}        = state
+        const {ps} = state
         ps.on('zoom', () => this.forceUpdate())
-        this.setState({
-            mouseUp: () => this.mouseUp()
-        })
-        document.addEventListener('wheel', event => ps.zoom += (event.deltaY < 0 ? .05 : -.05) * Math.max(.2, ps.zoom))
-    }
-
-    mouseUp(e) {
-        this.state.active = false
-        document.removeEventListener('mouseup', this.state.mouseUp)
-    }
-
-    mouseDown(e) {
-        this.state.active = true
-        if (typeof document !== 'undefined') {
-            document.addEventListener('mouseup', this.state.mouseUp)
-        }
-        this.setZoomPercentage(e)
-    }
-
-    mouseMove(e) {
-        if (this.state.active) {
-            this.setZoomPercentage(e)
-        }
-    }
-
-    setZoomPercentage(e) {
-        const {ps}        = state
-        let element       = e.target
-        while (element.className !== "zoom-meter-center" && element.parentElement) element = element.parentElement
-        ps.zoom = (e.clientX - element.offsetLeft - element.parentElement.parentElement.offsetLeft) / (element.offsetWidth)
+        document.addEventListener('wheel', event => (event.deltaY < 0 ? ps.zoom *= 1.1 : ps.zoom /= 1.1))
     }
 
     render() {
-        const {ps}     = state
+        const {ps} = state
         return (
-            <div id="zoom-meter">
+            <div id="zoom-buttons">
                 <div onClick={() => {
-                    ps.zoom -= .1
+                    ps.zoom /= 1.25
                 }} className="square-button">
                     <span className="glyphicon glyphicon-minus"/>
                 </div>
-                <div className="zoom-meter-center"
-                     onMouseMove={e => this.mouseMove(e)}
-                     onMouseDown={e => this.mouseDown(e)}>
-                    <div className="zoom-meter-vbar" style={{left: (ps.zoom * zoomBarMax) + "px"}}></div>
-                    <div className="zoom-meter-hbar"></div>
+                <div className="rectangle-text">
+                    {ps.zoom.toFixed(2)}x
                 </div>
                 <div onClick={() => {
-                    ps.zoom += .1
+                    ps.zoom *= 1.25
                 }} className="square-button">
                     <span className="glyphicon glyphicon-plus"/>
                 </div>

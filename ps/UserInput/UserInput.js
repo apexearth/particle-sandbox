@@ -40,7 +40,7 @@ class UserInput {
         if (touchState.previous.count === 2 && touchState.current.count === 2) {
             container.position.x -= touchState.difference.midpointX
             container.position.y -= touchState.difference.midpointY
-            ps.zoom -= (touchState.difference.distance / (ps.screenWidth + ps.screenHeight) / 2) / (1 / (ps.zoom || .1)) * 10
+            ps.zoom *= (1 - (touchState.difference.distance / ((ps.screenWidth + ps.screenHeight) / 2) * 3))
         }
 
         if (inputs('mouse2')) {
@@ -67,12 +67,11 @@ class UserInput {
             if (inputs('right')) {
                 container.position.x -= scrollSpeed
             }
-            let zoomSpeed = .005
             if (inputs('zoomOut')) {
-                ps.zoom -= zoomSpeed
+                ps.zoom /= 1.01
             }
             if (inputs('zoomIn')) {
-                ps.zoom += zoomSpeed
+                ps.zoom *= 1.01
             }
             if (inputs('delete')) {
                 ps.removeSelected()

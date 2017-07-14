@@ -3,6 +3,7 @@
 @base3: #f9e8d1;
 @base4: #f99689;
 @gui-bg-color: fade(@base, 15%);
+@gui-bg-color-light: fade(@base, 25%);
 @gui-padding: 10px;
 @gui-padding-half: 5px;
 
@@ -97,6 +98,10 @@ a, a:visited, a:hover, a:active {
 
 .gui-backpanel {
   background-color: @gui-bg-color;
+}
+
+.gui-backpanel-light {
+  background-color: @gui-bg-color-light;
 }
 
 .gui-text {
@@ -216,6 +221,16 @@ a, a:visited, a:hover, a:active {
   }
 }
 
+.rectangle-text {
+  .gui-rounded;
+  .gui-backpanel-light;
+  font-size: 12px;
+  width: @menu-button-size * 2;
+  height: @menu-button-size;
+  line-height: @menu-button-size + 1;
+  text-align: center;
+}
+
 @menu-button-size: 25px;
 .square-button {
   .gui-rounded;
@@ -305,7 +320,7 @@ a, a:visited, a:hover, a:active {
   }
 }
 
-#zoom-meter {
+#zoom-buttons {
   height: 25px;
   z-index: 2;
   display: flex;
@@ -313,25 +328,9 @@ a, a:visited, a:hover, a:active {
   font-size: 0;
 }
 
-#zoom-meter .zoom-meter-center {
+#zoom-buttons .zoom-meter-center {
   display: flex;
   align-items: center;
-}
-
-#zoom-meter .zoom-meter-hbar {
-  line-height: 0;
-  background-color: fade(@base, 40%);
-  height: 4px;
-  width: 100px;
-  margin-left: -8px;
-}
-
-#zoom-meter .zoom-meter-vbar {
-  line-height: 0;
-  position: relative;
-  background-color: fade(@base, 70%);
-  width: 8px;
-  height: @menu-button-size;
 }
 
 #top-left {
