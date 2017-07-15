@@ -29,18 +29,23 @@ const mapping = new Mapping(
         }
     }, false)
 
-const value               = mapping.value.bind(mapping)
-const clear               = mapping.clear.bind(mapping)
-const update              = mapping.update.bind(mapping)
-module.exports            = value
-module.exports.clear      = clear
-module.exports.update     = update
-module.exports.mapping    = mapping
-module.exports.inputs     = inputs
+const value            = mapping.value.bind(mapping)
+const clear            = mapping.clear.bind(mapping)
+const update           = mapping.update.bind(mapping)
+module.exports         = value
+module.exports.clear   = clear
+module.exports.update  = update
+module.exports.mapping = mapping
+module.exports.inputs  = inputs
+
+let initialized           = false
 module.exports.initialize = (view) => {
-    const keyboardTarget = typeof document !== 'undefined' ? document.body : undefined
     inputs
         .withMouse(view)
-        .withKeyboard(keyboardTarget)
         .withTouch(view)
+    if (!initialized) {
+        const keyboardTarget = typeof document !== 'undefined' ? document.body : undefined
+        inputs.withKeyboard(keyboardTarget)
+    }
+    initialized = true
 }

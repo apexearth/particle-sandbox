@@ -1,8 +1,7 @@
 const _window = require('./window')
 
-const {
-          App
-      }                      = require('apex-app')
+const apex                   = require('apex-app')
+const {App}                  = apex
 const Generator              = require('./Generator')
 const Particle               = require('./Particle')
 const ParticlePair           = require('./ParticlePair')
@@ -10,6 +9,7 @@ const ParticlePairLinkedList = require('./ParticlePairLinkedList')
 const StatsHistory           = require('./StatsHistory')
 const PopulationManager      = require('./PopulationManager')
 const stats                  = require('./stats')
+const inputs                 = require('./inputs')
 
 const UserInput = require('./UserInput')
 const {
@@ -41,6 +41,12 @@ class ParticleSandbox extends App {
 
         this.statsHistory      = new StatsHistory(stats)
         this.populationManager = new PopulationManager(this, stats, this.statsHistory)
+
+        if (typeof window !== 'undefined') {
+            this.renderer = apex.createRenderer(this, {resolution: window.devicePixelRatio || 1})
+            this.renderer.plugins.accessibility.destroy()
+            inputs.initialize(this.renderer.view)
+        }
     }
 
     get stats() {
@@ -250,9 +256,14 @@ class ParticleSandbox extends App {
 
     removeAll() {
         let i = this.objects.length
-        while(i-->0) {
+        while (i-- > 0) {
             this.remove(this.objects[i])
         }
+    }
+
+    kill() {
+        this.renderer.kill()
+        this.removeAll()
     }
 }
 

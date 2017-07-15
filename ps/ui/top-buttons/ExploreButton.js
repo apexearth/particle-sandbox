@@ -1,12 +1,13 @@
 import React from 'react'
 import state from '../state'
+
 const {explore} = state
 
-class EditButton extends React.Component {
+class ExploreButton extends React.Component {
 
     componentDidMount() {
         this.setState(explore)
-        explore.subscribe(explore => this.setState(explore))
+        explore.subscribe(explore => () => this.setState(explore))
     }
 
     render() {
@@ -23,4 +24,4 @@ class EditButton extends React.Component {
     }
 }
 
-module.exports = EditButton
+module.exports = ExploreButton

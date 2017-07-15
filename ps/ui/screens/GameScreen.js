@@ -1,23 +1,33 @@
 import React from 'react'
 
-import EditMenu from './menus/EditMenu'
-import SettingsMenu from './menus/SettingsMenu'
-import ExploreMenu from './menus/ExploreMenu'
-import EditButton from './top-buttons/EditButton'
-import ExploreButton from './top-buttons/ExploreButton'
-import SettingsButton from './top-buttons/SettingsButton'
-import PlayPauseButton from './top-buttons/PlayPauseButton'
-import ZoomMeter from './top-buttons/ZoomMeter'
-import FullScreenButton from './top-buttons/FullScreenButton'
-import ClearButton from './top-buttons/ClearButton'
-import SelectionInfo from './SelectionInfo'
-import Version from './Version'
-import ShareButtons from './ShareButtons'
-import Statistics from './Statistics'
+import {
+    EditMenu,
+    SettingsMenu,
+    ExploreMenu
+} from '../menus/'
+import {
+    BackButton,
+    EditButton,
+    ExploreButton,
+    SettingsButton,
+    PlayPauseButton,
+    ZoomMeter,
+    FullScreenButton,
+    ClearButton,
+} from '../top-buttons'
+import SelectionInfo from '../SelectionInfo'
+import Version from '../Version'
+import ShareButtons from '../ShareButtons'
+import Statistics from '../Statistics'
 
-import state from './state'
+import state from '../state'
 
 class GameScreen extends React.Component {
+    componentWillUnmount() {
+        let timeoutsCount = setTimeout(() => undefined, 1000)
+        for (let i = 0; i < timeoutsCount; i++) clearTimeout(i)
+    }
+
     render() {
         let {ps}       = state
         let {location} = this.props
@@ -26,6 +36,7 @@ class GameScreen extends React.Component {
             <div>
                 <div id="top-left">
                     <div id="gui-buttons">
+                        <BackButton/>
                         <SettingsButton/>
                         <EditButton/>
                         <ExploreButton/>

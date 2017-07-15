@@ -1,6 +1,6 @@
 import React from 'react'
 
-import state from './state'
+import state from '../state'
 
 import TitleScreen from './TitleScreen'
 import GameScreen from './GameScreen'
@@ -11,7 +11,7 @@ class Root extends React.Component {
         this.state = {
             screen: state.screen
         }
-        state.on('screen', () => this.setState({screen: state.screen}))
+        state.on('screen', screen => this.setState({screen}))
     }
 
     render() {

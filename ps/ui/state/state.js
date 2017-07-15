@@ -1,11 +1,15 @@
-import analytics from './analytics'
+import analytics from '../analytics'
 
 const {EventEmitter} = require('events')
 
-
 const state = module.exports = new EventEmitter()
+if (typeof window !== 'undefined') {
+    window.state = state
+}
 
-state.screen = 'GameScreen'
+state.actions = require('./actions')
+
+state.screen = 'TitleScreen'
 
 state.deploymentType = "web"
 

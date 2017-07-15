@@ -1,8 +1,10 @@
 import React from 'react'
 import state from '../state'
+
 const inputs = require('../../inputs')
 
 const {explore} = state
+
 class ExploreMenu extends React.Component {
 
     componentDidMount() {
@@ -20,7 +22,7 @@ class ExploreMenu extends React.Component {
     }
 
     render() {
-        if (!explore.visible())  return null
+        if (!explore.visible()) return null
         if (!this.state) return null
         if (!this.state.objects) return null
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {BrowserRouter, Route} from 'react-router-dom'
 
-import Root from './Root'
+import {Root} from './screens'
 
 module.exports = (
     <BrowserRouter>
