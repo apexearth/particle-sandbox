@@ -5,6 +5,8 @@ const {EventEmitter} = require('events')
 
 const state = module.exports = new EventEmitter()
 
+state.screen = 'GameScreen'
+
 state.deploymentType = "web"
 
 let ps = state.ps = null

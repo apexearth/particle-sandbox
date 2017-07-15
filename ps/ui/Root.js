@@ -1,54 +1,30 @@
 import React from 'react'
 
-import EditMenu from './menus/EditMenu'
-import SettingsMenu from './menus/SettingsMenu'
-import ExploreMenu from './menus/ExploreMenu'
-import EditButton from './top-buttons/EditButton'
-import ExploreButton from './top-buttons/ExploreButton'
-import SettingsButton from './top-buttons/SettingsButton'
-import PlayPauseButton from './top-buttons/PlayPauseButton'
-import ZoomMeter from './top-buttons/ZoomMeter'
-import FullScreenButton from './top-buttons/FullScreenButton'
-import ClearButton from './top-buttons/ClearButton'
-import SelectionInfo from './SelectionInfo'
-import Version from './Version'
-import ShareButtons from './ShareButtons'
-import Statistics from './Statistics'
-
 import state from './state'
 
+import TitleScreen from './TitleScreen'
+import GameScreen from './GameScreen'
+
 class Root extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            screen: state.screen
+        }
+        state.on('screen', () => this.setState({screen: state.screen}))
+    }
+
     render() {
-        let {instance, location} = this.props
-        instance.paused          = location.hash === '#paused'
+        let {location} = this.props
+        let screen     = null
+        if (this.state.screen === "GameScreen") {
+            screen = <GameScreen location={location}/>
+        } else if (this.state.screen === "TitleScreen") {
+            screen = <TitleScreen location={location}/>
+        }
         return (
             <div id="root">
-                <div id="top-left">
-                    <div id="gui-buttons">
-                        <SettingsButton/>
-                        <EditButton/>
-                        <ExploreButton/>
-                        <PlayPauseButton/>
-                        <ZoomMeter/>
-                        {state.deploymentType === "standalone" ? null : <FullScreenButton/>}
-                        <ClearButton/>
-                    </div>
-                    <div id="menu">
-                        <EditMenu/>
-                        <SettingsMenu/>
-                        <ExploreMenu/>
-                    </div>
-                </div>
-                <div id="top-right">
-                    <SelectionInfo/>
-                </div>
-                <div id="bottom-left">
-                    {state.deploymentType === "standalone" ? null : <ShareButtons/>}
-                    <Statistics/>
-                </div>
-                <div id="bottom-right">
-                    <Version/>
-                </div>
+                {screen}
             </div>
         )
     }
