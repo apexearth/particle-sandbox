@@ -1,10 +1,21 @@
 const state = require('./state')
+
 let actions = module.exports = {
-    changeScreen: screen => {
+    resumeGame     : () => {
+        actions.changeScreen('GameScreen')
+        state.ps.resumeRendering()
+    },
+    gotoTitleScreen: () => {
+        actions.changeScreen('TitleScreen')
+        if (state.ps) {
+            state.ps.pauseRendering()
+        }
+    },
+    changeScreen   : screen => {
         state.screen = screen
         state.emit('screen', screen)
     },
-    startSandbox: () => {
+    startSandbox   : () => {
         if (state.ps) {
             state.ps.kill()
         }

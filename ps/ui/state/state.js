@@ -6,7 +6,6 @@ const state = module.exports = new EventEmitter()
 if (typeof window !== 'undefined') {
     window.state = state
 }
-
 state.actions = require('./actions')
 
 state.screen = 'TitleScreen'

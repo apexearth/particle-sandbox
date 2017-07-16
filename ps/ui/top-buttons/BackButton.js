@@ -2,14 +2,10 @@ import React from 'react'
 import {actions} from '../state'
 
 class BackButton extends React.Component {
-    componentWillMount() {
-        this.setState({count: 0})
-    }
-
     render() {
         return (
             <div className="square-button"
-                 onClick={() => actions.changeScreen('TitleScreen')}>
+                 onClick={() => actions.gotoTitleScreen()}>
                 <span className="glyphicon glyphicon-arrow-left"/>
             </div>
         )

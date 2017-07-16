@@ -262,8 +262,8 @@ class ParticleSandbox extends App {
     }
 
     kill() {
-        this.renderer.kill()
         this.removeAll()
+        super.kill()
     }
 }
 

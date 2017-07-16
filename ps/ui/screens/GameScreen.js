@@ -29,11 +29,15 @@ class GameScreen extends React.Component {
     }
 
     render() {
-        let {ps}       = state
+        let {ps} = state
+        if (!ps) return null
+
         let {location} = this.props
-        ps.paused      = location.hash === '#paused'
+        setImmediate(() => { // TODO: Hack.
+            ps.paused = location.hash === '#paused'
+        })
         return (
-            <div>
+            <div id="game-screen-root" style={{display: state.screen === 'GameScreen' ? 'block' : 'none'}}>
                 <div id="top-left">
                     <div id="gui-buttons">
                         <BackButton/>

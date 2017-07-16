@@ -16,15 +16,10 @@ class Root extends React.Component {
 
     render() {
         let {location} = this.props
-        let screen     = null
-        if (this.state.screen === "GameScreen") {
-            screen = <GameScreen location={location}/>
-        } else if (this.state.screen === "TitleScreen") {
-            screen = <TitleScreen location={location}/>
-        }
         return (
             <div id="root">
-                {screen}
+                <TitleScreen location={location}/>
+                <GameScreen location={location}/>
             </div>
         )
     }

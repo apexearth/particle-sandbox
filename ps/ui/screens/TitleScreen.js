@@ -9,13 +9,13 @@ class TitleScreen extends React.Component {
         let resume     = null
         if (state.ps) {
             resume = (
-                <div onClick={() => actions.changeScreen('GameScreen')}>
+                <div onClick={() => actions.resumeGame()}>
                     Resume
                 </div>
             )
         }
         return (
-            <div id="title-screen-root">
+            <div id="title-screen-root" style={{display: state.screen === 'TitleScreen' ? 'block' : 'none'}}>
                 <div id="title-screen-title">
                     Particle Sandbox
                 </div>
