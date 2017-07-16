@@ -1,8 +1,8 @@
 const processor = require('./processor')
 
 const settings = {
-    initialRadius: 2,
-    growthRate   : 10,
+    initialRadius: 1,
+    growthRate   : 5,
     density      : .75
 }
 
@@ -47,8 +47,8 @@ module.exports = {
                     state.particle.momentum.x /= count
                     state.particle.momentum.y /= count
                 }
-                state.particle.momentum.x += (state.start.x - state.finish.x) / ps.scale.x
-                state.particle.momentum.y += (state.start.y - state.finish.y) / ps.scale.x
+                state.particle.momentum.x += (state.start.x - state.finish.x) / ps.scale.x / 2
+                state.particle.momentum.y += (state.start.y - state.finish.y) / ps.scale.x / 2
 
                 ps.addParticle(state.particle)
                 state.particle = null

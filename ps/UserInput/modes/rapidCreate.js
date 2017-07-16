@@ -1,7 +1,7 @@
 const processor = require('./processor')
 
 const settings = {
-    radius   : 2,
+    radius   : 1,
     delay    : .01,
     momentumX: 0,
     momentumY: 0,

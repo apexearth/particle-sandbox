@@ -5,7 +5,7 @@ const defaultSettings = {
     delay       : 1,
     count       : 1,
     radius      : 1,
-    speed       : 5,
+    speed       : 25,
     minDirection: 0,
     maxDirection: 360,
     minDensity  : .5,
@@ -58,7 +58,7 @@ class Generator extends AppObject {
         if (typeof window !== 'undefined') {
             let size = Math.max(10, this.settings.range, this.settings.radius)
             this.graphics.clear()
-            this.graphics.alpha = this.selected ? .5 : .2
+            this.graphics.alpha = this.selected ? .2 : .1
             this.graphics.beginFill(0xffffff)
             this.graphics.drawRect(-size, -size, size * 2, size * 2)
             this.graphics.endFill()

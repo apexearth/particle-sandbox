@@ -63,3 +63,7 @@ const selectionInfo = state.selectionInfo = {
         return state.ps.modes.followSelection
     }
 }
+
+
+// Init
+state.actions.startSandbox(false)

@@ -26,15 +26,11 @@ class TitleScreen extends React.Component {
                     </div>
                 </div>
                 <div id="title-screen-ad">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"/>
                     <ins className="adsbygoogle"
                          style={{display: "block"}}
                          data-ad-client="ca-pub-6051654262613505"
                          data-ad-slot="4946546409"
                          data-ad-format="auto"/>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
                 </div>
             </div>
         )

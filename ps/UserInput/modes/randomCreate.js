@@ -1,7 +1,7 @@
 const processor = require('./processor')
 
 const settings = {
-    radius      : 2,
+    radius      : 1,
     delay       : .01,
     range       : 100,
     momentumMinX: -30,
@@ -9,7 +9,7 @@ const settings = {
     momentumMaxX: 30,
     momentumMaxY: 30,
     minDensity  : .5,
-    maxDensity  : 1,
+    maxDensity  : .75,
 }
 
 module.exports = {

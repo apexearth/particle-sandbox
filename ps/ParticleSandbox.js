@@ -201,13 +201,13 @@ class ParticleSandbox extends App {
         return particle
     }
 
-    addParticles(count) {
+    addParticles(count, distance = 1500) {
         for (let i = 0; i < count; i++) {
             this.addParticle({
-                radius  : 2 + Math.random() * 4,
+                radius  : 1 + Math.random(),
                 position: {
-                    x: 2500 * Math.random() - 1250,
-                    y: 2500 * Math.random() - 1250,
+                    x: distance * Math.random() - distance / 2,
+                    y: distance * Math.random() - distance / 2,
                 }
             })
         }

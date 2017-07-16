@@ -15,7 +15,7 @@ let actions = module.exports = {
         state.screen = screen
         state.emit('screen', screen)
     },
-    startSandbox   : () => {
+    startSandbox   : (changeScreen = true) => {
         if (state.ps) {
             state.ps.kill()
         }
@@ -23,8 +23,9 @@ let actions = module.exports = {
         const ps              = new ParticleSandbox()
         state.ps              = ps
 
-
-        actions.changeScreen('GameScreen')
+        if (changeScreen) {
+            actions.changeScreen('GameScreen')
+        }
 
         const addParticles = () => {
             ps.addParticles(20)
