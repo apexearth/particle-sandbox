@@ -210,7 +210,7 @@ class ParticleSandbox extends App {
             let angle = Math.random() * Math.PI * 2
             let d     = distance * Math.random() * Math.random() * Math.random()
             this.addParticle({
-                radius  : 1 + 10 * Math.random() * Math.random() * Math.random(),
+                radius  : 1 + 9 * Math.random() * Math.random(),
                 position: {
                     x: Math.cos(angle) * d,
                     y: Math.sin(angle) * d,

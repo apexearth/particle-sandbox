@@ -22,6 +22,6 @@ let actions = module.exports = {
             radius  : 10,
             density : 1,
         })
-        ps.addParticles(500)
+        ps.addParticles(300)
     }
 }

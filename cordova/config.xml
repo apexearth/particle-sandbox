@@ -17,7 +17,7 @@
         <icon density="xxhdpi" src="res/mipmap-xxhdpi/ic_launcher.png" />
         <icon density="xxhdpi" src="res/mipmap-xxhdpi/ic_launcher.png" />
     </platform>
-    <engine name="android" spec="^6.2.3" />
     <plugin name="cordova-plugin-fullscreen" spec="git+https://github.com/mesmotronic/cordova-plugin-fullscreen.git" />
     <plugin name="cordova-plugin-whitelist" spec="git+https://github.com/apache/cordova-plugin-whitelist.git" />
+    <engine name="android" spec="^6.2.3" />
 </widget>
