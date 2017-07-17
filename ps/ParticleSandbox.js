@@ -23,16 +23,15 @@ class ParticleSandbox extends App {
     constructor(options) {
         super(Object.assign({view}, options))
 
-        this.particles            = []
-        this.pairs                = [
+        this.particles  = []
+        this.pairs      = [
             new ParticlePairLinkedList(),
             new ParticlePairLinkedList(),
             new ParticlePairLinkedList(),
         ]
-        this.collisions           = []
-        this.generators           = []
-        this.container.position.x = this.screenWidth / 2
-        this.container.position.y = this.screenHeight / 2
+        this.collisions = []
+        this.generators = []
+        this.centerView()
 
         this._userInput = new UserInput({parent: this})
         this.modes      = {
@@ -55,6 +54,11 @@ class ParticleSandbox extends App {
 
     get userInput() {
         return this._userInput
+    }
+
+    centerView() {
+        this.container.position.x = this.screenWidth / 2
+        this.container.position.y = this.screenHeight / 2
     }
 
     update(seconds) {
@@ -201,13 +205,19 @@ class ParticleSandbox extends App {
         return particle
     }
 
-    addParticles(count, distance = 1500) {
+    addParticles(count, distance = 100000) {
         for (let i = 0; i < count; i++) {
+            let angle = Math.random() * Math.PI * 2
+            let d     = distance * Math.random() * Math.random() * Math.random()
             this.addParticle({
-                radius  : 1 + Math.random(),
+                radius  : 1 + 10 * Math.random() * Math.random() * Math.random(),
                 position: {
-                    x: distance * Math.random() - distance / 2,
-                    y: distance * Math.random() - distance / 2,
+                    x: Math.cos(angle) * d,
+                    y: Math.sin(angle) * d,
+                },
+                momentum: {
+                    x: (Math.random() - .5) * 500 / Math.sqrt(d),
+                    y: (Math.random() - .5) * 500 / Math.sqrt(d),
                 }
             })
         }

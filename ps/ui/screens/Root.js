@@ -2,7 +2,7 @@ import React from 'react'
 
 import state from '../state'
 
-import TitleScreen from './TitleScreen'
+import StartScreen from './StartScreen'
 import GameScreen from './GameScreen'
 
 class Root extends React.Component {
@@ -18,7 +18,7 @@ class Root extends React.Component {
         let {location} = this.props
         return (
             <div id="root">
-                <TitleScreen location={location}/>
+                <StartScreen location={location}/>
                 <GameScreen location={location}/>
             </div>
         )

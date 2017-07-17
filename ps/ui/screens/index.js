@@ -1,5 +1,5 @@
 module.exports = {
-    Root: require('./Root'),
-    GameScreen: require('./GameScreen'),
-    TitleScreen: require('./TitleScreen'),
+    Root       : require('./Root'),
+    GameScreen : require('./GameScreen'),
+    StartScreen: require('./StartScreen'),
 }

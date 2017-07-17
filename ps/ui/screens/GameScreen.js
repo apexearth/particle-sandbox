@@ -6,7 +6,6 @@ import {
     ExploreMenu
 } from '../menus/'
 import {
-    BackButton,
     EditButton,
     ExploreButton,
     SettingsButton,
@@ -40,7 +39,6 @@ class GameScreen extends React.Component {
             <div id="game-screen-root" style={{display: state.screen === 'GameScreen' ? 'block' : 'none'}}>
                 <div id="top-left">
                     <div id="gui-buttons">
-                        <BackButton/>
                         <SettingsButton/>
                         <EditButton/>
                         <ExploreButton/>

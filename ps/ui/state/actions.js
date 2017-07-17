@@ -1,21 +1,15 @@
 const state = require('./state')
 
 let actions = module.exports = {
-    resumeGame     : () => {
+    resumeGame  : () => {
         actions.changeScreen('GameScreen')
         state.ps.resumeRendering()
     },
-    gotoTitleScreen: () => {
-        actions.changeScreen('TitleScreen')
-        if (state.ps) {
-            state.ps.pauseRendering()
-        }
-    },
-    changeScreen   : screen => {
+    changeScreen: screen => {
         state.screen = screen
         state.emit('screen', screen)
     },
-    startSandbox   : (changeScreen = true) => {
+    startSandbox: () => {
         if (state.ps) {
             state.ps.kill()
         }
@@ -23,17 +17,11 @@ let actions = module.exports = {
         const ps              = new ParticleSandbox()
         state.ps              = ps
 
-        if (changeScreen) {
-            actions.changeScreen('GameScreen')
-        }
-
-        const addParticles = () => {
-            ps.addParticles(20)
-            if (ps.particles.length < 250) {
-                setTimeout(addParticles, 10)
-            }
-        }
-        addParticles()
+        ps.addParticle({
+            position: {x: 0, y: 0},
+            radius  : 10,
+            density : 1,
+        })
+        ps.addParticles(500)
     }
-
 }

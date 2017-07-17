@@ -2,17 +2,21 @@ const config = require('./config')
 
 class PopulationManger {
     constructor(ps, stats, history) {
-        this.ps      = ps
-        this.stats   = stats
-        this.history = history
+        this.ps         = ps
+        this.stats      = stats
+        this.history    = history
+        this.delay      = 1000
+        this.delayCount = 0
     }
 
     update(seconds) {
+        this.delayCount += seconds
+        if (this.delay > this.delayCount) return
+
         const {
                   ps,
                   stats
               } = this
-
         if (this.stats.fps < config.limits.minFpsBeforeAutoRemoval && this.stats.simulation.particleCount > 500) {
             const center           = {position: stats.simulation.centerMass}
             const distantParticles = ps.particles

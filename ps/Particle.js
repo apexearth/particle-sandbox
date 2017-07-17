@@ -108,7 +108,7 @@ class Particle extends AppObject {
         super.update(seconds)
         this.density_prev = this.density
         this.density += seconds * Math.sqrt(this.mass) / 100000
-        if (this.mass <= 1) {
+        if (this.mass < .25) {
             this.mass -= seconds
         }
         this.updateScale()
@@ -119,7 +119,7 @@ class Particle extends AppObject {
             this.scale.x = this.scale.y = this.radius
         } else {
             // Update scale based on radius and ensure we are always at least 1 pixel large regardless of zoom.
-            this.scale.x = this.scale.y = (this.radius * this.container.parent.scale.x >= 1) ? this.radius : 1 / this.container.parent.scale.x
+            this.scale.x = this.scale.y = (this.radius * this.container.parent.scale.x >= 1) ? this.radius : .5 / this.container.parent.scale.x
         }
     }
 

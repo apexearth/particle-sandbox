@@ -1,5 +1,4 @@
 module.exports = {
-    BackButton      : require('./BackButton'),
     ClearButton     : require('./ClearButton'),
     EditButton      : require('./EditButton'),
     ExploreButton   : require('./ExploreButton'),
