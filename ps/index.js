@@ -1,1 +1,2 @@
+require('./android')
 require('./ui')

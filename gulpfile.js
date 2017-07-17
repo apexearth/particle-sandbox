@@ -27,7 +27,7 @@ function uploadTask(name, prefix) {
     })
 }
 
-gulp.task('copy-www', function () {
+gulp.task('copy-cordova', function () {
     gulp.src(files, {base: './'})
-        .pipe(gulp.dest('./standalones/www'))
+        .pipe(gulp.dest('./cordova/www'))
 })

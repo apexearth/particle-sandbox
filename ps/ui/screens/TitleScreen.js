@@ -26,11 +26,6 @@ class TitleScreen extends React.Component {
                     </div>
                 </div>
                 <div id="title-screen-ad">
-                    <ins className="adsbygoogle"
-                         style={{display: "block"}}
-                         data-ad-client="ca-pub-6051654262613505"
-                         data-ad-slot="4946546409"
-                         data-ad-format="auto"/>
                 </div>
             </div>
         )

@@ -23,8 +23,8 @@
     "package-standalone-darwin-ia32": "electron-packager . --out standalones --platform=darwin --arch=ia32 --ignore=ps/",
     "publish": "npm-run-all test build upload upload-version",
     "publish-develop": "npm-run-all test build upload-develop",
-    "copy-www": "gulp copy-www",
-    "publish-www": "npm-run-all build-standalone copy-www"
+    "copy-cordova": "gulp copy-cordova",
+    "publish-cordova": "npm-run-all build-standalone copy-cordova"
   },
   "eslintConfig": {
     "parserOptions": {

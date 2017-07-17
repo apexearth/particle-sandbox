@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.particlesandbox" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Particle Sandbox</name>
+    <description>
+        Grand-scale interactive gravity simulator.
+    </description>
+    <author email="apexearth@gmail.com">
+        Christopher Jacobs
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <preference name="FullScreen" value="true" />
+    <platform name="android">
+        <icon density="mdpi" src="res/mipmap-mdpi/ic_launcher.png" />
+        <icon density="hdpi" src="res/mipmap-hdpi/ic_launcher.png" />
+        <icon density="xhdpi" src="res/mipmap-xhdpi/ic_launcher.png" />
+        <icon density="xxhdpi" src="res/mipmap-xxhdpi/ic_launcher.png" />
+        <icon density="xxhdpi" src="res/mipmap-xxhdpi/ic_launcher.png" />
+    </platform>
+    <engine name="android" spec="^6.2.3" />
+    <plugin name="cordova-plugin-fullscreen" spec="git+https://github.com/mesmotronic/cordova-plugin-fullscreen.git" />
+    <plugin name="cordova-plugin-whitelist" spec="git+https://github.com/apache/cordova-plugin-whitelist.git" />
+</widget>
