@@ -67,7 +67,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "apex-app": "^3.3.0",
+    "apex-app": "^3.4.0",
     "color": "^1.0.3",
     "open": "0.0.5",
     "react": "^15.4.2",
