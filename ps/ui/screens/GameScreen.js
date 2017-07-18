@@ -32,17 +32,13 @@ class GameScreen extends React.Component {
         let {ps} = state
         if (!ps) return null
 
-        let {location} = this.props
-        setImmediate(() => { // TODO: Hack.
-            ps.paused = location.hash === '#paused'
-        })
         return (
             <div id="game-screen-root" style={{display: state.screen === 'GameScreen' ? 'block' : 'none'}}>
                 <div id="top-left">
                     <div id="gui-buttons">
-                        <SettingsButton/>
                         <EditButton/>
                         <ExploreButton/>
+                        <SettingsButton/>
                         <PlayPauseButton/>
                         <ZoomMeter/>
                         {state.deploymentType === "standalone" ? null : <FullScreenButton/>}

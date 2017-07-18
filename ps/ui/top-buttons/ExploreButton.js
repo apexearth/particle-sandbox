@@ -7,7 +7,7 @@ class ExploreButton extends React.Component {
 
     componentDidMount() {
         this.setState(explore)
-        explore.subscribe(explore => () => this.setState(explore))
+        explore.subscribe(explore => this.setState(explore))
     }
 
     render() {

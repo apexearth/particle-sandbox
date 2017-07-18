@@ -7,16 +7,17 @@ if (typeof window !== 'undefined') {
     window.state = state
 }
 
+state.mobile         = false
 state.deploymentType = "web"
 
 state.actions = require('./actions')
 
-state.screen = 'IntroductionScreen'
+state.screen = 'StartScreen'
 
 state.subscribe = fn => state.on('state', fn)
 state.notify    = () => state.emit('state', state)
 
-state.menu       = 'edit'
+state.menu       = null
 state.menus      = []
 state.toggleMenu = val => {
     if (state.menu === val) state.menu = null

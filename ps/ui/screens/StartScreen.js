@@ -29,7 +29,6 @@ class StartScreen extends React.Component {
     }
 
     render() {
-        let {location} = this.props
         return (
             <div id="start-screen-root" style={{display: state.screen === 'StartScreen' ? 'block' : 'none'}}>
             </div>

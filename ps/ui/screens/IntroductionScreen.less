@@ -9,13 +9,54 @@
 
   display: inline-flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  pointer-events: none;
 
   .introduction-screen-step {
+    background-color: @gui2-bg-color;
+    border-top: @gui2-border;
+    padding: 10px;
+    width: 100%;
+    max-width: 500px;
+    height: 220px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    font-size: 2em;
+    font-size: 1.75em;
+    pointer-events: all;
+    div {
+      width: 100%;
+      max-width: 400px;
+      padding-bottom: 20px;
+    }
   }
   .introduction-screen-ctc {
     font-size: .5em;
   }
+
+  .introduction-screen-button {
+    cursor: pointer;
+    pointer-events: all;
+    background-color: @gui2-bg-color2;
+    text-align: center;
+    width: 150px;
+    padding-top: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  #introduction-screen-skip {
+    .introduction-screen-button;
+    position: fixed;
+    margin-left: -74px;
+    border: @gui2-border2;
+  }
+  #introduction-screen-always-skip {
+    .introduction-screen-button;
+    position: fixed;
+    margin-left: 75px;
+    border: @gui2-border2;
+  }
 }
+
