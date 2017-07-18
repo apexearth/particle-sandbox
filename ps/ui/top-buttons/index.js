@@ -4,6 +4,7 @@ module.exports = {
     ExploreButton   : require('./ExploreButton'),
     FullScreenButton: require('./FullScreenButton'),
     PlayPauseButton : require('./PlayPauseButton'),
+    ReloadButton    : require('./ReloadButton'),
     SettingsButton  : require('./SettingsButton'),
     ZoomMeter       : require('./ZoomMeter')
 }

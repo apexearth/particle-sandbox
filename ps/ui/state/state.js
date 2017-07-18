@@ -11,7 +11,7 @@ state.deploymentType = "web"
 
 state.actions = require('./actions')
 
-state.screen = 'StartScreen'
+state.screen = 'IntroductionScreen'
 
 state.subscribe = fn => state.on('state', fn)
 state.notify    = () => state.emit('state', state)

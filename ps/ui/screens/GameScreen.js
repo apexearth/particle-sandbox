@@ -13,6 +13,7 @@ import {
     ZoomMeter,
     FullScreenButton,
     ClearButton,
+    ReloadButton,
 } from '../top-buttons'
 import SelectionInfo from '../SelectionInfo'
 import Version from '../Version'
@@ -46,6 +47,7 @@ class GameScreen extends React.Component {
                         <ZoomMeter/>
                         {state.deploymentType === "standalone" ? null : <FullScreenButton/>}
                         <ClearButton/>
+                        {state.deploymentType === "standalone" ? <ReloadButton/> : null}
                     </div>
                     <div id="menu">
                         <EditMenu/>
