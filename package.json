@@ -24,7 +24,8 @@
     "publish": "npm-run-all test build upload upload-version",
     "publish-develop": "npm-run-all test build upload-develop",
     "copy-cordova": "gulp copy-cordova",
-    "publish-cordova": "npm-run-all build-standalone copy-cordova"
+    "publish-cordova": "npm-run-all build-standalone copy-cordova",
+    "build-cordova-release": "npm run publish-cordova && cd cordova && cordova build --release -- --keystore ~/android-keystore.jks --alias key0"
   },
   "eslintConfig": {
     "parserOptions": {
