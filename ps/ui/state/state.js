@@ -10,9 +10,10 @@ if (typeof window !== 'undefined') {
 state.mobile         = false
 state.deploymentType = "web"
 
+state.screen = 'StartScreen'
+
 state.actions = require('./actions')
 
-state.screen = 'StartScreen'
 
 state.subscribe = fn => state.on('state', fn)
 state.notify    = () => state.emit('state', state)
