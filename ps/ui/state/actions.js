@@ -11,9 +11,9 @@ let actions = module.exports = {
         state.emit('screen', screen)
     },
     startSandbox: () => {
-        if (state.ps) {
-            state.ps.kill()
-        }
+        if (state.ps) throw new Error('already started')
+
+        console.log('starting sandbox')
         const ParticleSandbox = require('../../ParticleSandbox')
         const ps              = new ParticleSandbox()
         state.ps              = ps
@@ -24,10 +24,5 @@ let actions = module.exports = {
             density : 1,
         })
         ps.addParticles(300)
-
-        advertising.initialize()
-        advertising.prepareInterstitial(() => {
-            advertising.showInterstitial()
-        })
     }
 }
