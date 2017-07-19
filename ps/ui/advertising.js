@@ -40,12 +40,13 @@ function registerAdEvents() {
     })
     document.addEventListener('onPresentInterstitialAd', msg => {
         log('onPresentInterstitialAd', msg)
+        state.ps.paused = true
         state.emit('showAdvertisement')
     })
     document.addEventListener('onDismissInterstitialAd', msg => {
         log('onDismissInterstitialAd', msg)
+        state.ps.paused = false
         startAdTimer()
-
     })
     console.log('admob plugin events initialized')
 }
