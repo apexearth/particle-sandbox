@@ -8,11 +8,14 @@
         ],
         "plugins": {
             "cordova-plugin-fullscreen": {},
-            "cordova-plugin-whitelist": {}
+            "cordova-plugin-whitelist": {},
+            "cordova-plugin-admob-simple": {}
         }
     },
     "dependencies": {
+        "cordova-admob-sdklibs": "^2.1.4",
         "cordova-android": "^6.2.3",
+        "cordova-plugin-admob-simple": "^3.3.4",
         "cordova-plugin-fullscreen": "git+https://github.com/mesmotronic/cordova-plugin-fullscreen.git",
         "cordova-plugin-whitelist": "git+https://github.com/apache/cordova-plugin-whitelist.git"
     }

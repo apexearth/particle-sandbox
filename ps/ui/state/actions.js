@@ -1,4 +1,5 @@
-const state = require('./state')
+const state       = require('./state')
+const advertising = require('../advertising')
 
 let actions = module.exports = {
     resumeGame  : () => {
@@ -23,5 +24,10 @@ let actions = module.exports = {
             density : 1,
         })
         ps.addParticles(300)
+
+        advertising.initialize()
+        advertising.prepareInterstitial(() => {
+            advertising.showInterstitial()
+        })
     }
 }
