@@ -1,5 +1,4 @@
-const state       = require('./state')
-const advertising = require('../advertising')
+const state = require('./state')
 
 let actions = module.exports = {
     resumeGame  : () => {

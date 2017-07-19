@@ -1,3 +1,4 @@
+const state      = require('./state')
 const adInterval = 10 * 60 * 1000
 
 module.exports = {
@@ -34,9 +35,13 @@ function registerAdEvents() {
     document.addEventListener('onLeaveToAd', log.bind(null, 'onLeaveToAd'))
     document.addEventListener('onReceiveInterstitialAd', msg => {
         log('onReceiveInterstitialAd', msg)
+        state.emit('pendingAdvertisement')
         setTimeout(() => window.plugins.AdMob.showInterstitialAd(), 5000)
     })
-    document.addEventListener('onPresentInterstitialAd', log.bind(null, 'onPresentInterstitialAd'))
+    document.addEventListener('onPresentInterstitialAd', msg => {
+        log('onPresentInterstitialAd', msg)
+        state.emit('showAdvertisement')
+    })
     document.addEventListener('onDismissInterstitialAd', msg => {
         log('onDismissInterstitialAd', msg)
         startAdTimer()

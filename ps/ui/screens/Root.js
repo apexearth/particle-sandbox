@@ -5,6 +5,7 @@ import state from '../state'
 import IntroductionScreen from './IntroductionScreen'
 import StartScreen from './StartScreen'
 import GameScreen from './GameScreen'
+import AdOverlay from './AdOverlay'
 
 class Root extends React.Component {
     constructor() {
@@ -29,6 +30,7 @@ class Root extends React.Component {
                 <StartScreen location={location}/>
                 <GameScreen location={location}/>
                 {introduction}
+                <AdOverlay/>
             </div>
         )
     }
