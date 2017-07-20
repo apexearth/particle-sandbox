@@ -10,6 +10,8 @@ class AdOverlay extends React.Component {
     componentDidMount() {
         state.on('pendingAdvertisement', () => this.setState({visible: true}))
         state.on('showAdvertisement', () => this.setState({visible: false}))
+        state.on('dismissAdvertisement', () => this.setState({visible: false}))
+        state.on('cancelAdvertisement', () => this.setState({visible: false}))
     }
 
     render() {

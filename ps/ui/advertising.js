@@ -1,5 +1,7 @@
 const state      = require('./state')
-const adInterval = 10 * 60 * 1000
+const adInterval = 60 * 10 * 1000
+
+let appPaused = false
 
 module.exports = {
     initialize,
@@ -36,7 +38,11 @@ function registerAdEvents() {
     document.addEventListener('onReceiveInterstitialAd', msg => {
         log('onReceiveInterstitialAd', msg)
         state.emit('pendingAdvertisement')
-        setTimeout(() => window.plugins.AdMob.showInterstitialAd(), 5000)
+        setTimeout(() => {
+            if (appPaused === false) {
+                window.plugins.AdMob.showInterstitialAd()
+            }
+        }, 5000)
     })
     document.addEventListener('onPresentInterstitialAd', msg => {
         log('onPresentInterstitialAd', msg)
@@ -46,6 +52,7 @@ function registerAdEvents() {
     document.addEventListener('onDismissInterstitialAd', msg => {
         log('onDismissInterstitialAd', msg)
         state.ps.paused = false
+        state.emit('dismissAdvertisement')
         startAdTimer()
     })
     console.log('admob plugin events initialized')
@@ -55,9 +62,24 @@ function log(event, msg) {
     console.log(`${event}: ${JSON.stringify(msg)}`)
 }
 
+let adTimeout = false
 function startAdTimer() {
+    if (adTimeout) return
+    adTimeout = true
     setTimeout(() => {
-        window.plugins.AdMob.createInterstitialView()
-        window.plugins.AdMob.requestInterstitialAd()
+        adTimeout = false
+        if (appPaused === false) {
+            window.plugins.AdMob.createInterstitialView()
+            window.plugins.AdMob.requestInterstitialAd()
+        }
     }, adInterval)
 }
+
+document.addEventListener("pause", () => {
+    state.emit('cancelAdvertisement')
+    appPaused = true
+}, false)
+document.addEventListener("resume", () => {
+    appPaused = false
+    startAdTimer()
+}, false)
