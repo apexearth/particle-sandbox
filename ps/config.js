@@ -11,7 +11,7 @@ module.exports = {
         gravityExponent2: 3,
         bouncePercentage: .5,
         absorbRate      : .01,
-        heatRate        : 1,
+        heatRate        : 100,
     },
     performance: {
         updateFrequency1  : 1,

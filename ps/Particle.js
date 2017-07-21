@@ -12,7 +12,7 @@ class Particle extends AppObject {
         this.color        = Particle.particleColor
         this.density      = density || Math.max(.1, Math.random() * Math.random())
         this.density_prev = this.density
-        this.heat         = 0
+        this._heat        = 0
         this.heatEmission = 0
         if (radius) {
             this.radius = radius
@@ -38,6 +38,14 @@ class Particle extends AppObject {
             colorB   = temp
         }
         return Color.rgb(colorR, colorG, colorB)
+    }
+
+    set heat(val) {
+        this._heat = Math.max(0, val)
+    }
+
+    get heat() {
+        return this._heat
     }
 
     set density(val) {
@@ -71,24 +79,26 @@ class Particle extends AppObject {
         if (this.mass < 0) return
         if (typeof window !== 'undefined') {
             this.graphics.clear()
-            this.drawHeat()
             this.graphics.beginFill(this.color.rgbNumber())
             if (this._selected) {
                 this.graphics.lineStyle(1 / this.radius, 0xffffff, 1)
             }
             this.graphics.drawCircle(0, 0, 1)
             this.graphics.endFill()
+            this.graphics.lineStyle(0, 0xffffff, 1)
+            this.drawHeat()
             this.updateScale()
         }
     }
 
     drawHeat() {
         if (this.heat < 250) return
-        let heatLevel = Math.log(this.heat) / 4
-        let heatColor = this.color.lighten(.05).rgbNumber()
+        let heatLevel            = Math.log(this.heat) / 2
+        let heatAffectingVisuals = this.heat / this.mass
+        let heatColor            = this.color.lighten(.05 * heatAffectingVisuals).rgbNumber()
         this.graphics.beginFill(heatColor, .15)
         while (heatLevel-- > 0) {
-            this.graphics.drawCircle(0, 0, (1 + heatLevel * .075))
+            this.graphics.drawCircle(0, 0, (1 + heatLevel * .05))
         }
         this.graphics.endFill()
     }
@@ -107,11 +117,15 @@ class Particle extends AppObject {
         this.updateHeat(seconds)
         super.update(seconds)
         this.density_prev = this.density
-        this.density += seconds * Math.sqrt(this.mass) / 100000
+        this.density += seconds * Math.sqrt(this.mass) / 100000 / this.density
         if (this.mass < .25) {
             this.mass -= seconds
         }
         this.updateScale()
+
+        if (simulation.heatRate) {
+            this.heat += Particle.calculateSpeed(this.momentum_prev.x - this.momentum.x, this.momentum_prev.y - this.momentum.y) * simulation.heatRate
+        }
     }
 
     updateScale() {
@@ -131,31 +145,11 @@ class Particle extends AppObject {
 
     updateHeat(seconds) {
         this.heat += this.mass * (this.density - this.density_prev) * seconds * simulation.heatRate
-        this.heatEmission        = this.heat
-        this.heat *= 1 - ((this.heat / this.mass) * (simulation.heatRate / 1000) * seconds)
-        this.heatEmission        = (this.heatEmission - this.heat) / seconds
-        let heatAffectingVisuals = this.heat / this.mass
-        if (heatAffectingVisuals >= 1) {
-            if (!this.heatFilter) {
-                if (typeof window !== 'undefined') {
-                    this.heatFilter = new PIXI.filters.ColorMatrixFilter()
-                } else {
-                    this.heatFilter = {saturate: () => undefined, brightness: () => undefined}
-                }
-                this.container.filters = [
-                    this.heatFilter,
-                ]
-            }
-            this.heatFilter.saturate(.9 + heatAffectingVisuals / 10)
-            this.heatFilter.brightness(.9 + heatAffectingVisuals / 20)
-            if (Math.floor(this.heat / 250) !== this.heatDrawn) {
-                this.heatDrawn = Math.floor(this.heat / 250)
-                this.draw()
-            }
-        } else if (this.heatFilter) {
-            this.container.filters = null
-            this.heatFilter        = null
-            this.heatDrawn         = 0
+        this.heatEmission = this.heat
+        this.heat *= 1 - ((this.heat / this.mass) * (simulation.heatRate / 100000) * seconds)
+        this.heatEmission = (this.heatEmission - this.heat) / seconds
+        if (Math.floor(this.heat / 250) !== this.heatDrawn) {
+            this.heatDrawn = Math.floor(this.heat / 250)
             this.draw()
         }
     }
@@ -174,21 +168,12 @@ class Particle extends AppObject {
         pair.particle2.momentum.x -= -pair.particle1.mass * x / pull
         pair.particle2.momentum.y -= -pair.particle1.mass * y / pull
 
-        if (simulation.heatRate) {
-            pair.particle1.heat += pull / pair.particle1.mass * simulation.heatRate / 10
-            pair.particle2.heat += pull / pair.particle2.mass * simulation.heatRate / 10
-        }
-
         if (simulation.gravityStrength2) {
             let pull2 = Math.pow(pair.distance, simulation.gravityExponent2) / simulation.gravityStrength2
             pair.particle1.momentum.x -= pair.particle2.mass * x / pull2
             pair.particle1.momentum.y -= pair.particle2.mass * y / pull2
             pair.particle2.momentum.x -= -pair.particle1.mass * x / pull2
             pair.particle2.momentum.y -= -pair.particle1.mass * y / pull2
-            if (simulation.heatRate) {
-                pair.particle1.heat += pull2 / pair.particle1.mass * simulation.heatRate / 10
-                pair.particle2.heat += pull2 / pair.particle2.mass * simulation.heatRate / 10
-            }
         }
     }
 
