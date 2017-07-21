@@ -1,8 +1,8 @@
-const Color        = require('color')
-const {AppObject}  = require('apex-app')
-const angles       = require('./angles')
-const {simulation} = require('./config')
-const stats        = require('./stats')
+const Color              = require('color')
+const {AppObject}        = require('apex-app')
+const angles             = require('./angles')
+const {simulation, view} = require('./config')
+const stats              = require('./stats')
 
 class Particle extends AppObject {
     constructor({parent, position, momentum, mass, radius, density}) {
@@ -84,11 +84,11 @@ class Particle extends AppObject {
 
     drawHeat() {
         if (this.heat < 250) return
-        let heatLevel = Math.log(this.heat)
+        let heatLevel = Math.log(this.heat) / 4
         let heatColor = this.color.lighten(.05).rgbNumber()
-        this.graphics.beginFill(heatColor, .1)
+        this.graphics.beginFill(heatColor, .15)
         while (heatLevel-- > 0) {
-            this.graphics.drawCircle(0, 0, (1 + heatLevel * .035))
+            this.graphics.drawCircle(0, 0, (1 + heatLevel * .075))
         }
         this.graphics.endFill()
     }
@@ -119,7 +119,7 @@ class Particle extends AppObject {
             this.scale.x = this.scale.y = this.radius
         } else {
             // Update scale based on radius and ensure we are always at least 1 pixel large regardless of zoom.
-            this.scale.x = this.scale.y = (this.radius * this.container.parent.scale.x >= 1) ? this.radius : .5 / this.container.parent.scale.x
+            this.scale.x = this.scale.y = (this.radius * this.container.parent.scale.x >= view.minDrawScale) ? this.radius : view.minDrawScale / this.container.parent.scale.x
         }
     }
 
@@ -131,10 +131,11 @@ class Particle extends AppObject {
 
     updateHeat(seconds) {
         this.heat += this.mass * (this.density - this.density_prev) * seconds * simulation.heatRate
-        this.heatEmission = this.heat
+        this.heatEmission        = this.heat
         this.heat *= 1 - ((this.heat / this.mass) * (simulation.heatRate / 1000) * seconds)
-        this.heatEmission = (this.heatEmission - this.heat) / seconds
-        if (this.heat >= 250) {
+        this.heatEmission        = (this.heatEmission - this.heat) / seconds
+        let heatAffectingVisuals = this.heat / this.mass
+        if (heatAffectingVisuals >= 1) {
             if (!this.heatFilter) {
                 if (typeof window !== 'undefined') {
                     this.heatFilter = new PIXI.filters.ColorMatrixFilter()
@@ -145,8 +146,8 @@ class Particle extends AppObject {
                     this.heatFilter,
                 ]
             }
-            this.heatFilter.saturate(this.heat / 5000 + (1 - .05))
-            this.heatFilter.brightness((1 - .075) + this.heat / 10000)
+            this.heatFilter.saturate(.9 + heatAffectingVisuals / 10)
+            this.heatFilter.brightness(.9 + heatAffectingVisuals / 20)
             if (Math.floor(this.heat / 250) !== this.heatDrawn) {
                 this.heatDrawn = Math.floor(this.heat / 250)
                 this.draw()
@@ -173,11 +174,9 @@ class Particle extends AppObject {
         pair.particle2.momentum.x -= -pair.particle1.mass * x / pull
         pair.particle2.momentum.y -= -pair.particle1.mass * y / pull
 
-        let speed
         if (simulation.heatRate) {
-            speed = Particle.calculateSpeed(x, y)
-            pair.particle1.heat += pair.particle2.mass * speed / pull * simulation.heatRate / 10
-            pair.particle2.heat += pair.particle2.mass * speed / pull * simulation.heatRate / 10
+            pair.particle1.heat += pull / pair.particle1.mass * simulation.heatRate / 10
+            pair.particle2.heat += pull / pair.particle2.mass * simulation.heatRate / 10
         }
 
         if (simulation.gravityStrength2) {
@@ -187,8 +186,8 @@ class Particle extends AppObject {
             pair.particle2.momentum.x -= -pair.particle1.mass * x / pull2
             pair.particle2.momentum.y -= -pair.particle1.mass * y / pull2
             if (simulation.heatRate) {
-                pair.particle1.heat += pair.particle2.mass * speed / pull2 * simulation.heatRate / 10
-                pair.particle2.heat += pair.particle2.mass * speed / pull2 * simulation.heatRate / 10
+                pair.particle1.heat += pull2 / pair.particle1.mass * simulation.heatRate / 10
+                pair.particle2.heat += pull2 / pair.particle2.mass * simulation.heatRate / 10
             }
         }
     }
@@ -260,18 +259,18 @@ class Particle extends AppObject {
     }
 
     static exchangeMass({particle1, particle2}, amount = 1) {
-        let averageHeat        = (particle2.heat + particle1.heat) / 2
+        let averageHeat = (particle2.heat + particle1.heat) / 2
         if (particle1.density > particle2.density) {
             let transferPercentage = Math.min(1, (particle1.mass / particle2.mass) * particle2.density * amount * simulation.absorbRate)
             let transferAmount     = Math.min(particle2.mass, Math.max(particle2.mass * transferPercentage, 0.1))
-            let heatDifference = averageHeat - particle1.heat
+            let heatDifference     = averageHeat - particle1.heat
             particle1.heat += heatDifference * (transferPercentage * particle2.mass) / particle1.mass
             particle1.mass += transferAmount
             particle2.mass -= transferAmount
         } else {
             let transferPercentage = Math.min(1, (particle2.mass / particle1.mass) * particle1.density * amount * simulation.absorbRate)
             let transferAmount     = Math.min(particle1.mass, Math.max(particle1.mass * transferPercentage, 0.1))
-            let heatDifference = averageHeat - particle2.heat
+            let heatDifference     = averageHeat - particle2.heat
             particle2.heat += heatDifference * (transferPercentage * particle1.mass) / particle2.mass
             particle2.mass += transferAmount
             particle1.mass -= transferAmount

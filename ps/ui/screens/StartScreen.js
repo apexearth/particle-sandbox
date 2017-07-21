@@ -5,11 +5,20 @@ import state, {actions} from '../state'
 
 class StartScreen extends React.Component {
     componentDidMount() {
+        this.initZoom()
+        setTimeout(() => this.beginZoom(), 500)
+    }
+
+    initZoom() {
         document.body.addEventListener('click', this.skip)
         document.body.addEventListener('touchdown', this.skip)
 
-        state.ps.zoom = state.ps.scale.x = state.ps.scale.y = .0000001
+        state.ps.scale.x = state.ps.scale.y = .0000001
+        state.ps.zoomSpeed = 0
         state.ps.zoom      = 1
+    }
+
+    beginZoom() {
         let tid            = setInterval(() => {
             state.ps.zoomSpeed *= 1.1
             state.ps.centerView() // Mini hack to keep centered while zooming if a user changes window size.

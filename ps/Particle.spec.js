@@ -352,26 +352,23 @@ describe("Particle", function () {
             })
             let redraws = 0
             p.draw     = () => redraws++
-            p.heat      = 251
-            p.updateHeat(.1)
-            expect(redraws).to.equal(1)
-            p.updateHeat(.1)
-            expect(redraws).to.equal(1)
-            p.heat      = 501
-            p.updateHeat(.1)
-            expect(redraws).to.equal(2)
-            p.heat      = 499
-            p.updateHeat(.1)
-            expect(redraws).to.equal(3)
-            p.heat      = 300
-            p.updateHeat(.1)
-            expect(redraws).to.equal(3)
-            p.heat      = 249
-            p.updateHeat(.1)
-            expect(redraws).to.equal(4)
             p.heat      = 1001
             p.updateHeat(.1)
-            expect(redraws).to.equal(5)
+            expect(redraws).to.equal(1)
+            p.updateHeat(.1)
+            expect(redraws).to.equal(1)
+            p.heat      = 1251
+            p.updateHeat(.1)
+            expect(redraws).to.equal(2)
+            p.heat      = 1249
+            p.updateHeat(.1)
+            expect(redraws).to.equal(3)
+            p.heat      = 1201
+            p.updateHeat(.1)
+            expect(redraws).to.equal(3)
+            p.heat      = 1501
+            p.updateHeat(.1)
+            expect(redraws).to.equal(4)
         })
         it('bounce generates heat', function () {
             let ps = new ParticleSandbox()
