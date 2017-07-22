@@ -38,11 +38,7 @@ function registerAdEvents() {
     document.addEventListener('onReceiveInterstitialAd', msg => {
         log('onReceiveInterstitialAd', msg)
         state.emit('pendingAdvertisement')
-        setTimeout(() => {
-            if (appPaused === false) {
-                window.plugins.AdMob.showInterstitialAd()
-            }
-        }, 5000)
+        setTimeout(showAd, 5000)
     })
     document.addEventListener('onPresentInterstitialAd', msg => {
         log('onPresentInterstitialAd', msg)
@@ -62,16 +58,26 @@ function log(event, msg) {
     console.log(`${event}: ${JSON.stringify(msg)}`)
 }
 
+function requestAd() {
+    if (appPaused === false) {
+        window.plugins.AdMob.createInterstitialView()
+        window.plugins.AdMob.requestInterstitialAd()
+    }
+}
+
+function showAd() {
+    if (appPaused === false) {
+        window.plugins.AdMob.showInterstitialAd()
+    }
+}
+
 let adTimeout = false
 function startAdTimer() {
     if (adTimeout) return
     adTimeout = true
     setTimeout(() => {
         adTimeout = false
-        if (appPaused === false) {
-            window.plugins.AdMob.createInterstitialView()
-            window.plugins.AdMob.requestInterstitialAd()
-        }
+        requestAd()
     }, adInterval)
 }
 
