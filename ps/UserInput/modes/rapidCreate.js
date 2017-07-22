@@ -4,8 +4,8 @@ const processor = require('./processor')
 const settings = {
     radius      : setting(1, .5, 100),
     delay       : setting(.01, .01, .25),
-    momentumX: setting(0, 0, 100),
-    momentumY: setting(0, 0, 100),
+    momentumX: setting(0, -100, 100),
+    momentumY: setting(0, -100, 100),
     density  : setting(.75, .1, 10),
 }
 
