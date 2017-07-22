@@ -16,7 +16,7 @@ function initialize() {
             bannerAtTop     : false, // set to true, to put banner at top
             overlap         : true,  // banner will overlap webview
             offsetTopBar    : false, // set to true to avoid ios7 status bar overlap
-            isTesting       : true,  // receiving test ad
+            isTesting       : false, // receiving test ad
             autoShow        : false  // auto show interstitial ad when loaded
         })
         console.log('admob plugin initialized')
@@ -63,6 +63,7 @@ function log(event, msg) {
 }
 
 let adTimeout = false
+
 function startAdTimer() {
     if (adTimeout) return
     adTimeout = true

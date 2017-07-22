@@ -1,9 +1,10 @@
+const setting = require('./setting')
 const processor = require('./processor')
 
 const settings = {
-    initialRadius: 1,
-    growthRate   : 5,
-    density      : .75
+    initialRadius: setting(1, .5, 100),
+    growthRate   : setting(5, .1, 100),
+    density      : setting(.75, .01, 10),
 }
 
 module.exports = {
@@ -16,7 +17,7 @@ module.exports = {
                 state.start.x  = x
                 state.start.y  = y
                 state.finish   = {}
-                state.particle = ps.previewParticle({density: settings.density})
+                state.particle = ps.previewParticle({density: settings.density.value})
             },
             onUpdate  : (seconds, state, ps, {x, y}) => {
                 state.finish.x = x
@@ -27,7 +28,7 @@ module.exports = {
                 }
                 state.particle.position.x = (state.start.x - ps.position.x) / ps.scale.x
                 state.particle.position.y = (state.start.y - ps.position.y) / ps.scale.y
-                state.particle.radius     = (settings.initialRadius + settings.growthRate * state.timeHeld) / ps.scale.x
+                state.particle.radius     = (settings.initialRadius.value + settings.growthRate.value * state.timeHeld) / ps.scale.x
                 state.particle.draw()
             },
             onComplete: (seconds, state, ps, {x, y}) => {

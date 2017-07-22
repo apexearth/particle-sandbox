@@ -1,11 +1,12 @@
+const setting   = require('./setting')
 const processor = require('./processor')
 
 const settings = {
-    radius   : 1,
-    delay    : .01,
-    momentumX: 0,
-    momentumY: 0,
-    density  : .75,
+    radius      : setting(1, .5, 100),
+    delay       : setting(.01, .01, .25),
+    momentumX: setting(0, 0, 100),
+    momentumY: setting(0, 0, 100),
+    density  : setting(.75, .01, 10),
 }
 
 module.exports = {
@@ -14,20 +15,20 @@ module.exports = {
         processor(seconds, state, ps, {
             onUpdate  : (seconds, state, ps, {x, y}) => {
                 state.secondsSinceLastAdd = (state.secondsSinceLastAdd + seconds) || seconds
-                if (state.secondsSinceLastAdd >= settings.delay) {
+                if (state.secondsSinceLastAdd >= settings.delay.value) {
                     state.secondsSinceLastAdd = 0
                     state.stage               = 1
                     let particle              = ps.addParticle({
-                        density : settings.density,
+                        density : settings.density.value,
                         position: {
                             x: (x - ps.position.x) / ps.scale.x,
                             y: (y - ps.position.y) / ps.scale.y
                         },
                         momentum: {
-                            x: settings.momentumX,
-                            y: settings.momentumY,
+                            x: settings.momentumX.value,
+                            y: settings.momentumY.value,
                         },
-                        radius  : settings.radius
+                        radius  : settings.radius.value
                     })
                     // Adjust momentum per selected particles.
                     if (ps.selectedObjects.length) {
@@ -47,10 +48,10 @@ module.exports = {
                 }
             },
             onComplete: (seconds, state, ps, {x, y}) => {
-                state.secondsSinceLastAdd = settings.delay
+                state.secondsSinceLastAdd = settings.delay.value
             },
             onCancel  : (seconds, state, ps) => {
-                state.secondsSinceLastAdd = settings.delay
+                state.secondsSinceLastAdd = settings.delay.value
             }
         })
     },

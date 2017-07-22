@@ -1,39 +1,40 @@
+const setting   = require('./setting')
 const processor = require('./processor')
 
 const settings = {
-    radius      : 1,
-    delay       : .01,
-    range       : 100,
-    momentumMinX: 0,
-    momentumMinY: 0,
-    momentumMaxX: 0,
-    momentumMaxY: 0,
-    minDensity  : .5,
-    maxDensity  : .75,
+    radius      : setting(1, .5, 100),
+    delay       : setting(.01, .01, .25),
+    range       : setting(100, 1, 1000),
+    momentumMinX: setting(0, 0, 100),
+    momentumMinY: setting(0, 0, 100),
+    momentumMaxX: setting(0, 0, 100),
+    momentumMaxY: setting(0, 0, 100),
+    minDensity  : setting(.5, .01, 10),
+    maxDensity  : setting(.75, .01, 10),
 }
 
 module.exports = {
     settings,
-    update (seconds, state, ps)  {
+    update(seconds, state, ps) {
         processor(seconds, state, ps, {
             onUpdate  : (seconds, state, ps, {x, y}) => {
                 state.secondsSinceLastAdd = (state.secondsSinceLastAdd + seconds) || seconds
-                if (state.secondsSinceLastAdd >= settings.delay) {
+                if (state.secondsSinceLastAdd >= settings.delay.value) {
                     state.secondsSinceLastAdd = 0
                     state.stage               = 1
                     let randomAngle           = Math.PI * Math.random() * 2
                     let randomDistance        = Math.random()
                     let particle              = ps.addParticle({
-                        density : settings.minDensity + Math.random() * (settings.maxDensity - settings.minDensity),
+                        density : settings.minDensity.value + Math.random() * (settings.maxDensity.value - settings.minDensity.value),
                         position: {
-                            x: (x - ps.position.x + Math.cos(randomAngle) * settings.range * randomDistance) / ps.scale.x,
-                            y: (y - ps.position.y + Math.sin(randomAngle) * settings.range * randomDistance) / ps.scale.y
+                            x: (x - ps.position.x + Math.cos(randomAngle) * settings.range.value * randomDistance) / ps.scale.x,
+                            y: (y - ps.position.y + Math.sin(randomAngle) * settings.range.value * randomDistance) / ps.scale.y
                         },
                         momentum: {
-                            x: settings.momentumMinX + Math.random() * (settings.momentumMaxX - settings.momentumMinX),
-                            y: settings.momentumMinY + Math.random() * (settings.momentumMaxY - settings.momentumMinY),
+                            x: settings.momentumMinX.value + Math.random() * (settings.momentumMaxX.value - settings.momentumMinX.value),
+                            y: settings.momentumMinY.value + Math.random() * (settings.momentumMaxY.value - settings.momentumMinY.value),
                         },
-                        radius  : settings.radius * Math.random() + settings.radius / 2
+                        radius  : Math.max(.5, settings.radius.value * Math.random() + settings.radius.value / 2)
                     })
                     // Adjust momentum per selected particles.
                     if (ps.selectedObjects.length) {
@@ -53,14 +54,14 @@ module.exports = {
                 }
             },
             onComplete: (seconds, state, ps, {x, y}) => {
-                state.secondsSinceLastAdd = settings.delay
+                state.secondsSinceLastAdd = settings.delay.value
             },
             onCancel  : (seconds, state, ps) => {
-                state.secondsSinceLastAdd = settings.delay
+                state.secondsSinceLastAdd = settings.delay.value
             }
         })
     },
-    draw (state, graphics)  {
+    draw(state, graphics) {
 
     }
 }

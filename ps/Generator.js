@@ -1,16 +1,17 @@
-const angles        = require('./angles')
-const {AppObject}   = require('apex-app')
+const setting     = require('./UserInput/modes/setting')
+const angles      = require('./angles')
+const {AppObject} = require('apex-app')
 
 const defaultSettings = {
-    delay       : 1,
-    count       : 1,
-    radius      : 1,
-    speed       : 25,
-    minDirection: 0,
-    maxDirection: 360,
-    minDensity  : .5,
-    maxDensity  : 1,
-    range       : 0
+    delay       : setting(1, .01, 10),
+    count       : setting(1, 1, 100),
+    radius      : setting(1, .5, 100),
+    speed       : setting(25, 0, 100),
+    minDirection: setting(0, 0, 360),
+    maxDirection: setting(360, 0, 360),
+    minDensity  : setting(.5, .01, 10),
+    maxDensity  : setting(1, .01, 10),
+    range       : setting(0, 0, 10000),
 }
 
 const defaultState = {
@@ -20,8 +21,10 @@ const defaultState = {
 class Generator extends AppObject {
     constructor({parent, position, settings}) {
         super({parent, position})
-        this.type     = 'generator'
-        this.settings = Object.assign({}, defaultSettings, settings)
+        this.type           = 'generator'
+        const defaultValues = {}
+        Object.keys(defaultSettings).forEach(key => defaultValues[key] = defaultSettings[key].value)
+        this.settings = Object.assign({}, defaultValues, settings)
         this.state    = Object.assign({}, defaultState)
         this.draw()
     }

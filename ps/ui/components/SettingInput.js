@@ -1,22 +1,25 @@
 import React from 'react'
 
-const SettingInput = ({settings, settingsKey}) => {
-    const onChange = event => {
-        if(/^-?\d+\.?\d*$/.test(event.target.value)) {
-            settings[settingsKey] = Number(event.target.value)
+class SettingInput extends React.Component {
+    render() {
+        const {settings, settingsKey} = this.props
+        const onChange = event => {
+            if (/^-?\d*\.?\d+$/.test(event.target.value)) {
+                settings[settingsKey].value = Math.max(Math.min(Number(event.target.value), settings[settingsKey].max), settings[settingsKey].min)
+                this.forceUpdate()
+            }
         }
+        return (
+            <div className="settings-input">
+                <div>{settingsKey}</div>
+                <input
+                    type="number"
+                    value={settings[settingsKey].value}
+                    onChange={onChange}
+                />
+            </div>
+        )
     }
-    return (
-        <div className="settings-input">
-            <div>{settingsKey}</div>
-            <input
-                type="number"
-                defaultValue={settings[settingsKey]}
-                onChange={onChange}
-            />
-        </div>
-    )
 }
 
 export default SettingInput
-
