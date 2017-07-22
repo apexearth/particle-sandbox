@@ -123,8 +123,8 @@ class Particle extends AppObject {
         }
         this.updateScale()
 
-        if (simulation.heatRate) {
-            this.heat += Particle.calculateSpeed(this.momentum_prev.x - this.momentum.x, this.momentum_prev.y - this.momentum.y) * simulation.heatRate
+        if (simulation.heatRate.value) {
+            this.heat += Particle.calculateSpeed(this.momentum_prev.x - this.momentum.x, this.momentum_prev.y - this.momentum.y) * simulation.heatRate.value
         }
     }
 
@@ -133,7 +133,7 @@ class Particle extends AppObject {
             this.scale.x = this.scale.y = this.radius
         } else {
             // Update scale based on radius and ensure we are always at least 1 pixel large regardless of zoom.
-            this.scale.x = this.scale.y = (this.radius * this.container.parent.scale.x >= view.minDrawScale) ? this.radius : view.minDrawScale / this.container.parent.scale.x
+            this.scale.x = this.scale.y = (this.radius * this.container.parent.scale.x >= view.minDrawScale.value) ? this.radius : view.minDrawScale.value / this.container.parent.scale.x
         }
     }
 
@@ -144,9 +144,9 @@ class Particle extends AppObject {
     }
 
     updateHeat(seconds) {
-        this.heat += this.mass * (this.density - this.density_prev) * seconds * simulation.heatRate
+        this.heat += this.mass * (this.density - this.density_prev) * seconds * simulation.heatRate.value
         this.heatEmission = this.heat
-        this.heat *= 1 - ((this.heat / this.mass) * (simulation.heatRate / 100000) * seconds)
+        this.heat *= 1 - ((this.heat / this.mass) * (simulation.heatRate.value / 100000) * seconds)
         this.heatEmission = (this.heatEmission - this.heat) / seconds
         if (Math.floor(this.heat / 250) !== this.heatDrawn) {
             this.heatDrawn = Math.floor(this.heat / 250)
@@ -159,7 +159,7 @@ class Particle extends AppObject {
      */
     updateAttract(pair) {
         if (pair.distance === 0) return
-        let pull   = Math.pow(pair.distance, simulation.gravityExponent) / simulation.gravityStrength
+        let pull   = Math.pow(pair.distance, simulation.gravityExponent.value) / simulation.gravityStrength.value
         let {x, y} = Particle.calculateDirection(pair.particle1.position, pair.particle2.position)
         x *= pair.age
         y *= pair.age
@@ -168,8 +168,8 @@ class Particle extends AppObject {
         pair.particle2.momentum.x -= -pair.particle1.mass * x / pull
         pair.particle2.momentum.y -= -pair.particle1.mass * y / pull
 
-        if (simulation.gravityStrength2) {
-            let pull2 = Math.pow(pair.distance, simulation.gravityExponent2) / simulation.gravityStrength2
+        if (simulation.gravityStrength2.value) {
+            let pull2 = Math.pow(pair.distance, simulation.gravityExponent2.value) / simulation.gravityStrength2.value
             pair.particle1.momentum.x -= pair.particle2.mass * x / pull2
             pair.particle1.momentum.y -= pair.particle2.mass * y / pull2
             pair.particle2.momentum.x -= -pair.particle1.mass * x / pull2
@@ -246,14 +246,14 @@ class Particle extends AppObject {
     static exchangeMass({particle1, particle2}, amount = 1) {
         let averageHeat = (particle2.heat + particle1.heat) / 2
         if (particle1.density > particle2.density) {
-            let transferPercentage = Math.min(1, (particle1.mass / particle2.mass) * particle2.density * amount * simulation.absorbRate)
+            let transferPercentage = Math.min(1, (particle1.mass / particle2.mass) * particle2.density * amount * simulation.absorbRate.value)
             let transferAmount     = Math.min(particle2.mass, Math.max(particle2.mass * transferPercentage, 0.1))
             let heatDifference     = averageHeat - particle1.heat
             particle1.heat += heatDifference * (transferPercentage * particle2.mass) / particle1.mass
             particle1.mass += transferAmount
             particle2.mass -= transferAmount
         } else {
-            let transferPercentage = Math.min(1, (particle2.mass / particle1.mass) * particle1.density * amount * simulation.absorbRate)
+            let transferPercentage = Math.min(1, (particle2.mass / particle1.mass) * particle1.density * amount * simulation.absorbRate.value)
             let transferAmount     = Math.min(particle1.mass, Math.max(particle1.mass * transferPercentage, 0.1))
             let heatDifference     = averageHeat - particle2.heat
             particle2.heat += heatDifference * (transferPercentage * particle1.mass) / particle2.mass
@@ -319,15 +319,15 @@ class Particle extends AppObject {
         let change2x = (v2x - particle2.momentum.x)
         let change2y = (v2y - particle2.momentum.y)
 
-        if (simulation.heatRate) {
-            particle1.heat += Math.abs(Math.sqrt(change1x * change1x + change1y * change1y)) / 100000 * simulation.heatRate * particle1.mass
-            particle2.heat += Math.abs(Math.sqrt(change2x * change2x + change2y * change2y)) / 100000 * simulation.heatRate * particle2.mass
+        if (simulation.heatRate.value) {
+            particle1.heat += Math.abs(Math.sqrt(change1x * change1x + change1y * change1y)) / 100000 * simulation.heatRate.value * particle1.mass
+            particle2.heat += Math.abs(Math.sqrt(change2x * change2x + change2y * change2y)) / 100000 * simulation.heatRate.value * particle2.mass
         }
 
-        particle1.momentum.x += change1x * ((simulation.bouncePercentage / 2) + .5)
-        particle1.momentum.y += change1y * ((simulation.bouncePercentage / 2) + .5)
-        particle2.momentum.x += change2x * ((simulation.bouncePercentage / 2) + .5)
-        particle2.momentum.y += change2y * ((simulation.bouncePercentage / 2) + .5)
+        particle1.momentum.x += change1x * ((simulation.bouncePercentage.value / 2) + .5)
+        particle1.momentum.y += change1y * ((simulation.bouncePercentage.value / 2) + .5)
+        particle2.momentum.x += change2x * ((simulation.bouncePercentage.value / 2) + .5)
+        particle2.momentum.y += change2y * ((simulation.bouncePercentage.value / 2) + .5)
     }
 
 }

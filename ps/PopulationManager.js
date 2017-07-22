@@ -17,7 +17,7 @@ class PopulationManger {
                   ps,
                   stats
               } = this
-        if (this.stats.fps < config.limits.minFpsBeforeAutoRemoval && this.stats.simulation.particleCount > 500) {
+        if (this.stats.fps < config.limits.minFpsBeforeAutoRemoval.value && this.stats.simulation.particleCount > 500) {
             const center           = {position: stats.simulation.centerMass}
             const distantParticles = ps.particles
                                        .sort((p1, p2) => p1.distance(center) < p2.distance(center))

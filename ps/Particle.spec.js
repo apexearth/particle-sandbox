@@ -183,7 +183,7 @@ describe("Particle", function () {
     })
 
     describe('.bounce()', function () {
-        simulation.bouncePercentage = 1
+        simulation.bouncePercentage.value = 1
         it('x, same size', function () {
             let ps = new ParticleSandbox()
             let p1 = ps.addParticle({
@@ -257,8 +257,8 @@ describe("Particle", function () {
             })
 
             Particle.bounce({particle1: p1, particle2: p2})
-            expect(p1.momentum.y).to.equal(-1 * simulation.bouncePercentage)
-            expect(p2.momentum.y).to.equal(1 * simulation.bouncePercentage)
+            expect(p1.momentum.y).to.equal(-1 * simulation.bouncePercentage.value)
+            expect(p2.momentum.y).to.equal(1 * simulation.bouncePercentage.value)
         })
         it('xy, same size', function () {
             let ps = new ParticleSandbox()
