@@ -70,9 +70,9 @@ class ParticleSandbox extends App {
         if (this.paused) return
 
 
-        this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1)
-        this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2)
-        this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3)
+        this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1.value)
+        this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2.value)
+        this.updatePairs(this.pairs[2], seconds, this.pairs[2].count * performance.updateFrequency3.value)
 
         this.objects.forEach(object => object.update(seconds))
 
@@ -153,7 +153,7 @@ class ParticleSandbox extends App {
 
     updatePairLocation(pair, root) {
         const combinedRadii = pair.particle1.radius + pair.particle2.radius
-        if (pair.distance > (combinedRadii * performance.distanceThreshold3)) {
+        if (pair.distance > (combinedRadii * performance.distanceThreshold3.value)) {
             if (root !== this.pairs[2]) {
                 if (root) {
                     // console.log('removing pair 2 - relocation ' + pair.particle1.id + ' ' + pair.particle2.id)
@@ -161,7 +161,7 @@ class ParticleSandbox extends App {
                 }
                 this.pairs[2].add(pair)
             }
-        } else if (pair.distance > (combinedRadii * performance.distanceThreshold2)) {
+        } else if (pair.distance > (combinedRadii * performance.distanceThreshold2.value)) {
             if (root !== this.pairs[1]) {
                 if (root) {
                     // console.log('removing pair 1 - relocation ' + pair.particle1.id + ' ' + pair.particle2.id)
