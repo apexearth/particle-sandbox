@@ -9,8 +9,8 @@ const defaultSettings = {
     speed       : setting(25, 0, 100),
     minDirection: setting(0, 0, 360),
     maxDirection: setting(360, 0, 360),
-    minDensity  : setting(.5, .01, 10),
-    maxDensity  : setting(1, .01, 10),
+    minDensity  : setting(.5, .1, 10),
+    maxDensity  : setting(1, .1, 10),
     range       : setting(0, 0, 10000),
 }
 

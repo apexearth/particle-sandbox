@@ -9,8 +9,8 @@ const settings = {
     momentumMinY: setting(0, 0, 100),
     momentumMaxX: setting(0, 0, 100),
     momentumMaxY: setting(0, 0, 100),
-    minDensity  : setting(.5, .01, 10),
-    maxDensity  : setting(.75, .01, 10),
+    minDensity  : setting(.5, .1, 10),
+    maxDensity  : setting(.75, .1, 10),
 }
 
 module.exports = {

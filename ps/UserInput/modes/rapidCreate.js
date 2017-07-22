@@ -6,7 +6,7 @@ const settings = {
     delay       : setting(.01, .01, .25),
     momentumX: setting(0, 0, 100),
     momentumY: setting(0, 0, 100),
-    density  : setting(.75, .01, 10),
+    density  : setting(.75, .1, 10),
 }
 
 module.exports = {

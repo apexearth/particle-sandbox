@@ -4,7 +4,7 @@ const processor = require('./processor')
 const settings = {
     initialRadius: setting(1, .5, 100),
     growthRate   : setting(5, .1, 100),
-    density      : setting(.75, .01, 10),
+    density      : setting(.75, .1, 10),
 }
 
 module.exports = {
