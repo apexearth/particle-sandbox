@@ -319,8 +319,10 @@ class Particle extends AppObject {
         let change2x = (v2x - particle2.momentum.x)
         let change2y = (v2y - particle2.momentum.y)
 
-        particle1.heat += Math.abs(Math.sqrt(change1x * change1x + change1y * change1y)) / 100 * simulation.heatRate
-        particle2.heat += Math.abs(Math.sqrt(change2x * change2x + change2y * change2y)) / 100 * simulation.heatRate
+        if (simulation.heatRate) {
+            particle1.heat += Math.abs(Math.sqrt(change1x * change1x + change1y * change1y)) / 100000 * simulation.heatRate * particle1.mass
+            particle2.heat += Math.abs(Math.sqrt(change2x * change2x + change2y * change2y)) / 100000 * simulation.heatRate * particle2.mass
+        }
 
         particle1.momentum.x += change1x * ((simulation.bouncePercentage / 2) + .5)
         particle1.momentum.y += change1y * ((simulation.bouncePercentage / 2) + .5)
