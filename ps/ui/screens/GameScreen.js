@@ -24,12 +24,9 @@ import state from '../state'
 
 class GameScreen extends React.Component {
     componentWillMount() {
-        let {ps} = state
-        const androidOnWeb = state.android && state.deploymentType === 'web'
         this.setState({
-            showAndroidNotification: androidOnWeb
+            showAndroidNotification: state.androidOnWeb
         })
-        ps.paused = androidOnWeb
     }
 
     componentWillUnmount() {

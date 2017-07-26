@@ -28,6 +28,7 @@ class StartScreen extends React.Component {
                 document.body.removeEventListener('click', this.skip)
                 document.body.removeEventListener('touchdown', this.skip)
                 actions.changeScreen('GameScreen')
+                state.ps.paused = state.androidOnWeb
             }
         }, 100)
         state.ps.zoomSpeed = .001
