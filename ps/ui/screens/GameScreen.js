@@ -24,9 +24,12 @@ import state from '../state'
 
 class GameScreen extends React.Component {
     componentWillMount() {
+        let {ps} = state
+        const androidOnWeb = state.android && state.deploymentType === 'web'
         this.setState({
-            showAndroidNotification: true || state.android && state.deploymentType === 'web'
+            showAndroidNotification: androidOnWeb
         })
+        ps.paused = androidOnWeb
     }
 
     componentWillUnmount() {
@@ -43,13 +46,20 @@ class GameScreen extends React.Component {
                 return null
             }
             return (
-                <div className="gui-center">
+                <div className="gui-popup">
                     <div className="gui-notification">
                         <p>Did you know there is an Android version available on the Play Store?</p>
-                        <a href="https://play.google.com/store/apps/details?id=com.particlesandbox">Install</a>
-                        <a onClick={() => this.setState({
-                            showAndroidNotification: false
-                        })}>Skip</a>
+                        <div className="gui-text-button">
+                            <a href="https://play.google.com/store/apps/details?id=com.particlesandbox">View</a>
+                        </div>
+                        <div className="gui-text-button-neutral">
+                            <a onClick={() => {
+                                this.setState({
+                                    showAndroidNotification: false
+                                })
+                                ps.paused = false
+                            }}>Skip</a>
+                        </div>
                     </div>
                 </div>
             )
@@ -84,7 +94,7 @@ class GameScreen extends React.Component {
                 <div id="bottom-right">
                     <Version/>
                 </div>
-                <AndroidNotification />
+                <AndroidNotification/>
             </div>
         )
     }
