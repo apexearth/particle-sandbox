@@ -5,6 +5,9 @@ const {EventEmitter} = require('events')
 const state = module.exports = new EventEmitter()
 if (typeof window !== 'undefined') {
     window.state = state
+
+    const ua      = navigator.userAgent.toLowerCase()
+    state.android = ua.indexOf("android") > -1
 }
 
 state.mobile         = false

@@ -23,6 +23,12 @@ import Statistics from '../Statistics'
 import state from '../state'
 
 class GameScreen extends React.Component {
+    componentWillMount() {
+        this.setState({
+            showAndroidNotification: true || state.android && state.deploymentType === 'web'
+        })
+    }
+
     componentWillUnmount() {
         let timeoutsCount = setTimeout(() => undefined, 1000)
         for (let i = 0; i < timeoutsCount; i++) clearTimeout(i)
@@ -31,6 +37,23 @@ class GameScreen extends React.Component {
     render() {
         let {ps} = state
         if (!ps) return null
+
+        const AndroidNotification = () => {
+            if (!this.state.showAndroidNotification) {
+                return null
+            }
+            return (
+                <div className="gui-center">
+                    <div className="gui-notification">
+                        <p>Did you know there is an Android version available on the Play Store?</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.particlesandbox">Install</a>
+                        <a onClick={() => this.setState({
+                            showAndroidNotification: false
+                        })}>Skip</a>
+                    </div>
+                </div>
+            )
+        }
 
         return (
             <div id="game-screen-root" style={{display: state.screen === 'GameScreen' ? 'block' : 'none'}}>
@@ -61,9 +84,11 @@ class GameScreen extends React.Component {
                 <div id="bottom-right">
                     <Version/>
                 </div>
+                <AndroidNotification />
             </div>
         )
     }
 }
 
 module.exports = GameScreen
+

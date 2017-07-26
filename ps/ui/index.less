@@ -55,13 +55,17 @@ body {
   position: relative;
 }
 
-canvas {
-  .no-text-select;
+.gui-fullscreen {
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
+}
+
+canvas {
+  .no-text-select;
+  .gui-fullscreen;
   z-index: -1;
 }
 
@@ -194,6 +198,27 @@ a, a:visited, a:hover, a:active {
       cursor: pointer;
       background-color: fade(@base, 25%);
     }
+  }
+}
+
+.gui-center {
+  .gui-fullscreen;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gui-notification {
+  background-color: @gui2-bg-color;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  a {
+    padding: 5px;
+    cursor: pointer;
+  }
+  a:hover {
+    color: @base2;
   }
 }
 
