@@ -28,12 +28,11 @@ class GameScreen extends React.Component {
         let {ps}           = state
         const androidOnWeb = state.android && state.deploymentType === 'web'
         this.setState({
-            showAndroidAppNotification: androidOnWeb,
+            showAndroidAppNotification: state.androidOnWeb,
             showFullscreenButton      : state.deploymentType === "web" && !state.ios,
             showReloadButton          : state.deploymentType === "standalone",
             showShareButtons          : state.deploymentType === "web",
         })
-        ps.paused = androidOnWeb
     }
 
     componentWillUnmount() {

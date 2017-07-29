@@ -14,6 +14,8 @@ if (typeof window !== 'undefined') {
 state.mobile         = false
 state.deploymentType = "web"
 
+state.androidOnWeb = state.android && state.deploymentType === 'web'
+
 state.screen = 'StartScreen'
 
 state.actions = require('./actions')

@@ -15,7 +15,7 @@
         <icon density="hdpi" src="res/mipmap-hdpi/ic_launcher.png" />
         <icon density="xhdpi" src="res/mipmap-xhdpi/ic_launcher.png" />
         <icon density="xxhdpi" src="res/mipmap-xxhdpi/ic_launcher.png" />
-        <icon density="xxhdpi" src="res/mipmap-xxhdpi/ic_launcher.png" />
+        <icon density="xxxhdpi" src="res/mipmap-xxxhdpi/ic_launcher.png" />
     </platform>
     <engine name="android" spec="^6.2.3" />
     <plugin name="cordova-plugin-admob-simple" spec="^3.3.4" />
