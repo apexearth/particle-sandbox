@@ -25,8 +25,6 @@ import state from '../state'
 
 class GameScreen extends React.Component {
     componentWillMount() {
-        let {ps}           = state
-        const androidOnWeb = state.android && state.deploymentType === 'web'
         this.setState({
             showAndroidAppNotification: state.androidOnWeb,
             showFullscreenButton      : state.deploymentType === "web" && !state.ios,
