@@ -8,6 +8,7 @@ if (typeof window !== 'undefined') {
 
     const ua      = navigator.userAgent.toLowerCase()
     state.android = ua.indexOf("android") > -1
+    state.ios = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
 }
 
 state.mobile         = false

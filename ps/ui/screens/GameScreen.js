@@ -19,15 +19,19 @@ import SelectionInfo from '../SelectionInfo'
 import Version from '../Version'
 import ShareButtons from '../ShareButtons'
 import Statistics from '../Statistics'
+import {AndroidAppNotification} from '../components'
 
 import state from '../state'
 
 class GameScreen extends React.Component {
     componentWillMount() {
-        let {ps} = state
+        let {ps}           = state
         const androidOnWeb = state.android && state.deploymentType === 'web'
         this.setState({
-            showAndroidNotification: androidOnWeb
+            showAndroidAppNotification: androidOnWeb,
+            showFullscreenButton      : state.deploymentType === "web" && !state.ios,
+            showReloadButton          : state.deploymentType === "standalone",
+            showShareButtons          : state.deploymentType === "web",
         })
         ps.paused = androidOnWeb
     }
@@ -41,30 +45,6 @@ class GameScreen extends React.Component {
         let {ps} = state
         if (!ps) return null
 
-        const AndroidNotification = () => {
-            if (!this.state.showAndroidNotification) {
-                return null
-            }
-            return (
-                <div className="gui-popup">
-                    <div className="gui-notification">
-                        <p>Did you know there is an Android version available on the Play Store?</p>
-                        <div className="gui-text-button">
-                            <a href="https://play.google.com/store/apps/details?id=com.particlesandbox">View</a>
-                        </div>
-                        <div className="gui-text-button-neutral">
-                            <a onClick={() => {
-                                this.setState({
-                                    showAndroidNotification: false
-                                })
-                                ps.paused = false
-                            }}>Skip</a>
-                        </div>
-                    </div>
-                </div>
-            )
-        }
-
         return (
             <div id="game-screen-root" style={{display: state.screen === 'GameScreen' ? 'block' : 'none'}}>
                 <div id="top-left">
@@ -74,9 +54,9 @@ class GameScreen extends React.Component {
                         <SettingsButton/>
                         <PlayPauseButton/>
                         <ZoomMeter/>
-                        {state.deploymentType === "standalone" ? null : <FullScreenButton/>}
+                        {this.state.showFullscreenButton && <FullScreenButton/>}
                         <ClearButton/>
-                        {state.deploymentType === "standalone" ? <ReloadButton/> : null}
+                        {this.state.showReloadButton && <ReloadButton/>}
                     </div>
                     <div id="menu">
                         <EditMenu/>
@@ -88,13 +68,16 @@ class GameScreen extends React.Component {
                     <SelectionInfo/>
                 </div>
                 <div id="bottom-left">
-                    {state.deploymentType === "standalone" ? null : <ShareButtons/>}
+                    {this.state.showShareButtons && <ShareButtons/>}
                     <Statistics/>
                 </div>
                 <div id="bottom-right">
                     <Version/>
                 </div>
-                <AndroidNotification/>
+                {this.state.showAndroidAppNotification && <AndroidAppNotification onClick={() => {
+                    this.setState({showAndroidAppNotification: false})
+                    ps.paused = false
+                }}/>}
             </div>
         )
     }
