@@ -23,9 +23,9 @@ class IntroductionScreen extends React.Component {
             (state.mobile
                 ? <Step>Use two fingers to move around and zoom in or out.</Step>
                 : [
-                    <Step>Use right click or arrow keys to move around.</Step>,
-                    <Step>Use the mouse wheel or +- keys to zoom in and out.</Step>,
-                ]),
+                <Step>Use right click or arrow keys to move around.</Step>,
+                <Step>Use the mouse wheel or +- keys to zoom in and out.</Step>,
+            ]),
             <Step>{Actioning} any menu button will toggle its visibility.</Step>,
             <Step>The <span className="glyphicon glyphicon-edit"/> menu contains a tool-set for creating
                 particles.</Step>,
@@ -59,20 +59,22 @@ class IntroductionScreen extends React.Component {
         if (this.done) return null
         return (
             <div id="introduction-screen-root">
-                <div className="introduction-screen-step"
-                     onClick={() => this.setState({stepIndex: this.state.stepIndex + 1})}>
-                    {this.state.steps[this.state.stepIndex]}
-                </div>
-                <div id="introduction-screen-skip"
-                     onClick={() => this.setState({stepIndex: this.state.steps.length})}>
-                    skip
-                </div>
-                <div id="introduction-screen-always-skip"
-                     onClick={() => {
-                         this.setState({stepIndex: this.state.steps.length})
-                         localStorage.setItem('skip-introduction', true)
-                     }}>
-                    always skip
+                <div className="introduction-screen-box">
+                    <div className="introduction-screen-step"
+                         onClick={() => this.setState({stepIndex: this.state.stepIndex + 1})}>
+                        {this.state.steps[this.state.stepIndex]}
+                    </div>
+                    <div className="introduction-screen-buttons">
+                        <div onClick={() => this.setState({stepIndex: this.state.steps.length})}>
+                            skip
+                        </div>
+                        <div onClick={() => {
+                            this.setState({stepIndex: this.state.steps.length})
+                            localStorage.setItem('skip-introduction', true)
+                        }}>
+                            always skip
+                        </div>
+                    </div>
                 </div>
             </div>
         )

@@ -7,28 +7,29 @@
   top: 0;
   bottom: 0;
 
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: flex-end;
   pointer-events: none;
 
-  .introduction-screen-step {
+  .introduction-screen-box {
     background-color: @gui2-bg-color;
     border-top: @gui2-border;
+    pointer-events: all;
+  }
+
+  .introduction-screen-step {
     padding: 10px;
     width: 100%;
-    max-width: 500px;
     height: 220px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     font-size: 1.75em;
-    pointer-events: all;
     div {
       width: 100%;
       max-width: 400px;
-      padding-bottom: 20px;
     }
   }
   .introduction-screen-ctc {
@@ -46,17 +47,14 @@
     padding-right: 5px;
   }
 
-  #introduction-screen-skip {
-    .introduction-screen-button;
-    position: fixed;
-    margin-left: -74px;
-    border: @gui2-border2;
-  }
-  #introduction-screen-always-skip {
-    .introduction-screen-button;
-    position: fixed;
-    margin-left: 75px;
-    border: @gui2-border2;
+  .introduction-screen-buttons {
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
+    div {
+      .introduction-screen-button;
+      border: @gui2-border2;
+    }
   }
 }
 
