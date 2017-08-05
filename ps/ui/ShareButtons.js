@@ -56,5 +56,10 @@ module.exports = () => (
                            beforeOnClick={() => analytics.share('Reddit')}>
             <RedditIcon size={24} round={false}/>
         </RedditShareButton>
+
+        <a href="https://play.google.com/store/apps/details?id=com.particlesandbox"
+           target="_blank">
+            <img src="img/buttons/android.png" width="24" height="24"/>
+        </a>
     </div>
 )
