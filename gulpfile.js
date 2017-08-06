@@ -6,6 +6,8 @@ let files = [
     "./build/**",
     "./css/**",
     "./fonts/**",
+    "./img/buttons/**",
+    "./img/launcher-icon/**",
     "./cordova.js",
     "./index.html",
 ]
