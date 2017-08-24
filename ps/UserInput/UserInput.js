@@ -10,7 +10,7 @@ class UserInput {
             this.container = new PIXI.Container()
             this.graphics  = new PIXI.Graphics()
             this.container.addChild(this.graphics)
-            this.ps.root.addChild(this.container)
+            this.ps.uiroot.addChild(this.container)
         }
         this.mode       = "create"
         this.state      = {mode: this.mode}

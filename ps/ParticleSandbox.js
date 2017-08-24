@@ -47,16 +47,19 @@ class ParticleSandbox extends App {
         this.initializeFade()
 
         if (typeof window !== 'undefined') {
-            this.renderer = createRenderer(this, {
-                rendererOptions: {
+            let {renderer, uirenderer} = createRenderer(this, {
+                rendererOptions            : {
                     resolution           : window.devicePixelRatio || 1,
                     preserveDrawingBuffer: true,
                     clearBeforeRender    : false,
                     backgroundColor      : view.fadeToColor.value,
-                }
+                },
+                destroyAccessibilityPlugins: true
             })
-            this.renderer.plugins.accessibility.destroy() // Fix a bug where PIXI.js would place a <div> on top of everything after using inputs.
-            inputs.initialize(this.renderer.view)
+            this.renderer              = renderer
+            this.uirenderer            = uirenderer
+
+            inputs.initialize(this.uirenderer.view)
         }
     }
 
@@ -286,6 +289,7 @@ class ParticleSandbox extends App {
         while (i-- > 0) {
             this.remove(this.objects[i])
         }
+        this.clearRenderer()
     }
 
     kill() {
