@@ -1,7 +1,10 @@
 const _window = require('./window')
 
-const apex                   = require('apex-app')
-const {App}                  = apex
+const {
+          PIXI,
+          App,
+          createRenderer
+      }                      = require('apex-app')
 const Generator              = require('./Generator')
 const Particle               = require('./Particle')
 const ParticlePair           = require('./ParticlePair')
@@ -23,6 +26,7 @@ class ParticleSandbox extends App {
     constructor(options) {
         super(Object.assign({view}, options))
 
+        this.renderer   = {clear: () => undefined} // Mock, replaced in ./index.js
         this.particles  = []
         this.pairs      = [
             new ParticlePairLinkedList(),
@@ -40,10 +44,18 @@ class ParticleSandbox extends App {
 
         this.statsHistory      = new StatsHistory(stats)
         this.populationManager = new PopulationManager(this, stats, this.statsHistory)
+        this.initializeFade()
 
         if (typeof window !== 'undefined') {
-            this.renderer = apex.createRenderer(this, {resolution: window.devicePixelRatio || 1})
-            this.renderer.plugins.accessibility.destroy()
+            this.renderer = createRenderer(this, {
+                rendererOptions: {
+                    resolution           : window.devicePixelRatio || 1,
+                    preserveDrawingBuffer: true,
+                    clearBeforeRender    : false,
+                    backgroundColor      : view.fadeToColor.value,
+                }
+            })
+            this.renderer.plugins.accessibility.destroy() // Fix a bug where PIXI.js would place a <div> on top of everything after using inputs.
             inputs.initialize(this.renderer.view)
         }
     }
@@ -61,6 +73,10 @@ class ParticleSandbox extends App {
         this.container.position.y = this.screenHeight / 2
     }
 
+    clearRenderer() {
+        this.renderer.clear()
+    }
+
     update(seconds) {
         super.update(seconds)
         this._userInput.update(seconds)
@@ -69,6 +85,7 @@ class ParticleSandbox extends App {
 
         if (this.paused) return
 
+        this.updateFade(seconds)
 
         this.updatePairs(this.pairs[0], seconds, this.pairs[0].count * performance.updateFrequency1.value)
         this.updatePairs(this.pairs[1], seconds, this.pairs[1].count * performance.updateFrequency2.value)
@@ -274,6 +291,52 @@ class ParticleSandbox extends App {
     kill() {
         this.removeAll()
         super.kill()
+    }
+
+    initializeFade() {
+        this.fadeState              = {
+            count         : 0,
+            lastClearScale: 1
+        }
+        this.fadeGraphics           = new PIXI.Graphics()
+        this.fadeGraphics.blendMode = PIXI.BLEND_MODES.NORMAL
+        this.root.addChild(this.fadeGraphics)
+        this.on('zoom', () => {
+            let difference = Math.abs(this.fadeState.lastClearScale / this.scale.x)
+            if (difference > 1.01 || difference < .99) {
+                this.clearRenderer()
+                this.fadeState.lastClearScale = this.scale.x
+            }
+        })
+    }
+
+    updateFade(seconds) {
+        this.fadeState.count += seconds
+        if (this.fadeState.count >= view.fadeRate.value) {
+            this.fadeState.count      = 0
+            this.fadeGraphics.visible = true
+            this.fadeGraphics.clear()
+            this.fadeGraphics.beginFill(view.fadeToColor.value, view.fadeStrength.value)
+            this.fadeGraphics.drawRect(0, 0, this.screenWidth, this.screenHeight)
+            this.fadeGraphics.endFill()
+        } else {
+            this.fadeGraphics.visible = false
+        }
+    }
+
+    select(x1, y1, x2, y2, additive = false) {
+        super.select(x1, y1, x2, y2, additive)
+        this.clearRenderer()
+    }
+
+    selectAll() {
+        super.selectAll()
+        this.clearRenderer()
+    }
+
+    deselectAll() {
+        super.deselectAll()
+        this.clearRenderer()
     }
 }
 

@@ -40,12 +40,14 @@ class UserInput {
         if (touchState.previous.count === 2 && touchState.current.count === 2) {
             container.position.x -= touchState.difference.midpointX
             container.position.y -= touchState.difference.midpointY
+            ps.clearRenderer()
             ps.zoom *= (1 - (touchState.difference.distance / ((ps.screenWidth + ps.screenHeight) / 2) * 3))
         }
 
         if (inputs('mouse2')) {
             container.position.x += inputs('mouseX') - this.lastMouseX
             container.position.y += inputs('mouseY') - this.lastMouseY
+            ps.clearRenderer() //TODO: Too many clearRender(), can we do better?
         }
 
 
@@ -57,15 +59,19 @@ class UserInput {
             let scrollSpeed = 6
             if (inputs('up')) {
                 container.position.y += scrollSpeed
+                ps.clearRenderer()
             }
             if (inputs('down')) {
                 container.position.y -= scrollSpeed
+                ps.clearRenderer()
             }
             if (inputs('left')) {
                 container.position.x += scrollSpeed
+                ps.clearRenderer()
             }
             if (inputs('right')) {
                 container.position.x -= scrollSpeed
+                ps.clearRenderer()
             }
             if (inputs('zoomOut')) {
                 ps.zoom /= 1.01
