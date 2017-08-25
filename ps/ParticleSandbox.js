@@ -298,6 +298,7 @@ class ParticleSandbox extends App {
     }
 
     initializeFade() {
+        if (typeof window === 'undefined') return
         this.fadeState              = {
             count         : 0,
             lastClearScale: 1
@@ -315,6 +316,7 @@ class ParticleSandbox extends App {
     }
 
     updateFade(seconds) {
+        if (typeof window === 'undefined') return
         this.fadeState.count += seconds
         if (this.fadeState.count >= view.fadeRate.value) {
             this.fadeState.count      = 0
