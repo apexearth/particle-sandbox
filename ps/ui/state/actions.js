@@ -17,11 +17,7 @@ let actions = module.exports = {
         const ps              = new ParticleSandbox()
         state.ps              = ps
 
-        ps.addParticle({
-            position: {x: 0, y: 0},
-            radius  : 10,
-            density : 1,
-        })
-        ps.addParticles(300)
+        ps.addParticles(200)
+        ps.addParticles(100, (ps.screenWidth + ps.screenHeight) / 2)
     }
 }

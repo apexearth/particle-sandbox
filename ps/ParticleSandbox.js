@@ -49,7 +49,6 @@ class ParticleSandbox extends App {
         if (typeof window !== 'undefined') {
             let {renderer, uirenderer} = createRenderer(this, {
                 rendererOptions            : {
-                    resolution           : window.devicePixelRatio || 1,
                     preserveDrawingBuffer: true,
                     clearBeforeRender    : false,
                     backgroundColor      : view.fadeToColor.value,
@@ -230,14 +229,14 @@ class ParticleSandbox extends App {
             let angle = Math.random() * Math.PI * 2
             let d     = distance * Math.random() * Math.random() * Math.random()
             this.addParticle({
-                radius  : 1 + 9 * Math.random() * Math.random(),
+                radius  : 1 + Math.random(),
                 position: {
                     x: Math.cos(angle) * d,
                     y: Math.sin(angle) * d,
                 },
                 momentum: {
-                    x: (Math.random() - .5) * 500 / Math.sqrt(d),
-                    y: (Math.random() - .5) * 500 / Math.sqrt(d),
+                    x: 0,//(Math.random() - .5) * 500 / Math.sqrt(d),
+                    y: 0,//(Math.random() - .5) * 500 / Math.sqrt(d),
                 }
             })
         }
@@ -308,7 +307,7 @@ class ParticleSandbox extends App {
         this.root.addChild(this.fadeGraphics)
         this.on('zoom', () => {
             let difference = Math.abs(this.fadeState.lastClearScale / this.scale.x)
-            if (difference > 1.01 || difference < .99) {
+            if (difference > 1.001 || difference < .999) {
                 this.clearRenderer()
                 this.fadeState.lastClearScale = this.scale.x
             }
@@ -318,7 +317,7 @@ class ParticleSandbox extends App {
     updateFade(seconds) {
         if (typeof window === 'undefined') return
         this.fadeState.count += seconds
-        if (this.fadeState.count >= view.fadeRate.value) {
+        if (this.fadeState.count >= view.fadeDelay.value) {
             this.fadeState.count      = 0
             this.fadeGraphics.visible = true
             this.fadeGraphics.clear()

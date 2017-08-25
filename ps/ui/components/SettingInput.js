@@ -3,20 +3,44 @@ import React from 'react'
 class SettingInput extends React.Component {
     render() {
         const {settings, settingsKey} = this.props
-        const onChange = event => {
-            if (/^-?\d*\.?\d+$/.test(event.target.value)) {
-                settings[settingsKey].value = Math.max(Math.min(Number(event.target.value), settings[settingsKey].max), settings[settingsKey].min)
-                this.forceUpdate()
+        const setting                 = settings[settingsKey]
+        const onChange                = event => {
+            switch (setting.type) {
+                case 'number':
+                    if (/^-?\d*\.?\d+$/.test(event.target.value)) {
+                        setting.value = Math.max(Math.min(Number(event.target.value), setting.max), setting.min)
+                    }
+                    break
+                case 'hex':
+                    setting.value = Math.max(Math.min(parseInt(event.target.value, 16), setting.max), setting.min)
+                    break
+                default:
+                    setting.value = event.target.value
             }
+            this.forceUpdate()
+        }
+        const displayValue            = value => {
+            switch (setting.type) {
+                case 'number':
+                    return Number(value)
+                case 'hex':
+                    return value.toString(16)
+                default:
+                    return value
+            }
+        }
+        let inputProperties           = {
+            type : setting.type,
+            value: displayValue(setting.value),
+            onChange
+        }
+        if (setting.type === 'number') {
+            inputProperties.step = (setting.max - setting.min) / 100
         }
         return (
             <div className="settings-input">
                 <div>{settingsKey}</div>
-                <input
-                    type="number"
-                    value={settings[settingsKey].value}
-                    onChange={onChange}
-                />
+                <input {...inputProperties} />
             </div>
         )
     }

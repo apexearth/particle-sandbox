@@ -1,4 +1,4 @@
-const setting = require('./setting')
+const {setting} = require('apex-app')
 const processor = require('./processor')
 
 const settings = {
@@ -9,7 +9,7 @@ const settings = {
 
 module.exports = {
     settings,
-    update (seconds, state, ps)  {
+    update(seconds, state, ps) {
         processor(seconds, state, ps, {
             onStart   : (seconds, state, ps, {x, y}) => {
                 state.timeHeld = 0
@@ -62,8 +62,8 @@ module.exports = {
             }
         })
     },
-    draw (state, graphics)  {
-        if (!state.stage)  return
+    draw(state, graphics) {
+        if (!state.stage) return
         graphics.lineStyle(1, 0x99ff99, .5)
         graphics.moveTo(state.start.x, state.start.y)
         graphics.lineTo(state.finish.x, state.finish.y)

@@ -1,12 +1,14 @@
-const setting  = require('./UserInput/modes/setting')
+const {setting} = require('apex-app')
+const settings   = require('./settings')
+
 module.exports = {
     view       : {
         zoomMin     : setting(.0001, .0001, 1),
         zoomMax     : setting(1000, 1, 1000),
         minDrawScale: setting(1, .5, 10),
-        fadeRate    : setting(.1, .01, 1),
-        fadeStrength: setting(.05, .01, .2),
-        fadeToColor : setting(0xffffff, 0x000000, 0xffffff),
+        fadeDelay   : setting(.25, .01, 1),
+        fadeStrength: setting(.01, 0, .2),
+        fadeToColor : setting(0xffffff, 0x000000, 0xffffff, "hex"),
     },
     simulation : {
         gravityStrength : setting(200, 0, 10000),
@@ -27,4 +29,12 @@ module.exports = {
     limits     : {
         minFpsBeforeAutoRemoval: setting(10, 0, 50)
     }
+}
+
+// Fixes for when we cannot invert via CSS filter.
+// Slow gradual fades to white work better than fades to black.
+if (!settings.fadeFilterCSS) {
+    module.exports.view.fadeDelay    = setting(.25, .01, 1)
+    module.exports.view.fadeStrength = setting(.05, 0, .2)
+    module.exports.view.fadeToColor  = setting(0x000000, 0xffffff, 0x000000, "hex")
 }

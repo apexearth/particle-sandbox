@@ -1,9 +1,9 @@
-const setting   = require('./setting')
+const {setting} = require('apex-app')
 const processor = require('./processor')
 
 const settings = {
-    radius      : setting(1, .5, 100),
-    delay       : setting(.01, .01, .25),
+    radius   : setting(1, .5, 100),
+    delay    : setting(.01, .01, .25),
     momentumX: setting(0, -100, 100),
     momentumY: setting(0, -100, 100),
     density  : setting(.75, .1, 10),
@@ -11,7 +11,7 @@ const settings = {
 
 module.exports = {
     settings,
-    update (seconds, state, ps)  {
+    update(seconds, state, ps) {
         processor(seconds, state, ps, {
             onUpdate  : (seconds, state, ps, {x, y}) => {
                 state.secondsSinceLastAdd = (state.secondsSinceLastAdd + seconds) || seconds
@@ -55,7 +55,7 @@ module.exports = {
             }
         })
     },
-    draw (state, graphics)  {
+    draw(state, graphics) {
 
     }
 }

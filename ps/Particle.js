@@ -51,7 +51,7 @@ class Particle extends AppObject {
     set density(val) {
         this.density_prev    = this._density
         this._density        = val
-        this.container.alpha = Math.sqrt(this.density)
+        this.container.alpha = Math.min(1, Math.sqrt(this.density) * 2)
     }
 
     get density() {

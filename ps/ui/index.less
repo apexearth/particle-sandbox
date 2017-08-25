@@ -17,10 +17,6 @@
 @font-base: fade(lighten(@base, 10%), 80%);
 @font-family: "Courier New", Courier, monospace;
 
-canvas {
-  filter: invert(1) hue-rotate(180deg) brightness(1.5);
-}
-
 @media (min-width: 320px) {
   /* smartphones, iPhone, portrait 480x320 phones */
 }
@@ -72,6 +68,7 @@ body {
 canvas {
   .no-text-select;
   .gui-fullscreen;
+  filter: invert(100%) hue-rotate(180deg) brightness(150%);
   z-index: -1;
 }
 

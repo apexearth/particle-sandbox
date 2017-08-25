@@ -1,4 +1,4 @@
-const setting   = require('./setting')
+const {setting} = require('apex-app')
 const processor = require('./processor')
 
 const settings = {

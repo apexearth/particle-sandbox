@@ -1,6 +1,5 @@
-const setting     = require('./UserInput/modes/setting')
 const angles      = require('./angles')
-const {AppObject} = require('apex-app')
+const {AppObject, setting} = require('apex-app')
 
 const defaultSettings = {
     delay       : setting(1, .01, 10),

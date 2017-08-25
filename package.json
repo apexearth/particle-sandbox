@@ -1,7 +1,7 @@
 {
   "name": "particle-sandbox",
   "productName": "particle-sandbox",
-  "version": "2.9.3",
+  "version": "2.10.0",
   "private": true,
   "main": "main.js",
   "scripts": {
@@ -69,7 +69,7 @@
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {
-    "apex-app": "^5.0.0",
+    "apex-app": "^5.1.0",
     "color": "^1.0.3",
     "open": "0.0.5",
     "react": "^15.4.2",
