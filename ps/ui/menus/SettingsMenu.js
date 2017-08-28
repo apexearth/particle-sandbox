@@ -5,6 +5,7 @@ import TextButton from '../components/TextButton'
 import SettingsList from '../components/SettingsList'
 
 const {settings} = state
+
 class SettingsMenu extends React.Component {
 
     componentDidMount() {
@@ -14,7 +15,7 @@ class SettingsMenu extends React.Component {
     }
 
     render() {
-        if (!settings.visible())  return null
+        if (!settings.visible()) return null
 
         const {ps} = state
         if (!ps) return null
@@ -28,7 +29,9 @@ class SettingsMenu extends React.Component {
                 </TextButton>
             )
         }
-        const buttons       = Object.keys(config).map(key => <SectionButton key={key} mode={key}/>)
+        const buttons       = Object.keys(config)
+                                    .filter(key => !key.endsWith('Meta'))
+                                    .map(key => <SectionButton key={key} mode={key}/>)
         return (
             <div className="gui-flex-row">
                 <div id="menu-buttons" className="events">

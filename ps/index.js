@@ -1,2 +1,2 @@
-require('./android')
+require('./device')
 require('./ui')

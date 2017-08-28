@@ -1,22 +1,27 @@
 {
     "name": "com.particlesandbox",
-    "version": "2.6.0",
+    "version": "2.10.0",
     "displayName": "Particle Sandbox",
     "cordova": {
         "platforms": [
-            "android"
+            "android",
+            "ios"
         ],
         "plugins": {
             "cordova-plugin-fullscreen": {},
             "cordova-plugin-whitelist": {},
-            "cordova-plugin-admob-simple": {}
+            "cordova-plugin-admob-simple": {},
+            "cordova-plugin-insomnia": {}
         }
     },
     "dependencies": {
         "cordova-admob-sdklibs": "^2.1.4",
         "cordova-android": "^6.2.3",
+        "cordova-custom-config": "^4.0.2",
+        "cordova-ios": "^4.4.0",
         "cordova-plugin-admob-simple": "^3.3.4",
         "cordova-plugin-fullscreen": "git+https://github.com/mesmotronic/cordova-plugin-fullscreen.git",
+        "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
         "cordova-plugin-whitelist": "git+https://github.com/apache/cordova-plugin-whitelist.git"
     }
 }

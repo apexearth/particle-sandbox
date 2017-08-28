@@ -24,14 +24,6 @@ import {AndroidAppNotification} from '../components'
 import state from '../state'
 
 class GameScreen extends React.Component {
-    componentWillMount() {
-        this.setState({
-            showAndroidAppNotification: state.androidOnWeb,
-            showFullscreenButton      : state.deploymentType === "web" && !state.ios,
-            showReloadButton          : state.deploymentType === "standalone",
-            showShareButtons          : state.deploymentType === "web",
-        })
-    }
 
     componentWillUnmount() {
         let timeoutsCount = setTimeout(() => undefined, 1000)
@@ -51,9 +43,9 @@ class GameScreen extends React.Component {
                         <SettingsButton/>
                         <PlayPauseButton/>
                         <ZoomMeter/>
-                        {this.state.showFullscreenButton && <FullScreenButton/>}
+                        {state.showFullscreenButton && <FullScreenButton/>}
                         <ClearButton/>
-                        {this.state.showReloadButton && <ReloadButton/>}
+                        {state.showReloadButton && <ReloadButton/>}
                     </div>
                     <div id="menu">
                         <EditMenu/>
@@ -65,15 +57,16 @@ class GameScreen extends React.Component {
                     <SelectionInfo/>
                 </div>
                 <div id="bottom-left">
-                    {this.state.showShareButtons && <ShareButtons/>}
+                    {state.showShareButtons && <ShareButtons/>}
                     <Statistics/>
                 </div>
                 <div id="bottom-right">
                     <Version/>
                 </div>
-                {this.state.showAndroidAppNotification && <AndroidAppNotification onClick={() => {
-                    this.setState({showAndroidAppNotification: false})
-                    ps.paused = false
+                {state.showAndroidAppNotification && <AndroidAppNotification onClick={() => {
+                    state.showAndroidAppNotification = false
+                    ps.paused                        = false
+                    this.forceUpdate()
                 }}/>}
             </div>
         )

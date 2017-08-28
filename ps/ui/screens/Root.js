@@ -11,11 +11,9 @@ class Root extends React.Component {
     constructor() {
         super()
         this.state = {
-            screen      : state.screen,
-            introduction: state.introduction
+            screen: state.screen,
         }
         state.on('screen', screen => this.setState({screen}))
-        state.on('introduction', introduction => this.setState({introduction}))
     }
 
     get introduction() {

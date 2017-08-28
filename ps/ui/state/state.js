@@ -6,15 +6,25 @@ const state = module.exports = new EventEmitter()
 if (typeof window !== 'undefined') {
     window.state = state
 
-    const ua      = navigator.userAgent.toLowerCase()
-    state.android = ua.indexOf("android") > -1
-    state.ios = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream
+    const ua = navigator.userAgent.toLowerCase()
+
+    if (ua.indexOf("android") > -1) {
+        state.deviceType = 'android'
+    } else if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        state.deviceType = 'ios'
+    }
 }
 
+state.ps             = null
 state.mobile         = false
 state.deploymentType = "web"
 
-state.androidOnWeb = state.android && state.deploymentType === 'web'
+state.androidOnWeb               = state.deviceType === 'android' && state.deploymentType === 'web'
+state.showAndroidAppNotification = state.androidOnWeb
+
+state.showFullscreenButton = state.deploymentType === "web" && state.deviceType !== 'ios'
+state.showReloadButton     = state.deploymentType === "standalone"
+state.showShareButtons     = state.deploymentType === "web"
 
 state.screen = 'StartScreen'
 
