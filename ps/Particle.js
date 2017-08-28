@@ -3,6 +3,7 @@ const {AppObject}        = require('apex-app')
 const angles             = require('./angles')
 const {simulation, view} = require('./config')
 const stats              = require('./stats')
+const settings           = require('./settings')
 
 class Particle extends AppObject {
     constructor({parent, position, momentum, mass, radius, density}) {
@@ -81,7 +82,8 @@ class Particle extends AppObject {
             this.graphics.clear()
             this.graphics.beginFill(this.color.rgbNumber())
             if (this._selected) {
-                this.graphics.lineStyle(1 / this.radius, 0xffffff, 1)
+                let selectedColor = settings.fadeFilterCSS ? 0x000000 : 0xffffff
+                this.graphics.lineStyle(1 / this.radius, selectedColor, 1)
             }
             this.graphics.drawCircle(0, 0, 1)
             this.graphics.endFill()

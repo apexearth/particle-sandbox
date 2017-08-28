@@ -15,5 +15,9 @@ function onDeviceReady() {
     window.plugins.insomnia.keepAwake()
     state.mobile = true
 
+    // Bypass 300ms touch delays.
+    let attachFastClick = require('fastclick')
+    attachFastClick(document.body)
+
     advertising.initialize()
 }
