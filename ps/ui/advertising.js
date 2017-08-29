@@ -1,5 +1,5 @@
-const state      = require('./state')
-const adInterval = 60 * 10 * 1000
+const state    = require('./state')
+let adInterval = 60 * 5 * 1000
 
 let appPaused = false
 
@@ -79,6 +79,7 @@ function startAdTimer() {
     setTimeout(() => {
         adTimeout = false
         requestAd()
+        adInterval += 2 * 60 * 1000 // Add two minutes after each ad display to the timer.
     }, adInterval)
 }
 

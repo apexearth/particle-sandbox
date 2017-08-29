@@ -1,4 +1,3 @@
-const state          = require('./ui/state')
-state.deploymentType = "standalone"
-
+global.deploymentType = "standalone"
+require('./ui/state')
 require('./index.js')

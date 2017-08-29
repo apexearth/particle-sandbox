@@ -1,7 +1,7 @@
 {
   "name": "particle-sandbox",
   "productName": "particle-sandbox",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "private": true,
   "main": "main.js",
   "scripts": {

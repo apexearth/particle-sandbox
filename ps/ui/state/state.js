@@ -17,14 +17,13 @@ if (typeof window !== 'undefined') {
 
 state.ps             = null
 state.mobile         = false
-state.deploymentType = "web"
 
-state.androidOnWeb               = state.deviceType === 'android' && state.deploymentType === 'web'
+state.androidOnWeb               = state.deviceType === 'android' && global.deploymentType === 'web'
 state.showAndroidAppNotification = state.androidOnWeb
 
-state.showFullscreenButton = state.deploymentType === "web" && state.deviceType !== 'ios'
-state.showReloadButton     = state.deploymentType === "standalone"
-state.showShareButtons     = state.deploymentType === "web"
+state.showFullscreenButton = global.deploymentType === "web" && state.deviceType !== 'ios'
+state.showReloadButton     = global.deploymentType === "standalone"
+state.showShareButtons     = global.deploymentType === "web"
 
 state.screen = 'StartScreen'
 
