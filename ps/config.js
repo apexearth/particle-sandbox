@@ -5,7 +5,7 @@ module.exports = {
     view           : {
         zoomMin     : setting(.0001, .0001, 1),
         zoomMax     : setting(1000, 1, 1000),
-        minDrawScale: setting(1, .5, 10),
+        minDrawScale: setting(.5, .1, 10),
         fadeDelay   : setting(.25, .01, 1),
         fadeStrength: setting(.03, 0, .2),
         fadeToColor : setting(0xffffff, 0x000000, 0xffffff, "hex"),
