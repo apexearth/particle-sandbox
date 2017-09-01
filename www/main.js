@@ -1,5 +1,5 @@
-const electron      = require('electron')
-const open          = require('open')
+const electron = require('electron')
+const open     = require('open')
 
 // Module to control application life.
 const app           = electron.app
@@ -20,7 +20,11 @@ function createWindow() {
     })
 
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 600})
+    mainWindow = new BrowserWindow({
+        width : 800,
+        height: 600,
+        icon  : __dirname + '/img/launcher-icon/web_hi_res_512.ico'
+    })
     mainWindow.maximize()
 
     // and load the index.html of the app.

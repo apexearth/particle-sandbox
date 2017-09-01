@@ -3,13 +3,7 @@ const gulp = require('gulp')
 const s3   = require('gulp-s3-upload')({useIAM: true})
 
 let files = [
-    "./build/**",
-    "./css/**",
-    "./fonts/**",
-    "./img/buttons/**",
-    "./img/launcher-icon/**",
-    "./cordova.js",
-    "./index.html",
+    "./www/**",
 ]
 
 uploadTask("upload", "")
@@ -29,8 +23,3 @@ function uploadTask(name, prefix) {
             }))
     })
 }
-
-gulp.task('copy-cordova', function () {
-    gulp.src(files, {base: './'})
-        .pipe(gulp.dest('./cordova/www'))
-})

@@ -12,7 +12,7 @@ module.exports = entry => {
         ],
         output      : {
             publicPath: "/ps",
-            path      : __dirname + "/build",
+            path      : __dirname + "/www/build",
             filename  : "bundle.js"
         },
         watchOptions: {poll: 1000, aggregateTimeout: 300},
