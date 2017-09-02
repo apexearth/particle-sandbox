@@ -12,20 +12,20 @@
     <preference name="FullScreen" value="true" />
     <preference name="DisallowOverscroll" value="true" />
     <platform name="android">
-        <icon density="mdpi" src="res/mipmap-mdpi/ic_launcher.png" />
-        <icon density="hdpi" src="res/mipmap-hdpi/ic_launcher.png" />
-        <icon density="xhdpi" src="res/mipmap-xhdpi/ic_launcher.png" />
-        <icon density="xxhdpi" src="res/mipmap-xxhdpi/ic_launcher.png" />
-        <icon density="xxxhdpi" src="res/mipmap-xxxhdpi/ic_launcher.png" />
+        <icon density="mdpi" src="www/img/launcher-icon/res/mipmap-mdpi/ic_launcher.png" />
+        <icon density="hdpi" src="www/img/launcher-icon/res/mipmap-hdpi/ic_launcher.png" />
+        <icon density="xhdpi" src="www/img/launcher-icon/res/mipmap-xhdpi/ic_launcher.png" />
+        <icon density="xxhdpi" src="www/img/launcher-icon/res/mipmap-xxhdpi/ic_launcher.png" />
+        <icon density="xxxhdpi" src="www/img/launcher-icon/res/mipmap-xxxhdpi/ic_launcher.png" />
     </platform>
     <platform name="ios">
-        <icon height="180" src="res/ios/180.png" width="180" />
-        <icon height="60" src="res/ios/60.png" width="60" />
-        <icon height="120" src="res/ios/120.png" width="120" />
-        <icon height="76" src="res/ios/76.png" width="76" />
-        <icon height="152" src="res/ios/152.png" width="152" />
-        <icon height="40" src="res/ios/40.png" width="40" />
-        <icon height="80" src="res/ios/80.png" width="80" />
+        <icon height="180" src="www/img/launcher-icon/res/ios/180.png" width="180" />
+        <icon height="60" src="www/img/launcher-icon/res/ios/60.png" width="60" />
+        <icon height="120" src="www/img/launcher-icon/res/ios/120.png" width="120" />
+        <icon height="76" src="www/img/launcher-icon/res/ios/76.png" width="76" />
+        <icon height="152" src="www/img/launcher-icon/res/ios/152.png" width="152" />
+        <icon height="40" src="www/img/launcher-icon/res/ios/40.png" width="40" />
+        <icon height="80" src="www/img/launcher-icon/res/ios/80.png" width="80" />
     </platform>
     <config-file parent="UIStatusBarHidden" platform="ios" target="*-Info.plist">
         <true />
