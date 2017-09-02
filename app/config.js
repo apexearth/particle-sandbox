@@ -1,13 +1,35 @@
 const {setting} = require('apex-app')
 const settings  = require('./settings')
 
-module.exports = {
+const config = module.exports = {
+    quick          : {
+        ['No Trails']     : () => {
+            config.view.fadeDelay.value    = 0
+            config.view.fadeStrength.value = 1
+        },
+        ['Short Trails']  : () => {
+            config.view.fadeDelay.value    = .01
+            config.view.fadeStrength.value = .03
+        },
+        ['Medium Trails'] : () => {
+            config.view.fadeDelay.value    = .125
+            config.view.fadeStrength.value = .03
+        },
+        ['Default Trails']: () => {
+            config.view.fadeDelay.value    = .25
+            config.view.fadeStrength.value = .03
+        },
+        ['Long Trails']   : () => {
+            config.view.fadeDelay.value    = .25
+            config.view.fadeStrength.value = .01
+        }
+    },
     view           : {
         zoomMin     : setting(.0001, .0001, 1),
         zoomMax     : setting(1000, 1, 1000),
         minDrawScale: setting(.5, .1, 10),
-        fadeDelay   : setting(.25, .01, 1),
-        fadeStrength: setting(.03, 0, .2),
+        fadeDelay   : setting(.25, 0, 1),
+        fadeStrength: setting(.03, 0, 1),
         fadeToColor : setting(0xffffff, 0x000000, 0xffffff, "hex"),
     },
     viewMeta       : {},

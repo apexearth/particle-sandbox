@@ -81,6 +81,12 @@ input {
   padding-bottom: 1px;
 }
 
+button {
+  .gui-button;
+  border: none;
+  padding: 2px;
+}
+
 a, a:visited, a:hover, a:active {
   text-decoration: none;
   color: inherit;
@@ -242,15 +248,20 @@ a, a:visited, a:hover, a:active {
   display: flex;
   font-size: smaller;
   align-items: center;
+  & *:nth-child(1) {
+    width: 100%;
+  }
+
+  & *:nth-child(2) {
+    margin-left: 10px;
+    width: 70px;
+  }
 }
 
-.settings-input *:nth-child(1) {
-  width: 100%;
-}
 
-.settings-input *:nth-child(2) {
-  margin-left: 10px;
-  width: 70px;
+.settings-button {
+  .settings-input;
+  margin-top: 4px;
 }
 
 #gui-buttons {

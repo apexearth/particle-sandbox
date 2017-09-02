@@ -304,7 +304,7 @@ class ParticleSandbox extends App {
         }
         this.fadeGraphics           = new PIXI.Graphics()
         this.fadeGraphics.blendMode = PIXI.BLEND_MODES.NORMAL
-        this.root.addChild(this.fadeGraphics)
+        this.root.addChildAt(this.fadeGraphics, 0)
         this.on('zoom', () => {
             let difference = Math.abs(this.fadeState.lastClearScale / this.scale.x)
             if (difference > 1.001 || difference < .999) {
