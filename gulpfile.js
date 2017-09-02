@@ -12,7 +12,7 @@ uploadTask("upload-version", `version/${pkg.version}/`)
 
 function uploadTask(name, prefix) {
     gulp.task(name, function () {
-        gulp.src(files, {base: './'})
+        gulp.src(files, {base: './www/'})
             .pipe(s3({
                 Bucket      : 'particlesandbox.com',
                 ACL         : 'public-read',
