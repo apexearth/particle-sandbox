@@ -1,11 +1,13 @@
-const angles      = require('./angles')
+const angles               = require('./angles')
 const {AppObject, setting} = require('apex-app')
+const settings             = require('./settings')
+
 
 const defaultSettings = {
     delay       : setting(1, .01, 10),
     count       : setting(1, 1, 100),
     radius      : setting(1, .5, 100),
-    speed       : setting(25, 0, 100),
+    speed       : setting(10, 0, 100),
     minDirection: setting(0, 0, 360),
     maxDirection: setting(360, 0, 360),
     minDensity  : setting(.5, .1, 10),
@@ -61,7 +63,7 @@ class Generator extends AppObject {
             let size = Math.max(10, this.settings.range, this.settings.radius)
             this.graphics.clear()
             this.graphics.alpha = this.selected ? .2 : .1
-            this.graphics.beginFill(0xffffff)
+            this.graphics.beginFill(settings.invertColors ? 0x333333 : 0xcccccc)
             this.graphics.drawRect(-size, -size, size * 2, size * 2)
             this.graphics.endFill()
         }

@@ -37,7 +37,7 @@ module.exports = {
 
 // Fixes for when we cannot invert via CSS filter.
 // Slow gradual fades to white work better than fades to black.
-if (!settings.fadeFilterCSS) {
+if (!settings.invertColors) {
     module.exports.view.fadeDelay    = setting(.25, .01, 1)
     module.exports.view.fadeStrength = setting(.05, 0, .2)
     module.exports.view.fadeToColor  = setting(0x000000, 0xffffff, 0x000000, "hex")

@@ -27,7 +27,7 @@ class Particle extends AppObject {
     }
 
     static get particleColor() {
-        let colorTotal = 255 * 2.5
+        let colorTotal = 255 * (settings.invertColors ? 1 : 2.5)
         let colorR     = Math.min(255, Math.random() * colorTotal)
         colorTotal -= colorR
         let colorG     = Math.min(255, Math.random() * colorTotal)
@@ -85,10 +85,10 @@ class Particle extends AppObject {
                 let selectedColor = settings.fadeFilterCSS ? 0x000000 : 0xffffff
                 this.graphics.lineStyle(1 / this.radius, selectedColor, 1)
             }
+            this.drawHeat()
             this.graphics.drawCircle(0, 0, 1)
             this.graphics.endFill()
             this.graphics.lineStyle(0, 0xffffff, 1)
-            this.drawHeat()
             this.updateScale()
         }
     }
@@ -97,7 +97,7 @@ class Particle extends AppObject {
         if (this.heat < 250) return
         let heatLevel            = Math.log(this.heat) / 2
         let heatAffectingVisuals = this.heat / this.mass
-        let heatColor            = this.color.lighten(.05 * heatAffectingVisuals).rgbNumber()
+        let heatColor            = this.color.darken(.05 * heatAffectingVisuals).rgbNumber()
         this.graphics.beginFill(heatColor, .15)
         while (heatLevel-- > 0) {
             this.graphics.drawCircle(0, 0, (1 + heatLevel * .05))
