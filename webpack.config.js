@@ -1,1 +1,1 @@
-module.exports = require('./webpack.config.base')('./ps')
+module.exports = require('./webpack.config.base')('./app')

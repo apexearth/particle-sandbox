@@ -11,7 +11,7 @@ module.exports = entry => {
             entry
         ],
         output      : {
-            publicPath: "/ps",
+            publicPath: "/app",
             path      : __dirname + "/www/build",
             filename  : "bundle.js"
         },

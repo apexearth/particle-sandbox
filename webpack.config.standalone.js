@@ -1,1 +1,1 @@
-module.exports = require('./webpack.config.base')('./ps/index.standalone.js')
+module.exports = require('./webpack.config.base')('./app/index.standalone.js')
