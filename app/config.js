@@ -1,27 +1,54 @@
 const {setting} = require('apex-app')
 const settings  = require('./settings')
 
+const defaults = {
+    simulation: {
+        gravityStrength : 200,
+        gravityExponent : 2,
+        gravityStrength2: 0,
+        gravityExponent2: 3,
+    }
+}
+
 const config = module.exports = {
     quick          : {
-        ['No Trails']     : () => {
+        ['No Trails']       : () => {
             config.view.fadeDelay.value    = 0
             config.view.fadeStrength.value = 1
         },
-        ['Short Trails']  : () => {
+        ['Short Trails']    : () => {
             config.view.fadeDelay.value    = .01
             config.view.fadeStrength.value = .03
         },
-        ['Medium Trails'] : () => {
+        ['Medium Trails']   : () => {
             config.view.fadeDelay.value    = .125
             config.view.fadeStrength.value = .03
         },
-        ['Default Trails']: () => {
+        ['Default Trails']  : () => {
             config.view.fadeDelay.value    = .25
             config.view.fadeStrength.value = .03
         },
-        ['Long Trails']   : () => {
+        ['Long Trails']     : () => {
             config.view.fadeDelay.value    = .25
             config.view.fadeStrength.value = .01
+        },
+        ['Gravity ^1']      : () => {
+            config.simulation.gravityStrength.value  = defaults.simulation.gravityStrength * .1
+            config.simulation.gravityExponent.value  = 1
+            config.simulation.gravityStrength2.value = defaults.simulation.gravityStrength2
+            config.simulation.gravityExponent2.value = defaults.simulation.gravityExponent2
+        },
+        ['Gravity ^2 (def)']: () => {
+            config.simulation.gravityStrength.value  = defaults.simulation.gravityStrength
+            config.simulation.gravityExponent.value  = defaults.simulation.gravityExponent
+            config.simulation.gravityStrength2.value = defaults.simulation.gravityStrength2
+            config.simulation.gravityExponent2.value = defaults.simulation.gravityExponent2
+        },
+        ['Gravity ^2 ^3']   : () => {
+            config.simulation.gravityStrength.value  = defaults.simulation.gravityStrength * .9
+            config.simulation.gravityExponent.value  = defaults.simulation.gravityExponent
+            config.simulation.gravityStrength2.value = 2000
+            config.simulation.gravityExponent2.value = defaults.simulation.gravityExponent2
         }
     },
     view           : {
@@ -34,10 +61,10 @@ const config = module.exports = {
     },
     viewMeta       : {},
     simulation     : {
-        gravityStrength : setting(200, 0, 10000),
-        gravityExponent : setting(2, 0, 10),
-        gravityStrength2: setting(0, 0, 10000),
-        gravityExponent2: setting(3, 0, 10),
+        gravityStrength : setting(defaults.simulation.gravityStrength, 0, 10000),
+        gravityExponent : setting(defaults.simulation.gravityExponent, 0, 10),
+        gravityStrength2: setting(defaults.simulation.gravityStrength2, 0, 10000),
+        gravityExponent2: setting(defaults.simulation.gravityExponent2, 0, 10),
         bouncePercentage: setting(.5, 0, 5),
         absorbRate      : setting(.01, .001, 1),
         heatRate        : setting(100, 1, 500),
