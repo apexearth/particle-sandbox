@@ -82,6 +82,7 @@
         "gulp": "^3.9.1",
         "gulp-s3-upload": "^1.6.4",
         "img-loader": "^2.0.0",
+        "jquery": "^3.2.1",
         "less": "^2.7.2",
         "less-loader": "^4.0.2",
         "mocha": "^3.2.0",
