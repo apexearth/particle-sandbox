@@ -1,6 +1,5 @@
 const {setting} = require('apex-app')
 const settings  = require('./settings')
-const $         = require('jquery')
 
 const defaults = {
     simulation: {
@@ -15,93 +14,21 @@ const config = module.exports = {
     quick          : {
         ['FB Test']         : () => {
             // http://gorigins.com/posting-a-canvas-image-to-facebook-and-twitter/
-
-            function dataURItoBlob(dataURI) {
-                var byteString = atob(dataURI.split(',')[1]);
-                var ab         = new ArrayBuffer(byteString.length);
-                var ia         = new Uint8Array(ab);
-                for (var i = 0; i < byteString.length; i++) {
-                    ia[i] = byteString.charCodeAt(i);
-                }
-                return new Blob([ab], {type: 'image/png'});
-            }
-
-            function postImageToFacebook(token, filename, mimeType, imageData, message) {
-                var fd = new FormData();
-                fd.append("access_token", token);
-                fd.append("source", imageData);
-                fd.append("no_story", true);
-
-                // Upload image to facebook without story(post to feed)
-                $.ajax({
-                    url        : "https://graph.facebook.com/me/photos?access_token=" + token,
-                    type       : "POST",
-                    data       : fd,
-                    processData: false,
-                    contentType: false,
-                    cache      : false,
-                    success    : function (data) {
-                        console.log("success: ", data);
-
-                        // Get image source url
-                        FB.api(
-                            "/" + data.id + "?fields=images",
-                            function (response) {
-                                if (response && !response.error) {
-                                    //console.log(response.images[0].source);
-
-                                    // Create facebook post using image
-                                    FB.api(
-                                        "/me/feed",
-                                        "POST",
-                                        {
-                                            "message"    : "",
-                                            "picture"    : response.images[0].source,
-                                            "link"       : window.location.href,
-                                            "name"       : 'Look at the cute panda!',
-                                            "description": message,
-                                            "privacy"    : {
-                                                value: 'SELF'
-                                            }
-                                        },
-                                        function (response) {
-                                            if (response && !response.error) {
-                                                /* handle the result */
-                                                console.log("Posted story to facebook");
-                                                console.log(response);
-                                            }
-                                        }
-                                    );
-                                }
-                            }
-                        );
-                    },
-                    error      : function (shr, status, data) {
-                        console.log("error " + data + " Status " + shr.status);
-                    },
-                    complete   : function (data) {
-                        //console.log('Post to facebook Complete');
-                    }
-                });
-            }
-
-            let data = state.ps.renderer.view.toDataURL('image/png');
-            let blob = dataURItoBlob(data);
+            let data = state.ps.renderer.view.toDataURL('image/png')
+            let blob = dataURItoBlob(data)
             FB.getLoginStatus(function (response) {
-                console.log(response);
                 if (response.status === "connected") {
-                    postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/png", blob, window.location.href);
+                    FB.postImageToFacebook(response.authResponse.accessToken, blob)
                 } else if (response.status === "not_authorized") {
                     FB.login(function (response) {
-                        postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/png", blob, window.location.href);
-                    }, {scope: "publish_actions"});
+                        FB.postImageToFacebook(response.authResponse.accessToken, blob)
+                    }, {scope: "publish_actions"})
                 } else {
                     FB.login(function (response) {
-                        postImageToFacebook(response.authResponse.accessToken, "Canvas to Facebook/Twitter", "image/png", blob, window.location.href);
-                    }, {scope: "publish_actions"});
+                        FB.postImageToFacebook(response.authResponse.accessToken, blob)
+                    }, {scope: "publish_actions"})
                 }
-            });
-
+            })
         },
         ['No Trails']       : () => {
             config.view.fadeDelay.value    = 0
@@ -181,4 +108,15 @@ if (!settings.invertColors) {
     module.exports.view.fadeDelay    = setting(.25, .01, 1)
     module.exports.view.fadeStrength = setting(.05, 0, .2)
     module.exports.view.fadeToColor  = setting(0x000000, 0xffffff, 0x000000, "hex")
+}
+
+
+function dataURItoBlob(dataURI) {
+    let byteString = atob(dataURI.split(',')[1])
+    let ab         = new ArrayBuffer(byteString.length)
+    let ia         = new Uint8Array(ab)
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i)
+    }
+    return new Blob([ab], {type: 'image/png'})
 }
