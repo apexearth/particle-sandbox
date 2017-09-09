@@ -14,8 +14,20 @@ const config = module.exports = {
     quick          : {
         ['FB Test']         : () => {
             // http://gorigins.com/posting-a-canvas-image-to-facebook-and-twitter/
-            let data = state.ps.renderer.view.toDataURL('image/png')
+            let source    = state.ps.renderer.view
+            let canvas    = document.createElement('canvas')
+            let context   = canvas.getContext('2d')
+            canvas.width  = source.width
+            canvas.height = source.height
+
+            context.fillStyle = 'white'
+            context.fillRect(0, 0, source.width, source.height)
+            context.globalCompositeOperation = 'difference'
+            context.drawImage(source, 0, 0)
+
+            let data        = canvas.toDataURL('image/png')
             let blob = dataURItoBlob(data)
+
             FB.getLoginStatus(function (response) {
                 if (response.status === "connected") {
                     FB.postImageToFacebook(response.authResponse.accessToken, blob)
