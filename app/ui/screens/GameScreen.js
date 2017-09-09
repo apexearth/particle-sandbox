@@ -12,6 +12,7 @@ import {
     PlayPauseButton,
     ZoomMeter,
     FullScreenButton,
+    ScreenshotButton,
     ClearButton,
     ReloadButton,
 } from '../top-buttons'
@@ -19,7 +20,8 @@ import SelectionInfo from '../SelectionInfo'
 import Version from '../Version'
 import ShareButtons from '../ShareButtons'
 import Statistics from '../Statistics'
-import {AndroidAppNotification} from '../components'
+import ScreenshotDisplay from './ScreenshotDisplay'
+import {AndroidAppNotification,} from '../components'
 
 import state from '../state'
 
@@ -44,6 +46,7 @@ class GameScreen extends React.Component {
                         <PlayPauseButton/>
                         <ZoomMeter/>
                         {state.showFullscreenButton && <FullScreenButton/>}
+                        <ScreenshotButton/>
                         <ClearButton/>
                         {state.showReloadButton && <ReloadButton/>}
                     </div>
@@ -63,6 +66,7 @@ class GameScreen extends React.Component {
                 <div id="bottom-right">
                     <Version/>
                 </div>
+                <ScreenshotDisplay/>
                 {state.showAndroidAppNotification && <AndroidAppNotification onClick={() => {
                     state.showAndroidAppNotification = false
                     ps.paused                        = false
@@ -74,4 +78,3 @@ class GameScreen extends React.Component {
 }
 
 module.exports = GameScreen
-

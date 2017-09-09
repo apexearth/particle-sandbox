@@ -15,8 +15,8 @@ if (typeof window !== 'undefined') {
     }
 }
 
-state.ps             = null
-state.mobile         = false
+state.ps     = null
+state.mobile = false
 
 state.androidOnWeb               = state.deviceType === 'android' && global.deploymentType === 'web'
 state.showAndroidAppNotification = state.androidOnWeb
@@ -80,6 +80,8 @@ const selectionInfo = state.selectionInfo = {
         return state.ps.modes.followSelection
     }
 }
+
+state.screenshot = require('./screenshot')(state)
 
 
 // Init

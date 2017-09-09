@@ -12,36 +12,6 @@ const defaults = {
 
 const config = module.exports = {
     quick          : {
-        ['FB Test']         : () => {
-            // http://gorigins.com/posting-a-canvas-image-to-facebook-and-twitter/
-            let source    = state.ps.renderer.view
-            let canvas    = document.createElement('canvas')
-            let context   = canvas.getContext('2d')
-            canvas.width  = source.width
-            canvas.height = source.height
-
-            context.fillStyle = 'white'
-            context.fillRect(0, 0, source.width, source.height)
-            context.globalCompositeOperation = 'difference'
-            context.drawImage(source, 0, 0)
-
-            let data        = canvas.toDataURL('image/png')
-            let blob = dataURItoBlob(data)
-
-            FB.getLoginStatus(function (response) {
-                if (response.status === "connected") {
-                    FB.postImageToFacebook(response.authResponse.accessToken, blob)
-                } else if (response.status === "not_authorized") {
-                    FB.login(function (response) {
-                        FB.postImageToFacebook(response.authResponse.accessToken, blob)
-                    }, {scope: "publish_actions"})
-                } else {
-                    FB.login(function (response) {
-                        FB.postImageToFacebook(response.authResponse.accessToken, blob)
-                    }, {scope: "publish_actions"})
-                }
-            })
-        },
         ['No Trails']       : () => {
             config.view.fadeDelay.value    = 0
             config.view.fadeStrength.value = 1
@@ -120,15 +90,4 @@ if (!settings.invertColors) {
     module.exports.view.fadeDelay    = setting(.25, .01, 1)
     module.exports.view.fadeStrength = setting(.05, 0, .2)
     module.exports.view.fadeToColor  = setting(0x000000, 0xffffff, 0x000000, "hex")
-}
-
-
-function dataURItoBlob(dataURI) {
-    let byteString = atob(dataURI.split(',')[1])
-    let ab         = new ArrayBuffer(byteString.length)
-    let ia         = new Uint8Array(ab)
-    for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i)
-    }
-    return new Blob([ab], {type: 'image/png'})
 }

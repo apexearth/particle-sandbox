@@ -9,6 +9,7 @@ window.fbAsyncInit = function () {
     })
     FB.AppEvents.logPageView()
     FB.postImageToFacebook = postImageToFacebook
+    FB.ensureLoggedIn      = ensureLoggedIn
 };
 
 (function (d, s, id) {
@@ -22,7 +23,8 @@ window.fbAsyncInit = function () {
     fjs.parentNode.insertBefore(js, fjs)
 }(document, 'script', 'facebook-jssdk'))
 
-function postImageToFacebook(token, imageData) {
+// http://gorigins.com/posting-a-canvas-image-to-facebook-and-twitter/
+function postImageToFacebook(token, imageData, done) {
     let fd = new FormData()
     fd.append("access_token", token)
     fd.append("source", imageData)
@@ -37,25 +39,39 @@ function postImageToFacebook(token, imageData) {
         contentType: false,
         cache      : false,
         success    : function (data) {
-            console.log("success: ", data)
-
             // Create facebook post using image
             FB.ui({
                 method: 'share',
                 href  : 'https://www.facebook.com/photo.php?fbid=' + data.id,
             }, function (response) {
                 if (response && !response.error_message) {
-                    // alert('Posting completed.')
+                    done()
                 } else {
-                    // alert('Error while posting.')
+                    done(response.error_message)
                 }
             })
         },
         error      : function (shr, status, data) {
-            //console.log("error " + data + " Status " + shr.status)
+            done(data)
         },
         complete   : function (data) {
             //console.log('Post to facebook Complete');
+        }
+    })
+}
+
+function ensureLoggedIn(fn, scope = "publish_actions") {
+    FB.getLoginStatus(function (response) {
+        if (response.status === "connected") {
+            fn(response.authResponse.accessToken)
+        } else if (response.status === "not_authorized") {
+            FB.login(function (response) {
+                fn(response.authResponse.accessToken)
+            }, {scope})
+        } else {
+            FB.login(function (response) {
+                fn(response.authResponse.accessToken)
+            }, {scope})
         }
     })
 }
