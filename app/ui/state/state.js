@@ -22,6 +22,7 @@ state.androidOnWeb               = state.deviceType === 'android' && global.depl
 state.showAndroidAppNotification = state.androidOnWeb
 
 state.showFullscreenButton = global.deploymentType === "web" && state.deviceType !== 'ios'
+state.showScreenshotButton = global.deploymentType !== "standalone"
 state.showReloadButton     = global.deploymentType === "standalone"
 state.showShareButtons     = global.deploymentType === "web"
 

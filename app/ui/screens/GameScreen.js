@@ -46,7 +46,7 @@ class GameScreen extends React.Component {
                         <PlayPauseButton/>
                         <ZoomMeter/>
                         {state.showFullscreenButton && <FullScreenButton/>}
-                        <ScreenshotButton/>
+                        {state.showScreenshotButton && <ScreenshotButton/>}
                         <ClearButton/>
                         {state.showReloadButton && <ReloadButton/>}
                     </div>
