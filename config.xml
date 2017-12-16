@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.particlesandbox" version="2.12.2" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.particlesandbox" version="2.12.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Particle Sandbox</name>
     <description>
         Grand-scale interactive gravity simulator game.
@@ -35,6 +35,7 @@
     </config-file>
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="^4.4.0" />
+    <plugin name="cordova-plugin-admob-simple" spec="^3.3.4" />
     <plugin name="cordova-plugin-fullscreen" spec="git+https://github.com/mesmotronic/cordova-plugin-fullscreen.git" />
     <plugin name="cordova-plugin-insomnia" spec="git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git" />
     <plugin name="cordova-plugin-whitelist" spec="git+https://github.com/apache/cordova-plugin-whitelist.git" />
