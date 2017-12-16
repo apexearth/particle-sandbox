@@ -7,7 +7,7 @@
     "main": "www/main.js",
     "scripts": {
         "test": "npm-run-all test-eslint test-mocha",
-        "test-eslint": "eslint ./**/*.js",
+        "test-eslint": "eslint app/**/*.js",
         "test-mocha": "mocha app/**.spec.js",
         "watch": "webpack --watch",
         "watch-standalone": "webpack --watch --config webpack.config.standalone.js",
