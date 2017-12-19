@@ -1,5 +1,4 @@
-const state       = require("../ui/state")
-// const advertising = require('../ui/advertising')
+const state = require("../ui/state")
 
 const {deviceType} = state
 
@@ -14,6 +13,4 @@ function onDeviceReady() {
     }
     window.plugins.insomnia.keepAwake()
     state.mobile = true
-
-    // advertising.initialize()
 }
