@@ -1,10 +1,12 @@
 const {setting} = require('apex-app')
 const processor = require('./processor')
 
+
 const settings = {
     initialRadius: setting(1, .5, 100),
     growthRate   : setting(5, .1, 100),
     density      : setting(.75, .1, 10),
+    color        : setting(0xffffff, 0, 0xffffff, 'color'),
 }
 
 module.exports = {
@@ -17,7 +19,10 @@ module.exports = {
                 state.start.x  = x
                 state.start.y  = y
                 state.finish   = {}
-                state.particle = ps.previewParticle({density: settings.density.value})
+                state.particle = ps.previewParticle({
+                    density: settings.density.value,
+                    color  : settings.color.value,
+                })
             },
             onUpdate  : (seconds, state, ps, {x, y}) => {
                 state.finish.x = x

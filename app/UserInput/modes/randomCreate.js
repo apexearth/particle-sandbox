@@ -11,6 +11,7 @@ const settings = {
     momentumMaxY: setting(0, -100, 100),
     minDensity  : setting(.5, .1, 10),
     maxDensity  : setting(.75, .1, 10),
+    color       : setting(0xffffff, 0, 0xffffff, 'color'),
 }
 
 module.exports = {
@@ -26,6 +27,7 @@ module.exports = {
                     let randomDistance        = Math.random()
                     let particle              = ps.addParticle({
                         density : settings.minDensity.value + Math.random() * (settings.maxDensity.value - settings.minDensity.value),
+                        color   : settings.color.value,
                         position: {
                             x: (x - ps.position.x + Math.cos(randomAngle) * settings.range.value * randomDistance) / ps.scale.x,
                             y: (y - ps.position.y + Math.sin(randomAngle) * settings.range.value * randomDistance) / ps.scale.y

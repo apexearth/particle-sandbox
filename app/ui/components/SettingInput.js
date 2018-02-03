@@ -1,3 +1,4 @@
+import Color from 'color'
 import React from 'react'
 
 class SettingInput extends React.Component {
@@ -25,6 +26,8 @@ class SettingInput extends React.Component {
                     return Number(value)
                 case 'hex':
                     return value.toString(16)
+                case 'color':
+                    return Color(value).hex()
                 default:
                     return value
             }
