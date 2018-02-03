@@ -6,11 +6,20 @@ const stats              = require('./stats')
 const settings           = require('./settings')
 
 class Particle extends AppObject {
-    constructor({parent, position, momentum, mass, radius, density}) {
+    constructor({parent, position, momentum, mass, radius, density, color}) {
         super({parent, position, momentum})
         this.type = 'particle'
 
-        this.color        = Particle.particleColor
+        if (color) {
+            color = Color(color)
+            if (settings.invertColors) {
+                color = color.negate()
+            }
+        } else {
+            color = Particle.particleColor
+        }
+
+        this.color        = color
         this.density      = density || Math.max(.1, Math.random() * Math.random())
         this.density_prev = this.density
         this._heat        = 0

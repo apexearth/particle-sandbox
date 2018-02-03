@@ -7,6 +7,7 @@ const settings = {
     momentumX: setting(0, -100, 100),
     momentumY: setting(0, -100, 100),
     density  : setting(.75, .1, 10),
+    color    : setting(0xffffff, 0, 0xffffff, 'color'),
 }
 
 module.exports = {
@@ -20,6 +21,7 @@ module.exports = {
                     state.stage               = 1
                     let particle              = ps.addParticle({
                         density : settings.density.value,
+                        color   : settings.color.value,
                         position: {
                             x: (x - ps.position.x) / ps.scale.x,
                             y: (y - ps.position.y) / ps.scale.y
