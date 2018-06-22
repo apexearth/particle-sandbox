@@ -68,6 +68,9 @@ const config = module.exports = {
         bouncePercentage: setting(.5, 0, 5),
         absorbRate      : setting(.01, .001, 1),
         heatRate        : setting(100, 1, 500),
+        collide         : setting(true, false, true, 'boolean'),
+        bounce          : setting(true, false, true, 'boolean'),
+        exchangeMass    : setting(true, false, true, 'boolean'),
     },
     simulationMeta : {},
     performance    : {

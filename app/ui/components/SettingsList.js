@@ -11,6 +11,8 @@ const SettingsList = ({id, title, settings}) => {
         .map(key => {
             if (typeof settings[key] === 'function') {
                 return <SettingButton settings={settings} settingsKey={key} key={key}/>
+            } else if (settings[key].type === 'boolean') {
+                return <SettingButton settings={settings} settingsKey={key} key={key}/>
             } else {
                 return <SettingInput settings={settings} settingsKey={key} key={key}/>
             }
