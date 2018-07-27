@@ -76,6 +76,7 @@ class ParticleSandbox extends App {
     }
 
     clearRenderer() {
+        this.renderer.backgroundColor = view.fadeToColor.value
         this.renderer.clear()
     }
 
