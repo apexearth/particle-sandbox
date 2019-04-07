@@ -2,7 +2,6 @@ const Color              = require('color')
 const {AppObject}        = require('apex-app')
 const angles             = require('./angles')
 const {simulation, view} = require('./config')
-const stats              = require('./stats')
 const settings           = require('./settings')
 
 class Particle extends AppObject {
@@ -146,12 +145,6 @@ class Particle extends AppObject {
             // Update scale based on radius and ensure we are always at least 1 pixel large regardless of zoom.
             this.scale.x = this.scale.y = (this.radius * this.container.parent.scale.x >= view.minDrawScale.value) ? this.radius : view.minDrawScale.value / this.container.parent.scale.x
         }
-    }
-
-    updateStats(seconds) {
-        stats.simulation.centerMass.x += this.position.x * this.mass
-        stats.simulation.centerMass.x += this.position.y * this.mass
-        stats.simulation.totalMass += this.mass
     }
 
     updateHeat(seconds) {

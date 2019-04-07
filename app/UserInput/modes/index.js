@@ -3,5 +3,5 @@ module.exports = {
     create      : require('./create'),
     rapidCreate : require('./rapidCreate'),
     randomCreate: require('./randomCreate'),
-    generator: require('./generator'),
+    generator   : require('./generator'),
 }

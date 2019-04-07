@@ -21,7 +21,11 @@ let stats = module.exports = {
         stats.simulation.centerMass.x = 0
         stats.simulation.centerMass.y = 0
         stats.simulation.totalMass    = 0
-        ps.particles.forEach(particle => particle.updateStats(seconds))
+        ps.particles.forEach(particle => {
+            stats.simulation.centerMass.x += particle.position.x * particle.mass
+            stats.simulation.centerMass.x += particle.position.y * particle.mass
+            stats.simulation.totalMass += particle.mass
+        })
         stats.simulation.centerMass.x /= stats.simulation.totalMass
         stats.simulation.centerMass.y /= stats.simulation.totalMass
     }
