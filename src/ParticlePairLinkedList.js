@@ -1,5 +1,5 @@
-const LinkedList = require('./LinkedList')
-const stats      = require('./stats')
+import LinkedList from './LinkedList'
+import stats from './stats'
 
 export default class ParticlePairLinkedList extends LinkedList {
     add(node) {

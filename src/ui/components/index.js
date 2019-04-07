@@ -1,4 +1,4 @@
-export {default as SettingsInput} from './SettingsInput'
+export {default as SettingInput} from './SettingInput'
 export {default as SettingsList} from './SettingsList'
 export {default as TextButton} from './TextButton'
 export {default as Title} from './Title'

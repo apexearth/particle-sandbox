@@ -1,7 +1,13 @@
+import select from './select'
+import create from './create'
+import rapidCreate from './rapidCreate'
+import randomCreate from './randomCreate'
+import generator from './generator'
+
 export default {
-    select      : require('./select'),
-    create      : require('./create'),
-    rapidCreate : require('./rapidCreate'),
-    randomCreate: require('./randomCreate'),
-    generator   : require('./generator'),
+    select,
+    create,
+    rapidCreate,
+    randomCreate,
+    generator,
 }

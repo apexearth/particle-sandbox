@@ -1,5 +1,5 @@
-const {setting} = require('apex-app')
-const processor = require('./processor')
+import {setting} from 'apex-app'
+import processor from './processor'
 
 const settings = {
     radius      : setting(1, .5, 100),

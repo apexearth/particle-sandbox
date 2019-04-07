@@ -1,6 +1,6 @@
-const angles               = require('./angles')
-const {AppObject, setting} = require('apex-app')
-const settings             = require('./settings')
+import angles from './angles'
+import {AppObject, setting} from 'apex-app'
+import settings from './settings'
 
 
 const defaultSettings = {

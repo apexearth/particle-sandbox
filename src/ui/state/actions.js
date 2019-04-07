@@ -1,6 +1,7 @@
-const state = require('./state')
+import state from './state'
+import ParticleSandbox from '../../ParticleSandbox'
 
-let actions = {
+const actions = {
     resumeGame  : () => {
         actions.changeScreen('GameScreen')
         state.ps.resumeRendering()
@@ -13,13 +14,15 @@ let actions = {
         if (state.ps) throw new Error('already started')
 
         console.log('starting sandbox')
-        const ParticleSandbox = require('../../ParticleSandbox')
-        const ps              = new ParticleSandbox()
-        state.ps              = ps
+        const ps = new ParticleSandbox()
+        state.ps = ps
 
         ps.addParticles(200)
         ps.addParticles(100, (ps.screenWidth + ps.screenHeight) / 2)
     }
 }
+
+// Init
+actions.startSandbox(true)
 
 export default actions

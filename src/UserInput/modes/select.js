@@ -1,4 +1,4 @@
-const processor = require('./processor')
+import processor from './processor'
 
 export default {
     update (seconds, state, ps)  {

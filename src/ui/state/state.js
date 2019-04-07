@@ -31,9 +31,6 @@ state.showShareButtons     = global.deploymentType === "web"
 
 state.screen = 'StartScreen'
 
-state.actions = require('./actions')
-
-
 state.subscribe = fn => state.on('state', fn)
 state.notify    = () => state.emit('state', state)
 
@@ -87,6 +84,3 @@ const selectionInfo = state.selectionInfo = {
 
 state.screenshot = screenshot(state)
 
-
-// Init
-state.actions.startSandbox(true)

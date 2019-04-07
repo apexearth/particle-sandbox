@@ -1,34 +1,36 @@
-require('./window')
+import './window'
+import app from 'apex-app'
+import Generator from './Generator'
+import Particle from './Particle'
+import ParticlePair from './ParticlePair'
+import ParticlePairLinkedList from './ParticlePairLinkedList'
+import StatsHistory from './StatsHistory'
+import PopulationManager from './PopulationManager'
+import stats from './stats'
+import inputs from './inputs'
+import UserInput from './UserInput'
+import config from './config'
+
 
 const {
-    PIXI,
-    App,
-    createRenderer
-} = require('apex-app')
-const Generator = require('./Generator')
-const Particle = require('./Particle')
-const ParticlePair = require('./ParticlePair')
-const ParticlePairLinkedList = require('./ParticlePairLinkedList')
-const StatsHistory = require('./StatsHistory')
-const PopulationManager = require('./PopulationManager')
-const stats = require('./stats')
-const inputs = require('./inputs')
-
-const UserInput = require('./UserInput')
+          PIXI,
+          App,
+          createRenderer
+      } = app
 const {
-    view,
-    simulation,
-    performance
-} = require('./config')
+          view,
+          simulation,
+          performance
+      } = config
 
 
-class ParticleSandbox extends App {
+export default class ParticleSandbox extends App {
     constructor(options) {
         super(Object.assign({view}, options))
 
-        this.renderer = {clear: () => undefined} // Mock, replaced in ./index.js
-        this.particles = []
-        this.pairs = [
+        this.renderer   = {clear: () => undefined} // Mock, replaced in ./index.js
+        this.particles  = []
+        this.pairs      = [
             new ParticlePairLinkedList(),
             new ParticlePairLinkedList(),
             new ParticlePairLinkedList(),
@@ -38,25 +40,25 @@ class ParticleSandbox extends App {
         this.centerView()
 
         this._userInput = new UserInput({parent: this})
-        this.modes = {
+        this.modes      = {
             followSelection: true,
         }
 
-        this.statsHistory = new StatsHistory(stats)
+        this.statsHistory      = new StatsHistory(stats)
         this.populationManager = new PopulationManager(this, stats, this.statsHistory)
         this.initializeFade()
 
         if (typeof window !== 'undefined') {
             let {renderer, uirenderer} = createRenderer(this, {
-                rendererOptions: {
+                rendererOptions            : {
                     preserveDrawingBuffer: true,
-                    clearBeforeRender: false,
-                    backgroundColor: view.fadeToColor.value,
+                    clearBeforeRender    : false,
+                    backgroundColor      : view.fadeToColor.value,
                 },
                 destroyAccessibilityPlugins: true
             })
-            this.renderer = renderer
-            this.uirenderer = uirenderer
+            this.renderer              = renderer
+            this.uirenderer            = uirenderer
 
             inputs.initialize(this.uirenderer.view)
         }
@@ -210,7 +212,7 @@ class ParticleSandbox extends App {
     }
 
     previewParticle(options) {
-        options = options || {position: {x: Math.random() * 100, y: Math.random() * 100}}
+        options      = options || {position: {x: Math.random() * 100, y: Math.random() * 100}}
         let particle = new Particle(Object.assign({
             parent: this
         }, options))
@@ -220,7 +222,7 @@ class ParticleSandbox extends App {
 
     addParticle(particle, options) {
         if (!particle || particle.constructor !== Particle) {
-            options = particle || {position: {x: Math.random() * 100, y: Math.random() * 100}}
+            options  = particle || {position: {x: Math.random() * 100, y: Math.random() * 100}}
             particle = new Particle(Object.assign({
                 parent: this
             }, options))
@@ -237,9 +239,9 @@ class ParticleSandbox extends App {
     addParticles(count, distance = 100000) {
         for (let i = 0; i < count; i++) {
             let angle = Math.random() * Math.PI * 2
-            let d = distance * Math.random() * Math.random() * Math.random()
+            let d     = distance * Math.random() * Math.random() * Math.random()
             this.addParticle({
-                radius: 1 + Math.random(),
+                radius  : 1 + Math.random(),
                 position: {
                     x: Math.cos(angle) * d,
                     y: Math.sin(angle) * d,
@@ -262,7 +264,7 @@ class ParticleSandbox extends App {
 
     addGenerator(generator, options) {
         if (!generator || generator.constructor !== Generator) {
-            options = generator || {position: {x: Math.random() * 100, y: Math.random() * 100}}
+            options   = generator || {position: {x: Math.random() * 100, y: Math.random() * 100}}
             generator = new Generator(Object.assign({
                 parent: this
             }, options))
@@ -308,11 +310,11 @@ class ParticleSandbox extends App {
 
     initializeFade() {
         if (typeof window === 'undefined') return
-        this.fadeState = {
-            count: 0,
+        this.fadeState              = {
+            count         : 0,
             lastClearScale: 1
         }
-        this.fadeGraphics = new PIXI.Graphics()
+        this.fadeGraphics           = new PIXI.Graphics()
         this.fadeGraphics.blendMode = PIXI.BLEND_MODES.NORMAL
         this.root.addChildAt(this.fadeGraphics, 0)
         this.on('zoom', () => {
@@ -328,7 +330,7 @@ class ParticleSandbox extends App {
         if (typeof window === 'undefined') return
         this.fadeState.count += seconds
         if (this.fadeState.count >= view.fadeDelay.value) {
-            this.fadeState.count = 0
+            this.fadeState.count      = 0
             this.fadeGraphics.visible = true
             this.fadeGraphics.clear()
             this.fadeGraphics.beginFill(view.fadeToColor.value, view.fadeStrength.value)
@@ -354,5 +356,3 @@ class ParticleSandbox extends App {
         this.clearRenderer()
     }
 }
-
-export default ParticleSandbox

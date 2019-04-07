@@ -1,8 +1,8 @@
-const {PIXI} = require('apex-app')
-const inputs = require('../inputs')
-const modes  = require('./modes')
+import {PIXI} from 'apex-app'
+import inputs from '../inputs'
+import modes from './modes'
 
-class UserInput {
+export default class UserInput {
     constructor({parent}) {
         if (!parent) throw new Error('No parent recieved.')
         this.ps = parent
@@ -34,7 +34,7 @@ class UserInput {
         }
         const touchState = this.state.touchState = this.processTouchState(inputs.inputs, this.state.touchState)
 
-        UserInput.modes[this.mode].update(seconds, this.state, ps)
+        modes[this.mode].update(seconds, this.state, ps)
 
         // Scrolling
         if (touchState.previous.count === 2 && touchState.current.count === 2) {
@@ -156,5 +156,3 @@ class UserInput {
         UserInput.modes[this.mode].draw(this.state, this.graphics)
     }
 }
-
-export default UserInput

@@ -1,11 +1,9 @@
-export default {
-    ClearButton     : require('./ClearButton'),
-    EditButton      : require('./EditButton'),
-    ExploreButton   : require('./ExploreButton'),
-    FullScreenButton: require('./FullScreenButton'),
-    PlayPauseButton : require('./PlayPauseButton'),
-    ReloadButton    : require('./ReloadButton'),
-    ScreenshotButton: require('./ScreenshotButton'),
-    SettingsButton  : require('./SettingsButton'),
-    ZoomMeter       : require('./ZoomMeter')
-}
+export {default as ClearButton} from './ClearButton'
+export {default as EditButton} from './EditButton'
+export {default as ExploreButton} from './ExploreButton'
+export {default as FullScreenButton} from './FullScreenButton'
+export {default as PlayPauseButton} from './PlayPauseButton'
+export {default as ReloadButton} from './ReloadButton'
+export {default as ScreenshotButton} from './ScreenshotButton'
+export {default as SettingsButton} from './SettingsButton'
+export {default as ZoomMeter} from './ZoomMeter'

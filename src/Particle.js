@@ -1,8 +1,10 @@
-const Color              = require('color')
-const {AppObject}        = require('apex-app')
-const angles             = require('./angles')
-const {simulation, view} = require('./config')
-const settings           = require('./settings')
+import Color from 'color'
+import {AppObject} from 'apex-app'
+import angles from './angles'
+import config from './config'
+import settings from './settings'
+
+const {simulation, view} = config
 
 export default class Particle extends AppObject {
     constructor({parent, position, momentum, mass, radius, density, color}) {

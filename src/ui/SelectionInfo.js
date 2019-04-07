@@ -1,6 +1,8 @@
 import React from 'react'
-import {ps, selectionInfo} from './state'
+import state from './state'
 import Button from './components/TextButton'
+
+const {ps, selectionInfo} = state
 
 export default class SelectionInfo extends React.Component {
     render() {
@@ -47,17 +49,17 @@ export default class SelectionInfo extends React.Component {
         let count   = ps.selectedObjects.length
         const stats = {
             count,
-            position   : {
+            position      : {
                 x: 0, y: 0
             },
-            momentum   : {
+            momentum      : {
                 x: 0, y: 0
             },
-            mass       : 0,
-            averageMass: 0,
+            mass          : 0,
+            averageMass   : 0,
             averageDensity: 0,
-            heat       : 0,
-            averageHeat: 0,
+            heat          : 0,
+            averageHeat   : 0,
         }
         for (let p of ps.selectedObjects) {
             stats.position.x += p.position.x

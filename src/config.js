@@ -1,5 +1,5 @@
-const {setting} = require('apex-app')
-const settings  = require('./settings')
+import {setting} from 'apex-app'
+import settings from './settings'
 
 const defaults = {
     simulation: {
@@ -90,9 +90,9 @@ const config = {
 // Fixes for when we cannot invert via CSS filter.
 // Slow gradual fades to white work better than fades to black.
 if (!settings.invertColors) {
-    module.exports.view.fadeDelay    = setting(.25, .01, 1)
-    module.exports.view.fadeStrength = setting(.05, 0, .2)
-    module.exports.view.fadeToColor  = setting(0x000000, 0xffffff, 0x000000, "hex")
+    config.view.fadeDelay    = setting(.25, .01, 1)
+    config.view.fadeStrength = setting(.05, 0, .2)
+    config.view.fadeToColor  = setting(0x000000, 0xffffff, 0x000000, "hex")
 }
 
 export default config

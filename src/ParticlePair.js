@@ -1,5 +1,5 @@
-const LinkedListNode = require('./LinkedListNode')
-const Particle       = require('./Particle')
+import LinkedListNode from './LinkedListNode'
+import Particle from './Particle'
 
 /**
  * I'm a linked list!

@@ -1,5 +1,5 @@
-const processor = require('./processor')
-const Generator = require('../../Generator')
+import processor from './processor'
+import Generator from '../../Generator'
 
 const settings = Generator.defaultSettings
 

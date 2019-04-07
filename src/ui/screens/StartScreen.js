@@ -1,5 +1,7 @@
 import React from 'react'
-import state, {actions} from '../state'
+import state from '../state'
+import actions from '../state/actions'
+
 import './StartScreen.scss'
 
 export default class StartScreen extends React.Component {
