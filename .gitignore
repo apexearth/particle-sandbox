@@ -1,4 +1,4 @@
-www/build/
-node_modules/
-.idea/
+/build
+/node_modules
+/.idea
 *.tgz

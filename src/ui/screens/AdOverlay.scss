@@ -1,0 +1,22 @@
+@import "../index.scss";
+
+#ad-overlay-root {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+
+  div {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: $gui2-bg-color2;
+    font-size: .75em;
+  }
+}
+

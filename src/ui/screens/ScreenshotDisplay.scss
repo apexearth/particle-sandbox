@@ -1,0 +1,31 @@
+@import "../index.scss";
+
+.screenshot-display {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .image-container {
+    width: 90%;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+.screenshot-buttons {
+  position: fixed;
+  bottom: 25%;
+  left: 0;
+  right: 0;
+  display: inline-flex;
+  justify-content: center;
+  .gui-text-button, .gui-text-button-disabled {
+    font-size: 1.25em;
+    margin-right: 2%;
+    margin-left: 2%;
+    padding: 1em;
+    vertical-align: middle;
+  }
+}

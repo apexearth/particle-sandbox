@@ -1,107 +1,95 @@
 {
-    "name": "particle-sandbox",
-    "productName": "particle-sandbox",
-    "displayName": "Particle Sandbox",
-    "version": "2.14.1",
-    "private": true,
-    "main": "www/main.js",
-    "scripts": {
-        "test": "npm-run-all test-eslint test-mocha",
-        "test-eslint": "eslint app/**/*.js",
-        "test-mocha": "mocha app/**.spec.js",
-        "watch": "webpack --watch",
-        "watch-standalone": "webpack --watch --config webpack.config.standalone.js",
-        "build": "webpack -p --config webpack.config.js",
-        "build-standalone": "webpack -p --config webpack.config.standalone.js",
-        "upload": "gulp upload",
-        "upload-develop": "gulp upload-develop",
-        "upload-version": "gulp upload-version",
-        "package-standalones": "npm-run-all package-standalone-win32-x64 package-standalone-darwin-x64 package-standalone-win32-ia32 package-standalone-darwin-ia32",
-        "package-standalone-win32-x64": "electron-packager   . --overwrite --out standalones --platform=win32  --ignore=\"(cordova|ps|node_modules|screenshots|webpack.*)\" --icon=www/img/launcher-icon/web_hi_res_512.ico --arch=x64  --electronVersion 1.7.5",
-        "package-standalone-win32-ia32": "electron-packager  . --overwrite --out standalones --platform=win32  --ignore=\"(cordova|ps|node_modules|screenshots|webpack.*)\" --icon=www/img/launcher-icon/web_hi_res_512.ico --arch=ia32 --electronVersion 1.7.5",
-        "package-standalone-darwin-x64": "electron-packager  . --overwrite --out standalones --platform=darwin --ignore=\"(cordova|ps|node_modules|screenshots|webpack.*)\" --icon=www/img/launcher-icon/web_hi_res_512.ico --arch=x64  --electronVersion 1.7.5",
-        "package-standalone-darwin-ia32": "electron-packager . --overwrite --out standalones --platform=darwin --ignore=\"(cordova|ps|node_modules|screenshots|webpack.*)\" --icon=www/img/launcher-icon/web_hi_res_512.ico --arch=ia32 --electronVersion 1.7.5",
-        "publish-www": "npm-run-all test build upload upload-version",
-        "publish-www-develop": "npm-run-all test build upload-develop",
-        "build-cordova-release": "npm run build-standalone && cordova prepare && cordova build --release -- --keystore ~/android-keystore.jks --alias key0",
-        "build-electron-release": "npm-run-all build-standalone package-standalone-win32-x64 package-standalone-win32-ia32",
-        "travis-develop": "npm run publish-www-develop",
-        "travis-master": "npm run publish-www"
+  "name": "particle-sandbox",
+  "productName": "particle-sandbox",
+  "displayName": "Particle Sandbox",
+  "version": "2.14.1",
+  "private": true,
+  "main": "public/main.js",
+  "scripts": {
+    "test": "npm-run-all test-eslint test-mocha",
+    "test-eslint": "eslint src/**/*.js",
+    "test-mocha": "mocha src/**.spec.js",
+    "watch": "webpack --watch",
+    "watch-standalone": "webpack --watch --config webpack.config.standalone.js",
+    "build": "webpack -p --config webpack.config.js",
+    "build-standalone": "webpack -p --config webpack.config.standalone.js",
+    "upload": "gulp upload",
+    "upload-develop": "gulp upload-develop",
+    "upload-version": "gulp upload-version",
+    "package-standalones": "npm-run-all package-standalone-win32-x64 package-standalone-darwin-x64 package-standalone-win32-ia32 package-standalone-darwin-ia32",
+    "package-standalone-win32-x64": "electron-packager   . --overwrite --out standalones --platform=win32  --ignore=\"(cordova|ps|node_modules|screenshots|webpack.*)\" --icon=www/img/launcher-icon/web_hi_res_512.ico --arch=x64  --electronVersion 1.7.5",
+    "package-standalone-win32-ia32": "electron-packager  . --overwrite --out standalones --platform=win32  --ignore=\"(cordova|ps|node_modules|screenshots|webpack.*)\" --icon=www/img/launcher-icon/web_hi_res_512.ico --arch=ia32 --electronVersion 1.7.5",
+    "package-standalone-darwin-x64": "electron-packager  . --overwrite --out standalones --platform=darwin --ignore=\"(cordova|ps|node_modules|screenshots|webpack.*)\" --icon=www/img/launcher-icon/web_hi_res_512.ico --arch=x64  --electronVersion 1.7.5",
+    "package-standalone-darwin-ia32": "electron-packager . --overwrite --out standalones --platform=darwin --ignore=\"(cordova|ps|node_modules|screenshots|webpack.*)\" --icon=www/img/launcher-icon/web_hi_res_512.ico --arch=ia32 --electronVersion 1.7.5",
+    "publish-www": "npm-run-all test build upload upload-version",
+    "publish-www-develop": "npm-run-all test build upload-develop",
+    "build-cordova-release": "npm run build-standalone && cordova prepare && cordova build --release -- --keystore ~/android-keystore.jks --alias key0",
+    "build-electron-release": "npm-run-all build-standalone package-standalone-win32-x64 package-standalone-win32-ia32",
+    "travis-develop": "npm run publish-www-develop",
+    "travis-master": "npm run publish-www"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
     },
-    "eslintConfig": {
-        "parserOptions": {
-            "ecmaVersion": 6,
-            "sourceType": "module",
-            "ecmaFeatures": {
-                "jsx": true
-            }
-        },
-        "rules": {
-            "semi": [
-                "error",
-                "never"
-            ],
-            "no-var": "error"
-        }
-    },
-    "cordova": {
-        "platforms": [
-            "android",
-            "ios"
-        ],
-        "plugins": {
-            "cordova-plugin-fullscreen": {},
-            "cordova-plugin-whitelist": {},
-            "cordova-plugin-insomnia": {}
-        }
-    },
-    "devDependencies": {
-        "apex-app": "^5.1.0",
-        "babel-core": "^6.24.0",
-        "babel-loader": "^6.4.1",
-        "babel-polyfill": "^6.23.0",
-        "babel-preset-es2015": "^6.24.0",
-        "babel-preset-react": "^6.23.0",
-        "chai": "^3.5.0",
-        "color": "^1.0.3",
-        "cordova-android": "^6.2.3",
-        "cordova-custom-config": "^4.0.2",
-        "cordova-ios": "^4.4.0",
-        "cordova-plugin-fullscreen": "git+https://github.com/mesmotronic/cordova-plugin-fullscreen.git",
-        "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
-        "cordova-plugin-whitelist": "git+https://github.com/apache/cordova-plugin-whitelist.git",
-        "css-loader": "^0.27.3",
-        "electron-packager": "^8.7.1",
-        "electron-winstaller": "^2.6.3",
-        "eslint": "^3.19.0",
-        "extract-text-webpack-plugin": "^2.1.0",
-        "fastclick": "^1.0.6",
-        "gulp": "^3.9.1",
-        "gulp-s3-upload": "^1.6.4",
-        "img-loader": "^2.0.0",
-        "jquery": "^3.2.1",
-        "less": "^2.7.2",
-        "less-loader": "^4.0.2",
-        "mocha": "^3.2.0",
-        "npm-run-all": "^4.0.2",
-        "react": "^15.4.2",
-        "react-dom": "^15.4.2",
-        "react-router": "^4.1.1",
-        "react-router-dom": "^4.1.1",
-        "react-share": "^1.14.1",
-        "style-loader": "^0.16.0",
-        "url-loader": "^0.5.8",
-        "user-input": "^1.5.0",
-        "user-input-mapping": "^1.3.0",
-        "webpack": "^2.3.2",
-        "webpack-dev-server": "^2.4.2"
-    },
-    "dependencies": {
-        "open": "0.0.5",
-        "cordova-android": "^6.2.3",
-        "cordova-ios": "^4.4.0",
-        "cordova-plugin-fullscreen": "git+https://github.com/mesmotronic/cordova-plugin-fullscreen.git",
-        "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
-        "cordova-plugin-whitelist": "git+https://github.com/apache/cordova-plugin-whitelist.git"
+    "rules": {
+      "semi": [
+        "error",
+        "never"
+      ],
+      "no-var": "error"
     }
+  },
+  "cordova": {
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "plugins": {
+      "cordova-plugin-fullscreen": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-insomnia": {}
+    }
+  },
+  "devDependencies": {
+    "apex-app": "^5.2.0",
+    "chai": "^3.5.0",
+    "color": "^1.0.3",
+    "cordova-android": "^8.0.0",
+    "cordova-custom-config": "^5.1.0",
+    "cordova-ios": "^4.5.5",
+    "cordova-plugin-fullscreen": "git+https://github.com/mesmotronic/cordova-plugin-fullscreen.git",
+    "cordova-plugin-insomnia": "git+https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git",
+    "cordova-plugin-whitelist": "git+https://github.com/apache/cordova-plugin-whitelist.git",
+    "electron-packager": "^13.1.1",
+    "electron-winstaller": "^2.7.0",
+    "fastclick": "^1.0.6",
+    "gulp": "^4.0.0",
+    "gulp-s3-upload": "^1.7.3",
+    "jquery": "^3.3.1",
+    "mocha": "^6.0.2",
+    "node-sass": "^4.11.0",
+    "npm-run-all": "^4.1.5",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.8",
+    "react-share": "^1.19.1",
+    "user-input": "^1.5.0",
+    "user-input-mapping": "^1.4.1"
+  },
+  "dependencies": {
+    "open": "^6.0.0"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
