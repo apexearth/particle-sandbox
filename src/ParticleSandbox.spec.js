@@ -1,6 +1,8 @@
-const expect          = require('chai').expect
-const ParticleSandbox = require('./ParticleSandbox')
-const {view}          = require('./config.js')
+import "jest-canvas-mock"
+import ParticleSandbox from './ParticleSandbox'
+
+const expect = require('chai').expect
+const {view} = require('./config.js')
 
 describe('ParticleSandbox', () => {
     let ps

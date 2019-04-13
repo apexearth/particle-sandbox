@@ -1,6 +1,6 @@
-const expect         = require('chai').expect
-const LinkedList     = require('./LinkedList')
-const LinkedListNode = require('./LinkedListNode')
+const expect = require('chai').expect
+import LinkedList from './LinkedList'
+import LinkedListNode from './LinkedListNode'
 
 describe('LinkedList', () => {
     it('basics', () => {

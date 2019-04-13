@@ -1,7 +1,7 @@
-const expect          = require('chai').expect
-const UserInput       = require('./UserInput')
-const inputs          = require('../inputs')
-const ParticleSandbox = require('../ParticleSandbox')
+const expect = require('chai').expect
+const inputs = require('../inputs')
+import UserInput from './UserInput'
+import ParticleSandbox from '../ParticleSandbox'
 
 inputs.mapping.requireUpdates = true // For testing, don't auto update input values.
 

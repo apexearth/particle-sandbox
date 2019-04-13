@@ -4,7 +4,7 @@ import modes from './modes'
 
 export default class UserInput {
     constructor({parent}) {
-        if (!parent) throw new Error('No parent recieved.')
+        if (!parent) throw new Error('No parent received.')
         this.ps = parent
         if (typeof window !== 'undefined') {
             this.container = new PIXI.Container()
