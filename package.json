@@ -9,7 +9,7 @@
     "test": "npm-run-all test-eslint test-mocha",
     "test-eslint": "eslint src/**/*.js",
     "test-mocha": "mocha src/**.spec.js",
-    "watch": "webpack --watch",
+    "develop": "react-scripts start",
     "watch-standalone": "webpack --watch --config webpack.config.standalone.js",
     "build": "webpack -p --config webpack.config.js",
     "build-standalone": "webpack -p --config webpack.config.standalone.js",

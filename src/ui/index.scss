@@ -9,8 +9,8 @@ $base4-bg: #5b3732;
 $base5: #ababab;
 $base5-bg: #4c4c4c;
 $app-bg-color: #000000;
-$gui-bg-color: fade($base-bg, 45%);
-$gui-bg-color-light: fade($base-bg, 65%);
+$gui-bg-color: fade-out($base-bg, .65);
+$gui-bg-color-light: fade-out($base-bg, .45);
 $gui-popup-bg: rgba(0, 0, 0, .9);
 $gui2-bg-color: rgba(15, 15, 15, .75);
 $gui2-bg-color2: rgba(30, 30, 30, .75);
@@ -20,7 +20,7 @@ $gui2-border2: solid 1px rgba(100, 100, 100, .50);
 $gui-padding: 10px;
 $gui-padding-half: 5px;
 
-$font-base: fade(lighten($base, 10%), 80%);
+$font-base: fade-out(lighten($base, .1), .20);
 $font-family: "Courier New", Courier, monospace;
 
 @media (min-width: 320px) {
@@ -105,15 +105,15 @@ a, a:visited, a:hover, a:active {
 @mixin clickable($color, $click-color) {
   cursor: pointer;
   &:hover {
-    background-color: fade($color, 80%);
+    background-color: fade-out($color, .20);
   }
   &:active {
-    background-color: fade($click-color, 65%);
+    background-color: fade-out($click-color, .35);
   }
 }
 
 .gui-border {
-  border: solid 1px fade($base, 30%);
+  border: solid 1px fade-out($base, .70);
 }
 
 @mixin gui-rounded($size) {
@@ -134,7 +134,7 @@ a, a:visited, a:hover, a:active {
 }
 
 @mixin gui-button($color, $color2) {
-  background-color: fade($color, 85%);
+  background-color: fade-out($color, .15);
   box-sizing: border-box;
   @extend .no-text-select;
   @include clickable($color, $color2);
@@ -151,7 +151,7 @@ $gui-button-height: 25px;
 
   span {
     top: 0;
-    color: fade($base, 75%);
+    color: fade-out($base, .25);
     font-size: 16px;
     line-height: $gui-button-height;
     text-align: center;
@@ -200,32 +200,32 @@ $gui-button-height: 25px;
 .gui-table {
   cursor: default;
   th {
-    background-color: fade($base-bg, 90%);
-    border-bottom: solid 1px fade($base-bg, 90%);
+    background-color: fade-out($base-bg, .10);
+    border-bottom: solid 1px fade-out($base-bg, .10);
     padding-left: 5px;
     padding-right: 5px;
   }
   td {
-    background-color: fade($base-bg, 50%);
-    border-bottom: solid 1px fade($base-bg, 70%);
-    border-right: solid 1px fade($base-bg, 70%);
+    background-color: fade-out($base-bg, .50);
+    border-bottom: solid 1px fade-out($base-bg, .30);
+    border-right: solid 1px fade-out($base-bg, .30);
     padding-left: 5px;
     padding-right: 5px;
   }
   & .row {
     &:hover {
-      background-color: fade($base3-bg, 90%);
+      background-color: fade-out($base3-bg, .10);
     }
   }
   & .row-selected {
-    background-color: fade($base3-bg, 80%);
+    background-color: fade-out($base3-bg, .20);
   }
   & .button, & .prev, & .next {
     text-align: center;
-    background-color: fade($base-bg, 90%);
+    background-color: fade-out($base-bg, .10);
     &:hover {
       cursor: pointer;
-      background-color: fade($base-bg, 80%);
+      background-color: fade-out($base-bg, .20);
     }
   }
 }
@@ -328,7 +328,7 @@ $menu-button-size: 25px;
 }
 
 .square-button-active {
-  @include gui-button(lighten($base-bg, 25%), $base2-bg)
+  @include gui-button(lighten($base-bg, .25), $base2-bg)
 }
 
 .square-button-warning {
@@ -395,8 +395,8 @@ $menu-button-size: 25px;
     right: 0;
     min-width: 100px;
     padding: 10px;
-    border-left: solid 1px fade($base, 40%);
-    border-bottom: solid 1px fade($base, 40%);
+    border-left: solid 1px fade-out($base, .60);
+    border-bottom: solid 1px fade-out($base, .60);
     border-bottom-left-radius: 4px;
     z-index: 2;
   }
