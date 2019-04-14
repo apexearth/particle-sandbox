@@ -1,5 +1,6 @@
 const expect = require('chai').expect
 const inputs = require('../inputs')
+import "jest-canvas-mock"
 import UserInput from './UserInput'
 import ParticleSandbox from '../ParticleSandbox'
 
@@ -136,7 +137,8 @@ describe('UserInput', () => {
         expect(input.ps.generators.length).to.equal(0)
         inputs('mouse0', 0)
         input.update(.01)
-        expect(input.ps.generators[0].position).to.deep.equal(input.ps.translatePosition({x: 1, y: 2}))
+        const {x, y} = input.ps.generators[0].position
+        expect({x, y}).to.deep.equal(input.ps.translatePosition({x: 1, y: 2}))
         input.update(.01)
         expect(input.ps.generators.length).to.equal(1)
     })

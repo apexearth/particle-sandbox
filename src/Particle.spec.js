@@ -1,7 +1,10 @@
-const expect          = require('chai').expect
-const ParticleSandbox = require('./ParticleSandbox')
-const Particle        = require('./Particle')
-const {simulation}    = require('./config')
+import "jest-canvas-mock"
+import ParticleSandbox from './ParticleSandbox'
+import Particle from './Particle'
+import config from './config'
+
+const expect       = require('chai').expect
+const {simulation} = config
 
 describe("Particle", function () {
     it("2 particle interaction", function () {
@@ -65,20 +68,20 @@ describe("Particle", function () {
         let p2 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 10, y: 0}})
 
         ps.update(.1)
-        expect(p1.momentum).to.deep.equal({x: 0.6283185307179586, y: 0})
-        expect(p2.momentum).to.deep.equal({x: -0.6283185307179586, y: 0})
+        expect({x: p1.momentum.x, y: p1.momentum.y}).to.deep.equal({x: 0.6283185307179586, y: 0})
+        expect({x: p2.momentum.x, y: p2.momentum.y}).to.deep.equal({x: -0.6283185307179586, y: 0})
 
         let p3 = ps.addParticle({mass: 2 * 2 * Math.PI, position: {x: 0, y: 10}})
         ps.update(.1)
-        expect(p1.momentum).to.deep.equal({
+        expect({x: p1.momentum.x, y: p1.momentum.y}).to.deep.equal({
             "x": 2.166836767762864,
             "y": 0.9054842629776932
         })
-        expect(p2.momentum).to.deep.equal({
+        expect({x: p2.momentum.x, y: p2.momentum.y}).to.deep.equal({
             "x": -2.166836767762864,
             "y": 0.9054842629776932
         })
-        expect(p3.momentum).to.deep.equal({
+        expect({x: p3.momentum.x, y: p3.momentum.y}).to.deep.equal({
             "x": 0,
             "y": -1.8109685259553865
         })
@@ -98,8 +101,8 @@ describe("Particle", function () {
         p1.position.y = -1
         p2.position.x = 0
         p2.position.y = 1
-        p1.updatePrevious()
-        p2.updatePrevious()
+        p1._updatePrevious()
+        p2._updatePrevious()
 
         Particle.uncollide({particle1: p1, particle2: p2})
         assertAlmostEqual(p1.position.x, 0)
@@ -111,8 +114,8 @@ describe("Particle", function () {
         p1.position.y = 0
         p2.position.x = 1
         p2.position.y = 1
-        p1.updatePrevious()
-        p2.updatePrevious()
+        p1._updatePrevious()
+        p2._updatePrevious()
 
         Particle.uncollide({particle1: p1, particle2: p2})
         assertAlmostEqual(p1.position.x, -1.8284271247461903)
@@ -126,8 +129,8 @@ describe("Particle", function () {
         p1.position.y = -1
         p2.position.x = 0
         p2.position.y = 1
-        p1.updatePrevious()
-        p2.updatePrevious()
+        p1._updatePrevious()
+        p2._updatePrevious()
 
         Particle.uncollide({particle1: p1, particle2: p2})
         assertAlmostEqual(p1.position.x, 0)
@@ -174,10 +177,18 @@ describe("Particle", function () {
         })
 
         p1.distributeVelocity(p2)
-        expect(p1.momentum).to.deep.equal({
+        const p1Momentum = {
+            x: p1.momentum.x,
+            y: p1.momentum.y,
+        }
+        expect(p1Momentum).to.deep.equal({
             x: 2, y: 2
         })
-        expect(p2.momentum).to.deep.equal({
+        const p2Momentum = {
+            x: p2.momentum.x,
+            y: p2.momentum.y,
+        }
+        expect(p2Momentum).to.deep.equal({
             x: 2, y: 2
         })
     })
@@ -351,22 +362,22 @@ describe("Particle", function () {
                 momentum: {x: 0, y: 0}
             })
             let redraws = 0
-            p.draw     = () => redraws++
+            p.draw      = () => redraws++
             p.heat      = 1001
             p.updateHeat(.1)
             expect(redraws).to.equal(1)
             p.updateHeat(.1)
             expect(redraws).to.equal(1)
-            p.heat      = 1251
+            p.heat = 1251
             p.updateHeat(.1)
             expect(redraws).to.equal(2)
-            p.heat      = 1249
+            p.heat = 1249
             p.updateHeat(.1)
             expect(redraws).to.equal(3)
-            p.heat      = 1201
+            p.heat = 1201
             p.updateHeat(.1)
             expect(redraws).to.equal(3)
-            p.heat      = 1501
+            p.heat = 1501
             p.updateHeat(.1)
             expect(redraws).to.equal(4)
         })

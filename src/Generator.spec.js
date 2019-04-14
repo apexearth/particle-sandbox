@@ -1,5 +1,6 @@
-const expect          = require('chai').expect
-const ParticleSandbox = require('./ParticleSandbox')
+import "jest-canvas-mock"
+const expect = require('chai').expect
+import ParticleSandbox from './ParticleSandbox'
 
 describe('Generator', function () {
     let ps

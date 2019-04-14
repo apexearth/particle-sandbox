@@ -7,8 +7,8 @@ import settings from './settings'
 const {simulation, view} = config
 
 export default class Particle extends AppObject {
-    constructor({parent, position, momentum, mass, radius, density, color}) {
-        super({parent, position, momentum})
+    constructor({app, parent, position, momentum, mass, radius, density, color}) {
+        super({app, parent, position, momentum})
         this.type = 'particle'
 
         if (color) {
@@ -32,7 +32,6 @@ export default class Particle extends AppObject {
             this.mass_prev = this.mass
         }
 
-        this.updatePrevious()
         this.draw()
     }
 

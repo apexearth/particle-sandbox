@@ -18,7 +18,8 @@ describe('ParticleSandbox', () => {
     it('.addParticle()', () => {
         ps.addParticle({position: {x: 1, y: 2}})
         let p1 = ps.particles[0]
-        expect(p1.position).to.deep.equal({x: 1, y: 2})
+        expect(p1.position.x).to.equal(1)
+        expect(p1.position.y).to.equal(2)
     })
     it('.removeParticle()', () => {
         ps.addParticle({position: {x: 1, y: 2}})
@@ -29,7 +30,8 @@ describe('ParticleSandbox', () => {
     it('.addGenerator()', () => {
         ps.addGenerator({position: {x: 1, y: 2}})
         let p1 = ps.generators[0]
-        expect(p1.position).to.deep.equal({x: 1, y: 2})
+        expect(p1.position.x).to.equal(1)
+        expect(p1.position.y).to.equal(2)
     })
     it('.removeGenerator()', () => {
         ps.addGenerator({position: {x: 1, y: 2}})

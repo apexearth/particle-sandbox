@@ -20,8 +20,8 @@ const defaultState = {
 }
 
 class Generator extends AppObject {
-    constructor({parent, position, settings}) {
-        super({parent, position})
+    constructor({app, parent, position, settings}) {
+        super({app, parent, position})
         this.type           = 'generator'
         const defaultValues = {}
         Object.keys(defaultSettings).forEach(key => defaultValues[key] = defaultSettings[key].value)
