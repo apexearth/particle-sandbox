@@ -1,4 +1,3 @@
-import "jest-canvas-mock"
 import {PIXI} from 'apex-app'
 import inputs from '../inputs'
 import modes from './modes'
