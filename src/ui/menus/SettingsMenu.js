@@ -3,7 +3,7 @@ import state from '../state'
 import TextButton from '../components/TextButton'
 import SettingsList from '../components/SettingsList'
 
-const config = require('../../config')
+import config from '../../config'
 
 const {settings} = state
 
@@ -31,8 +31,8 @@ export default class SettingsMenu extends React.Component {
             )
         }
         const buttons       = Object.keys(config)
-                                    .filter(key => !key.endsWith('Meta'))
-                                    .map(key => <SectionButton key={key} mode={key}/>)
+            .filter(key => !key.endsWith('Meta'))
+            .map(key => <SectionButton key={key} mode={key}/>)
         return (
             <div className="gui-flex-row">
                 <div id="menu-buttons" className="events">

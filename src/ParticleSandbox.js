@@ -214,7 +214,7 @@ export default class ParticleSandbox extends App {
     previewParticle(options) {
         options      = options || {position: {x: Math.random() * 100, y: Math.random() * 100}}
         let particle = new Particle(Object.assign({
-            app   : this,
+            app: this,
             parent: this
         }, options))
         this.container.addChild(particle.container)
@@ -225,7 +225,7 @@ export default class ParticleSandbox extends App {
         if (!particle || particle.constructor !== Particle) {
             options  = particle || {position: {x: Math.random() * 100, y: Math.random() * 100}}
             particle = new Particle(Object.assign({
-                app   : this,
+                app: this,
                 parent: this
             }, options))
         }
@@ -268,7 +268,7 @@ export default class ParticleSandbox extends App {
         if (!generator || generator.constructor !== Generator) {
             options   = generator || {position: {x: Math.random() * 100, y: Math.random() * 100}}
             generator = new Generator(Object.assign({
-                app   : this,
+                app: this,
                 parent: this
             }, options))
         }
