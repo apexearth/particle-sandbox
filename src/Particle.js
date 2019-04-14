@@ -8,7 +8,7 @@ const {simulation, view} = config
 
 export default class Particle extends AppObject {
     constructor({app, parent, position, momentum, mass, radius, density, color}) {
-        momentum.rotation = 0
+        if (momentum) momentum.rotation = 0
         super({app, parent, position, momentum})
         this.type = 'particle'
 
