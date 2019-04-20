@@ -40,7 +40,8 @@ export default class SettingsMenu extends React.Component {
                 </div>
                 <SettingsList id="menu-settings"
                               title={`${currentMode}`}
-                              settings={config[currentMode]}/>
+                              settings={config[currentMode]}
+                />
             </div>
         )
     }

@@ -2,20 +2,30 @@ import {setting} from 'apex-app'
 import processor from './processor'
 
 const settings = {
-    radius      : setting(1, .5, 100),
-    delay       : setting(.01, .01, .25),
-    range       : setting(100, 1, 1000),
-    momentumMinX: setting(0, -100, 100),
-    momentumMinY: setting(0, -100, 100),
-    momentumMaxX: setting(0, -100, 100),
-    momentumMaxY: setting(0, -100, 100),
-    minDensity  : setting(.5, .1, 10),
-    maxDensity  : setting(.75, .1, 10),
-    color       : setting(0xffffff, 0, 0xffffff, 'color'),
+    radius         : setting(1, .5, 100),
+    delay          : setting(.01, .01, .25),
+    range          : setting(100, 1, 1000),
+    momentumMinX   : setting(0, -100, 100),
+    momentumMinY   : setting(0, -100, 100),
+    momentumMaxX   : setting(0, -100, 100),
+    momentumMaxY   : setting(0, -100, 100),
+    minDensity     : setting(.5, .1, 10),
+    maxDensity     : setting(.75, .1, 10),
+    color          : setting(0xffffff, 0, 0xffffff, 'color'),
+    'random colors': setting(true, false, true, 'boolean')
+}
+
+const settingsLogic = {
+    color: {
+        get enabled() {
+            return !settings['random colors'].value
+        }
+    }
 }
 
 export default {
     settings,
+    settingsLogic,
     update(seconds, state, ps) {
         processor(seconds, state, ps, {
             onUpdate  : (seconds, state, ps, {x, y}) => {

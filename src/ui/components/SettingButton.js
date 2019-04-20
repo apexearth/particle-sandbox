@@ -1,4 +1,5 @@
 import React from 'react'
+import state from '../state'
 
 class SettingButton extends React.Component {
     constructor(...args) {
@@ -18,6 +19,10 @@ class SettingButton extends React.Component {
         this.props.settings[this.props.settingsKey] = val
     }
 
+    get enabled() {
+        return this.props.settingsLogic[this.props.settingsKey]
+    }
+
     get on() {
         return this.setting.value
     }
@@ -32,7 +37,7 @@ class SettingButton extends React.Component {
         } else {
             this.setting.value = !this.setting.value
         }
-        this.forceUpdate()
+        state.notify()
     }
 
     render() {

@@ -3,18 +3,19 @@ import SettingButton from './SettingButton'
 import SettingInput from './SettingInput'
 import Title from './Title'
 
-const SettingsList = ({id, title, settings}) => {
+const SettingsList = ({id, title, settings, settingsLogic}) => {
     if (!settings) return null
-
-    const keys  = Object.keys(settings)
-    const array = keys
+    settingsLogic = settingsLogic || {}
+    const keys    = Object.keys(settings)
+    const array   = keys
+        .filter(key => !settingsLogic[key] || settingsLogic[key].enabled !== false)
         .map(key => {
             if (typeof settings[key] === 'function') {
-                return <SettingButton settings={settings} settingsKey={key} key={key}/>
+                return <SettingButton settings={settings} settingsLogic={settingsLogic} settingsKey={key} key={key}/>
             } else if (settings[key].type === 'boolean') {
-                return <SettingButton settings={settings} settingsKey={key} key={key}/>
+                return <SettingButton settings={settings} settingsLogic={settingsLogic} settingsKey={key} key={key}/>
             } else {
-                return <SettingInput settings={settings} settingsKey={key} key={key}/>
+                return <SettingInput settings={settings} settingsLogic={settingsLogic} settingsKey={key} key={key}/>
             }
         })
     return (

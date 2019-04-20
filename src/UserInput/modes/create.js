@@ -3,14 +3,25 @@ import processor from './processor'
 
 
 const settings = {
-    initialRadius: setting(1, .5, 100),
-    growthRate   : setting(5, .1, 100),
-    density      : setting(.75, .1, 10),
-    color        : setting(0xffffff, 0, 0xffffff, 'color'),
+    initialRadius  : setting(1, .5, 100),
+    growthRate     : setting(5, .1, 100),
+    density        : setting(.75, .1, 10),
+    color          : setting(0xffffff, 0, 0xffffff, 'color'),
+    'random colors': setting(true, false, true, 'boolean')
 }
+
+const settingsLogic = {
+    color: {
+        get enabled() {
+            return !settings['random colors'].value
+        }
+    }
+}
+
 
 export default {
     settings,
+    settingsLogic,
     update(seconds, state, ps) {
         processor(seconds, state, ps, {
             onStart   : (seconds, state, ps, {x, y}) => {
@@ -21,7 +32,7 @@ export default {
                 state.finish   = {}
                 state.particle = ps.previewParticle({
                     density: settings.density.value,
-                    color  : settings.color.value,
+                    color  : settings['random colors'].value ? undefined : settings.color.value,
                 })
             },
             onUpdate  : (seconds, state, ps, {x, y}) => {

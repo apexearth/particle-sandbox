@@ -30,7 +30,9 @@ export default class EditMenu extends React.Component {
                 </TextButton>
             )
         }
-        const buttons    = Object.keys(UserInput.modes).map(key => <ToolButton key={key} mode={key}/>)
+        const buttons    = Object.keys(UserInput.modes).map(key => {
+            return <ToolButton key={key} mode={key}/>
+        })
         return (
             <div className="gui-flex-row">
                 <div id="menu-buttons" className="events">
@@ -38,7 +40,9 @@ export default class EditMenu extends React.Component {
                 </div>
                 <SettingsList id="menu-settings"
                               title={`${currentMode}`}
-                              settings={UserInput.modes[currentMode].settings}/>
+                              settings={UserInput.modes[currentMode].settings}
+                              settingsLogic={UserInput.modes[currentMode].settingsLogic}
+                />
             </div>
         )
     }
