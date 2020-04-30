@@ -69,7 +69,7 @@
     "gulp": "^4.0.0",
     "gulp-s3-upload": "^1.7.3",
     "jest-canvas-mock": "^2.0.0-beta.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.5.0",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.3",
     "mocha": "^6.0.2",
